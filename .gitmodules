@@ -1,0 +1,3 @@
+[submodule "native/vendor/couchbase-cxx-client"]
+	path = native/vendor/couchbase-cxx-client
+	url = https://github.com/couchbaselabs/couchbase-cxx-client
