@@ -19,7 +19,9 @@ ffigen:
   description: 'Bindings for libCouchbaseDart'
   headers:
     entry-points:
-      - '../../native/include/CouchbaseDart.h'
+      - '../../native/include/*.h'
+    include-directives:
+      - '**/native/include/*.h'
   llvm-path:
     - /opt/homebrew/opt/llvm
   functions:

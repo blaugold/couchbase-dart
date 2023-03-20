@@ -15,4 +15,5 @@ KeepEmptyLinesAtTheStartOfBlocks: true
 AlwaysBreakTemplateDeclarations: true
 BreakConstructorInitializers: BeforeComma
 CommentPragmas: '^[^ ]'
+SortIncludes: true
 ...

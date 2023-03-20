@@ -20,11 +20,15 @@ add_subdirectory(vendor/couchbase-cxx-client)
 project(CouchbaseDart)
 
 file(GLOB SOURCE_FILES "src/*.cpp")
-add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+add_library(${PROJECT_NAME} SHARED
+  ${SOURCE_FILES}
+  "vendor/dart/include/dart_api_dl.c"
+)
 
 target_include_directories(${PROJECT_NAME}
   PUBLIC  "include"
   PRIVATE "src"
+          "vendor/dart/include"
           "vendor/couchbase-cxx-client"
           "vendor/couchbase-cxx-client/third_party/asio/asio/include")
 
