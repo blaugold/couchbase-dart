@@ -16,7 +16,7 @@ Connection::~Connection()
 {
 }
 
-void Connection::asyncDestroy()
+void Connection::destroy()
 {
     _cluster->close([this]() mutable {
         // We have to run this on a separate thread since the callback itself is
@@ -63,4 +63,9 @@ void Connection::open(CBDBuffer *connectionString,
     CBDClusterCredentials_Destroy(credentials);
 }
 
+void Connection::close(CBD_Callback callback)
+{
+    _cluster->close(
+        [this, callback]() mutable { this->callCallback(callback, nullptr); });
+}
 }; // namespace couchbase::dart

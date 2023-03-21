@@ -18,6 +18,8 @@ void CBDConnection_Open(CBDConnection *connection, CBDBuffer *connectionString,
                         CBDClusterCredentials *credentials,
                         CBD_Callback callback);
 
+void CBDConnection_Close(CBDConnection *connection, CBD_Callback callback);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

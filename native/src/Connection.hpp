@@ -15,10 +15,12 @@ class Connection
 public:
     Connection(Dart_Port_DL port);
 
-    void asyncDestroy();
+    void destroy();
 
     void open(CBDBuffer *connectionString, CBDClusterCredentials *credentials,
               CBD_Callback callback);
+
+    void close(CBD_Callback callback);
 
 private:
     ~Connection();

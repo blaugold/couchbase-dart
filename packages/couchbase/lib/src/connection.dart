@@ -40,37 +40,39 @@ class Connection implements Finalizable {
   }
 
   Future<void> open(
-    String connectionString, {
-    required String username,
-    required String password,
-  }) async {
-    final clusterCredentials = binding.CBDClusterCredentials_Create();
-    clusterCredentials.ref.username = username.toCBDBuffer();
-    clusterCredentials.ref.password = password.toCBDBuffer();
-
-    final responseHandler = _createResponseHandler(
-      (response) => response.cast<CBDErrorCode>().check(),
-    );
+    String connectionString,
+    Pointer<CBDClusterCredentials> credentials,
+  ) async {
+    final responseHandler = _createResponseHandler(_errorCodeCallback);
 
     binding.CBDConnection_Open(
       _connection,
       connectionString.toCBDBuffer(),
-      clusterCredentials,
+      credentials,
       responseHandler.callbackId,
     );
 
-    return await responseHandler.result;
+    return responseHandler.result;
   }
 
   Future<void> close() async {
     // TODO: Prevent any further calls to this connection.
 
+    await _close();
+    await _callbackSubscription.cancel();
     _finalizer.detach(this);
     binding.CBDConnection_Destroy(_connection);
+  }
 
-    // TODO: Wait for all pending callbacks to complete.
+  Future<void> _close() async {
+    final responseHandler = _createResponseHandler(_errorCodeCallback);
 
-    await _callbackSubscription.cancel();
+    binding.CBDConnection_Close(
+      _connection,
+      responseHandler.callbackId,
+    );
+
+    return responseHandler.result;
   }
 
   _ResponseHandler<T> _createResponseHandler<T>(
@@ -99,4 +101,8 @@ class _ResponseHandler<T> {
   final Future<T> result;
 
   _ResponseHandler(this.callbackId, this.result);
+}
+
+void _errorCodeCallback(Pointer<Void> response) {
+  response.cast<CBDErrorCode>().check();
 }
