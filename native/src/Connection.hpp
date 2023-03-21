@@ -28,7 +28,7 @@ public:
 private:
     ~Connection();
 
-    void callCallback(CBD_Callback callback, void *response);
+    void callCallback(CBD_Callback callback, void *error, void *response);
 
     Dart_Port_DL _port;
     asio::io_context _io;

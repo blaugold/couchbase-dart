@@ -29,20 +29,25 @@ void Connection::destroy()
     });
 }
 
-void Connection::callCallback(CBD_Callback callback, void *response)
+void Connection::callCallback(CBD_Callback callback, void *error,
+                              void *response)
 {
     Dart_CObject callback_;
     callback_.type = Dart_CObject_kInt64;
     callback_.value.as_int64 = callback;
 
+    Dart_CObject error_;
+    error_.type = Dart_CObject_kInt64;
+    error_.value.as_int64 = reinterpret_cast<int64_t>(error);
+
     Dart_CObject response_;
     response_.type = Dart_CObject_kInt64;
     response_.value.as_int64 = reinterpret_cast<int64_t>(response);
 
-    Dart_CObject *messageValues[] = {&callback_, &response_};
+    Dart_CObject *messageValues[] = {&callback_, &error_, &response_};
     Dart_CObject message;
     message.type = Dart_CObject_kArray;
-    message.value.as_array.length = 2;
+    message.value.as_array.length = 3;
     message.value.as_array.values = messageValues;
 
     Dart_PostCObject_DL(_port, &message);
@@ -57,21 +62,22 @@ void Connection::open(std::string connectionString,
 
     _cluster->open(couchbase::core::origin(*credentials, connectionStringInfo),
                    [this, callback](std::error_code ec) mutable {
-                       this->callCallback(callback, copyToHeap(ec));
+                       this->callCallback(callback, copyToHeap(ec), nullptr);
                    });
 }
 
 void Connection::close(CBD_Callback callback)
 {
-    _cluster->close(
-        [this, callback]() mutable { this->callCallback(callback, nullptr); });
+    _cluster->close([this, callback]() mutable {
+        this->callCallback(callback, nullptr, nullptr);
+    });
 }
 
 void Connection::openBucket(std::string bucketName, CBD_Callback callback)
 {
-    _cluster->open_bucket(bucketName,
-                          [this, callback](std::error_code ec) mutable {
-                              this->callCallback(callback, copyToHeap(ec));
-                          });
+    _cluster->open_bucket(
+        bucketName, [this, callback](std::error_code ec) mutable {
+            this->callCallback(callback, copyToHeap(ec), nullptr);
+        });
 }
 }; // namespace couchbase::dart

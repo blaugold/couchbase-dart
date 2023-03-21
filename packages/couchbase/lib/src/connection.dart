@@ -10,7 +10,7 @@ import 'cluster.dart';
 import 'lib_couchbase_dart.dart';
 
 typedef _CallbackId = int;
-typedef _Callback = void Function(Pointer<Void> response);
+typedef _Callback = void Function(Pointer<Void> error, Pointer<Void> response);
 
 class Connection implements Finalizable {
   static final _finalizer =
@@ -31,13 +31,14 @@ class Connection implements Finalizable {
     _callbackSubscription = callbackPort.listen((message) {
       final list = message as List;
       final callbackId = list[0] as _CallbackId;
-      final response = Pointer<Void>.fromAddress(list[1] as int);
+      final error = Pointer<Void>.fromAddress(list[1] as int);
+      final response = Pointer<Void>.fromAddress(list[2] as int);
 
       final callback = _pendingCallbacks.remove(callbackId);
       if (callback == null) {
         throw StateError('Callback #$callbackId not found.');
       }
-      callback(response);
+      callback(error, response);
     });
   }
 
@@ -96,12 +97,13 @@ class Connection implements Finalizable {
   }
 
   _ResponseHandler<T> _createResponseHandler<T>(
-      T Function(Pointer<Void> response) callback) {
+    T Function(Pointer<Void> error, Pointer<Void> response) callback,
+  ) {
     final completer = Completer<T>.sync();
     final callbackId = _nextCallbackId++;
-    _pendingCallbacks[callbackId] = (response) {
+    _pendingCallbacks[callbackId] = (error, response) {
       try {
-        completer.complete(callback(response));
+        completer.complete(callback(error, response));
       } catch (e) {
         completer.completeError(e);
       }
@@ -123,5 +125,5 @@ class _ResponseHandler<T> {
   _ResponseHandler(this.callbackId, this.result);
 }
 
-void _errorCodeCallback(Pointer<Void> response) =>
-    response.cast<CBDErrorCode_>().consume();
+void _errorCodeCallback(Pointer<Void> error, Pointer<Void> response) =>
+    error.cast<CBDErrorCode_>().consume();
