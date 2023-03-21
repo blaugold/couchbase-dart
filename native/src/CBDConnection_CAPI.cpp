@@ -28,4 +28,10 @@ void CBDConnection_Close(Connection *connection, CBD_Callback callback)
 {
     connection->close(callback);
 }
+
+void CBDConnection_OpenBucket(Connection *connection, CBDBuffer *bucketName,
+                              CBD_Callback callback)
+{
+    connection->openBucket(bucketName, callback);
+}
 }

@@ -20,6 +20,9 @@ void CBDConnection_Open(CBDConnection *connection, CBDBuffer *connectionString,
 
 void CBDConnection_Close(CBDConnection *connection, CBD_Callback callback);
 
+void CBDConnection_OpenBucket(CBDConnection *connection, CBDBuffer *bucketName,
+                              CBD_Callback callback);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

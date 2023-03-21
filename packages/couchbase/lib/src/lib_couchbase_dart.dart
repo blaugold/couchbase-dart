@@ -189,6 +189,27 @@ class LibCouchbaseDart {
   late final _CBDConnection_Close = _CBDConnection_ClosePtr.asFunction<
       void Function(ffi.Pointer<CBDConnection>, int)>();
 
+  void CBDConnection_OpenBucket(
+    ffi.Pointer<CBDConnection> connection,
+    ffi.Pointer<CBDBuffer> bucketName,
+    int callback,
+  ) {
+    return _CBDConnection_OpenBucket(
+      connection,
+      bucketName,
+      callback,
+    );
+  }
+
+  late final _CBDConnection_OpenBucketPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<CBDConnection>, ffi.Pointer<CBDBuffer>,
+              CBD_Callback)>>('CBDConnection_OpenBucket');
+  late final _CBDConnection_OpenBucket =
+      _CBDConnection_OpenBucketPtr.asFunction<
+          void Function(
+              ffi.Pointer<CBDConnection>, ffi.Pointer<CBDBuffer>, int)>();
+
   late final addresses = _SymbolAddresses(this);
 }
 
@@ -233,6 +254,11 @@ class _SymbolAddresses {
           ffi.NativeFunction<
               ffi.Void Function(ffi.Pointer<CBDConnection>, CBD_Callback)>>
       get CBDConnection_Close => _library._CBDConnection_ClosePtr;
+  ffi.Pointer<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<CBDConnection>, ffi.Pointer<CBDBuffer>,
+              CBD_Callback)>> get CBDConnection_OpenBucket =>
+      _library._CBDConnection_OpenBucketPtr;
 }
 
 class CBDBuffer extends ffi.Struct {

@@ -52,20 +52,31 @@ void Connection::open(CBDBuffer *connectionString,
 {
     auto connectionString_ = couchbase::core::utils::parse_connection_string(
         CBDBuffer_ToString(connectionString));
+    CBDBuffer_Destroy(connectionString);
+
     auto credentials_ = CBDClusterCredentials_ToCpp(credentials);
+    CBDClusterCredentials_Destroy(credentials);
 
     _cluster->open(couchbase::core::origin(credentials_, connectionString_),
                    [this, callback](std::error_code ec) mutable {
                        this->callCallback(callback, CBDErrorCode_FromCpp(ec));
                    });
-
-    CBDBuffer_Destroy(connectionString);
-    CBDClusterCredentials_Destroy(credentials);
 }
 
 void Connection::close(CBD_Callback callback)
 {
     _cluster->close(
         [this, callback]() mutable { this->callCallback(callback, nullptr); });
+}
+
+void Connection::openBucket(CBDBuffer *bucketName, CBD_Callback callback)
+{
+    auto bucketName_ = CBDBuffer_ToString(bucketName);
+    CBDBuffer_Destroy(bucketName);
+
+    _cluster->open_bucket(
+        bucketName_, [this, callback](std::error_code ec) mutable {
+            this->callCallback(callback, CBDErrorCode_FromCpp(ec));
+        });
 }
 }; // namespace couchbase::dart

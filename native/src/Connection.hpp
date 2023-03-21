@@ -22,6 +22,8 @@ public:
 
     void close(CBD_Callback callback);
 
+    void openBucket(CBDBuffer *bucketName, CBD_Callback callback);
+
 private:
     ~Connection();
 

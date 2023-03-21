@@ -64,6 +64,18 @@ class Connection implements Finalizable {
     binding.CBDConnection_Destroy(_connection);
   }
 
+  Future<void> openBucket(String bucketName) async {
+    final responseHandler = _createResponseHandler(_errorCodeCallback);
+
+    binding.CBDConnection_OpenBucket(
+      _connection,
+      bucketName.toCBDBuffer(),
+      responseHandler.callbackId,
+    );
+
+    return responseHandler.result;
+  }
+
   Future<void> _close() async {
     final responseHandler = _createResponseHandler(_errorCodeCallback);
 
