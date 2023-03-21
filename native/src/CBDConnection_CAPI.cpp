@@ -1,7 +1,9 @@
 
 #include <CBD_Base.h>
 #include <Connection.hpp>
+#include <core/origin.hxx>
 #include <dart_api_dl.h>
+#include <string>
 
 extern "C" {
 
@@ -17,11 +19,13 @@ void CBDConnection_Destroy(Connection *connection)
     connection->destroy();
 }
 
-void CBDConnection_Open(Connection *connection, CBDBuffer *connectionString,
-                        CBDClusterCredentials *credentials,
+void CBDConnection_Open(Connection *connection, char *connectionStringBuf,
+                        size_t connectionStringSize,
+                        couchbase::core::cluster_credentials *credentials,
                         CBD_Callback callback)
 {
-    connection->open(connectionString, credentials, callback);
+    connection->open(std::string(connectionStringBuf, connectionStringSize),
+                     credentials, callback);
 }
 
 void CBDConnection_Close(Connection *connection, CBD_Callback callback)
@@ -29,9 +33,10 @@ void CBDConnection_Close(Connection *connection, CBD_Callback callback)
     connection->close(callback);
 }
 
-void CBDConnection_OpenBucket(Connection *connection, CBDBuffer *bucketName,
-                              CBD_Callback callback)
+void CBDConnection_OpenBucket(Connection *connection, char *bucketNameBuf,
+                              size_t bucketNameSize, CBD_Callback callback)
 {
-    connection->openBucket(bucketName, callback);
+    connection->openBucket(std::string(bucketNameBuf, bucketNameSize),
+                           callback);
 }
 }

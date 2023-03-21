@@ -1,7 +1,4 @@
 {
   "cmake.sourceDirectory": "${workspaceFolder}/native",
-  "cmake.buildDirectory": "${workspaceFolder}/native/build",
-  "files.associations": {
-    "system_error": "cpp"
-  }
+  "cmake.buildDirectory": "${workspaceFolder}/native/build"
 }

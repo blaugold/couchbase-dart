@@ -4,6 +4,8 @@ import 'package:couchbase/src/base.dart';
 import 'package:couchbase/src/binding.dart';
 import 'package:couchbase/src/connection.dart';
 
+import 'lib_couchbase_dart.dart';
+
 Future<Cluster> connect(
   String connectionString, [
   ConnectOptions? options,
@@ -38,6 +40,24 @@ class ConnectOptions {
   }
 }
 
+class NativeClusterCredentials implements Finalizable {
+  NativeClusterCredentials()
+      : pointer = binding.CBDClusterCredentials_Create() {
+    _finalizer.attach(this, pointer.cast());
+  }
+
+  static final _finalizer =
+      NativeFinalizer(binding.addresses.CBDClusterCredentials_Destroy.cast());
+
+  final CBDClusterCredentials pointer;
+
+  set username(String value) =>
+      value.setNative(pointer, binding.CBDClusterCredentials_SetUsername);
+
+  set password(String value) =>
+      value.setNative(pointer, binding.CBDClusterCredentials_SetPassword);
+}
+
 class Cluster {
   final String _connectionString;
   final ConnectOptions _options;
@@ -46,11 +66,11 @@ class Cluster {
   Cluster(this._connectionString, this._options) : _connection = Connection();
 
   Future<void> _connect() async {
-    final credentials = binding.CBDClusterCredentials_Create();
+    final credentials = NativeClusterCredentials();
 
     if (_options.username != null) {
-      credentials.ref.username = _options.username!.toCBDBuffer();
-      credentials.ref.password = _options.password!.toCBDBuffer();
+      credentials.username = _options.username!;
+      credentials.password = _options.password!;
     }
 
     try {
@@ -61,4 +81,6 @@ class Cluster {
       rethrow;
     }
   }
+
+  Future<void> close() => _connection.close();
 }

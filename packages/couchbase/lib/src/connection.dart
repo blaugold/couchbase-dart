@@ -3,8 +3,10 @@ import 'dart:ffi';
 import 'dart:isolate';
 
 import 'package:couchbase/src/base.dart';
+import 'package:couchbase/src/basic.dart';
 
 import 'binding.dart';
+import 'cluster.dart';
 import 'lib_couchbase_dart.dart';
 
 typedef _CallbackId = int;
@@ -41,16 +43,19 @@ class Connection implements Finalizable {
 
   Future<void> open(
     String connectionString,
-    Pointer<CBDClusterCredentials> credentials,
+    NativeClusterCredentials credentials,
   ) async {
     final responseHandler = _createResponseHandler(_errorCodeCallback);
 
-    binding.CBDConnection_Open(
-      _connection,
-      connectionString.toCBDBuffer(),
-      credentials,
-      responseHandler.callbackId,
-    );
+    connectionString.withNative(((connectionStringBuf, connectionStringSize) {
+      binding.CBDConnection_Open(
+        _connection,
+        connectionStringBuf,
+        connectionStringSize,
+        credentials.pointer,
+        responseHandler.callbackId,
+      );
+    }));
 
     return responseHandler.result;
   }
@@ -67,11 +72,14 @@ class Connection implements Finalizable {
   Future<void> openBucket(String bucketName) async {
     final responseHandler = _createResponseHandler(_errorCodeCallback);
 
-    binding.CBDConnection_OpenBucket(
-      _connection,
-      bucketName.toCBDBuffer(),
-      responseHandler.callbackId,
-    );
+    bucketName.withNative(((bucketNameBuf, bucketNameSize) {
+      binding.CBDConnection_OpenBucket(
+        _connection,
+        bucketNameBuf,
+        bucketNameSize,
+        responseHandler.callbackId,
+      );
+    }));
 
     return responseHandler.result;
   }
@@ -115,6 +123,5 @@ class _ResponseHandler<T> {
   _ResponseHandler(this.callbackId, this.result);
 }
 
-void _errorCodeCallback(Pointer<Void> response) {
-  response.cast<CBDErrorCode>().check();
-}
+void _errorCodeCallback(Pointer<Void> response) =>
+    response.cast<CBDErrorCode_>().consume();

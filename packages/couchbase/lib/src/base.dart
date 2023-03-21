@@ -3,41 +3,40 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 
-import 'binding.dart';
 import 'lib_couchbase_dart.dart';
 
-extension StringCBDBufferExtension on String {
-  Pointer<CBDBuffer> toCBDBuffer() {
+extension ReadNativeString<T> on T {
+  String readString(void Function(T, CBD_ReadStringCallback) fn) {
+    fn(this, _readStringCallbackPtr);
+    return _lastReadString!;
+  }
+}
+
+String? _lastReadString;
+
+final _readStringCallbackPtr =
+    Pointer.fromFunction<Void Function(Pointer<Char>, Size)>(
+        _readStringCallback);
+
+void _readStringCallback(Pointer<Char> buf, int size) {
+  _lastReadString = buf.cast<Utf8>().toDartString(length: size);
+}
+
+extension NativeString on String {
+  void withNative(void Function(Pointer<Char> buf, int size) fn) {
     final bytes = utf8.encode(this);
-    final buffer = binding.CBDBuffer_Create(bytes.length);
-    buffer.ref.data.cast<Uint8>().asTypedList(length).setAll(0, bytes);
-    return buffer;
-  }
-}
-
-extension CBDBufferStringExtension on CBDBuffer {
-  String toDartString() => data.cast<Utf8>().toDartString(length: size);
-}
-
-extension CBDErrorCodeExtension on Pointer<CBDErrorCode> {
-  void check() {
-    if (this == nullptr) {
-      return;
+    final buf = malloc<Char>(bytes.length);
+    buf.cast<Uint8>().asTypedList(bytes.length).setAll(0, bytes);
+    try {
+      fn(buf, bytes.length);
+    } finally {
+      malloc.free(buf);
     }
-
-    final exception =
-        CouchbaseException(ref.code, ref.message.ref.toDartString());
-    binding.CBDErrorCode_Destroy(this);
-    throw exception;
   }
-}
 
-class CouchbaseException implements Exception {
-  final int code;
-  final String message;
-
-  CouchbaseException(this.code, this.message);
-
-  @override
-  String toString() => 'CouchbaseException($code, $message)';
+  void setNative<T>(
+    T pointer,
+    void Function(T pointer, Pointer<Char> buf, int size) fn,
+  ) =>
+      withNative((buf, size) => fn(pointer, buf, size));
 }

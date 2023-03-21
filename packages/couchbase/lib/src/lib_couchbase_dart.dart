@@ -20,53 +20,8 @@ class LibCouchbaseDart {
           lookup)
       : _lookup = lookup;
 
-  ffi.Pointer<CBDBuffer> CBDBuffer_Create(
-    int size,
-  ) {
-    return _CBDBuffer_Create(
-      size,
-    );
-  }
-
-  late final _CBDBuffer_CreatePtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<CBDBuffer> Function(ffi.Size)>>(
-          'CBDBuffer_Create');
-  late final _CBDBuffer_Create =
-      _CBDBuffer_CreatePtr.asFunction<ffi.Pointer<CBDBuffer> Function(int)>();
-
-  void CBDBuffer_Destroy(
-    ffi.Pointer<CBDBuffer> buffer,
-  ) {
-    return _CBDBuffer_Destroy(
-      buffer,
-    );
-  }
-
-  late final _CBDBuffer_DestroyPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CBDBuffer>)>>(
-          'CBDBuffer_Destroy');
-  late final _CBDBuffer_Destroy =
-      _CBDBuffer_DestroyPtr.asFunction<void Function(ffi.Pointer<CBDBuffer>)>();
-
-  ffi.Pointer<CBDErrorCode> CBDErrorCode_Create(
-    int code,
-    ffi.Pointer<CBDBuffer> message,
-  ) {
-    return _CBDErrorCode_Create(
-      code,
-      message,
-    );
-  }
-
-  late final _CBDErrorCode_CreatePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<CBDErrorCode> Function(
-              ffi.Int, ffi.Pointer<CBDBuffer>)>>('CBDErrorCode_Create');
-  late final _CBDErrorCode_Create = _CBDErrorCode_CreatePtr.asFunction<
-      ffi.Pointer<CBDErrorCode> Function(int, ffi.Pointer<CBDBuffer>)>();
-
   void CBDErrorCode_Destroy(
-    ffi.Pointer<CBDErrorCode> errorCode,
+    CBDErrorCode errorCode,
   ) {
     return _CBDErrorCode_Destroy(
       errorCode,
@@ -74,35 +29,105 @@ class LibCouchbaseDart {
   }
 
   late final _CBDErrorCode_DestroyPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CBDErrorCode>)>>(
+      _lookup<ffi.NativeFunction<ffi.Void Function(CBDErrorCode)>>(
           'CBDErrorCode_Destroy');
-  late final _CBDErrorCode_Destroy = _CBDErrorCode_DestroyPtr.asFunction<
-      void Function(ffi.Pointer<CBDErrorCode>)>();
+  late final _CBDErrorCode_Destroy =
+      _CBDErrorCode_DestroyPtr.asFunction<void Function(CBDErrorCode)>();
 
-  ffi.Pointer<CBDClusterCredentials> CBDClusterCredentials_Create() {
+  int CBDErrorCode_Code(
+    CBDErrorCode errorCode,
+  ) {
+    return _CBDErrorCode_Code(
+      errorCode,
+    );
+  }
+
+  late final _CBDErrorCode_CodePtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function(CBDErrorCode)>>(
+          'CBDErrorCode_Code');
+  late final _CBDErrorCode_Code =
+      _CBDErrorCode_CodePtr.asFunction<int Function(CBDErrorCode)>();
+
+  void CBDErrorCode_Message(
+    CBDErrorCode errorCode,
+    CBD_ReadStringCallback callback,
+  ) {
+    return _CBDErrorCode_Message(
+      errorCode,
+      callback,
+    );
+  }
+
+  late final _CBDErrorCode_MessagePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              CBDErrorCode, CBD_ReadStringCallback)>>('CBDErrorCode_Message');
+  late final _CBDErrorCode_Message = _CBDErrorCode_MessagePtr.asFunction<
+      void Function(CBDErrorCode, CBD_ReadStringCallback)>();
+
+  CBDClusterCredentials CBDClusterCredentials_Create() {
     return _CBDClusterCredentials_Create();
   }
 
-  late final _CBDClusterCredentials_CreatePtr = _lookup<
-          ffi.NativeFunction<ffi.Pointer<CBDClusterCredentials> Function()>>(
-      'CBDClusterCredentials_Create');
+  late final _CBDClusterCredentials_CreatePtr =
+      _lookup<ffi.NativeFunction<CBDClusterCredentials Function()>>(
+          'CBDClusterCredentials_Create');
   late final _CBDClusterCredentials_Create = _CBDClusterCredentials_CreatePtr
-      .asFunction<ffi.Pointer<CBDClusterCredentials> Function()>();
+      .asFunction<CBDClusterCredentials Function()>();
 
   void CBDClusterCredentials_Destroy(
-    ffi.Pointer<CBDClusterCredentials> credentials,
+    CBDClusterCredentials credentials,
   ) {
     return _CBDClusterCredentials_Destroy(
       credentials,
     );
   }
 
-  late final _CBDClusterCredentials_DestroyPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<CBDClusterCredentials>)>>(
-      'CBDClusterCredentials_Destroy');
+  late final _CBDClusterCredentials_DestroyPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(CBDClusterCredentials)>>(
+          'CBDClusterCredentials_Destroy');
   late final _CBDClusterCredentials_Destroy = _CBDClusterCredentials_DestroyPtr
-      .asFunction<void Function(ffi.Pointer<CBDClusterCredentials>)>();
+      .asFunction<void Function(CBDClusterCredentials)>();
+
+  void CBDClusterCredentials_SetUsername(
+    CBDClusterCredentials credentials,
+    ffi.Pointer<ffi.Char> buf,
+    int size,
+  ) {
+    return _CBDClusterCredentials_SetUsername(
+      credentials,
+      buf,
+      size,
+    );
+  }
+
+  late final _CBDClusterCredentials_SetUsernamePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(CBDClusterCredentials, ffi.Pointer<ffi.Char>,
+              ffi.Size)>>('CBDClusterCredentials_SetUsername');
+  late final _CBDClusterCredentials_SetUsername =
+      _CBDClusterCredentials_SetUsernamePtr.asFunction<
+          void Function(CBDClusterCredentials, ffi.Pointer<ffi.Char>, int)>();
+
+  void CBDClusterCredentials_SetPassword(
+    CBDClusterCredentials credentials,
+    ffi.Pointer<ffi.Char> buf,
+    int size,
+  ) {
+    return _CBDClusterCredentials_SetPassword(
+      credentials,
+      buf,
+      size,
+    );
+  }
+
+  late final _CBDClusterCredentials_SetPasswordPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(CBDClusterCredentials, ffi.Pointer<ffi.Char>,
+              ffi.Size)>>('CBDClusterCredentials_SetPassword');
+  late final _CBDClusterCredentials_SetPassword =
+      _CBDClusterCredentials_SetPasswordPtr.asFunction<
+          void Function(CBDClusterCredentials, ffi.Pointer<ffi.Char>, int)>();
 
   bool CBD_Init(
     ffi.Pointer<ffi.Void> data,
@@ -149,13 +174,15 @@ class LibCouchbaseDart {
 
   void CBDConnection_Open(
     ffi.Pointer<CBDConnection> connection,
-    ffi.Pointer<CBDBuffer> connectionString,
-    ffi.Pointer<CBDClusterCredentials> credentials,
+    ffi.Pointer<ffi.Char> connectionStringBuf,
+    int connectionStringSize,
+    CBDClusterCredentials credentials,
     int callback,
   ) {
     return _CBDConnection_Open(
       connection,
-      connectionString,
+      connectionStringBuf,
+      connectionStringSize,
       credentials,
       callback,
     );
@@ -165,12 +192,13 @@ class LibCouchbaseDart {
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<CBDConnection>,
-              ffi.Pointer<CBDBuffer>,
-              ffi.Pointer<CBDClusterCredentials>,
+              ffi.Pointer<ffi.Char>,
+              ffi.Size,
+              CBDClusterCredentials,
               CBD_Callback)>>('CBDConnection_Open');
   late final _CBDConnection_Open = _CBDConnection_OpenPtr.asFunction<
-      void Function(ffi.Pointer<CBDConnection>, ffi.Pointer<CBDBuffer>,
-          ffi.Pointer<CBDClusterCredentials>, int)>();
+      void Function(ffi.Pointer<CBDConnection>, ffi.Pointer<ffi.Char>, int,
+          CBDClusterCredentials, int)>();
 
   void CBDConnection_Close(
     ffi.Pointer<CBDConnection> connection,
@@ -191,24 +219,26 @@ class LibCouchbaseDart {
 
   void CBDConnection_OpenBucket(
     ffi.Pointer<CBDConnection> connection,
-    ffi.Pointer<CBDBuffer> bucketName,
+    ffi.Pointer<ffi.Char> bucketNameBuf,
+    int bucketNameSize,
     int callback,
   ) {
     return _CBDConnection_OpenBucket(
       connection,
-      bucketName,
+      bucketNameBuf,
+      bucketNameSize,
       callback,
     );
   }
 
   late final _CBDConnection_OpenBucketPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<CBDConnection>, ffi.Pointer<CBDBuffer>,
-              CBD_Callback)>>('CBDConnection_OpenBucket');
+          ffi.Void Function(ffi.Pointer<CBDConnection>, ffi.Pointer<ffi.Char>,
+              ffi.Size, CBD_Callback)>>('CBDConnection_OpenBucket');
   late final _CBDConnection_OpenBucket =
       _CBDConnection_OpenBucketPtr.asFunction<
           void Function(
-              ffi.Pointer<CBDConnection>, ffi.Pointer<CBDBuffer>, int)>();
+              ffi.Pointer<CBDConnection>, ffi.Pointer<ffi.Char>, int, int)>();
 
   late final addresses = _SymbolAddresses(this);
 }
@@ -216,25 +246,32 @@ class LibCouchbaseDart {
 class _SymbolAddresses {
   final LibCouchbaseDart _library;
   _SymbolAddresses(this._library);
-  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<CBDBuffer> Function(ffi.Size)>>
-      get CBDBuffer_Create => _library._CBDBuffer_CreatePtr;
-  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CBDBuffer>)>>
-      get CBDBuffer_Destroy => _library._CBDBuffer_DestroyPtr;
-  ffi.Pointer<
-      ffi.NativeFunction<
-          ffi.Pointer<CBDErrorCode> Function(
-              ffi.Int, ffi.Pointer<CBDBuffer>)>> get CBDErrorCode_Create =>
-      _library._CBDErrorCode_CreatePtr;
-  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CBDErrorCode>)>>
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(CBDErrorCode)>>
       get CBDErrorCode_Destroy => _library._CBDErrorCode_DestroyPtr;
-  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<CBDClusterCredentials> Function()>>
-      get CBDClusterCredentials_Create =>
-          _library._CBDClusterCredentials_CreatePtr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(CBDErrorCode)>>
+      get CBDErrorCode_Code => _library._CBDErrorCode_CodePtr;
   ffi.Pointer<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<CBDClusterCredentials>)>>
+              ffi.Void Function(CBDErrorCode, CBD_ReadStringCallback)>>
+      get CBDErrorCode_Message => _library._CBDErrorCode_MessagePtr;
+  ffi.Pointer<ffi.NativeFunction<CBDClusterCredentials Function()>>
+      get CBDClusterCredentials_Create =>
+          _library._CBDClusterCredentials_CreatePtr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(CBDClusterCredentials)>>
       get CBDClusterCredentials_Destroy =>
           _library._CBDClusterCredentials_DestroyPtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  CBDClusterCredentials, ffi.Pointer<ffi.Char>, ffi.Size)>>
+      get CBDClusterCredentials_SetUsername =>
+          _library._CBDClusterCredentials_SetUsernamePtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  CBDClusterCredentials, ffi.Pointer<ffi.Char>, ffi.Size)>>
+      get CBDClusterCredentials_SetPassword =>
+          _library._CBDClusterCredentials_SetPasswordPtr;
   ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Pointer<ffi.Void>)>>
       get CBD_Init => _library._CBD_InitPtr;
   ffi.Pointer<
@@ -246,8 +283,9 @@ class _SymbolAddresses {
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<CBDConnection>,
-              ffi.Pointer<CBDBuffer>,
-              ffi.Pointer<CBDClusterCredentials>,
+              ffi.Pointer<ffi.Char>,
+              ffi.Size,
+              CBDClusterCredentials,
               CBD_Callback)>> get CBDConnection_Open =>
       _library._CBDConnection_OpenPtr;
   ffi.Pointer<
@@ -256,30 +294,23 @@ class _SymbolAddresses {
       get CBDConnection_Close => _library._CBDConnection_ClosePtr;
   ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<CBDConnection>, ffi.Pointer<CBDBuffer>,
+          ffi.Void Function(
+              ffi.Pointer<CBDConnection>,
+              ffi.Pointer<ffi.Char>,
+              ffi.Size,
               CBD_Callback)>> get CBDConnection_OpenBucket =>
       _library._CBDConnection_OpenBucketPtr;
 }
 
-class CBDBuffer extends ffi.Struct {
-  external ffi.Pointer<ffi.Void> data;
+class CBDErrorCode_ extends ffi.Opaque {}
 
-  @ffi.Size()
-  external int size;
-}
+typedef CBDErrorCode = ffi.Pointer<CBDErrorCode_>;
+typedef CBD_ReadStringCallback = ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char>, ffi.Size)>>;
 
-class CBDErrorCode extends ffi.Struct {
-  @ffi.Int()
-  external int code;
+class CBDClusterCredentials_ extends ffi.Opaque {}
 
-  external ffi.Pointer<CBDBuffer> message;
-}
-
-class CBDClusterCredentials extends ffi.Struct {
-  external ffi.Pointer<CBDBuffer> username;
-
-  external ffi.Pointer<CBDBuffer> password;
-}
+typedef CBDClusterCredentials = ffi.Pointer<CBDClusterCredentials_>;
 
 class CBDConnection_ extends ffi.Opaque {}
 
