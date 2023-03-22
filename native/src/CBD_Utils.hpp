@@ -1,13 +1,17 @@
 #pragma once
-#include <CBD_Base.h>
+#include <MessageBuffer.hpp>
+#include <core/origin.hxx>
 #include <system_error>
 
 namespace couchbase::dart
 {
 
-void callReadStringCallback(const std::string &string,
-                            CBD_ReadStringCallback callback);
+void writeErrorCode(MessageBuffer &buffer, const std::error_code &ec);
 
-std::error_code *copyToHeap(const std::error_code &ec);
+void writeOptionalErrorCode(MessageBuffer &buffer, const std::error_code &ec);
+
+couchbase::core::cluster_credentials
+readClusterCredentials(MessageBuffer &buffer);
+
 
 } // namespace couchbase::dart

@@ -1,10 +1,6 @@
-import 'dart:ffi';
-
-import 'package:couchbase/src/base.dart';
-import 'package:couchbase/src/binding.dart';
 import 'package:couchbase/src/connection.dart';
 
-import 'lib_couchbase_dart.dart';
+import 'message_buffer.dart';
 
 Future<Cluster> connect(
   String connectionString, [
@@ -40,22 +36,17 @@ class ConnectOptions {
   }
 }
 
-class NativeClusterCredentials implements Finalizable {
-  NativeClusterCredentials()
-      : pointer = binding.CBDClusterCredentials_Create() {
-    _finalizer.attach(this, pointer.cast());
+class NativeClusterCredentials implements MessageBufferSerializable {
+  NativeClusterCredentials();
+
+  String username = '';
+  String password = '';
+
+  @override
+  void writeToBuffer(MessageBuffer buffer) {
+    buffer.writeString(username);
+    buffer.writeString(password);
   }
-
-  static final _finalizer =
-      NativeFinalizer(binding.addresses.CBDClusterCredentials_Destroy.cast());
-
-  final CBDClusterCredentials pointer;
-
-  set username(String value) =>
-      value.setNative(pointer, binding.CBDClusterCredentials_SetUsername);
-
-  set password(String value) =>
-      value.setNative(pointer, binding.CBDClusterCredentials_SetPassword);
 }
 
 class Cluster {

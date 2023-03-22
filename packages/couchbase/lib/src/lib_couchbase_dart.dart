@@ -20,115 +20,6 @@ class LibCouchbaseDart {
           lookup)
       : _lookup = lookup;
 
-  void CBDErrorCode_Destroy(
-    CBDErrorCode errorCode,
-  ) {
-    return _CBDErrorCode_Destroy(
-      errorCode,
-    );
-  }
-
-  late final _CBDErrorCode_DestroyPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(CBDErrorCode)>>(
-          'CBDErrorCode_Destroy');
-  late final _CBDErrorCode_Destroy =
-      _CBDErrorCode_DestroyPtr.asFunction<void Function(CBDErrorCode)>();
-
-  int CBDErrorCode_Code(
-    CBDErrorCode errorCode,
-  ) {
-    return _CBDErrorCode_Code(
-      errorCode,
-    );
-  }
-
-  late final _CBDErrorCode_CodePtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(CBDErrorCode)>>(
-          'CBDErrorCode_Code');
-  late final _CBDErrorCode_Code =
-      _CBDErrorCode_CodePtr.asFunction<int Function(CBDErrorCode)>();
-
-  void CBDErrorCode_Message(
-    CBDErrorCode errorCode,
-    CBD_ReadStringCallback callback,
-  ) {
-    return _CBDErrorCode_Message(
-      errorCode,
-      callback,
-    );
-  }
-
-  late final _CBDErrorCode_MessagePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              CBDErrorCode, CBD_ReadStringCallback)>>('CBDErrorCode_Message');
-  late final _CBDErrorCode_Message = _CBDErrorCode_MessagePtr.asFunction<
-      void Function(CBDErrorCode, CBD_ReadStringCallback)>();
-
-  CBDClusterCredentials CBDClusterCredentials_Create() {
-    return _CBDClusterCredentials_Create();
-  }
-
-  late final _CBDClusterCredentials_CreatePtr =
-      _lookup<ffi.NativeFunction<CBDClusterCredentials Function()>>(
-          'CBDClusterCredentials_Create');
-  late final _CBDClusterCredentials_Create = _CBDClusterCredentials_CreatePtr
-      .asFunction<CBDClusterCredentials Function()>();
-
-  void CBDClusterCredentials_Destroy(
-    CBDClusterCredentials credentials,
-  ) {
-    return _CBDClusterCredentials_Destroy(
-      credentials,
-    );
-  }
-
-  late final _CBDClusterCredentials_DestroyPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(CBDClusterCredentials)>>(
-          'CBDClusterCredentials_Destroy');
-  late final _CBDClusterCredentials_Destroy = _CBDClusterCredentials_DestroyPtr
-      .asFunction<void Function(CBDClusterCredentials)>();
-
-  void CBDClusterCredentials_SetUsername(
-    CBDClusterCredentials credentials,
-    ffi.Pointer<ffi.Char> buf,
-    int size,
-  ) {
-    return _CBDClusterCredentials_SetUsername(
-      credentials,
-      buf,
-      size,
-    );
-  }
-
-  late final _CBDClusterCredentials_SetUsernamePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(CBDClusterCredentials, ffi.Pointer<ffi.Char>,
-              ffi.Size)>>('CBDClusterCredentials_SetUsername');
-  late final _CBDClusterCredentials_SetUsername =
-      _CBDClusterCredentials_SetUsernamePtr.asFunction<
-          void Function(CBDClusterCredentials, ffi.Pointer<ffi.Char>, int)>();
-
-  void CBDClusterCredentials_SetPassword(
-    CBDClusterCredentials credentials,
-    ffi.Pointer<ffi.Char> buf,
-    int size,
-  ) {
-    return _CBDClusterCredentials_SetPassword(
-      credentials,
-      buf,
-      size,
-    );
-  }
-
-  late final _CBDClusterCredentials_SetPasswordPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(CBDClusterCredentials, ffi.Pointer<ffi.Char>,
-              ffi.Size)>>('CBDClusterCredentials_SetPassword');
-  late final _CBDClusterCredentials_SetPassword =
-      _CBDClusterCredentials_SetPasswordPtr.asFunction<
-          void Function(CBDClusterCredentials, ffi.Pointer<ffi.Char>, int)>();
-
   bool CBD_Init(
     ffi.Pointer<ffi.Void> data,
   ) {
@@ -143,7 +34,380 @@ class LibCouchbaseDart {
   late final _CBD_Init =
       _CBD_InitPtr.asFunction<bool Function(ffi.Pointer<ffi.Void>)>();
 
-  ffi.Pointer<CBDConnection> CBDConnection_Create(
+  CBDMessageBuffer CBDMessageBuffer_Create(
+    int initialCapacity,
+  ) {
+    return _CBDMessageBuffer_Create(
+      initialCapacity,
+    );
+  }
+
+  late final _CBDMessageBuffer_CreatePtr =
+      _lookup<ffi.NativeFunction<CBDMessageBuffer Function(ffi.Size)>>(
+          'CBDMessageBuffer_Create');
+  late final _CBDMessageBuffer_Create =
+      _CBDMessageBuffer_CreatePtr.asFunction<CBDMessageBuffer Function(int)>();
+
+  void CBDMessageBuffer_Destroy(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_Destroy(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_DestroyPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_Destroy');
+  late final _CBDMessageBuffer_Destroy = _CBDMessageBuffer_DestroyPtr
+      .asFunction<void Function(CBDMessageBuffer)>();
+
+  void CBDMessageBuffer_Reset(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_Reset(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_ResetPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_Reset');
+  late final _CBDMessageBuffer_Reset =
+      _CBDMessageBuffer_ResetPtr.asFunction<void Function(CBDMessageBuffer)>();
+
+  void CBDMessageBuffer_WriteBool(
+    CBDMessageBuffer buffer,
+    bool value,
+  ) {
+    return _CBDMessageBuffer_WriteBool(
+      buffer,
+      value,
+    );
+  }
+
+  late final _CBDMessageBuffer_WriteBoolPtr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Bool)>>(
+      'CBDMessageBuffer_WriteBool');
+  late final _CBDMessageBuffer_WriteBool = _CBDMessageBuffer_WriteBoolPtr
+      .asFunction<void Function(CBDMessageBuffer, bool)>();
+
+  void CBDMessageBuffer_WriteUInt8(
+    CBDMessageBuffer buffer,
+    int value,
+  ) {
+    return _CBDMessageBuffer_WriteUInt8(
+      buffer,
+      value,
+    );
+  }
+
+  late final _CBDMessageBuffer_WriteUInt8Ptr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Uint8)>>(
+      'CBDMessageBuffer_WriteUInt8');
+  late final _CBDMessageBuffer_WriteUInt8 = _CBDMessageBuffer_WriteUInt8Ptr
+      .asFunction<void Function(CBDMessageBuffer, int)>();
+
+  void CBDMessageBuffer_WriteInt8(
+    CBDMessageBuffer buffer,
+    int value,
+  ) {
+    return _CBDMessageBuffer_WriteInt8(
+      buffer,
+      value,
+    );
+  }
+
+  late final _CBDMessageBuffer_WriteInt8Ptr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Int8)>>(
+      'CBDMessageBuffer_WriteInt8');
+  late final _CBDMessageBuffer_WriteInt8 = _CBDMessageBuffer_WriteInt8Ptr
+      .asFunction<void Function(CBDMessageBuffer, int)>();
+
+  void CBDMessageBuffer_WriteUInt16(
+    CBDMessageBuffer buffer,
+    int value,
+  ) {
+    return _CBDMessageBuffer_WriteUInt16(
+      buffer,
+      value,
+    );
+  }
+
+  late final _CBDMessageBuffer_WriteUInt16Ptr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Uint16)>>(
+      'CBDMessageBuffer_WriteUInt16');
+  late final _CBDMessageBuffer_WriteUInt16 = _CBDMessageBuffer_WriteUInt16Ptr
+      .asFunction<void Function(CBDMessageBuffer, int)>();
+
+  void CBDMessageBuffer_WriteInt16(
+    CBDMessageBuffer buffer,
+    int value,
+  ) {
+    return _CBDMessageBuffer_WriteInt16(
+      buffer,
+      value,
+    );
+  }
+
+  late final _CBDMessageBuffer_WriteInt16Ptr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Int16)>>(
+      'CBDMessageBuffer_WriteInt16');
+  late final _CBDMessageBuffer_WriteInt16 = _CBDMessageBuffer_WriteInt16Ptr
+      .asFunction<void Function(CBDMessageBuffer, int)>();
+
+  void CBDMessageBuffer_WriteUInt32(
+    CBDMessageBuffer buffer,
+    int value,
+  ) {
+    return _CBDMessageBuffer_WriteUInt32(
+      buffer,
+      value,
+    );
+  }
+
+  late final _CBDMessageBuffer_WriteUInt32Ptr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Uint32)>>(
+      'CBDMessageBuffer_WriteUInt32');
+  late final _CBDMessageBuffer_WriteUInt32 = _CBDMessageBuffer_WriteUInt32Ptr
+      .asFunction<void Function(CBDMessageBuffer, int)>();
+
+  void CBDMessageBuffer_WriteInt32(
+    CBDMessageBuffer buffer,
+    int value,
+  ) {
+    return _CBDMessageBuffer_WriteInt32(
+      buffer,
+      value,
+    );
+  }
+
+  late final _CBDMessageBuffer_WriteInt32Ptr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Int32)>>(
+      'CBDMessageBuffer_WriteInt32');
+  late final _CBDMessageBuffer_WriteInt32 = _CBDMessageBuffer_WriteInt32Ptr
+      .asFunction<void Function(CBDMessageBuffer, int)>();
+
+  void CBDMessageBuffer_WriteUInt64(
+    CBDMessageBuffer buffer,
+    int value,
+  ) {
+    return _CBDMessageBuffer_WriteUInt64(
+      buffer,
+      value,
+    );
+  }
+
+  late final _CBDMessageBuffer_WriteUInt64Ptr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Uint64)>>(
+      'CBDMessageBuffer_WriteUInt64');
+  late final _CBDMessageBuffer_WriteUInt64 = _CBDMessageBuffer_WriteUInt64Ptr
+      .asFunction<void Function(CBDMessageBuffer, int)>();
+
+  void CBDMessageBuffer_WriteInt64(
+    CBDMessageBuffer buffer,
+    int value,
+  ) {
+    return _CBDMessageBuffer_WriteInt64(
+      buffer,
+      value,
+    );
+  }
+
+  late final _CBDMessageBuffer_WriteInt64Ptr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Int64)>>(
+      'CBDMessageBuffer_WriteInt64');
+  late final _CBDMessageBuffer_WriteInt64 = _CBDMessageBuffer_WriteInt64Ptr
+      .asFunction<void Function(CBDMessageBuffer, int)>();
+
+  void CBDMessageBuffer_WriteDouble(
+    CBDMessageBuffer buffer,
+    double value,
+  ) {
+    return _CBDMessageBuffer_WriteDouble(
+      buffer,
+      value,
+    );
+  }
+
+  late final _CBDMessageBuffer_WriteDoublePtr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Double)>>(
+      'CBDMessageBuffer_WriteDouble');
+  late final _CBDMessageBuffer_WriteDouble = _CBDMessageBuffer_WriteDoublePtr
+      .asFunction<void Function(CBDMessageBuffer, double)>();
+
+  ffi.Pointer<ffi.Void> CBDMessageBuffer_Allocate(
+    CBDMessageBuffer buffer,
+    int size,
+  ) {
+    return _CBDMessageBuffer_Allocate(
+      buffer,
+      size,
+    );
+  }
+
+  late final _CBDMessageBuffer_AllocatePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(
+              CBDMessageBuffer, ffi.Size)>>('CBDMessageBuffer_Allocate');
+  late final _CBDMessageBuffer_Allocate = _CBDMessageBuffer_AllocatePtr
+      .asFunction<ffi.Pointer<ffi.Void> Function(CBDMessageBuffer, int)>();
+
+  bool CBDMessageBuffer_ReadBool(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_ReadBool(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_ReadBoolPtr =
+      _lookup<ffi.NativeFunction<ffi.Bool Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_ReadBool');
+  late final _CBDMessageBuffer_ReadBool = _CBDMessageBuffer_ReadBoolPtr
+      .asFunction<bool Function(CBDMessageBuffer)>();
+
+  int CBDMessageBuffer_ReadUInt8(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_ReadUInt8(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_ReadUInt8Ptr =
+      _lookup<ffi.NativeFunction<ffi.Uint8 Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_ReadUInt8');
+  late final _CBDMessageBuffer_ReadUInt8 = _CBDMessageBuffer_ReadUInt8Ptr
+      .asFunction<int Function(CBDMessageBuffer)>();
+
+  int CBDMessageBuffer_ReadInt8(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_ReadInt8(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_ReadInt8Ptr =
+      _lookup<ffi.NativeFunction<ffi.Int8 Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_ReadInt8');
+  late final _CBDMessageBuffer_ReadInt8 = _CBDMessageBuffer_ReadInt8Ptr
+      .asFunction<int Function(CBDMessageBuffer)>();
+
+  int CBDMessageBuffer_ReadUInt16(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_ReadUInt16(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_ReadUInt16Ptr =
+      _lookup<ffi.NativeFunction<ffi.Uint16 Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_ReadUInt16');
+  late final _CBDMessageBuffer_ReadUInt16 = _CBDMessageBuffer_ReadUInt16Ptr
+      .asFunction<int Function(CBDMessageBuffer)>();
+
+  int CBDMessageBuffer_ReadInt16(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_ReadInt16(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_ReadInt16Ptr =
+      _lookup<ffi.NativeFunction<ffi.Int16 Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_ReadInt16');
+  late final _CBDMessageBuffer_ReadInt16 = _CBDMessageBuffer_ReadInt16Ptr
+      .asFunction<int Function(CBDMessageBuffer)>();
+
+  int CBDMessageBuffer_ReadUInt32(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_ReadUInt32(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_ReadUInt32Ptr =
+      _lookup<ffi.NativeFunction<ffi.Uint32 Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_ReadUInt32');
+  late final _CBDMessageBuffer_ReadUInt32 = _CBDMessageBuffer_ReadUInt32Ptr
+      .asFunction<int Function(CBDMessageBuffer)>();
+
+  int CBDMessageBuffer_ReadInt32(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_ReadInt32(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_ReadInt32Ptr =
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_ReadInt32');
+  late final _CBDMessageBuffer_ReadInt32 = _CBDMessageBuffer_ReadInt32Ptr
+      .asFunction<int Function(CBDMessageBuffer)>();
+
+  int CBDMessageBuffer_ReadUInt64(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_ReadUInt64(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_ReadUInt64Ptr =
+      _lookup<ffi.NativeFunction<ffi.Uint64 Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_ReadUInt64');
+  late final _CBDMessageBuffer_ReadUInt64 = _CBDMessageBuffer_ReadUInt64Ptr
+      .asFunction<int Function(CBDMessageBuffer)>();
+
+  int CBDMessageBuffer_ReadInt64(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_ReadInt64(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_ReadInt64Ptr =
+      _lookup<ffi.NativeFunction<ffi.Int64 Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_ReadInt64');
+  late final _CBDMessageBuffer_ReadInt64 = _CBDMessageBuffer_ReadInt64Ptr
+      .asFunction<int Function(CBDMessageBuffer)>();
+
+  double CBDMessageBuffer_ReadDouble(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_ReadDouble(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_ReadDoublePtr =
+      _lookup<ffi.NativeFunction<ffi.Double Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_ReadDouble');
+  late final _CBDMessageBuffer_ReadDouble = _CBDMessageBuffer_ReadDoublePtr
+      .asFunction<double Function(CBDMessageBuffer)>();
+
+  CBLSlice CBDMessageBuffer_ReadData(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_ReadData(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_ReadDataPtr =
+      _lookup<ffi.NativeFunction<CBLSlice Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_ReadData');
+  late final _CBDMessageBuffer_ReadData = _CBDMessageBuffer_ReadDataPtr
+      .asFunction<CBLSlice Function(CBDMessageBuffer)>();
+
+  CBDConnection CBDConnection_Create(
     int port,
   ) {
     return _CBDConnection_Create(
@@ -151,94 +415,76 @@ class LibCouchbaseDart {
     );
   }
 
-  late final _CBDConnection_CreatePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<CBDConnection> Function(
-              Dart_Port_DL)>>('CBDConnection_Create');
-  late final _CBDConnection_Create = _CBDConnection_CreatePtr.asFunction<
-      ffi.Pointer<CBDConnection> Function(int)>();
+  late final _CBDConnection_CreatePtr =
+      _lookup<ffi.NativeFunction<CBDConnection Function(Dart_Port_DL)>>(
+          'CBDConnection_Create');
+  late final _CBDConnection_Create =
+      _CBDConnection_CreatePtr.asFunction<CBDConnection Function(int)>();
 
   void CBDConnection_Destroy(
-    ffi.Pointer<CBDConnection> connection,
+    CBDConnection connection,
   ) {
     return _CBDConnection_Destroy(
       connection,
     );
   }
 
-  late final _CBDConnection_DestroyPtr = _lookup<
-          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CBDConnection>)>>(
-      'CBDConnection_Destroy');
-  late final _CBDConnection_Destroy = _CBDConnection_DestroyPtr.asFunction<
-      void Function(ffi.Pointer<CBDConnection>)>();
+  late final _CBDConnection_DestroyPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(CBDConnection)>>(
+          'CBDConnection_Destroy');
+  late final _CBDConnection_Destroy =
+      _CBDConnection_DestroyPtr.asFunction<void Function(CBDConnection)>();
 
   void CBDConnection_Open(
-    ffi.Pointer<CBDConnection> connection,
-    ffi.Pointer<ffi.Char> connectionStringBuf,
-    int connectionStringSize,
-    CBDClusterCredentials credentials,
-    int callback,
+    CBDConnection connection,
+    CBDMessageBuffer request,
   ) {
     return _CBDConnection_Open(
       connection,
-      connectionStringBuf,
-      connectionStringSize,
-      credentials,
-      callback,
+      request,
     );
   }
 
   late final _CBDConnection_OpenPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<CBDConnection>,
-              ffi.Pointer<ffi.Char>,
-              ffi.Size,
-              CBDClusterCredentials,
-              CBD_Callback)>>('CBDConnection_Open');
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Open');
   late final _CBDConnection_Open = _CBDConnection_OpenPtr.asFunction<
-      void Function(ffi.Pointer<CBDConnection>, ffi.Pointer<ffi.Char>, int,
-          CBDClusterCredentials, int)>();
+      void Function(CBDConnection, CBDMessageBuffer)>();
 
   void CBDConnection_Close(
-    ffi.Pointer<CBDConnection> connection,
-    int callback,
+    CBDConnection connection,
+    CBDMessageBuffer request,
   ) {
     return _CBDConnection_Close(
       connection,
-      callback,
+      request,
     );
   }
 
   late final _CBDConnection_ClosePtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<CBDConnection>,
-              CBD_Callback)>>('CBDConnection_Close');
+          ffi.Void Function(
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Close');
   late final _CBDConnection_Close = _CBDConnection_ClosePtr.asFunction<
-      void Function(ffi.Pointer<CBDConnection>, int)>();
+      void Function(CBDConnection, CBDMessageBuffer)>();
 
   void CBDConnection_OpenBucket(
-    ffi.Pointer<CBDConnection> connection,
-    ffi.Pointer<ffi.Char> bucketNameBuf,
-    int bucketNameSize,
-    int callback,
+    CBDConnection connection,
+    CBDMessageBuffer request,
   ) {
     return _CBDConnection_OpenBucket(
       connection,
-      bucketNameBuf,
-      bucketNameSize,
-      callback,
+      request,
     );
   }
 
   late final _CBDConnection_OpenBucketPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<CBDConnection>, ffi.Pointer<ffi.Char>,
-              ffi.Size, CBD_Callback)>>('CBDConnection_OpenBucket');
-  late final _CBDConnection_OpenBucket =
-      _CBDConnection_OpenBucketPtr.asFunction<
-          void Function(
-              ffi.Pointer<CBDConnection>, ffi.Pointer<ffi.Char>, int, int)>();
+          ffi.Void Function(
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_OpenBucket');
+  late final _CBDConnection_OpenBucket = _CBDConnection_OpenBucketPtr
+      .asFunction<void Function(CBDConnection, CBDMessageBuffer)>();
 
   late final addresses = _SymbolAddresses(this);
 }
@@ -246,74 +492,110 @@ class LibCouchbaseDart {
 class _SymbolAddresses {
   final LibCouchbaseDart _library;
   _SymbolAddresses(this._library);
-  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(CBDErrorCode)>>
-      get CBDErrorCode_Destroy => _library._CBDErrorCode_DestroyPtr;
-  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(CBDErrorCode)>>
-      get CBDErrorCode_Code => _library._CBDErrorCode_CodePtr;
-  ffi.Pointer<
-          ffi.NativeFunction<
-              ffi.Void Function(CBDErrorCode, CBD_ReadStringCallback)>>
-      get CBDErrorCode_Message => _library._CBDErrorCode_MessagePtr;
-  ffi.Pointer<ffi.NativeFunction<CBDClusterCredentials Function()>>
-      get CBDClusterCredentials_Create =>
-          _library._CBDClusterCredentials_CreatePtr;
-  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(CBDClusterCredentials)>>
-      get CBDClusterCredentials_Destroy =>
-          _library._CBDClusterCredentials_DestroyPtr;
-  ffi.Pointer<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                  CBDClusterCredentials, ffi.Pointer<ffi.Char>, ffi.Size)>>
-      get CBDClusterCredentials_SetUsername =>
-          _library._CBDClusterCredentials_SetUsernamePtr;
-  ffi.Pointer<
-          ffi.NativeFunction<
-              ffi.Void Function(
-                  CBDClusterCredentials, ffi.Pointer<ffi.Char>, ffi.Size)>>
-      get CBDClusterCredentials_SetPassword =>
-          _library._CBDClusterCredentials_SetPasswordPtr;
   ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Pointer<ffi.Void>)>>
       get CBD_Init => _library._CBD_InitPtr;
+  ffi.Pointer<ffi.NativeFunction<CBDMessageBuffer Function(ffi.Size)>>
+      get CBDMessageBuffer_Create => _library._CBDMessageBuffer_CreatePtr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_Destroy => _library._CBDMessageBuffer_DestroyPtr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_Reset => _library._CBDMessageBuffer_ResetPtr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Bool)>>
+      get CBDMessageBuffer_WriteBool => _library._CBDMessageBuffer_WriteBoolPtr;
   ffi.Pointer<
-          ffi.NativeFunction<ffi.Pointer<CBDConnection> Function(Dart_Port_DL)>>
-      get CBDConnection_Create => _library._CBDConnection_CreatePtr;
-  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CBDConnection>)>>
-      get CBDConnection_Destroy => _library._CBDConnection_DestroyPtr;
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Uint8)>>
+      get CBDMessageBuffer_WriteUInt8 =>
+          _library._CBDMessageBuffer_WriteUInt8Ptr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Int8)>>
+      get CBDMessageBuffer_WriteInt8 => _library._CBDMessageBuffer_WriteInt8Ptr;
   ffi.Pointer<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<CBDConnection>,
-              ffi.Pointer<ffi.Char>,
-              ffi.Size,
-              CBDClusterCredentials,
-              CBD_Callback)>> get CBDConnection_Open =>
-      _library._CBDConnection_OpenPtr;
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Uint16)>>
+      get CBDMessageBuffer_WriteUInt16 =>
+          _library._CBDMessageBuffer_WriteUInt16Ptr;
+  ffi.Pointer<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Int16)>>
+      get CBDMessageBuffer_WriteInt16 =>
+          _library._CBDMessageBuffer_WriteInt16Ptr;
+  ffi.Pointer<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Uint32)>>
+      get CBDMessageBuffer_WriteUInt32 =>
+          _library._CBDMessageBuffer_WriteUInt32Ptr;
+  ffi.Pointer<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Int32)>>
+      get CBDMessageBuffer_WriteInt32 =>
+          _library._CBDMessageBuffer_WriteInt32Ptr;
+  ffi.Pointer<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Uint64)>>
+      get CBDMessageBuffer_WriteUInt64 =>
+          _library._CBDMessageBuffer_WriteUInt64Ptr;
+  ffi.Pointer<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Int64)>>
+      get CBDMessageBuffer_WriteInt64 =>
+          _library._CBDMessageBuffer_WriteInt64Ptr;
+  ffi.Pointer<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Double)>>
+      get CBDMessageBuffer_WriteDouble =>
+          _library._CBDMessageBuffer_WriteDoublePtr;
   ffi.Pointer<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<CBDConnection>, CBD_Callback)>>
+              ffi.Pointer<ffi.Void> Function(CBDMessageBuffer, ffi.Size)>>
+      get CBDMessageBuffer_Allocate => _library._CBDMessageBuffer_AllocatePtr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_ReadBool => _library._CBDMessageBuffer_ReadBoolPtr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint8 Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_ReadUInt8 => _library._CBDMessageBuffer_ReadUInt8Ptr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Int8 Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_ReadInt8 => _library._CBDMessageBuffer_ReadInt8Ptr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint16 Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_ReadUInt16 =>
+          _library._CBDMessageBuffer_ReadUInt16Ptr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Int16 Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_ReadInt16 => _library._CBDMessageBuffer_ReadInt16Ptr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_ReadUInt32 =>
+          _library._CBDMessageBuffer_ReadUInt32Ptr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Int32 Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_ReadInt32 => _library._CBDMessageBuffer_ReadInt32Ptr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint64 Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_ReadUInt64 =>
+          _library._CBDMessageBuffer_ReadUInt64Ptr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Int64 Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_ReadInt64 => _library._CBDMessageBuffer_ReadInt64Ptr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Double Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_ReadDouble =>
+          _library._CBDMessageBuffer_ReadDoublePtr;
+  ffi.Pointer<ffi.NativeFunction<CBLSlice Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_ReadData => _library._CBDMessageBuffer_ReadDataPtr;
+  ffi.Pointer<ffi.NativeFunction<CBDConnection Function(Dart_Port_DL)>>
+      get CBDConnection_Create => _library._CBDConnection_CreatePtr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(CBDConnection)>>
+      get CBDConnection_Destroy => _library._CBDConnection_DestroyPtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
+      get CBDConnection_Open => _library._CBDConnection_OpenPtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
       get CBDConnection_Close => _library._CBDConnection_ClosePtr;
   ffi.Pointer<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<CBDConnection>,
-              ffi.Pointer<ffi.Char>,
-              ffi.Size,
-              CBD_Callback)>> get CBDConnection_OpenBucket =>
-      _library._CBDConnection_OpenBucketPtr;
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
+      get CBDConnection_OpenBucket => _library._CBDConnection_OpenBucketPtr;
 }
 
-class CBDErrorCode_ extends ffi.Opaque {}
+class CBLSlice extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> data;
 
-typedef CBDErrorCode = ffi.Pointer<CBDErrorCode_>;
-typedef CBD_ReadStringCallback = ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char>, ffi.Size)>>;
+  @ffi.Size()
+  external int length;
+}
 
-class CBDClusterCredentials_ extends ffi.Opaque {}
+class CBDMessageBuffer_ extends ffi.Opaque {}
 
-typedef CBDClusterCredentials = ffi.Pointer<CBDClusterCredentials_>;
+typedef CBDMessageBuffer = ffi.Pointer<CBDMessageBuffer_>;
 
 class CBDConnection_ extends ffi.Opaque {}
 
-typedef CBDConnection = CBDConnection_;
+typedef CBDConnection = ffi.Pointer<CBDConnection_>;
 typedef Dart_Port_DL = ffi.Int64;
-typedef CBD_Callback = ffi.Int64;

@@ -1,21 +1,15 @@
-import 'dart:ffi';
+import 'message_buffer.dart';
 
-import 'base.dart';
-import 'binding.dart';
-import 'lib_couchbase_dart.dart';
-
-extension CBDErrorCodeExtension on CBDErrorCode {
-  void consume() {
-    if (this == nullptr) {
+extension CBDErrorCodeExtension on MessageBuffer {
+  void readOptionalErrorCode() {
+    if (!readBool()) {
       return;
     }
 
-    final exception = CouchbaseException(
-      binding.CBDErrorCode_Code(this),
-      readString(binding.CBDErrorCode_Message),
+    throw CouchbaseException(
+      readInt64(),
+      readString(),
     );
-    binding.CBDErrorCode_Destroy(this);
-    throw exception;
   }
 }
 

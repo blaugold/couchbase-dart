@@ -3,18 +3,27 @@
 namespace couchbase::dart
 {
 
-void callReadStringCallback(const std::string &string,
-                            CBD_ReadStringCallback callback)
+void writeErrorCode(MessageBuffer &buffer, const std::error_code &ec)
 {
-    callback(string.data(), string.size());
+    buffer.writeInt64(ec.value());
+    buffer.writeString(ec.message());
 }
 
-std::error_code *copyToHeap(const std::error_code &ec)
+void writeOptionalErrorCode(MessageBuffer &buffer, const std::error_code &ec)
 {
-    if (!ec) {
-        return nullptr;
+    buffer.writeBool(!!ec);
+    if (ec) {
+        writeErrorCode(buffer, ec);
     }
-
-    return new std::error_code(ec);
 }
+
+couchbase::core::cluster_credentials
+readClusterCredentials(MessageBuffer &buffer)
+{
+    couchbase::core::cluster_credentials credentials;
+    credentials.username = buffer.readString();
+    credentials.password = buffer.readString();
+    return credentials;
+}
+
 } // namespace couchbase::dart

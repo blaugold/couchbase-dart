@@ -1,5 +1,5 @@
 #pragma once
-#include <CBD_Base.h>
+#include <MessageBuffer.hpp>
 #include <asio/io_context.hpp>
 #include <core/cluster.hxx>
 #include <dart_api_dl.h>
@@ -17,18 +17,16 @@ public:
 
     void destroy();
 
-    void open(std::string connectionString,
-              couchbase::core::cluster_credentials *credentials,
-              CBD_Callback callback);
+    void open(MessageBuffer *request);
 
-    void close(CBD_Callback callback);
+    void close(MessageBuffer *request);
 
-    void openBucket(std::string bucketName, CBD_Callback callback);
+    void openBucket(MessageBuffer *request);
 
 private:
     ~Connection();
 
-    void callCallback(CBD_Callback callback, void *error, void *response);
+    void completeRequest(int64_t requestId);
 
     Dart_Port_DL _port;
     asio::io_context _io;

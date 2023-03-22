@@ -13,10 +13,6 @@ Connection::Connection(Dart_Port_DL port)
     _ioThread = std::thread([this]() { _io.run(); });
 }
 
-Connection::~Connection()
-{
-}
-
 void Connection::destroy()
 {
     _cluster->close([this]() mutable {
@@ -29,55 +25,53 @@ void Connection::destroy()
     });
 }
 
-void Connection::callCallback(CBD_Callback callback, void *error,
-                              void *response)
+void Connection::open(MessageBuffer *request)
 {
-    Dart_CObject callback_;
-    callback_.type = Dart_CObject_kInt64;
-    callback_.value.as_int64 = callback;
+    auto requestId = request->readInt64();
+    auto connectionString =
+        couchbase::core::utils::parse_connection_string(request->readString());
+    auto credentials = readClusterCredentials(*request);
 
-    Dart_CObject error_;
-    error_.type = Dart_CObject_kInt64;
-    error_.value.as_int64 = reinterpret_cast<int64_t>(error);
-
-    Dart_CObject response_;
-    response_.type = Dart_CObject_kInt64;
-    response_.value.as_int64 = reinterpret_cast<int64_t>(response);
-
-    Dart_CObject *messageValues[] = {&callback_, &error_, &response_};
-    Dart_CObject message;
-    message.type = Dart_CObject_kArray;
-    message.value.as_array.length = 3;
-    message.value.as_array.values = messageValues;
-
-    Dart_PostCObject_DL(_port, &message);
-}
-
-void Connection::open(std::string connectionString,
-                      couchbase::core::cluster_credentials *credentials,
-                      CBD_Callback callback)
-{
-    auto connectionStringInfo =
-        couchbase::core::utils::parse_connection_string(connectionString);
-
-    _cluster->open(couchbase::core::origin(*credentials, connectionStringInfo),
-                   [this, callback](std::error_code ec) mutable {
-                       this->callCallback(callback, copyToHeap(ec), nullptr);
+    _cluster->open(couchbase::core::origin(credentials, connectionString),
+                   [this, request, requestId](std::error_code ec) mutable {
+                       request->reset();
+                       writeOptionalErrorCode(*request, ec);
+                       request->reset();
+                       this->completeRequest(requestId);
                    });
 }
 
-void Connection::close(CBD_Callback callback)
+void Connection::close(MessageBuffer *request)
 {
-    _cluster->close([this, callback]() mutable {
-        this->callCallback(callback, nullptr, nullptr);
+    auto requestId = request->readInt64();
+
+    _cluster->close([this, request, requestId]() mutable {
+        request->reset();
+        this->completeRequest(requestId);
     });
 }
 
-void Connection::openBucket(std::string bucketName, CBD_Callback callback)
+void Connection::openBucket(MessageBuffer *request)
 {
+    auto requestId = request->readInt64();
+    auto bucketName = request->readString();
+
     _cluster->open_bucket(
-        bucketName, [this, callback](std::error_code ec) mutable {
-            this->callCallback(callback, copyToHeap(ec), nullptr);
+        bucketName, [this, request, requestId](std::error_code ec) mutable {
+            request->reset();
+            writeOptionalErrorCode(*request, ec);
+            request->reset();
+            this->completeRequest(requestId);
         });
 }
+
+Connection::~Connection()
+{
+}
+
+void Connection::completeRequest(int64_t requestId)
+{
+    Dart_PostInteger_DL(_port, requestId);
+}
+
 }; // namespace couchbase::dart
