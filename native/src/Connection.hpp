@@ -9,8 +9,12 @@
 namespace couchbase::dart
 {
 
+class Response;
+
 class Connection
 {
+
+    friend Response;
 
 public:
     Connection(Dart_Port_DL port);

@@ -38,16 +38,15 @@ class Connection implements Finalizable {
   Future<void> open(
     String connectionString,
     NativeClusterCredentials credentials,
-  ) async {
-    final pendingRequest = _createPendingRequest(_optionalErrorCodeDecoder);
-    final request = pendingRequest.request;
-    request.writeString(connectionString);
-    credentials.writeToBuffer(request);
-    request.reset();
-
-    binding.CBDConnection_Open(_connection, request.pointer);
-
-    return pendingRequest.result;
+  ) {
+    return _makeRequest(
+      (request) {
+        request.writeString(connectionString);
+        credentials.writeToBuffer(request);
+      },
+      _optionalErrorCodeDecoder,
+      binding.CBDConnection_Open,
+    );
   }
 
   Future<void> close() async {
@@ -59,40 +58,46 @@ class Connection implements Finalizable {
     binding.CBDConnection_Destroy(_connection);
   }
 
-  Future<void> openBucket(String bucketName) async {
-    final pendingRequest = _createPendingRequest(_optionalErrorCodeDecoder);
-    final request = pendingRequest.request;
-    request.writeString(bucketName);
-    request.reset();
-
-    binding.CBDConnection_OpenBucket(_connection, request.pointer);
-
-    return pendingRequest.result;
+  Future<void> openBucket(String bucketName) {
+    return _makeRequest(
+      (request) => request.writeString(bucketName),
+      _optionalErrorCodeDecoder,
+      binding.CBDConnection_OpenBucket,
+    );
   }
 
-  Future<void> _close() async {
-    final pendingRequest = _createPendingRequest((_) {});
-    final request = pendingRequest.request;
-    request.reset();
-
-    binding.CBDConnection_Close(_connection, request.pointer);
-
-    return pendingRequest.result;
+  Future<void> _close() {
+    return _makeRequest(
+      (_) {},
+      (_) {},
+      binding.CBDConnection_Close,
+    );
   }
 
-  _PendingRequest<T> _createPendingRequest<T>(
+  Future<T> _makeRequest<T>(
+    _RequestWriter requestWriter,
     _ResponseDecoder<T> responseDecoder,
+    void Function(CBDConnection, CBDMessageBuffer) nativeCall,
   ) {
     final requestId = _nextRequestId++;
-    final responseHandler =
-        _PendingRequest(requestId, MessageBuffer(), responseDecoder);
+    final responseHandler = _PendingRequest(
+      requestId,
+      // TODO: Reuse buffers.
+      MessageBuffer(),
+      requestWriter,
+      responseDecoder,
+    );
     _pendingRequests[requestId] = responseHandler;
-    return responseHandler;
+
+    nativeCall(_connection, responseHandler.request.pointer);
+
+    return responseHandler.result;
   }
 }
 
 typedef _RequestId = int;
 
+typedef _RequestWriter = void Function(MessageBuffer request);
 typedef _ResponseDecoder<T> = T Function(MessageBuffer response);
 
 class _PendingRequest<T> {
@@ -104,11 +109,14 @@ class _PendingRequest<T> {
 
   late final result = _completer.future.withNewStackTrace();
 
-  _PendingRequest(int requestId, this._buffer, this._responseDecoder) {
+  _PendingRequest(int requestId, this._buffer, _RequestWriter requestWriter,
+      this._responseDecoder) {
     // Write the request ID into the buffer which at this point serves as the
     // request.
     _buffer.reset();
     _buffer.writeInt64(requestId);
+    requestWriter(_buffer);
+    _buffer.reset();
   }
 
   void handleResponse() {

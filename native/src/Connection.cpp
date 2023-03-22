@@ -6,6 +6,31 @@
 namespace couchbase::dart
 {
 
+class Response
+{
+public:
+    Response(Connection *connection, MessageBuffer *buffer)
+        : _connection(connection)
+        , _requestId(buffer->readInt64())
+        , _buffer(buffer)
+    {
+    }
+
+    template <typename ResponseWriter>
+    void complete(ResponseWriter responseWriter)
+    {
+        _buffer->reset();
+        responseWriter(*_buffer);
+        _buffer->reset();
+        _connection->completeRequest(_requestId);
+    }
+
+private:
+    Connection *_connection;
+    int64_t _requestId;
+    MessageBuffer *_buffer;
+};
+
 Connection::Connection(Dart_Port_DL port)
     : _port(port)
     , _cluster(couchbase::core::cluster::create(_io))
@@ -27,42 +52,40 @@ void Connection::destroy()
 
 void Connection::open(MessageBuffer *request)
 {
-    auto requestId = request->readInt64();
+    Response response(this, request);
+
     auto connectionString =
         couchbase::core::utils::parse_connection_string(request->readString());
     auto credentials = readClusterCredentials(*request);
+    auto origin = couchbase::core::origin(credentials, connectionString);
 
-    _cluster->open(couchbase::core::origin(credentials, connectionString),
-                   [this, request, requestId](std::error_code ec) mutable {
-                       request->reset();
-                       writeOptionalErrorCode(*request, ec);
-                       request->reset();
-                       this->completeRequest(requestId);
-                   });
+    _cluster->open(origin, [response](std::error_code ec) mutable {
+        response.complete([ec](MessageBuffer &response) {
+            writeOptionalErrorCode(response, ec);
+        });
+    });
 }
 
 void Connection::close(MessageBuffer *request)
 {
-    auto requestId = request->readInt64();
+    Response response(this, request);
 
-    _cluster->close([this, request, requestId]() mutable {
-        request->reset();
-        this->completeRequest(requestId);
+    _cluster->close([response]() mutable {
+        response.complete([](MessageBuffer &response) {});
     });
 }
 
 void Connection::openBucket(MessageBuffer *request)
 {
-    auto requestId = request->readInt64();
+    Response response(this, request);
+
     auto bucketName = request->readString();
 
-    _cluster->open_bucket(
-        bucketName, [this, request, requestId](std::error_code ec) mutable {
-            request->reset();
-            writeOptionalErrorCode(*request, ec);
-            request->reset();
-            this->completeRequest(requestId);
+    _cluster->open_bucket(bucketName, [response](std::error_code ec) mutable {
+        response.complete([ec](MessageBuffer &response) {
+            writeOptionalErrorCode(response, ec);
         });
+    });
 }
 
 Connection::~Connection()
