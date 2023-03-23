@@ -4,7 +4,7 @@ import 'dart:isolate';
 
 import 'package:couchbase/src/basic.dart';
 
-import 'binding.dart';
+import 'bindings.dart';
 import 'cluster.dart';
 import 'lib_couchbase_dart.dart';
 import 'message_buffer.dart';
@@ -14,7 +14,7 @@ class Connection implements Finalizable {
     final callbackPort = ReceivePort();
 
     _connection =
-        binding.CBDConnection_Create(callbackPort.sendPort.nativePort);
+        bindings.CBDConnection_Create(callbackPort.sendPort.nativePort);
     _finalizer.attach(this, _connection.cast(), detach: this);
 
     _pendingRequestSubscription = callbackPort.listen((message) {
@@ -28,7 +28,7 @@ class Connection implements Finalizable {
   }
 
   static final _finalizer =
-      NativeFinalizer(binding.addresses.CBDConnection_Destroy.cast());
+      NativeFinalizer(bindings.addresses.CBDConnection_Destroy.cast());
 
   late final CBDConnection _connection;
   _RequestId _nextRequestId = 0;
@@ -45,7 +45,7 @@ class Connection implements Finalizable {
         credentials.writeToBuffer(request);
       },
       _optionalErrorCodeDecoder,
-      binding.CBDConnection_Open,
+      bindings.CBDConnection_Open,
     );
   }
 
@@ -55,14 +55,14 @@ class Connection implements Finalizable {
     await _close();
     await _pendingRequestSubscription.cancel();
     _finalizer.detach(this);
-    binding.CBDConnection_Destroy(_connection);
+    bindings.CBDConnection_Destroy(_connection);
   }
 
   Future<void> openBucket(String bucketName) {
     return _makeRequest(
       (request) => request.writeString(bucketName),
       _optionalErrorCodeDecoder,
-      binding.CBDConnection_OpenBucket,
+      bindings.CBDConnection_OpenBucket,
     );
   }
 
@@ -70,7 +70,7 @@ class Connection implements Finalizable {
     return _makeRequest(
       (_) {},
       (_) {},
-      binding.CBDConnection_Close,
+      bindings.CBDConnection_Close,
     );
   }
 
