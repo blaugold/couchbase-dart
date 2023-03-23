@@ -45,6 +45,8 @@ public:
 
     void writeInt64(int64_t value);
 
+    void writeFloat(float value);
+
     void writeDouble(double value);
 
     void *allocate(size_t size);
@@ -72,6 +74,8 @@ public:
     int64_t readInt64();
 
     uint64_t readUInt64();
+
+    float readFloat();
 
     double readDouble();
 

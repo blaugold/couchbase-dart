@@ -220,6 +220,22 @@ class LibCouchbaseDart {
   late final _CBDMessageBuffer_WriteInt64 = _CBDMessageBuffer_WriteInt64Ptr
       .asFunction<void Function(CBDMessageBuffer, int)>();
 
+  void CBDMessageBuffer_WriteFloat(
+    CBDMessageBuffer buffer,
+    double value,
+  ) {
+    return _CBDMessageBuffer_WriteFloat(
+      buffer,
+      value,
+    );
+  }
+
+  late final _CBDMessageBuffer_WriteFloatPtr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Float)>>(
+      'CBDMessageBuffer_WriteFloat');
+  late final _CBDMessageBuffer_WriteFloat = _CBDMessageBuffer_WriteFloatPtr
+      .asFunction<void Function(CBDMessageBuffer, double)>();
+
   void CBDMessageBuffer_WriteDouble(
     CBDMessageBuffer buffer,
     double value,
@@ -379,6 +395,20 @@ class LibCouchbaseDart {
   late final _CBDMessageBuffer_ReadInt64 = _CBDMessageBuffer_ReadInt64Ptr
       .asFunction<int Function(CBDMessageBuffer)>();
 
+  double CBDMessageBuffer_ReadFloat(
+    CBDMessageBuffer buffer,
+  ) {
+    return _CBDMessageBuffer_ReadFloat(
+      buffer,
+    );
+  }
+
+  late final _CBDMessageBuffer_ReadFloatPtr =
+      _lookup<ffi.NativeFunction<ffi.Float Function(CBDMessageBuffer)>>(
+          'CBDMessageBuffer_ReadFloat');
+  late final _CBDMessageBuffer_ReadFloat = _CBDMessageBuffer_ReadFloatPtr
+      .asFunction<double Function(CBDMessageBuffer)>();
+
   double CBDMessageBuffer_ReadDouble(
     CBDMessageBuffer buffer,
   ) {
@@ -533,6 +563,10 @@ class _SymbolAddresses {
       get CBDMessageBuffer_WriteInt64 =>
           _library._CBDMessageBuffer_WriteInt64Ptr;
   ffi.Pointer<
+          ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Float)>>
+      get CBDMessageBuffer_WriteFloat =>
+          _library._CBDMessageBuffer_WriteFloatPtr;
+  ffi.Pointer<
           ffi.NativeFunction<ffi.Void Function(CBDMessageBuffer, ffi.Double)>>
       get CBDMessageBuffer_WriteDouble =>
           _library._CBDMessageBuffer_WriteDoublePtr;
@@ -561,6 +595,8 @@ class _SymbolAddresses {
           _library._CBDMessageBuffer_ReadUInt64Ptr;
   ffi.Pointer<ffi.NativeFunction<ffi.Int64 Function(CBDMessageBuffer)>>
       get CBDMessageBuffer_ReadInt64 => _library._CBDMessageBuffer_ReadInt64Ptr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Float Function(CBDMessageBuffer)>>
+      get CBDMessageBuffer_ReadFloat => _library._CBDMessageBuffer_ReadFloatPtr;
   ffi.Pointer<ffi.NativeFunction<ffi.Double Function(CBDMessageBuffer)>>
       get CBDMessageBuffer_ReadDouble =>
           _library._CBDMessageBuffer_ReadDoublePtr;

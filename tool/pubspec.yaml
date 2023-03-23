@@ -1,0 +1,9 @@
+name: tool
+
+environment:
+  sdk: '>=2.19.0 <3.0.0'
+
+bin:
+  gen_bindings:
+dependencies:
+  collection: ^1.17.1

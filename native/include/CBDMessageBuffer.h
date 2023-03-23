@@ -40,6 +40,8 @@ void CBDMessageBuffer_WriteUInt64(CBDMessageBuffer buffer, uint64_t value);
 
 void CBDMessageBuffer_WriteInt64(CBDMessageBuffer buffer, int64_t value);
 
+void CBDMessageBuffer_WriteFloat(CBDMessageBuffer buffer, float value);
+
 void CBDMessageBuffer_WriteDouble(CBDMessageBuffer buffer, double value);
 
 void *CBDMessageBuffer_Allocate(CBDMessageBuffer buffer, size_t size);
@@ -63,6 +65,8 @@ int32_t CBDMessageBuffer_ReadInt32(CBDMessageBuffer buffer);
 uint64_t CBDMessageBuffer_ReadUInt64(CBDMessageBuffer buffer);
 
 int64_t CBDMessageBuffer_ReadInt64(CBDMessageBuffer buffer);
+
+float CBDMessageBuffer_ReadFloat(CBDMessageBuffer buffer);
 
 double CBDMessageBuffer_ReadDouble(CBDMessageBuffer buffer);
 

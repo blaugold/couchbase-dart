@@ -18,6 +18,9 @@ class MessageBuffer implements Finalizable {
 
   void reset() => bindings.CBDMessageBuffer_Reset(pointer);
 
+  void writeBool(bool value) =>
+      bindings.CBDMessageBuffer_WriteBool(pointer, value);
+
   void writeUInt8(int value) =>
       bindings.CBDMessageBuffer_WriteUInt8(pointer, value);
 
@@ -41,6 +44,9 @@ class MessageBuffer implements Finalizable {
 
   void writeInt64(int value) =>
       bindings.CBDMessageBuffer_WriteInt64(pointer, value);
+
+  void writeFloat(double value) =>
+      bindings.CBDMessageBuffer_WriteFloat(pointer, value);
 
   void writeDouble(double value) =>
       bindings.CBDMessageBuffer_WriteDouble(pointer, value);
@@ -73,7 +79,11 @@ class MessageBuffer implements Finalizable {
 
   int readInt64() => bindings.CBDMessageBuffer_ReadInt64(pointer);
 
+  double readFloat() => bindings.CBDMessageBuffer_ReadFloat(pointer);
+
   double readDouble() => bindings.CBDMessageBuffer_ReadDouble(pointer);
+
+  Uint8List readData() => Uint8List.fromList(_readData());
 
   String readString() => utf8.decode(_readData());
 
@@ -88,5 +98,5 @@ class MessageBuffer implements Finalizable {
 }
 
 abstract class MessageBufferSerializable {
-  void writeToBuffer(MessageBuffer buffer);
+  void write(MessageBuffer buffer);
 }

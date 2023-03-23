@@ -42,7 +42,7 @@ class Connection implements Finalizable {
     return _makeRequest(
       (request) {
         request.writeString(connectionString);
-        credentials.writeToBuffer(request);
+        credentials.write(request);
       },
       _optionalErrorCodeDecoder,
       bindings.CBDConnection_Open,

@@ -1,4 +1,8 @@
 {
   "cmake.sourceDirectory": "${workspaceFolder}/native",
-  "cmake.buildDirectory": "${workspaceFolder}/native/build"
+  "cmake.buildDirectory": "${workspaceFolder}/native/build",
+  "cSpell.words": ["asio", "cindex", "PEGTL"],
+  "files.associations": {
+    "chrono": "cpp"
+  }
 }

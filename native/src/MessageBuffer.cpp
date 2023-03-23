@@ -93,6 +93,13 @@ void MessageBuffer::writeInt64(int64_t value)
     _position += sizeof(int64_t);
 }
 
+void MessageBuffer::writeFloat(float value)
+{
+    ensureCapacity(sizeof(float));
+    *((float *)_position) = value;
+    _position += sizeof(float);
+}
+
 void MessageBuffer::writeDouble(double value)
 {
     ensureCapacity(sizeof(double));
@@ -179,6 +186,13 @@ int64_t MessageBuffer::readInt64()
 {
     int64_t value = *((int64_t *)_position);
     _position += sizeof(int64_t);
+    return value;
+}
+
+float MessageBuffer::readFloat()
+{
+    float value = *((float *)_position);
+    _position += sizeof(float);
     return value;
 }
 

@@ -65,6 +65,11 @@ void CBDMessageBuffer_WriteInt64(MessageBuffer *buffer, int64_t value)
     buffer->writeInt64(value);
 }
 
+void CBDMessageBuffer_WriteFloat(MessageBuffer *buffer, float value)
+{
+    buffer->writeFloat(value);
+}
+
 void CBDMessageBuffer_WriteDouble(MessageBuffer *buffer, double value)
 {
     buffer->writeDouble(value);
@@ -118,6 +123,11 @@ uint64_t CBDMessageBuffer_ReadUInt64(MessageBuffer *buffer)
 int64_t CBDMessageBuffer_ReadInt64(MessageBuffer *buffer)
 {
     return buffer->readInt64();
+}
+
+float CBDMessageBuffer_ReadFloat(MessageBuffer *buffer)
+{
+    return buffer->readFloat();
 }
 
 double CBDMessageBuffer_ReadDouble(MessageBuffer *buffer)

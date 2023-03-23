@@ -43,7 +43,7 @@ class NativeClusterCredentials implements MessageBufferSerializable {
   String password = '';
 
   @override
-  void writeToBuffer(MessageBuffer buffer) {
+  void write(MessageBuffer buffer) {
     buffer.writeString(username);
     buffer.writeString(password);
   }
