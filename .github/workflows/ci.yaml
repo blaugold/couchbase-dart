@@ -23,6 +23,9 @@ jobs:
       - name: Install CMake
         uses: lukka/get-cmake@latest
 
+      - name: Install ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+
       - name: Build native binaries
         working-directory: native
         run: ./build.sh
