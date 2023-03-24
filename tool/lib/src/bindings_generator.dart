@@ -407,7 +407,6 @@ class BindingsGenerator {
 
   void _writeDartEnum(EnumType type) {
     final dartName = type.dartName;
-    final integralType = type.integralType;
 
     _writeln('enum ${dartName} {');
     for (final value in type.values) {
@@ -416,7 +415,9 @@ class BindingsGenerator {
     _writeln(';');
     _writeln();
     _writeln('  factory $dartName.read(MessageBuffer buffer) {');
-    _writeln('    final value = buffer.read$integralType();');
+    _write('    final value = ');
+    _readValueInDart(type.type);
+    _writeln(';');
     _writeln('    switch (value) {');
     for (final value in type.values) {
       _writeln('      case ${value.value}: return ${value.dartName};');
@@ -432,7 +433,7 @@ class BindingsGenerator {
       _writeln('      case ${value.dartName}: value = ${value.value}; break;');
     }
     _writeln('    }');
-    _writeln('    buffer.write$integralType(value);');
+    _writeValueInDart(type.type, 'value');
     _writeln('  }');
     _writeln('}');
     _writeln();
@@ -507,23 +508,8 @@ extension on String {
   String get capitalize => substring(0, 1).toUpperCase() + substring(1);
 }
 
-const _integralTypeMapping = {
-  'std::uint8_t': 'UInt8',
-  'std::int8_t': 'Int8',
-  'std::uint16_t': 'UInt16',
-  'std::int16_t': 'Int16',
-  'std::uint32_t': 'UInt32',
-  'std::int32_t': 'Int32',
-  'std::uint64_t': 'UInt64',
-  'std::int64_t': 'Int64',
-};
-
 extension on EnumType {
-  String get dartName {
-    return name.split('::').last.camelCase.capitalize;
-  }
-
-  String get integralType => _integralTypeMapping[type.name]!;
+  String get dartName => name.split('::').last.camelCase.capitalize;
 }
 
 extension on EnumValue {
@@ -543,11 +529,11 @@ extension on StructField {
 
 const _customDefinedTypes = [
   'couchbase::core::json_string',
-  // 'couchbase::core::document_id',
+  'couchbase::core::document_id',
   'couchbase::cas',
-  // 'couchbase::mutation_token',
-  // 'couchbase::retry_strategy',
-  // 'couchbase::core::query_context',
+  'couchbase::mutation_token',
+  'couchbase::retry_strategy',
+  'couchbase::core::query_context',
 ];
 
 bool _isIgnoredStruct(StructType type) {

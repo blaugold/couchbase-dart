@@ -4631,16 +4631,6 @@ class DiagPingResult {
   }
 }
 
-class DocumentId {
-  DocumentId();
-
-  factory DocumentId.read(MessageBuffer buffer) {
-    return DocumentId();
-  }
-
-  void write(MessageBuffer buffer) {}
-}
-
 class PrependResponse {
   PrependResponse({
     required this.cas,
@@ -12753,16 +12743,6 @@ class ManagementAnalyticsLinkGetAllRequest {
   }
 }
 
-class MutationToken {
-  MutationToken();
-
-  factory MutationToken.read(MessageBuffer buffer) {
-    return MutationToken();
-  }
-
-  void write(MessageBuffer buffer) {}
-}
-
 class ImplSubdocCommand {
   ImplSubdocCommand({
     required this.opcode,
@@ -13194,14 +13174,4 @@ class RangeScanOrchestratorOptions {
     buffer.writeInt64(batchTimeLimit.inMicroseconds);
     buffer.writeInt64(timeout.inMicroseconds);
   }
-}
-
-class QueryContext {
-  QueryContext();
-
-  factory QueryContext.read(MessageBuffer buffer) {
-    return QueryContext();
-  }
-
-  void write(MessageBuffer buffer) {}
 }

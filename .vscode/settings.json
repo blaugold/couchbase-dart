@@ -4,5 +4,6 @@
   "cSpell.words": ["asio", "cindex", "PEGTL"],
   "files.associations": {
     "chrono": "cpp"
-  }
+  },
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }
