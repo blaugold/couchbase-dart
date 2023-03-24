@@ -1,6 +1,8 @@
-import 'package:couchbase/src/message.g.dart';
+import 'dart:typed_data';
 
 import 'message_buffer.dart';
+
+part 'message.g.dart';
 
 class CommonError {
   const CommonError({

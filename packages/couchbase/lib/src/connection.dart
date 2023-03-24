@@ -7,7 +7,10 @@ import 'package:couchbase/src/basic.dart';
 import 'bindings.dart';
 import 'cluster.dart';
 import 'lib_couchbase_dart.dart';
+import 'message.dart';
 import 'message_buffer.dart';
+
+part 'connection.g.dart';
 
 class Connection implements Finalizable {
   Connection() {
@@ -77,7 +80,7 @@ class Connection implements Finalizable {
   Future<T> _makeRequest<T>(
     _RequestWriter requestWriter,
     _ResponseDecoder<T> responseDecoder,
-    void Function(CBDConnection, CBDMessageBuffer) nativeCall,
+    _NativeRequestHandler nativeRequestHandler,
   ) {
     final requestId = _nextRequestId++;
     final responseHandler = _PendingRequest(
@@ -89,9 +92,27 @@ class Connection implements Finalizable {
     );
     _pendingRequests[requestId] = responseHandler;
 
-    nativeCall(_connection, responseHandler.request.pointer);
+    nativeRequestHandler(_connection, responseHandler.request.pointer);
 
     return responseHandler.result;
+  }
+
+  Future<T> _executeOperation<T>(
+    _RequestWriter requestWriter,
+    _ResponseDecoder<Object> errorDecoder,
+    _ResponseDecoder<T> responseDecoder,
+    _NativeRequestHandler nativeRequestHandler,
+  ) {
+    return _makeRequest(
+      requestWriter,
+      (response) {
+        if (response.readBool()) {
+          throw errorDecoder(response);
+        }
+        return responseDecoder(response);
+      },
+      nativeRequestHandler,
+    );
   }
 }
 
@@ -99,6 +120,8 @@ typedef _RequestId = int;
 
 typedef _RequestWriter = void Function(MessageBuffer request);
 typedef _ResponseDecoder<T> = T Function(MessageBuffer response);
+
+typedef _NativeRequestHandler = void Function(CBDConnection, CBDMessageBuffer);
 
 class _PendingRequest<T> {
   final MessageBuffer _buffer;

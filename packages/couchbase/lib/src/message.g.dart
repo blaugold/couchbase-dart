@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-import 'dart:typed_data';
-import 'message_buffer.dart';
-import 'message.dart';
+part of 'message.dart';
 
 enum CouchbaseLinkEncryptionLevel {
   none,

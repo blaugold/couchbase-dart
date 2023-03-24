@@ -3,8 +3,16 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:tool/src/bindings_model.dart';
 
-const _generatedDartBindingsFile =
+const _generatedDartMessagesFile =
     '../packages/couchbase/lib/src/message.g.dart';
+const _generatedDartConnectionExtensionFile =
+    '../packages/couchbase/lib/src/connection.g.dart';
+const _generatedCConnectionHeaderFile = '../native/include/CBLConnection.g.h';
+const _generatedCConnectionImplementationFile =
+    '../native/src/CBLConnection_CAPI.g.cpp';
+const _cppConnectionHeaderFile = '../native/src/Connection.hpp';
+const _generatedCppConnectionImplementationFile =
+    '../native/src/Connection.g.cpp';
 
 class BindingsGenerator {
   BindingsGenerator({required BindingsModel model}) : _model = model;
@@ -13,19 +21,80 @@ class BindingsGenerator {
   final StringBuffer _buffer = StringBuffer();
 
   void generate() {
-    _generateDartBindings();
+    _generateDartMessages();
+    _generateDartConnectionExtension();
+    _generateCConnectionHeader();
+    _generateCConnectionImplementation();
+    _updateCppConnectionHeader();
+    _generateCppConnectionImplementation();
   }
 
-  void _generateDartBindings() {
-    _generateDartFile(path: _generatedDartBindingsFile, () {
-      _writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
-      _writeln("import 'dart:typed_data';");
-      _writeln("import 'message_buffer.dart';");
-      _writeln("import 'message.dart';");
+  void _generateDartMessages() {
+    _generateDartFile(path: _generatedDartMessagesFile, () {
+      _writeln("part of 'message.dart';");
       _writeln();
       _writeDartEnums();
       _writeDartStructs();
     });
+  }
+
+  void _generateDartConnectionExtension() {
+    _generateDartFile(path: _generatedDartConnectionExtensionFile, () {
+      _writeln("part of 'connection.dart';");
+      _writeln();
+      _writeDartConnectionExtension();
+    });
+  }
+
+  void _generateCConnectionHeader() {
+    _generateCHeaderFile(
+      path: _generatedCConnectionHeaderFile,
+      () {
+        _writeln('#include "CBDMessageBuffer.h"');
+        _writeln('#include "CBDConnection.h"');
+      },
+      () {
+        _writeCConnectionOperationDeclarations();
+      },
+    );
+  }
+
+  void _generateCConnectionImplementation() {
+    _generateCapiImplementationFile(
+      path: _generatedCConnectionImplementationFile,
+      () {
+        _writeln('#include <Connection.hpp>');
+        _writeln('#include <MessageBuffer.hpp>');
+      },
+      () {
+        _writeln('using namespace couchbase::dart;');
+        _writeln();
+        _writeCConnectionOperationDefinitions();
+      },
+    );
+  }
+
+  void _updateCppConnectionHeader() {
+    _updateFile(
+      path: _cppConnectionHeaderFile,
+      region: 'Generated Operation Methods',
+      _writeCppConnectionOperationDeclarations,
+    );
+    _formatFileWithClangFormat(_cppConnectionHeaderFile);
+  }
+
+  void _generateCppConnectionImplementation() {
+    _generateCppImplementationFile(
+      path: _generatedCppConnectionImplementationFile,
+      () {
+        _writeln('#include <Connection.hpp>');
+      },
+      () {
+        _writeln('namespace couchbase::dart {');
+        _writeCppConnectionOperationDefinitions();
+        _writeln('} // namespace couchbase::dart');
+      },
+    );
   }
 
   void _write(Object? text) {
@@ -36,6 +105,60 @@ class BindingsGenerator {
     _buffer.writeln(text);
   }
 
+  void _updateFile(
+    void Function() fn, {
+    required String path,
+    required String region,
+  }) {
+    final file = File(path);
+    final oldContents = file.readAsLinesSync().iterator;
+    _buffer.clear();
+
+    final startMarker = '// #region $region';
+    final endMarker = '// #endregion $region';
+
+    var foundStartMarker = false;
+    var foundEndMarker = false;
+
+    // Skip to the start of the region.
+    while (oldContents.moveNext()) {
+      final line = oldContents.current;
+      _writeln(line);
+      if (line.contains(startMarker)) {
+        foundStartMarker = true;
+        break;
+      }
+    }
+
+    if (!foundStartMarker) {
+      throw StateError('Could not find start marker for region $region.');
+    }
+
+    // Write the new contents.
+    fn();
+
+    // Skip to the end of the region.
+    while (oldContents.moveNext()) {
+      final line = oldContents.current;
+      if (line.contains(endMarker)) {
+        _writeln(line);
+        foundEndMarker = true;
+        break;
+      }
+    }
+
+    if (!foundEndMarker) {
+      throw StateError('Could not find end marker for region $region.');
+    }
+
+    // Write the rest of the file.
+    while (oldContents.moveNext()) {
+      _writeln(oldContents.current);
+    }
+
+    file.writeAsStringSync(_buffer.toString());
+  }
+
   void _generateFile(void Function() fn, {required String path}) {
     _buffer.clear();
     fn();
@@ -43,8 +166,68 @@ class BindingsGenerator {
   }
 
   void _generateDartFile(void Function() fn, {required String path}) {
-    _generateFile(fn, path: path);
+    _generateFile(path: path, () {
+      _writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
+      fn();
+    });
     _formatDartFile(path);
+  }
+
+  void _generateCHeaderFile(
+    void Function() writeHeaders,
+    void Function() writeDeclarations, {
+    required String path,
+  }) {
+    _generateFile(path: path, () {
+      _writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
+      _writeln('#pragma once');
+      _writeln();
+      writeHeaders();
+      _writeln();
+      _writeln('#ifdef __cplusplus');
+      _writeln('extern "C" {');
+      _writeln('#endif');
+      _writeln();
+      writeDeclarations();
+      _writeln('#ifdef __cplusplus');
+      _writeln('} // extern "C"');
+      _writeln('#endif');
+    });
+    _formatFileWithClangFormat(path);
+  }
+
+  void _generateCapiImplementationFile(
+    void Function() writeHeaders,
+    void Function() writeDeclarations, {
+    required String path,
+  }) {
+    _generateFile(path: path, () {
+      _writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
+      _writeln();
+      writeHeaders();
+      _writeln();
+      _writeln('extern "C" {');
+      _writeln();
+      writeDeclarations();
+      _writeln('} // extern "C"');
+    });
+    _formatFileWithClangFormat(path);
+  }
+
+  void _generateCppImplementationFile(
+    void Function() writeHeaders,
+    void Function() writeDeclarations, {
+    required String path,
+  }) {
+    _generateFile(path: path, () {
+      _writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
+      _writeln();
+      writeHeaders();
+      _writeln();
+      writeDeclarations();
+      _writeln();
+    });
+    _formatFileWithClangFormat(path);
   }
 
   void _formatDartFile(String path) {
@@ -55,8 +238,36 @@ class BindingsGenerator {
     );
   }
 
+  void _formatFileWithClangFormat(String path) {
+    Process.runSync(
+      'clang-format',
+      ['-i', path],
+      runInShell: true,
+    );
+  }
+
   void _writeDartType(TypeRef type) {
     _write(_resolveDartType(type));
+  }
+
+  List<_Operation> _resolveOperations() {
+    final result = <_Operation>[];
+    for (final struct in _model.structs) {
+      if (!struct.name.startsWith('couchbase::core::operations::')) {
+        continue;
+      }
+
+      if (!struct.name.endsWith('_request')) {
+        continue;
+      }
+
+      final responseName = struct.name.replaceFirst('_request', '_response');
+      final response =
+          _model.structs.firstWhere((struct) => struct.name == responseName);
+
+      result.add(_Operation(struct, response));
+    }
+    return result;
   }
 
   String _resolveDartType(TypeRef type) {
@@ -500,6 +711,106 @@ class BindingsGenerator {
 
     _writeln('}');
   }
+
+  void _writeDartConnectionExtension() {
+    _writeln('extension GeneratedConnectionExtension on Connection {');
+    for (final operation in _resolveOperations()) {
+      _writeDartOperationMethod(operation);
+    }
+    _writeln('}');
+  }
+
+  void _writeDartOperationMethod(_Operation operation) {
+    final name = operation.name;
+
+    _writeln(
+      'Future<${operation.response.dartName}> $name(${operation.request.dartName} request,) async {',
+    );
+    _writeln('return _executeOperation(');
+    _writeln('request.write,');
+    _writeln('${operation.dartErrorContextType}.read,');
+    _writeln('${operation.response.dartName}.read,');
+    _writeln('bindings.${operation.cFunctionName},');
+    _writeln(');');
+    _writeln('}');
+    _writeln();
+  }
+
+  void _writeCConnectionOperationDeclarations() {
+    for (final operation in _resolveOperations()) {
+      _writeCConnectionOperationFunction(operation);
+      _writeln();
+    }
+  }
+
+  void _writeCConnectionOperationFunction(_Operation operation) {
+    _writeln(
+      'void ${operation.cFunctionName}(CBDConnection connection, CBDMessageBuffer request);',
+    );
+  }
+
+  void _writeCConnectionOperationDefinitions() {
+    for (final operation in _resolveOperations()) {
+      _writeCConnectionOperationDefinition(operation);
+      _writeln();
+    }
+  }
+
+  void _writeCConnectionOperationDefinition(_Operation operation) {
+    _writeln(
+      'void ${operation.cFunctionName}(Connection *connection, MessageBuffer *request) {',
+    );
+    _writeln('connection->${operation.name}(request);');
+    _writeln('}');
+  }
+
+  void _writeCppConnectionOperationDeclarations() {
+    _writeln();
+    for (final operation in _resolveOperations()) {
+      _writeln('void ${operation.name}(MessageBuffer *request);');
+    }
+    _writeln();
+  }
+
+  void _writeCppConnectionOperationDefinitions() {
+    for (final operation in _resolveOperations()) {
+      _writeCppConnectionOperationDefinition(operation);
+      _writeln();
+    }
+  }
+
+  void _writeCppConnectionOperationDefinition(_Operation operation) {
+    _writeln(
+      'void Connection::${operation.name}(MessageBuffer *request) {',
+    );
+    _writeln('throw std::runtime_error("Not implemented");');
+    _writeln('}');
+  }
+}
+
+class _Operation {
+  final String name;
+  final StructType request;
+  final StructType response;
+
+  String get dartErrorContextType {
+    final type =
+        response.fields.firstWhere((field) => field.name == 'ctx').type;
+
+    var name = type.name.replaceFirst('couchbase::', '');
+    if (name.startsWith('core::error_context::')) {
+      name = name.split('::').last + '_error_context';
+    }
+
+    return name.camelCase.capitalize;
+  }
+
+  String get cFunctionName => 'CBLConnection_${name.capitalize}';
+
+  _Operation(this.request, this.response)
+      : name = _unprefixedName(request.name)
+            .replaceFirst('_request', '')
+            .camelCase;
 }
 
 extension on String {
