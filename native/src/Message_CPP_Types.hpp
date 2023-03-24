@@ -124,19 +124,6 @@ struct message_codec_t<int64_t> {
     }
 };
 
-template <>
-struct message_codec_t<size_t> {
-    static inline size_t read(MessageBuffer &buffer)
-    {
-        return static_cast<size_t>(buffer.readUInt64());
-    }
-
-    static inline void write(MessageBuffer &buffer, const size_t value)
-    {
-        buffer.writeUInt64(static_cast<uint64_t>(value));
-    }
-};
-
 // Floating point types
 
 template <>
