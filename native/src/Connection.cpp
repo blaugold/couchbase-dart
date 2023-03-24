@@ -61,7 +61,7 @@ void Connection::open(MessageBuffer *request)
 
     _cluster->open(origin, [response](std::error_code ec) mutable {
         response.complete([ec](MessageBuffer &response) {
-            writeOptionalErrorCode(response, ec);
+            writeOptionalCommonError(response, ec);
         });
     });
 }
@@ -83,7 +83,7 @@ void Connection::openBucket(MessageBuffer *request)
 
     _cluster->open_bucket(bucketName, [response](std::error_code ec) mutable {
         response.complete([ec](MessageBuffer &response) {
-            writeOptionalErrorCode(response, ec);
+            writeOptionalCommonError(response, ec);
         });
     });
 }

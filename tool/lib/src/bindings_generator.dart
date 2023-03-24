@@ -108,7 +108,7 @@ class BindingsGenerator {
         else
           return 'Object';
       case 'std::error_code':
-        return 'ErrorCode';
+        return 'CommonError?';
       case 'couchbase::core::json_string':
         return 'String';
     }
@@ -236,7 +236,10 @@ class BindingsGenerator {
         _writeln('}');
         return;
       case 'std::error_code':
-        _writeln('$identifier.write(buffer);');
+        _writeln('buffer.writeBool($identifier != null);');
+        _writeln('if ($identifier != null) {');
+        _writeln('$identifier!.write(buffer);');
+        _writeln('}');
         return;
       case 'couchbase::core::json_string':
         _writeln('buffer.writeString($identifier);');
@@ -374,7 +377,7 @@ class BindingsGenerator {
         _writeln('})()');
         return;
       case 'std::error_code':
-        _writeln('ErrorCode.read(buffer)');
+        _writeln('buffer.readBool() ? CommonError.read(buffer) : null');
         return;
       case 'couchbase::core::json_string':
         _writeln('buffer.readString()');
@@ -509,7 +512,14 @@ extension on String {
 }
 
 extension on EnumType {
-  String get dartName => name.split('::').last.camelCase.capitalize;
+  String get dartName {
+    final namespace = name.split('::');
+    final dartName = namespace.last.camelCase.capitalize;
+    if (name.startsWith('couchbase::errc::')) {
+      return '${dartName}ErrorCode';
+    }
+    return dartName;
+  }
 }
 
 extension on EnumValue {

@@ -1,21 +1,27 @@
+import 'package:couchbase/src/message.g.dart';
+
 import 'message_buffer.dart';
 
 // TODO: Error contexts
 
-class ErrorCode {
-  const ErrorCode(this.value, this.message);
+class CommonError {
+  const CommonError({
+    required this.code,
+    required this.message,
+  });
 
-  factory ErrorCode.read(MessageBuffer buffer) {
-    final value = buffer.readUInt32();
-    final message = buffer.readString();
-    return ErrorCode(value, message);
+  factory CommonError.read(MessageBuffer buffer) {
+    return CommonError(
+      code: CommonErrorCode.read(buffer),
+      message: buffer.readString(),
+    );
   }
 
-  final int value;
+  final CommonErrorCode code;
   final String message;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt32(value);
+    code.write(buffer);
     buffer.writeString(message);
   }
 }

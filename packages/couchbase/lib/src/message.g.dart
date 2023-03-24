@@ -1402,7 +1402,7 @@ enum DurabilityLevel {
   }
 }
 
-enum Common {
+enum CommonErrorCode {
   requestCanceled,
   invalidArgument,
   serviceNotAvailable,
@@ -1426,7 +1426,7 @@ enum Common {
   quotaLimited,
   ;
 
-  factory Common.read(MessageBuffer buffer) {
+  factory CommonErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt32();
     switch (value) {
       case 2:
@@ -1547,7 +1547,7 @@ enum Common {
   }
 }
 
-enum KeyValue {
+enum KeyValueErrorCode {
   documentNotFound,
   documentIrretrievable,
   documentLocked,
@@ -1580,7 +1580,7 @@ enum KeyValue {
   rangeScanCompleted,
   ;
 
-  factory KeyValue.read(MessageBuffer buffer) {
+  factory KeyValueErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt32();
     switch (value) {
       case 101:
@@ -1746,14 +1746,14 @@ enum KeyValue {
   }
 }
 
-enum Query {
+enum QueryErrorCode {
   planningFailure,
   indexFailure,
   preparedStatementFailure,
   dmlFailure,
   ;
 
-  factory Query.read(MessageBuffer buffer) {
+  factory QueryErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt32();
     switch (value) {
       case 201:
@@ -1789,7 +1789,7 @@ enum Query {
   }
 }
 
-enum Analytics {
+enum AnalyticsErrorCode {
   compilationFailure,
   jobQueueFull,
   datasetNotFound,
@@ -1800,7 +1800,7 @@ enum Analytics {
   linkExists,
   ;
 
-  factory Analytics.read(MessageBuffer buffer) {
+  factory AnalyticsErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt32();
     switch (value) {
       case 301:
@@ -1856,12 +1856,12 @@ enum Analytics {
   }
 }
 
-enum Search {
+enum SearchErrorCode {
   indexNotReady,
   consistencyMismatch,
   ;
 
-  factory Search.read(MessageBuffer buffer) {
+  factory SearchErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt32();
     switch (value) {
       case 401:
@@ -1887,12 +1887,12 @@ enum Search {
   }
 }
 
-enum View {
+enum ViewErrorCode {
   viewNotFound,
   designDocumentNotFound,
   ;
 
-  factory View.read(MessageBuffer buffer) {
+  factory ViewErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt32();
     switch (value) {
       case 501:
@@ -1918,7 +1918,7 @@ enum View {
   }
 }
 
-enum Management {
+enum ManagementErrorCode {
   collectionExists,
   scopeExists,
   userNotFound,
@@ -1935,7 +1935,7 @@ enum Management {
   eventingFunctionPaused,
   ;
 
-  factory Management.read(MessageBuffer buffer) {
+  factory ManagementErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt32();
     switch (value) {
       case 601:
@@ -2021,7 +2021,7 @@ enum Management {
   }
 }
 
-enum FieldLevelEncryption {
+enum FieldLevelEncryptionErrorCode {
   genericCryptographyFailure,
   encryptionFailure,
   decryptionFailure,
@@ -2032,7 +2032,7 @@ enum FieldLevelEncryption {
   invalidCiphertext,
   ;
 
-  factory FieldLevelEncryption.read(MessageBuffer buffer) {
+  factory FieldLevelEncryptionErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt32();
     switch (value) {
       case 700:
@@ -2088,7 +2088,7 @@ enum FieldLevelEncryption {
   }
 }
 
-enum Network {
+enum NetworkErrorCode {
   resolveFailure,
   noEndpointsLeft,
   handshakeFailure,
@@ -2104,7 +2104,7 @@ enum Network {
   bucketClosed,
   ;
 
-  factory Network.read(MessageBuffer buffer) {
+  factory NetworkErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt32();
     switch (value) {
       case 1001:
@@ -7215,7 +7215,7 @@ class LookupInResponseEntry {
       exists: buffer.readBool(),
       opcode: SubdocOpcode.read(buffer),
       status: KeyValueStatusCode.read(buffer),
-      ec: ErrorCode.read(buffer),
+      ec: buffer.readBool() ? CommonError.read(buffer) : null,
     );
   }
 
@@ -7225,7 +7225,7 @@ class LookupInResponseEntry {
   final bool exists;
   final SubdocOpcode opcode;
   final KeyValueStatusCode status;
-  final ErrorCode ec;
+  final CommonError? ec;
 
   void write(MessageBuffer buffer) {
     buffer.writeString(path);
@@ -7234,7 +7234,10 @@ class LookupInResponseEntry {
     buffer.writeBool(exists);
     opcode.write(buffer);
     status.write(buffer);
-    ec.write(buffer);
+    buffer.writeBool(ec != null);
+    if (ec != null) {
+      ec!.write(buffer);
+    }
   }
 }
 
@@ -7815,7 +7818,7 @@ class MutateInResponseEntry {
       originalIndex: buffer.readUInt64(),
       opcode: SubdocOpcode.read(buffer),
       status: KeyValueStatusCode.read(buffer),
-      ec: ErrorCode.read(buffer),
+      ec: buffer.readBool() ? CommonError.read(buffer) : null,
     );
   }
 
@@ -7824,7 +7827,7 @@ class MutateInResponseEntry {
   final int originalIndex;
   final SubdocOpcode opcode;
   final KeyValueStatusCode status;
-  final ErrorCode ec;
+  final CommonError? ec;
 
   void write(MessageBuffer buffer) {
     buffer.writeString(path);
@@ -7832,7 +7835,10 @@ class MutateInResponseEntry {
     buffer.writeUInt64(originalIndex);
     opcode.write(buffer);
     status.write(buffer);
-    ec.write(buffer);
+    buffer.writeBool(ec != null);
+    if (ec != null) {
+      ec!.write(buffer);
+    }
   }
 }
 

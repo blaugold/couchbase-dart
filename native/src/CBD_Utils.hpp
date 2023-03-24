@@ -6,12 +6,11 @@
 namespace couchbase::dart
 {
 
-void writeErrorCode(MessageBuffer &buffer, const std::error_code &ec);
+void writeCommonError(MessageBuffer &buffer, const std::error_code &ec);
 
-void writeOptionalErrorCode(MessageBuffer &buffer, const std::error_code &ec);
+void writeOptionalCommonError(MessageBuffer &buffer, const std::error_code &ec);
 
 couchbase::core::cluster_credentials
 readClusterCredentials(MessageBuffer &buffer);
-
 
 } // namespace couchbase::dart

@@ -3,17 +3,17 @@
 namespace couchbase::dart
 {
 
-void writeErrorCode(MessageBuffer &buffer, const std::error_code &ec)
+void writeCommonError(MessageBuffer &buffer, const std::error_code &ec)
 {
     buffer.writeInt64(ec.value());
     buffer.writeString(ec.message());
 }
 
-void writeOptionalErrorCode(MessageBuffer &buffer, const std::error_code &ec)
+void writeOptionalCommonError(MessageBuffer &buffer, const std::error_code &ec)
 {
     buffer.writeBool(!!ec);
     if (ec) {
-        writeErrorCode(buffer, ec);
+        writeCommonError(buffer, ec);
     }
 }
 

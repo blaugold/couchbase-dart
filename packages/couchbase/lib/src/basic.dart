@@ -1,24 +1,13 @@
+import 'package:couchbase/src/message.dart';
+
 import 'message_buffer.dart';
 
-extension CBDErrorCodeExtension on MessageBuffer {
-  void readOptionalErrorCode() {
+extension OptionalCommonErrorExtension on MessageBuffer {
+  void readOptionalCommonError() {
     if (!readBool()) {
       return;
     }
 
-    throw CouchbaseException(
-      readInt64(),
-      readString(),
-    );
+    throw CommonError.read(this);
   }
-}
-
-class CouchbaseException implements Exception {
-  final int code;
-  final String message;
-
-  CouchbaseException(this.code, this.message);
-
-  @override
-  String toString() => 'CouchbaseException($code, $message)';
 }

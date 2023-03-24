@@ -44,7 +44,7 @@ class Connection implements Finalizable {
         request.writeString(connectionString);
         credentials.write(request);
       },
-      _optionalErrorCodeDecoder,
+      _optionalCommonErrorDecoder,
       bindings.CBDConnection_Open,
     );
   }
@@ -61,7 +61,7 @@ class Connection implements Finalizable {
   Future<void> openBucket(String bucketName) {
     return _makeRequest(
       (request) => request.writeString(bucketName),
-      _optionalErrorCodeDecoder,
+      _optionalCommonErrorDecoder,
       bindings.CBDConnection_OpenBucket,
     );
   }
@@ -128,8 +128,8 @@ class _PendingRequest<T> {
   }
 }
 
-void _optionalErrorCodeDecoder(MessageBuffer response) =>
-    response.readOptionalErrorCode();
+void _optionalCommonErrorDecoder(MessageBuffer response) =>
+    response.readOptionalCommonError();
 
 extension<T> on Future<T> {
   Future<T> withNewStackTrace() async {
