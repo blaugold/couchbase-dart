@@ -7,9 +7,9 @@ const _generatedDartMessagesFile =
     '../packages/couchbase/lib/src/message.g.dart';
 const _generatedDartConnectionExtensionFile =
     '../packages/couchbase/lib/src/connection.g.dart';
-const _generatedCConnectionHeaderFile = '../native/include/CBLConnection.g.h';
+const _generatedCConnectionHeaderFile = '../native/include/CBDConnection.g.h';
 const _generatedCConnectionImplementationFile =
-    '../native/src/CBLConnection_CAPI.g.cpp';
+    '../native/src/CBDConnection_CAPI.g.cpp';
 const _cppConnectionHeaderFile = '../native/src/Connection.hpp';
 const _generatedCppConnectionImplementationFile =
     '../native/src/Connection.g.cpp';
@@ -803,7 +803,7 @@ class _Operation {
     return name.camelCase.capitalize;
   }
 
-  String get cFunctionName => 'CBLConnection_${name.capitalize}';
+  String get cFunctionName => 'CBDConnection_${name.capitalize}';
 
   _Operation(this.request, this.response)
       : name = _unprefixedName(request.name)

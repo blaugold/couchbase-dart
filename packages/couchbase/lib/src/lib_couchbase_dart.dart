@@ -502,1672 +502,1672 @@ class LibCouchbaseDart {
   late final _CBDConnection_OpenBucket = _CBDConnection_OpenBucketPtr
       .asFunction<void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Prepend(
+  void CBDConnection_Prepend(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Prepend(
+    return _CBDConnection_Prepend(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_PrependPtr = _lookup<
+  late final _CBDConnection_PrependPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Prepend');
-  late final _CBLConnection_Prepend = _CBLConnection_PrependPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Prepend');
+  late final _CBDConnection_Prepend = _CBDConnection_PrependPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Exists(
+  void CBDConnection_Exists(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Exists(
+    return _CBDConnection_Exists(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ExistsPtr = _lookup<
+  late final _CBDConnection_ExistsPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Exists');
-  late final _CBLConnection_Exists = _CBLConnection_ExistsPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Exists');
+  late final _CBDConnection_Exists = _CBDConnection_ExistsPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_HttpNoop(
+  void CBDConnection_HttpNoop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_HttpNoop(
+    return _CBDConnection_HttpNoop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_HttpNoopPtr = _lookup<
+  late final _CBDConnection_HttpNoopPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_HttpNoop');
-  late final _CBLConnection_HttpNoop = _CBLConnection_HttpNoopPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_HttpNoop');
+  late final _CBDConnection_HttpNoop = _CBDConnection_HttpNoopPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Unlock(
+  void CBDConnection_Unlock(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Unlock(
+    return _CBDConnection_Unlock(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_UnlockPtr = _lookup<
+  late final _CBDConnection_UnlockPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Unlock');
-  late final _CBLConnection_Unlock = _CBLConnection_UnlockPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Unlock');
+  late final _CBDConnection_Unlock = _CBDConnection_UnlockPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_GetAllReplicas(
+  void CBDConnection_GetAllReplicas(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_GetAllReplicas(
+    return _CBDConnection_GetAllReplicas(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_GetAllReplicasPtr = _lookup<
+  late final _CBDConnection_GetAllReplicasPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_GetAllReplicas');
-  late final _CBLConnection_GetAllReplicas = _CBLConnection_GetAllReplicasPtr
+              CBDMessageBuffer)>>('CBDConnection_GetAllReplicas');
+  late final _CBDConnection_GetAllReplicas = _CBDConnection_GetAllReplicasPtr
       .asFunction<void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Upsert(
+  void CBDConnection_Upsert(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Upsert(
+    return _CBDConnection_Upsert(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_UpsertPtr = _lookup<
+  late final _CBDConnection_UpsertPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Upsert');
-  late final _CBLConnection_Upsert = _CBLConnection_UpsertPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Upsert');
+  late final _CBDConnection_Upsert = _CBDConnection_UpsertPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_GetAnyReplica(
+  void CBDConnection_GetAnyReplica(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_GetAnyReplica(
+    return _CBDConnection_GetAnyReplica(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_GetAnyReplicaPtr = _lookup<
+  late final _CBDConnection_GetAnyReplicaPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_GetAnyReplica');
-  late final _CBLConnection_GetAnyReplica = _CBLConnection_GetAnyReplicaPtr
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_GetAnyReplica');
+  late final _CBDConnection_GetAnyReplica = _CBDConnection_GetAnyReplicaPtr
       .asFunction<void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Append(
+  void CBDConnection_Append(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Append(
+    return _CBDConnection_Append(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_AppendPtr = _lookup<
+  late final _CBDConnection_AppendPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Append');
-  late final _CBLConnection_Append = _CBLConnection_AppendPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Append');
+  late final _CBDConnection_Append = _CBDConnection_AppendPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Query(
+  void CBDConnection_Query(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Query(
+    return _CBDConnection_Query(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_QueryPtr = _lookup<
+  late final _CBDConnection_QueryPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Query');
-  late final _CBLConnection_Query = _CBLConnection_QueryPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Query');
+  late final _CBDConnection_Query = _CBDConnection_QueryPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_McbpNoop(
+  void CBDConnection_McbpNoop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_McbpNoop(
+    return _CBDConnection_McbpNoop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_McbpNoopPtr = _lookup<
+  late final _CBDConnection_McbpNoopPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_McbpNoop');
-  late final _CBLConnection_McbpNoop = _CBLConnection_McbpNoopPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_McbpNoop');
+  late final _CBDConnection_McbpNoop = _CBDConnection_McbpNoopPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Replace(
+  void CBDConnection_Replace(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Replace(
+    return _CBDConnection_Replace(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ReplacePtr = _lookup<
+  late final _CBDConnection_ReplacePtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Replace');
-  late final _CBLConnection_Replace = _CBLConnection_ReplacePtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Replace');
+  late final _CBDConnection_Replace = _CBDConnection_ReplacePtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_GetAndTouch(
+  void CBDConnection_GetAndTouch(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_GetAndTouch(
+    return _CBDConnection_GetAndTouch(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_GetAndTouchPtr = _lookup<
+  late final _CBDConnection_GetAndTouchPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_GetAndTouch');
-  late final _CBLConnection_GetAndTouch = _CBLConnection_GetAndTouchPtr
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_GetAndTouch');
+  late final _CBDConnection_GetAndTouch = _CBDConnection_GetAndTouchPtr
       .asFunction<void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Remove(
+  void CBDConnection_Remove(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Remove(
+    return _CBDConnection_Remove(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_RemovePtr = _lookup<
+  late final _CBDConnection_RemovePtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Remove');
-  late final _CBLConnection_Remove = _CBLConnection_RemovePtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Remove');
+  late final _CBDConnection_Remove = _CBDConnection_RemovePtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Get(
+  void CBDConnection_Get(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Get(
+    return _CBDConnection_Get(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_GetPtr = _lookup<
+  late final _CBDConnection_GetPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Get');
-  late final _CBLConnection_Get = _CBLConnection_GetPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Get');
+  late final _CBDConnection_Get = _CBDConnection_GetPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Analytics(
+  void CBDConnection_Analytics(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Analytics(
+    return _CBDConnection_Analytics(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_AnalyticsPtr = _lookup<
+  late final _CBDConnection_AnalyticsPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Analytics');
-  late final _CBLConnection_Analytics = _CBLConnection_AnalyticsPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Analytics');
+  late final _CBDConnection_Analytics = _CBDConnection_AnalyticsPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_GetProjected(
+  void CBDConnection_GetProjected(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_GetProjected(
+    return _CBDConnection_GetProjected(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_GetProjectedPtr = _lookup<
+  late final _CBDConnection_GetProjectedPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_GetProjected');
-  late final _CBLConnection_GetProjected = _CBLConnection_GetProjectedPtr
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_GetProjected');
+  late final _CBDConnection_GetProjected = _CBDConnection_GetProjectedPtr
       .asFunction<void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Decrement(
+  void CBDConnection_Decrement(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Decrement(
+    return _CBDConnection_Decrement(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_DecrementPtr = _lookup<
+  late final _CBDConnection_DecrementPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Decrement');
-  late final _CBLConnection_Decrement = _CBLConnection_DecrementPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Decrement');
+  late final _CBDConnection_Decrement = _CBDConnection_DecrementPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Search(
+  void CBDConnection_Search(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Search(
+    return _CBDConnection_Search(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_SearchPtr = _lookup<
+  late final _CBDConnection_SearchPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Search');
-  late final _CBLConnection_Search = _CBLConnection_SearchPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Search');
+  late final _CBDConnection_Search = _CBDConnection_SearchPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Touch(
+  void CBDConnection_Touch(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Touch(
+    return _CBDConnection_Touch(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_TouchPtr = _lookup<
+  late final _CBDConnection_TouchPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Touch');
-  late final _CBLConnection_Touch = _CBLConnection_TouchPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Touch');
+  late final _CBDConnection_Touch = _CBDConnection_TouchPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_LookupIn(
+  void CBDConnection_LookupIn(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_LookupIn(
+    return _CBDConnection_LookupIn(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_LookupInPtr = _lookup<
+  late final _CBDConnection_LookupInPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_LookupIn');
-  late final _CBLConnection_LookupIn = _CBLConnection_LookupInPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_LookupIn');
+  late final _CBDConnection_LookupIn = _CBDConnection_LookupInPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_DocumentView(
+  void CBDConnection_DocumentView(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_DocumentView(
+    return _CBDConnection_DocumentView(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_DocumentViewPtr = _lookup<
+  late final _CBDConnection_DocumentViewPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_DocumentView');
-  late final _CBLConnection_DocumentView = _CBLConnection_DocumentViewPtr
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_DocumentView');
+  late final _CBDConnection_DocumentView = _CBDConnection_DocumentViewPtr
       .asFunction<void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_GetAndLock(
+  void CBDConnection_GetAndLock(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_GetAndLock(
+    return _CBDConnection_GetAndLock(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_GetAndLockPtr = _lookup<
+  late final _CBDConnection_GetAndLockPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_GetAndLock');
-  late final _CBLConnection_GetAndLock = _CBLConnection_GetAndLockPtr
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_GetAndLock');
+  late final _CBDConnection_GetAndLock = _CBDConnection_GetAndLockPtr
       .asFunction<void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Insert(
+  void CBDConnection_Insert(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Insert(
+    return _CBDConnection_Insert(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_InsertPtr = _lookup<
+  late final _CBDConnection_InsertPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Insert');
-  late final _CBLConnection_Insert = _CBLConnection_InsertPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Insert');
+  late final _CBDConnection_Insert = _CBDConnection_InsertPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_MutateIn(
+  void CBDConnection_MutateIn(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_MutateIn(
+    return _CBDConnection_MutateIn(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_MutateInPtr = _lookup<
+  late final _CBDConnection_MutateInPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_MutateIn');
-  late final _CBLConnection_MutateIn = _CBLConnection_MutateInPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_MutateIn');
+  late final _CBDConnection_MutateIn = _CBDConnection_MutateInPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_Increment(
+  void CBDConnection_Increment(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_Increment(
+    return _CBDConnection_Increment(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_IncrementPtr = _lookup<
+  late final _CBDConnection_IncrementPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBLConnection_Increment');
-  late final _CBLConnection_Increment = _CBLConnection_IncrementPtr.asFunction<
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Increment');
+  late final _CBDConnection_Increment = _CBDConnection_IncrementPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementGroupUpsert(
+  void CBDConnection_ManagementGroupUpsert(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementGroupUpsert(
+    return _CBDConnection_ManagementGroupUpsert(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementGroupUpsertPtr = _lookup<
+  late final _CBDConnection_ManagementGroupUpsertPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementGroupUpsert');
-  late final _CBLConnection_ManagementGroupUpsert =
-      _CBLConnection_ManagementGroupUpsertPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementGroupUpsert');
+  late final _CBDConnection_ManagementGroupUpsert =
+      _CBDConnection_ManagementGroupUpsertPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementEventingPauseFunction(
+  void CBDConnection_ManagementEventingPauseFunction(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementEventingPauseFunction(
+    return _CBDConnection_ManagementEventingPauseFunction(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementEventingPauseFunctionPtr = _lookup<
+  late final _CBDConnection_ManagementEventingPauseFunctionPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementEventingPauseFunction');
-  late final _CBLConnection_ManagementEventingPauseFunction =
-      _CBLConnection_ManagementEventingPauseFunctionPtr.asFunction<
+      'CBDConnection_ManagementEventingPauseFunction');
+  late final _CBDConnection_ManagementEventingPauseFunction =
+      _CBDConnection_ManagementEventingPauseFunctionPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementQueryIndexGetAll(
+  void CBDConnection_ManagementQueryIndexGetAll(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementQueryIndexGetAll(
+    return _CBDConnection_ManagementQueryIndexGetAll(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementQueryIndexGetAllPtr = _lookup<
+  late final _CBDConnection_ManagementQueryIndexGetAllPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementQueryIndexGetAll');
-  late final _CBLConnection_ManagementQueryIndexGetAll =
-      _CBLConnection_ManagementQueryIndexGetAllPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementQueryIndexGetAll');
+  late final _CBDConnection_ManagementQueryIndexGetAll =
+      _CBDConnection_ManagementQueryIndexGetAllPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementCollectionCreate(
+  void CBDConnection_ManagementCollectionCreate(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementCollectionCreate(
+    return _CBDConnection_ManagementCollectionCreate(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementCollectionCreatePtr = _lookup<
+  late final _CBDConnection_ManagementCollectionCreatePtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementCollectionCreate');
-  late final _CBLConnection_ManagementCollectionCreate =
-      _CBLConnection_ManagementCollectionCreatePtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementCollectionCreate');
+  late final _CBDConnection_ManagementCollectionCreate =
+      _CBDConnection_ManagementCollectionCreatePtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementEventingResumeFunction(
+  void CBDConnection_ManagementEventingResumeFunction(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementEventingResumeFunction(
+    return _CBDConnection_ManagementEventingResumeFunction(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementEventingResumeFunctionPtr = _lookup<
+  late final _CBDConnection_ManagementEventingResumeFunctionPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementEventingResumeFunction');
-  late final _CBLConnection_ManagementEventingResumeFunction =
-      _CBLConnection_ManagementEventingResumeFunctionPtr.asFunction<
+      'CBDConnection_ManagementEventingResumeFunction');
+  late final _CBDConnection_ManagementEventingResumeFunction =
+      _CBDConnection_ManagementEventingResumeFunctionPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementSearchIndexGetStats(
+  void CBDConnection_ManagementSearchIndexGetStats(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementSearchIndexGetStats(
+    return _CBDConnection_ManagementSearchIndexGetStats(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementSearchIndexGetStatsPtr = _lookup<
+  late final _CBDConnection_ManagementSearchIndexGetStatsPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementSearchIndexGetStats');
-  late final _CBLConnection_ManagementSearchIndexGetStats =
-      _CBLConnection_ManagementSearchIndexGetStatsPtr.asFunction<
+      'CBDConnection_ManagementSearchIndexGetStats');
+  late final _CBDConnection_ManagementSearchIndexGetStats =
+      _CBDConnection_ManagementSearchIndexGetStatsPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementBucketGetAll(
+  void CBDConnection_ManagementBucketGetAll(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementBucketGetAll(
+    return _CBDConnection_ManagementBucketGetAll(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementBucketGetAllPtr = _lookup<
+  late final _CBDConnection_ManagementBucketGetAllPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementBucketGetAll');
-  late final _CBLConnection_ManagementBucketGetAll =
-      _CBLConnection_ManagementBucketGetAllPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementBucketGetAll');
+  late final _CBDConnection_ManagementBucketGetAll =
+      _CBDConnection_ManagementBucketGetAllPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementQueryIndexBuildDeferred(
+  void CBDConnection_ManagementQueryIndexBuildDeferred(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementQueryIndexBuildDeferred(
+    return _CBDConnection_ManagementQueryIndexBuildDeferred(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementQueryIndexBuildDeferredPtr = _lookup<
+  late final _CBDConnection_ManagementQueryIndexBuildDeferredPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementQueryIndexBuildDeferred');
-  late final _CBLConnection_ManagementQueryIndexBuildDeferred =
-      _CBLConnection_ManagementQueryIndexBuildDeferredPtr.asFunction<
+      'CBDConnection_ManagementQueryIndexBuildDeferred');
+  late final _CBDConnection_ManagementQueryIndexBuildDeferred =
+      _CBDConnection_ManagementQueryIndexBuildDeferredPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementClusterDescribe(
+  void CBDConnection_ManagementClusterDescribe(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementClusterDescribe(
+    return _CBDConnection_ManagementClusterDescribe(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementClusterDescribePtr = _lookup<
+  late final _CBDConnection_ManagementClusterDescribePtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementClusterDescribe');
-  late final _CBLConnection_ManagementClusterDescribe =
-      _CBLConnection_ManagementClusterDescribePtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementClusterDescribe');
+  late final _CBDConnection_ManagementClusterDescribe =
+      _CBDConnection_ManagementClusterDescribePtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementSearchIndexGetAll(
+  void CBDConnection_ManagementSearchIndexGetAll(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementSearchIndexGetAll(
+    return _CBDConnection_ManagementSearchIndexGetAll(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementSearchIndexGetAllPtr = _lookup<
+  late final _CBDConnection_ManagementSearchIndexGetAllPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementSearchIndexGetAll');
-  late final _CBLConnection_ManagementSearchIndexGetAll =
-      _CBLConnection_ManagementSearchIndexGetAllPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementSearchIndexGetAll');
+  late final _CBDConnection_ManagementSearchIndexGetAll =
+      _CBDConnection_ManagementSearchIndexGetAllPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementSearchIndexAnalyzeDocument(
+  void CBDConnection_ManagementSearchIndexAnalyzeDocument(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementSearchIndexAnalyzeDocument(
+    return _CBDConnection_ManagementSearchIndexAnalyzeDocument(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementSearchIndexAnalyzeDocumentPtr = _lookup<
+  late final _CBDConnection_ManagementSearchIndexAnalyzeDocumentPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementSearchIndexAnalyzeDocument');
-  late final _CBLConnection_ManagementSearchIndexAnalyzeDocument =
-      _CBLConnection_ManagementSearchIndexAnalyzeDocumentPtr.asFunction<
+      'CBDConnection_ManagementSearchIndexAnalyzeDocument');
+  late final _CBDConnection_ManagementSearchIndexAnalyzeDocument =
+      _CBDConnection_ManagementSearchIndexAnalyzeDocumentPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementQueryIndexDrop(
+  void CBDConnection_ManagementQueryIndexDrop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementQueryIndexDrop(
+    return _CBDConnection_ManagementQueryIndexDrop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementQueryIndexDropPtr = _lookup<
+  late final _CBDConnection_ManagementQueryIndexDropPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementQueryIndexDrop');
-  late final _CBLConnection_ManagementQueryIndexDrop =
-      _CBLConnection_ManagementQueryIndexDropPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementQueryIndexDrop');
+  late final _CBDConnection_ManagementQueryIndexDrop =
+      _CBDConnection_ManagementQueryIndexDropPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementAnalyticsDatasetCreate(
+  void CBDConnection_ManagementAnalyticsDatasetCreate(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementAnalyticsDatasetCreate(
+    return _CBDConnection_ManagementAnalyticsDatasetCreate(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementAnalyticsDatasetCreatePtr = _lookup<
+  late final _CBDConnection_ManagementAnalyticsDatasetCreatePtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementAnalyticsDatasetCreate');
-  late final _CBLConnection_ManagementAnalyticsDatasetCreate =
-      _CBLConnection_ManagementAnalyticsDatasetCreatePtr.asFunction<
+      'CBDConnection_ManagementAnalyticsDatasetCreate');
+  late final _CBDConnection_ManagementAnalyticsDatasetCreate =
+      _CBDConnection_ManagementAnalyticsDatasetCreatePtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementBucketFlush(
+  void CBDConnection_ManagementBucketFlush(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementBucketFlush(
+    return _CBDConnection_ManagementBucketFlush(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementBucketFlushPtr = _lookup<
+  late final _CBDConnection_ManagementBucketFlushPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementBucketFlush');
-  late final _CBLConnection_ManagementBucketFlush =
-      _CBLConnection_ManagementBucketFlushPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementBucketFlush');
+  late final _CBDConnection_ManagementBucketFlush =
+      _CBDConnection_ManagementBucketFlushPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementAnalyticsIndexDrop(
+  void CBDConnection_ManagementAnalyticsIndexDrop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementAnalyticsIndexDrop(
+    return _CBDConnection_ManagementAnalyticsIndexDrop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementAnalyticsIndexDropPtr = _lookup<
+  late final _CBDConnection_ManagementAnalyticsIndexDropPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementAnalyticsIndexDrop');
-  late final _CBLConnection_ManagementAnalyticsIndexDrop =
-      _CBLConnection_ManagementAnalyticsIndexDropPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementAnalyticsIndexDrop');
+  late final _CBDConnection_ManagementAnalyticsIndexDrop =
+      _CBDConnection_ManagementAnalyticsIndexDropPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementQueryIndexCreate(
+  void CBDConnection_ManagementQueryIndexCreate(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementQueryIndexCreate(
+    return _CBDConnection_ManagementQueryIndexCreate(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementQueryIndexCreatePtr = _lookup<
+  late final _CBDConnection_ManagementQueryIndexCreatePtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementQueryIndexCreate');
-  late final _CBLConnection_ManagementQueryIndexCreate =
-      _CBLConnection_ManagementQueryIndexCreatePtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementQueryIndexCreate');
+  late final _CBDConnection_ManagementQueryIndexCreate =
+      _CBDConnection_ManagementQueryIndexCreatePtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementSearchIndexUpsert(
+  void CBDConnection_ManagementSearchIndexUpsert(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementSearchIndexUpsert(
+    return _CBDConnection_ManagementSearchIndexUpsert(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementSearchIndexUpsertPtr = _lookup<
+  late final _CBDConnection_ManagementSearchIndexUpsertPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementSearchIndexUpsert');
-  late final _CBLConnection_ManagementSearchIndexUpsert =
-      _CBLConnection_ManagementSearchIndexUpsertPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementSearchIndexUpsert');
+  late final _CBDConnection_ManagementSearchIndexUpsert =
+      _CBDConnection_ManagementSearchIndexUpsertPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementAnalyticsDatasetGetAll(
+  void CBDConnection_ManagementAnalyticsDatasetGetAll(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementAnalyticsDatasetGetAll(
+    return _CBDConnection_ManagementAnalyticsDatasetGetAll(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementAnalyticsDatasetGetAllPtr = _lookup<
+  late final _CBDConnection_ManagementAnalyticsDatasetGetAllPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementAnalyticsDatasetGetAll');
-  late final _CBLConnection_ManagementAnalyticsDatasetGetAll =
-      _CBLConnection_ManagementAnalyticsDatasetGetAllPtr.asFunction<
+      'CBDConnection_ManagementAnalyticsDatasetGetAll');
+  late final _CBDConnection_ManagementAnalyticsDatasetGetAll =
+      _CBDConnection_ManagementAnalyticsDatasetGetAllPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementAnalyticsIndexGetAll(
+  void CBDConnection_ManagementAnalyticsIndexGetAll(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementAnalyticsIndexGetAll(
+    return _CBDConnection_ManagementAnalyticsIndexGetAll(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementAnalyticsIndexGetAllPtr = _lookup<
+  late final _CBDConnection_ManagementAnalyticsIndexGetAllPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementAnalyticsIndexGetAll');
-  late final _CBLConnection_ManagementAnalyticsIndexGetAll =
-      _CBLConnection_ManagementAnalyticsIndexGetAllPtr.asFunction<
+      'CBDConnection_ManagementAnalyticsIndexGetAll');
+  late final _CBDConnection_ManagementAnalyticsIndexGetAll =
+      _CBDConnection_ManagementAnalyticsIndexGetAllPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementAnalyticsGetPendingMutations(
+  void CBDConnection_ManagementAnalyticsGetPendingMutations(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementAnalyticsGetPendingMutations(
+    return _CBDConnection_ManagementAnalyticsGetPendingMutations(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementAnalyticsGetPendingMutationsPtr = _lookup<
+  late final _CBDConnection_ManagementAnalyticsGetPendingMutationsPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementAnalyticsGetPendingMutations');
-  late final _CBLConnection_ManagementAnalyticsGetPendingMutations =
-      _CBLConnection_ManagementAnalyticsGetPendingMutationsPtr.asFunction<
+      'CBDConnection_ManagementAnalyticsGetPendingMutations');
+  late final _CBDConnection_ManagementAnalyticsGetPendingMutations =
+      _CBDConnection_ManagementAnalyticsGetPendingMutationsPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementAnalyticsDataverseDrop(
+  void CBDConnection_ManagementAnalyticsDataverseDrop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementAnalyticsDataverseDrop(
+    return _CBDConnection_ManagementAnalyticsDataverseDrop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementAnalyticsDataverseDropPtr = _lookup<
+  late final _CBDConnection_ManagementAnalyticsDataverseDropPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementAnalyticsDataverseDrop');
-  late final _CBLConnection_ManagementAnalyticsDataverseDrop =
-      _CBLConnection_ManagementAnalyticsDataverseDropPtr.asFunction<
+      'CBDConnection_ManagementAnalyticsDataverseDrop');
+  late final _CBDConnection_ManagementAnalyticsDataverseDrop =
+      _CBDConnection_ManagementAnalyticsDataverseDropPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementAnalyticsLinkConnect(
+  void CBDConnection_ManagementAnalyticsLinkConnect(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementAnalyticsLinkConnect(
+    return _CBDConnection_ManagementAnalyticsLinkConnect(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementAnalyticsLinkConnectPtr = _lookup<
+  late final _CBDConnection_ManagementAnalyticsLinkConnectPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementAnalyticsLinkConnect');
-  late final _CBLConnection_ManagementAnalyticsLinkConnect =
-      _CBLConnection_ManagementAnalyticsLinkConnectPtr.asFunction<
+      'CBDConnection_ManagementAnalyticsLinkConnect');
+  late final _CBDConnection_ManagementAnalyticsLinkConnect =
+      _CBDConnection_ManagementAnalyticsLinkConnectPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementCollectionsManifestGet(
+  void CBDConnection_ManagementCollectionsManifestGet(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementCollectionsManifestGet(
+    return _CBDConnection_ManagementCollectionsManifestGet(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementCollectionsManifestGetPtr = _lookup<
+  late final _CBDConnection_ManagementCollectionsManifestGetPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementCollectionsManifestGet');
-  late final _CBLConnection_ManagementCollectionsManifestGet =
-      _CBLConnection_ManagementCollectionsManifestGetPtr.asFunction<
+      'CBDConnection_ManagementCollectionsManifestGet');
+  late final _CBDConnection_ManagementCollectionsManifestGet =
+      _CBDConnection_ManagementCollectionsManifestGetPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementChangePassword(
+  void CBDConnection_ManagementChangePassword(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementChangePassword(
+    return _CBDConnection_ManagementChangePassword(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementChangePasswordPtr = _lookup<
+  late final _CBDConnection_ManagementChangePasswordPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementChangePassword');
-  late final _CBLConnection_ManagementChangePassword =
-      _CBLConnection_ManagementChangePasswordPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementChangePassword');
+  late final _CBDConnection_ManagementChangePassword =
+      _CBDConnection_ManagementChangePasswordPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementClusterDeveloperPreviewEnable(
+  void CBDConnection_ManagementClusterDeveloperPreviewEnable(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementClusterDeveloperPreviewEnable(
+    return _CBDConnection_ManagementClusterDeveloperPreviewEnable(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementClusterDeveloperPreviewEnablePtr =
+  late final _CBDConnection_ManagementClusterDeveloperPreviewEnablePtr =
       _lookup<
               ffi.NativeFunction<
                   ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-          'CBLConnection_ManagementClusterDeveloperPreviewEnable');
-  late final _CBLConnection_ManagementClusterDeveloperPreviewEnable =
-      _CBLConnection_ManagementClusterDeveloperPreviewEnablePtr.asFunction<
+          'CBDConnection_ManagementClusterDeveloperPreviewEnable');
+  late final _CBDConnection_ManagementClusterDeveloperPreviewEnable =
+      _CBDConnection_ManagementClusterDeveloperPreviewEnablePtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementAnalyticsLinkDrop(
+  void CBDConnection_ManagementAnalyticsLinkDrop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementAnalyticsLinkDrop(
+    return _CBDConnection_ManagementAnalyticsLinkDrop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementAnalyticsLinkDropPtr = _lookup<
+  late final _CBDConnection_ManagementAnalyticsLinkDropPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementAnalyticsLinkDrop');
-  late final _CBLConnection_ManagementAnalyticsLinkDrop =
-      _CBLConnection_ManagementAnalyticsLinkDropPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementAnalyticsLinkDrop');
+  late final _CBDConnection_ManagementAnalyticsLinkDrop =
+      _CBDConnection_ManagementAnalyticsLinkDropPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementBucketDescribe(
+  void CBDConnection_ManagementBucketDescribe(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementBucketDescribe(
+    return _CBDConnection_ManagementBucketDescribe(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementBucketDescribePtr = _lookup<
+  late final _CBDConnection_ManagementBucketDescribePtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementBucketDescribe');
-  late final _CBLConnection_ManagementBucketDescribe =
-      _CBLConnection_ManagementBucketDescribePtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementBucketDescribe');
+  late final _CBDConnection_ManagementBucketDescribe =
+      _CBDConnection_ManagementBucketDescribePtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementEventingUpsertFunction(
+  void CBDConnection_ManagementEventingUpsertFunction(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementEventingUpsertFunction(
+    return _CBDConnection_ManagementEventingUpsertFunction(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementEventingUpsertFunctionPtr = _lookup<
+  late final _CBDConnection_ManagementEventingUpsertFunctionPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementEventingUpsertFunction');
-  late final _CBLConnection_ManagementEventingUpsertFunction =
-      _CBLConnection_ManagementEventingUpsertFunctionPtr.asFunction<
+      'CBDConnection_ManagementEventingUpsertFunction');
+  late final _CBDConnection_ManagementEventingUpsertFunction =
+      _CBDConnection_ManagementEventingUpsertFunctionPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementViewIndexGetAll(
+  void CBDConnection_ManagementViewIndexGetAll(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementViewIndexGetAll(
+    return _CBDConnection_ManagementViewIndexGetAll(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementViewIndexGetAllPtr = _lookup<
+  late final _CBDConnection_ManagementViewIndexGetAllPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementViewIndexGetAll');
-  late final _CBLConnection_ManagementViewIndexGetAll =
-      _CBLConnection_ManagementViewIndexGetAllPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementViewIndexGetAll');
+  late final _CBDConnection_ManagementViewIndexGetAll =
+      _CBDConnection_ManagementViewIndexGetAllPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementBucketGet(
+  void CBDConnection_ManagementBucketGet(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementBucketGet(
+    return _CBDConnection_ManagementBucketGet(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementBucketGetPtr = _lookup<
+  late final _CBDConnection_ManagementBucketGetPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementBucketGet');
-  late final _CBLConnection_ManagementBucketGet =
-      _CBLConnection_ManagementBucketGetPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementBucketGet');
+  late final _CBDConnection_ManagementBucketGet =
+      _CBDConnection_ManagementBucketGetPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementBucketUpdate(
+  void CBDConnection_ManagementBucketUpdate(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementBucketUpdate(
+    return _CBDConnection_ManagementBucketUpdate(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementBucketUpdatePtr = _lookup<
+  late final _CBDConnection_ManagementBucketUpdatePtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementBucketUpdate');
-  late final _CBLConnection_ManagementBucketUpdate =
-      _CBLConnection_ManagementBucketUpdatePtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementBucketUpdate');
+  late final _CBDConnection_ManagementBucketUpdate =
+      _CBDConnection_ManagementBucketUpdatePtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementBucketDrop(
+  void CBDConnection_ManagementBucketDrop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementBucketDrop(
+    return _CBDConnection_ManagementBucketDrop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementBucketDropPtr = _lookup<
+  late final _CBDConnection_ManagementBucketDropPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementBucketDrop');
-  late final _CBLConnection_ManagementBucketDrop =
-      _CBLConnection_ManagementBucketDropPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementBucketDrop');
+  late final _CBDConnection_ManagementBucketDrop =
+      _CBDConnection_ManagementBucketDropPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementFreeform(
+  void CBDConnection_ManagementFreeform(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementFreeform(
+    return _CBDConnection_ManagementFreeform(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementFreeformPtr = _lookup<
+  late final _CBDConnection_ManagementFreeformPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementFreeform');
-  late final _CBLConnection_ManagementFreeform =
-      _CBLConnection_ManagementFreeformPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementFreeform');
+  late final _CBDConnection_ManagementFreeform =
+      _CBDConnection_ManagementFreeformPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementScopeDrop(
+  void CBDConnection_ManagementScopeDrop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementScopeDrop(
+    return _CBDConnection_ManagementScopeDrop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementScopeDropPtr = _lookup<
+  late final _CBDConnection_ManagementScopeDropPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementScopeDrop');
-  late final _CBLConnection_ManagementScopeDrop =
-      _CBLConnection_ManagementScopeDropPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementScopeDrop');
+  late final _CBDConnection_ManagementScopeDrop =
+      _CBDConnection_ManagementScopeDropPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementViewIndexUpsert(
+  void CBDConnection_ManagementViewIndexUpsert(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementViewIndexUpsert(
+    return _CBDConnection_ManagementViewIndexUpsert(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementViewIndexUpsertPtr = _lookup<
+  late final _CBDConnection_ManagementViewIndexUpsertPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementViewIndexUpsert');
-  late final _CBLConnection_ManagementViewIndexUpsert =
-      _CBLConnection_ManagementViewIndexUpsertPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementViewIndexUpsert');
+  late final _CBDConnection_ManagementViewIndexUpsert =
+      _CBDConnection_ManagementViewIndexUpsertPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementUserGetAll(
+  void CBDConnection_ManagementUserGetAll(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementUserGetAll(
+    return _CBDConnection_ManagementUserGetAll(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementUserGetAllPtr = _lookup<
+  late final _CBDConnection_ManagementUserGetAllPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementUserGetAll');
-  late final _CBLConnection_ManagementUserGetAll =
-      _CBLConnection_ManagementUserGetAllPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementUserGetAll');
+  late final _CBDConnection_ManagementUserGetAll =
+      _CBDConnection_ManagementUserGetAllPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementScopeCreate(
+  void CBDConnection_ManagementScopeCreate(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementScopeCreate(
+    return _CBDConnection_ManagementScopeCreate(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementScopeCreatePtr = _lookup<
+  late final _CBDConnection_ManagementScopeCreatePtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementScopeCreate');
-  late final _CBLConnection_ManagementScopeCreate =
-      _CBLConnection_ManagementScopeCreatePtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementScopeCreate');
+  late final _CBDConnection_ManagementScopeCreate =
+      _CBDConnection_ManagementScopeCreatePtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementEventingGetFunction(
+  void CBDConnection_ManagementEventingGetFunction(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementEventingGetFunction(
+    return _CBDConnection_ManagementEventingGetFunction(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementEventingGetFunctionPtr = _lookup<
+  late final _CBDConnection_ManagementEventingGetFunctionPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementEventingGetFunction');
-  late final _CBLConnection_ManagementEventingGetFunction =
-      _CBLConnection_ManagementEventingGetFunctionPtr.asFunction<
+      'CBDConnection_ManagementEventingGetFunction');
+  late final _CBDConnection_ManagementEventingGetFunction =
+      _CBDConnection_ManagementEventingGetFunctionPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementViewIndexDrop(
+  void CBDConnection_ManagementViewIndexDrop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementViewIndexDrop(
+    return _CBDConnection_ManagementViewIndexDrop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementViewIndexDropPtr = _lookup<
+  late final _CBDConnection_ManagementViewIndexDropPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementViewIndexDrop');
-  late final _CBLConnection_ManagementViewIndexDrop =
-      _CBLConnection_ManagementViewIndexDropPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementViewIndexDrop');
+  late final _CBDConnection_ManagementViewIndexDrop =
+      _CBDConnection_ManagementViewIndexDropPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementAnalyticsLinkDisconnect(
+  void CBDConnection_ManagementAnalyticsLinkDisconnect(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementAnalyticsLinkDisconnect(
+    return _CBDConnection_ManagementAnalyticsLinkDisconnect(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementAnalyticsLinkDisconnectPtr = _lookup<
+  late final _CBDConnection_ManagementAnalyticsLinkDisconnectPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementAnalyticsLinkDisconnect');
-  late final _CBLConnection_ManagementAnalyticsLinkDisconnect =
-      _CBLConnection_ManagementAnalyticsLinkDisconnectPtr.asFunction<
+      'CBDConnection_ManagementAnalyticsLinkDisconnect');
+  late final _CBDConnection_ManagementAnalyticsLinkDisconnect =
+      _CBDConnection_ManagementAnalyticsLinkDisconnectPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementUserUpsert(
+  void CBDConnection_ManagementUserUpsert(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementUserUpsert(
+    return _CBDConnection_ManagementUserUpsert(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementUserUpsertPtr = _lookup<
+  late final _CBDConnection_ManagementUserUpsertPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementUserUpsert');
-  late final _CBLConnection_ManagementUserUpsert =
-      _CBLConnection_ManagementUserUpsertPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementUserUpsert');
+  late final _CBDConnection_ManagementUserUpsert =
+      _CBDConnection_ManagementUserUpsertPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementEventingGetStatus(
+  void CBDConnection_ManagementEventingGetStatus(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementEventingGetStatus(
+    return _CBDConnection_ManagementEventingGetStatus(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementEventingGetStatusPtr = _lookup<
+  late final _CBDConnection_ManagementEventingGetStatusPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementEventingGetStatus');
-  late final _CBLConnection_ManagementEventingGetStatus =
-      _CBLConnection_ManagementEventingGetStatusPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementEventingGetStatus');
+  late final _CBDConnection_ManagementEventingGetStatus =
+      _CBDConnection_ManagementEventingGetStatusPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementEventingGetAllFunctions(
+  void CBDConnection_ManagementEventingGetAllFunctions(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementEventingGetAllFunctions(
+    return _CBDConnection_ManagementEventingGetAllFunctions(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementEventingGetAllFunctionsPtr = _lookup<
+  late final _CBDConnection_ManagementEventingGetAllFunctionsPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementEventingGetAllFunctions');
-  late final _CBLConnection_ManagementEventingGetAllFunctions =
-      _CBLConnection_ManagementEventingGetAllFunctionsPtr.asFunction<
+      'CBDConnection_ManagementEventingGetAllFunctions');
+  late final _CBDConnection_ManagementEventingGetAllFunctions =
+      _CBDConnection_ManagementEventingGetAllFunctionsPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementAnalyticsIndexCreate(
+  void CBDConnection_ManagementAnalyticsIndexCreate(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementAnalyticsIndexCreate(
+    return _CBDConnection_ManagementAnalyticsIndexCreate(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementAnalyticsIndexCreatePtr = _lookup<
+  late final _CBDConnection_ManagementAnalyticsIndexCreatePtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementAnalyticsIndexCreate');
-  late final _CBLConnection_ManagementAnalyticsIndexCreate =
-      _CBLConnection_ManagementAnalyticsIndexCreatePtr.asFunction<
+      'CBDConnection_ManagementAnalyticsIndexCreate');
+  late final _CBDConnection_ManagementAnalyticsIndexCreate =
+      _CBDConnection_ManagementAnalyticsIndexCreatePtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementScopeGetAll(
+  void CBDConnection_ManagementScopeGetAll(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementScopeGetAll(
+    return _CBDConnection_ManagementScopeGetAll(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementScopeGetAllPtr = _lookup<
+  late final _CBDConnection_ManagementScopeGetAllPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementScopeGetAll');
-  late final _CBLConnection_ManagementScopeGetAll =
-      _CBLConnection_ManagementScopeGetAllPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementScopeGetAll');
+  late final _CBDConnection_ManagementScopeGetAll =
+      _CBDConnection_ManagementScopeGetAllPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementUserGet(
+  void CBDConnection_ManagementUserGet(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementUserGet(
+    return _CBDConnection_ManagementUserGet(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementUserGetPtr = _lookup<
+  late final _CBDConnection_ManagementUserGetPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementUserGet');
-  late final _CBLConnection_ManagementUserGet =
-      _CBLConnection_ManagementUserGetPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementUserGet');
+  late final _CBDConnection_ManagementUserGet =
+      _CBDConnection_ManagementUserGetPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementSearchIndexDrop(
+  void CBDConnection_ManagementSearchIndexDrop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementSearchIndexDrop(
+    return _CBDConnection_ManagementSearchIndexDrop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementSearchIndexDropPtr = _lookup<
+  late final _CBDConnection_ManagementSearchIndexDropPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementSearchIndexDrop');
-  late final _CBLConnection_ManagementSearchIndexDrop =
-      _CBLConnection_ManagementSearchIndexDropPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementSearchIndexDrop');
+  late final _CBDConnection_ManagementSearchIndexDrop =
+      _CBDConnection_ManagementSearchIndexDropPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementSearchIndexControlPlanFreeze(
+  void CBDConnection_ManagementSearchIndexControlPlanFreeze(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementSearchIndexControlPlanFreeze(
+    return _CBDConnection_ManagementSearchIndexControlPlanFreeze(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementSearchIndexControlPlanFreezePtr = _lookup<
+  late final _CBDConnection_ManagementSearchIndexControlPlanFreezePtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementSearchIndexControlPlanFreeze');
-  late final _CBLConnection_ManagementSearchIndexControlPlanFreeze =
-      _CBLConnection_ManagementSearchIndexControlPlanFreezePtr.asFunction<
+      'CBDConnection_ManagementSearchIndexControlPlanFreeze');
+  late final _CBDConnection_ManagementSearchIndexControlPlanFreeze =
+      _CBDConnection_ManagementSearchIndexControlPlanFreezePtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementSearchIndexStats(
+  void CBDConnection_ManagementSearchIndexStats(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementSearchIndexStats(
+    return _CBDConnection_ManagementSearchIndexStats(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementSearchIndexStatsPtr = _lookup<
+  late final _CBDConnection_ManagementSearchIndexStatsPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementSearchIndexStats');
-  late final _CBLConnection_ManagementSearchIndexStats =
-      _CBLConnection_ManagementSearchIndexStatsPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementSearchIndexStats');
+  late final _CBDConnection_ManagementSearchIndexStats =
+      _CBDConnection_ManagementSearchIndexStatsPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementUserDrop(
+  void CBDConnection_ManagementUserDrop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementUserDrop(
+    return _CBDConnection_ManagementUserDrop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementUserDropPtr = _lookup<
+  late final _CBDConnection_ManagementUserDropPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementUserDrop');
-  late final _CBLConnection_ManagementUserDrop =
-      _CBLConnection_ManagementUserDropPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementUserDrop');
+  late final _CBDConnection_ManagementUserDrop =
+      _CBDConnection_ManagementUserDropPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementAnalyticsDataverseCreate(
+  void CBDConnection_ManagementAnalyticsDataverseCreate(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementAnalyticsDataverseCreate(
+    return _CBDConnection_ManagementAnalyticsDataverseCreate(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementAnalyticsDataverseCreatePtr = _lookup<
+  late final _CBDConnection_ManagementAnalyticsDataverseCreatePtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementAnalyticsDataverseCreate');
-  late final _CBLConnection_ManagementAnalyticsDataverseCreate =
-      _CBLConnection_ManagementAnalyticsDataverseCreatePtr.asFunction<
+      'CBDConnection_ManagementAnalyticsDataverseCreate');
+  late final _CBDConnection_ManagementAnalyticsDataverseCreate =
+      _CBDConnection_ManagementAnalyticsDataverseCreatePtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementSearchIndexControlQuery(
+  void CBDConnection_ManagementSearchIndexControlQuery(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementSearchIndexControlQuery(
+    return _CBDConnection_ManagementSearchIndexControlQuery(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementSearchIndexControlQueryPtr = _lookup<
+  late final _CBDConnection_ManagementSearchIndexControlQueryPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementSearchIndexControlQuery');
-  late final _CBLConnection_ManagementSearchIndexControlQuery =
-      _CBLConnection_ManagementSearchIndexControlQueryPtr.asFunction<
+      'CBDConnection_ManagementSearchIndexControlQuery');
+  late final _CBDConnection_ManagementSearchIndexControlQuery =
+      _CBDConnection_ManagementSearchIndexControlQueryPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementRoleGetAll(
+  void CBDConnection_ManagementRoleGetAll(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementRoleGetAll(
+    return _CBDConnection_ManagementRoleGetAll(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementRoleGetAllPtr = _lookup<
+  late final _CBDConnection_ManagementRoleGetAllPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementRoleGetAll');
-  late final _CBLConnection_ManagementRoleGetAll =
-      _CBLConnection_ManagementRoleGetAllPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementRoleGetAll');
+  late final _CBDConnection_ManagementRoleGetAll =
+      _CBDConnection_ManagementRoleGetAllPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementGroupGetAll(
+  void CBDConnection_ManagementGroupGetAll(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementGroupGetAll(
+    return _CBDConnection_ManagementGroupGetAll(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementGroupGetAllPtr = _lookup<
+  late final _CBDConnection_ManagementGroupGetAllPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementGroupGetAll');
-  late final _CBLConnection_ManagementGroupGetAll =
-      _CBLConnection_ManagementGroupGetAllPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementGroupGetAll');
+  late final _CBDConnection_ManagementGroupGetAll =
+      _CBDConnection_ManagementGroupGetAllPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementEventingDropFunction(
+  void CBDConnection_ManagementEventingDropFunction(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementEventingDropFunction(
+    return _CBDConnection_ManagementEventingDropFunction(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementEventingDropFunctionPtr = _lookup<
+  late final _CBDConnection_ManagementEventingDropFunctionPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementEventingDropFunction');
-  late final _CBLConnection_ManagementEventingDropFunction =
-      _CBLConnection_ManagementEventingDropFunctionPtr.asFunction<
+      'CBDConnection_ManagementEventingDropFunction');
+  late final _CBDConnection_ManagementEventingDropFunction =
+      _CBDConnection_ManagementEventingDropFunctionPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementCollectionDrop(
+  void CBDConnection_ManagementCollectionDrop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementCollectionDrop(
+    return _CBDConnection_ManagementCollectionDrop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementCollectionDropPtr = _lookup<
+  late final _CBDConnection_ManagementCollectionDropPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementCollectionDrop');
-  late final _CBLConnection_ManagementCollectionDrop =
-      _CBLConnection_ManagementCollectionDropPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementCollectionDrop');
+  late final _CBDConnection_ManagementCollectionDrop =
+      _CBDConnection_ManagementCollectionDropPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementSearchIndexControlIngest(
+  void CBDConnection_ManagementSearchIndexControlIngest(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementSearchIndexControlIngest(
+    return _CBDConnection_ManagementSearchIndexControlIngest(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementSearchIndexControlIngestPtr = _lookup<
+  late final _CBDConnection_ManagementSearchIndexControlIngestPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementSearchIndexControlIngest');
-  late final _CBLConnection_ManagementSearchIndexControlIngest =
-      _CBLConnection_ManagementSearchIndexControlIngestPtr.asFunction<
+      'CBDConnection_ManagementSearchIndexControlIngest');
+  late final _CBDConnection_ManagementSearchIndexControlIngest =
+      _CBDConnection_ManagementSearchIndexControlIngestPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementEventingDeployFunction(
+  void CBDConnection_ManagementEventingDeployFunction(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementEventingDeployFunction(
+    return _CBDConnection_ManagementEventingDeployFunction(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementEventingDeployFunctionPtr = _lookup<
+  late final _CBDConnection_ManagementEventingDeployFunctionPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementEventingDeployFunction');
-  late final _CBLConnection_ManagementEventingDeployFunction =
-      _CBLConnection_ManagementEventingDeployFunctionPtr.asFunction<
+      'CBDConnection_ManagementEventingDeployFunction');
+  late final _CBDConnection_ManagementEventingDeployFunction =
+      _CBDConnection_ManagementEventingDeployFunctionPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementGroupGet(
+  void CBDConnection_ManagementGroupGet(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementGroupGet(
+    return _CBDConnection_ManagementGroupGet(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementGroupGetPtr = _lookup<
+  late final _CBDConnection_ManagementGroupGetPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementGroupGet');
-  late final _CBLConnection_ManagementGroupGet =
-      _CBLConnection_ManagementGroupGetPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementGroupGet');
+  late final _CBDConnection_ManagementGroupGet =
+      _CBDConnection_ManagementGroupGetPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementViewIndexGet(
+  void CBDConnection_ManagementViewIndexGet(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementViewIndexGet(
+    return _CBDConnection_ManagementViewIndexGet(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementViewIndexGetPtr = _lookup<
+  late final _CBDConnection_ManagementViewIndexGetPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementViewIndexGet');
-  late final _CBLConnection_ManagementViewIndexGet =
-      _CBLConnection_ManagementViewIndexGetPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementViewIndexGet');
+  late final _CBDConnection_ManagementViewIndexGet =
+      _CBDConnection_ManagementViewIndexGetPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementBucketCreate(
+  void CBDConnection_ManagementBucketCreate(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementBucketCreate(
+    return _CBDConnection_ManagementBucketCreate(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementBucketCreatePtr = _lookup<
+  late final _CBDConnection_ManagementBucketCreatePtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementBucketCreate');
-  late final _CBLConnection_ManagementBucketCreate =
-      _CBLConnection_ManagementBucketCreatePtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementBucketCreate');
+  late final _CBDConnection_ManagementBucketCreate =
+      _CBDConnection_ManagementBucketCreatePtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementAnalyticsDatasetDrop(
+  void CBDConnection_ManagementAnalyticsDatasetDrop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementAnalyticsDatasetDrop(
+    return _CBDConnection_ManagementAnalyticsDatasetDrop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementAnalyticsDatasetDropPtr = _lookup<
+  late final _CBDConnection_ManagementAnalyticsDatasetDropPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementAnalyticsDatasetDrop');
-  late final _CBLConnection_ManagementAnalyticsDatasetDrop =
-      _CBLConnection_ManagementAnalyticsDatasetDropPtr.asFunction<
+      'CBDConnection_ManagementAnalyticsDatasetDrop');
+  late final _CBDConnection_ManagementAnalyticsDatasetDrop =
+      _CBDConnection_ManagementAnalyticsDatasetDropPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementGroupDrop(
+  void CBDConnection_ManagementGroupDrop(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementGroupDrop(
+    return _CBDConnection_ManagementGroupDrop(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementGroupDropPtr = _lookup<
+  late final _CBDConnection_ManagementGroupDropPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementGroupDrop');
-  late final _CBLConnection_ManagementGroupDrop =
-      _CBLConnection_ManagementGroupDropPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementGroupDrop');
+  late final _CBDConnection_ManagementGroupDrop =
+      _CBDConnection_ManagementGroupDropPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementSearchIndexGet(
+  void CBDConnection_ManagementSearchIndexGet(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementSearchIndexGet(
+    return _CBDConnection_ManagementSearchIndexGet(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementSearchIndexGetPtr = _lookup<
+  late final _CBDConnection_ManagementSearchIndexGetPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementSearchIndexGet');
-  late final _CBLConnection_ManagementSearchIndexGet =
-      _CBLConnection_ManagementSearchIndexGetPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementSearchIndexGet');
+  late final _CBDConnection_ManagementSearchIndexGet =
+      _CBDConnection_ManagementSearchIndexGetPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementQueryIndexGetAllDeferred(
+  void CBDConnection_ManagementQueryIndexGetAllDeferred(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementQueryIndexGetAllDeferred(
+    return _CBDConnection_ManagementQueryIndexGetAllDeferred(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementQueryIndexGetAllDeferredPtr = _lookup<
+  late final _CBDConnection_ManagementQueryIndexGetAllDeferredPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementQueryIndexGetAllDeferred');
-  late final _CBLConnection_ManagementQueryIndexGetAllDeferred =
-      _CBLConnection_ManagementQueryIndexGetAllDeferredPtr.asFunction<
+      'CBDConnection_ManagementQueryIndexGetAllDeferred');
+  late final _CBDConnection_ManagementQueryIndexGetAllDeferred =
+      _CBDConnection_ManagementQueryIndexGetAllDeferredPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementQueryIndexBuild(
+  void CBDConnection_ManagementQueryIndexBuild(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementQueryIndexBuild(
+    return _CBDConnection_ManagementQueryIndexBuild(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementQueryIndexBuildPtr = _lookup<
+  late final _CBDConnection_ManagementQueryIndexBuildPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(CBDConnection,
-              CBDMessageBuffer)>>('CBLConnection_ManagementQueryIndexBuild');
-  late final _CBLConnection_ManagementQueryIndexBuild =
-      _CBLConnection_ManagementQueryIndexBuildPtr.asFunction<
+              CBDMessageBuffer)>>('CBDConnection_ManagementQueryIndexBuild');
+  late final _CBDConnection_ManagementQueryIndexBuild =
+      _CBDConnection_ManagementQueryIndexBuildPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementEventingUndeployFunction(
+  void CBDConnection_ManagementEventingUndeployFunction(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementEventingUndeployFunction(
+    return _CBDConnection_ManagementEventingUndeployFunction(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementEventingUndeployFunctionPtr = _lookup<
+  late final _CBDConnection_ManagementEventingUndeployFunctionPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementEventingUndeployFunction');
-  late final _CBLConnection_ManagementEventingUndeployFunction =
-      _CBLConnection_ManagementEventingUndeployFunctionPtr.asFunction<
+      'CBDConnection_ManagementEventingUndeployFunction');
+  late final _CBDConnection_ManagementEventingUndeployFunction =
+      _CBDConnection_ManagementEventingUndeployFunctionPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementSearchIndexGetDocumentsCount(
+  void CBDConnection_ManagementSearchIndexGetDocumentsCount(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementSearchIndexGetDocumentsCount(
+    return _CBDConnection_ManagementSearchIndexGetDocumentsCount(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementSearchIndexGetDocumentsCountPtr = _lookup<
+  late final _CBDConnection_ManagementSearchIndexGetDocumentsCountPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementSearchIndexGetDocumentsCount');
-  late final _CBLConnection_ManagementSearchIndexGetDocumentsCount =
-      _CBLConnection_ManagementSearchIndexGetDocumentsCountPtr.asFunction<
+      'CBDConnection_ManagementSearchIndexGetDocumentsCount');
+  late final _CBDConnection_ManagementSearchIndexGetDocumentsCount =
+      _CBDConnection_ManagementSearchIndexGetDocumentsCountPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBLConnection_ManagementAnalyticsLinkGetAll(
+  void CBDConnection_ManagementAnalyticsLinkGetAll(
     CBDConnection connection,
     CBDMessageBuffer request,
   ) {
-    return _CBLConnection_ManagementAnalyticsLinkGetAll(
+    return _CBDConnection_ManagementAnalyticsLinkGetAll(
       connection,
       request,
     );
   }
 
-  late final _CBLConnection_ManagementAnalyticsLinkGetAllPtr = _lookup<
+  late final _CBDConnection_ManagementAnalyticsLinkGetAllPtr = _lookup<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
-      'CBLConnection_ManagementAnalyticsLinkGetAll');
-  late final _CBLConnection_ManagementAnalyticsLinkGetAll =
-      _CBLConnection_ManagementAnalyticsLinkGetAllPtr.asFunction<
+      'CBDConnection_ManagementAnalyticsLinkGetAll');
+  late final _CBDConnection_ManagementAnalyticsLinkGetAll =
+      _CBDConnection_ManagementAnalyticsLinkGetAllPtr.asFunction<
           void Function(CBDConnection, CBDMessageBuffer)>();
 
   bool CBD_Init(
@@ -2287,450 +2287,450 @@ class _SymbolAddresses {
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Prepend => _library._CBLConnection_PrependPtr;
+      get CBDConnection_Prepend => _library._CBDConnection_PrependPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Exists => _library._CBLConnection_ExistsPtr;
+      get CBDConnection_Exists => _library._CBDConnection_ExistsPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_HttpNoop => _library._CBLConnection_HttpNoopPtr;
+      get CBDConnection_HttpNoop => _library._CBDConnection_HttpNoopPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Unlock => _library._CBLConnection_UnlockPtr;
+      get CBDConnection_Unlock => _library._CBDConnection_UnlockPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_GetAllReplicas =>
-          _library._CBLConnection_GetAllReplicasPtr;
+      get CBDConnection_GetAllReplicas =>
+          _library._CBDConnection_GetAllReplicasPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Upsert => _library._CBLConnection_UpsertPtr;
+      get CBDConnection_Upsert => _library._CBDConnection_UpsertPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_GetAnyReplica =>
-          _library._CBLConnection_GetAnyReplicaPtr;
+      get CBDConnection_GetAnyReplica =>
+          _library._CBDConnection_GetAnyReplicaPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Append => _library._CBLConnection_AppendPtr;
+      get CBDConnection_Append => _library._CBDConnection_AppendPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Query => _library._CBLConnection_QueryPtr;
+      get CBDConnection_Query => _library._CBDConnection_QueryPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_McbpNoop => _library._CBLConnection_McbpNoopPtr;
+      get CBDConnection_McbpNoop => _library._CBDConnection_McbpNoopPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Replace => _library._CBLConnection_ReplacePtr;
+      get CBDConnection_Replace => _library._CBDConnection_ReplacePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_GetAndTouch => _library._CBLConnection_GetAndTouchPtr;
+      get CBDConnection_GetAndTouch => _library._CBDConnection_GetAndTouchPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Remove => _library._CBLConnection_RemovePtr;
+      get CBDConnection_Remove => _library._CBDConnection_RemovePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Get => _library._CBLConnection_GetPtr;
+      get CBDConnection_Get => _library._CBDConnection_GetPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Analytics => _library._CBLConnection_AnalyticsPtr;
+      get CBDConnection_Analytics => _library._CBDConnection_AnalyticsPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_GetProjected => _library._CBLConnection_GetProjectedPtr;
+      get CBDConnection_GetProjected => _library._CBDConnection_GetProjectedPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Decrement => _library._CBLConnection_DecrementPtr;
+      get CBDConnection_Decrement => _library._CBDConnection_DecrementPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Search => _library._CBLConnection_SearchPtr;
+      get CBDConnection_Search => _library._CBDConnection_SearchPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Touch => _library._CBLConnection_TouchPtr;
+      get CBDConnection_Touch => _library._CBDConnection_TouchPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_LookupIn => _library._CBLConnection_LookupInPtr;
+      get CBDConnection_LookupIn => _library._CBDConnection_LookupInPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_DocumentView => _library._CBLConnection_DocumentViewPtr;
+      get CBDConnection_DocumentView => _library._CBDConnection_DocumentViewPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_GetAndLock => _library._CBLConnection_GetAndLockPtr;
+      get CBDConnection_GetAndLock => _library._CBDConnection_GetAndLockPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Insert => _library._CBLConnection_InsertPtr;
+      get CBDConnection_Insert => _library._CBDConnection_InsertPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_MutateIn => _library._CBLConnection_MutateInPtr;
+      get CBDConnection_MutateIn => _library._CBDConnection_MutateInPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_Increment => _library._CBLConnection_IncrementPtr;
+      get CBDConnection_Increment => _library._CBDConnection_IncrementPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementGroupUpsert =>
-          _library._CBLConnection_ManagementGroupUpsertPtr;
+      get CBDConnection_ManagementGroupUpsert =>
+          _library._CBDConnection_ManagementGroupUpsertPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementEventingPauseFunction =>
-          _library._CBLConnection_ManagementEventingPauseFunctionPtr;
+      get CBDConnection_ManagementEventingPauseFunction =>
+          _library._CBDConnection_ManagementEventingPauseFunctionPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementQueryIndexGetAll =>
-          _library._CBLConnection_ManagementQueryIndexGetAllPtr;
+      get CBDConnection_ManagementQueryIndexGetAll =>
+          _library._CBDConnection_ManagementQueryIndexGetAllPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementCollectionCreate =>
-          _library._CBLConnection_ManagementCollectionCreatePtr;
+      get CBDConnection_ManagementCollectionCreate =>
+          _library._CBDConnection_ManagementCollectionCreatePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementEventingResumeFunction =>
-          _library._CBLConnection_ManagementEventingResumeFunctionPtr;
+      get CBDConnection_ManagementEventingResumeFunction =>
+          _library._CBDConnection_ManagementEventingResumeFunctionPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementSearchIndexGetStats =>
-          _library._CBLConnection_ManagementSearchIndexGetStatsPtr;
+      get CBDConnection_ManagementSearchIndexGetStats =>
+          _library._CBDConnection_ManagementSearchIndexGetStatsPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementBucketGetAll =>
-          _library._CBLConnection_ManagementBucketGetAllPtr;
+      get CBDConnection_ManagementBucketGetAll =>
+          _library._CBDConnection_ManagementBucketGetAllPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementQueryIndexBuildDeferred =>
-          _library._CBLConnection_ManagementQueryIndexBuildDeferredPtr;
+      get CBDConnection_ManagementQueryIndexBuildDeferred =>
+          _library._CBDConnection_ManagementQueryIndexBuildDeferredPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementClusterDescribe =>
-          _library._CBLConnection_ManagementClusterDescribePtr;
+      get CBDConnection_ManagementClusterDescribe =>
+          _library._CBDConnection_ManagementClusterDescribePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementSearchIndexGetAll =>
-          _library._CBLConnection_ManagementSearchIndexGetAllPtr;
+      get CBDConnection_ManagementSearchIndexGetAll =>
+          _library._CBDConnection_ManagementSearchIndexGetAllPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementSearchIndexAnalyzeDocument =>
-          _library._CBLConnection_ManagementSearchIndexAnalyzeDocumentPtr;
+      get CBDConnection_ManagementSearchIndexAnalyzeDocument =>
+          _library._CBDConnection_ManagementSearchIndexAnalyzeDocumentPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementQueryIndexDrop =>
-          _library._CBLConnection_ManagementQueryIndexDropPtr;
+      get CBDConnection_ManagementQueryIndexDrop =>
+          _library._CBDConnection_ManagementQueryIndexDropPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementAnalyticsDatasetCreate =>
-          _library._CBLConnection_ManagementAnalyticsDatasetCreatePtr;
+      get CBDConnection_ManagementAnalyticsDatasetCreate =>
+          _library._CBDConnection_ManagementAnalyticsDatasetCreatePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementBucketFlush =>
-          _library._CBLConnection_ManagementBucketFlushPtr;
+      get CBDConnection_ManagementBucketFlush =>
+          _library._CBDConnection_ManagementBucketFlushPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementAnalyticsIndexDrop =>
-          _library._CBLConnection_ManagementAnalyticsIndexDropPtr;
+      get CBDConnection_ManagementAnalyticsIndexDrop =>
+          _library._CBDConnection_ManagementAnalyticsIndexDropPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementQueryIndexCreate =>
-          _library._CBLConnection_ManagementQueryIndexCreatePtr;
+      get CBDConnection_ManagementQueryIndexCreate =>
+          _library._CBDConnection_ManagementQueryIndexCreatePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementSearchIndexUpsert =>
-          _library._CBLConnection_ManagementSearchIndexUpsertPtr;
+      get CBDConnection_ManagementSearchIndexUpsert =>
+          _library._CBDConnection_ManagementSearchIndexUpsertPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementAnalyticsDatasetGetAll =>
-          _library._CBLConnection_ManagementAnalyticsDatasetGetAllPtr;
+      get CBDConnection_ManagementAnalyticsDatasetGetAll =>
+          _library._CBDConnection_ManagementAnalyticsDatasetGetAllPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementAnalyticsIndexGetAll =>
-          _library._CBLConnection_ManagementAnalyticsIndexGetAllPtr;
+      get CBDConnection_ManagementAnalyticsIndexGetAll =>
+          _library._CBDConnection_ManagementAnalyticsIndexGetAllPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementAnalyticsGetPendingMutations =>
-          _library._CBLConnection_ManagementAnalyticsGetPendingMutationsPtr;
+      get CBDConnection_ManagementAnalyticsGetPendingMutations =>
+          _library._CBDConnection_ManagementAnalyticsGetPendingMutationsPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementAnalyticsDataverseDrop =>
-          _library._CBLConnection_ManagementAnalyticsDataverseDropPtr;
+      get CBDConnection_ManagementAnalyticsDataverseDrop =>
+          _library._CBDConnection_ManagementAnalyticsDataverseDropPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementAnalyticsLinkConnect =>
-          _library._CBLConnection_ManagementAnalyticsLinkConnectPtr;
+      get CBDConnection_ManagementAnalyticsLinkConnect =>
+          _library._CBDConnection_ManagementAnalyticsLinkConnectPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementCollectionsManifestGet =>
-          _library._CBLConnection_ManagementCollectionsManifestGetPtr;
+      get CBDConnection_ManagementCollectionsManifestGet =>
+          _library._CBDConnection_ManagementCollectionsManifestGetPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementChangePassword =>
-          _library._CBLConnection_ManagementChangePasswordPtr;
+      get CBDConnection_ManagementChangePassword =>
+          _library._CBDConnection_ManagementChangePasswordPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementClusterDeveloperPreviewEnable =>
-          _library._CBLConnection_ManagementClusterDeveloperPreviewEnablePtr;
+      get CBDConnection_ManagementClusterDeveloperPreviewEnable =>
+          _library._CBDConnection_ManagementClusterDeveloperPreviewEnablePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementAnalyticsLinkDrop =>
-          _library._CBLConnection_ManagementAnalyticsLinkDropPtr;
+      get CBDConnection_ManagementAnalyticsLinkDrop =>
+          _library._CBDConnection_ManagementAnalyticsLinkDropPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementBucketDescribe =>
-          _library._CBLConnection_ManagementBucketDescribePtr;
+      get CBDConnection_ManagementBucketDescribe =>
+          _library._CBDConnection_ManagementBucketDescribePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementEventingUpsertFunction =>
-          _library._CBLConnection_ManagementEventingUpsertFunctionPtr;
+      get CBDConnection_ManagementEventingUpsertFunction =>
+          _library._CBDConnection_ManagementEventingUpsertFunctionPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementViewIndexGetAll =>
-          _library._CBLConnection_ManagementViewIndexGetAllPtr;
+      get CBDConnection_ManagementViewIndexGetAll =>
+          _library._CBDConnection_ManagementViewIndexGetAllPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementBucketGet =>
-          _library._CBLConnection_ManagementBucketGetPtr;
+      get CBDConnection_ManagementBucketGet =>
+          _library._CBDConnection_ManagementBucketGetPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementBucketUpdate =>
-          _library._CBLConnection_ManagementBucketUpdatePtr;
+      get CBDConnection_ManagementBucketUpdate =>
+          _library._CBDConnection_ManagementBucketUpdatePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementBucketDrop =>
-          _library._CBLConnection_ManagementBucketDropPtr;
+      get CBDConnection_ManagementBucketDrop =>
+          _library._CBDConnection_ManagementBucketDropPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementFreeform =>
-          _library._CBLConnection_ManagementFreeformPtr;
+      get CBDConnection_ManagementFreeform =>
+          _library._CBDConnection_ManagementFreeformPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementScopeDrop =>
-          _library._CBLConnection_ManagementScopeDropPtr;
+      get CBDConnection_ManagementScopeDrop =>
+          _library._CBDConnection_ManagementScopeDropPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementViewIndexUpsert =>
-          _library._CBLConnection_ManagementViewIndexUpsertPtr;
+      get CBDConnection_ManagementViewIndexUpsert =>
+          _library._CBDConnection_ManagementViewIndexUpsertPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementUserGetAll =>
-          _library._CBLConnection_ManagementUserGetAllPtr;
+      get CBDConnection_ManagementUserGetAll =>
+          _library._CBDConnection_ManagementUserGetAllPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementScopeCreate =>
-          _library._CBLConnection_ManagementScopeCreatePtr;
+      get CBDConnection_ManagementScopeCreate =>
+          _library._CBDConnection_ManagementScopeCreatePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementEventingGetFunction =>
-          _library._CBLConnection_ManagementEventingGetFunctionPtr;
+      get CBDConnection_ManagementEventingGetFunction =>
+          _library._CBDConnection_ManagementEventingGetFunctionPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementViewIndexDrop =>
-          _library._CBLConnection_ManagementViewIndexDropPtr;
+      get CBDConnection_ManagementViewIndexDrop =>
+          _library._CBDConnection_ManagementViewIndexDropPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementAnalyticsLinkDisconnect =>
-          _library._CBLConnection_ManagementAnalyticsLinkDisconnectPtr;
+      get CBDConnection_ManagementAnalyticsLinkDisconnect =>
+          _library._CBDConnection_ManagementAnalyticsLinkDisconnectPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementUserUpsert =>
-          _library._CBLConnection_ManagementUserUpsertPtr;
+      get CBDConnection_ManagementUserUpsert =>
+          _library._CBDConnection_ManagementUserUpsertPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementEventingGetStatus =>
-          _library._CBLConnection_ManagementEventingGetStatusPtr;
+      get CBDConnection_ManagementEventingGetStatus =>
+          _library._CBDConnection_ManagementEventingGetStatusPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementEventingGetAllFunctions =>
-          _library._CBLConnection_ManagementEventingGetAllFunctionsPtr;
+      get CBDConnection_ManagementEventingGetAllFunctions =>
+          _library._CBDConnection_ManagementEventingGetAllFunctionsPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementAnalyticsIndexCreate =>
-          _library._CBLConnection_ManagementAnalyticsIndexCreatePtr;
+      get CBDConnection_ManagementAnalyticsIndexCreate =>
+          _library._CBDConnection_ManagementAnalyticsIndexCreatePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementScopeGetAll =>
-          _library._CBLConnection_ManagementScopeGetAllPtr;
+      get CBDConnection_ManagementScopeGetAll =>
+          _library._CBDConnection_ManagementScopeGetAllPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementUserGet =>
-          _library._CBLConnection_ManagementUserGetPtr;
+      get CBDConnection_ManagementUserGet =>
+          _library._CBDConnection_ManagementUserGetPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementSearchIndexDrop =>
-          _library._CBLConnection_ManagementSearchIndexDropPtr;
+      get CBDConnection_ManagementSearchIndexDrop =>
+          _library._CBDConnection_ManagementSearchIndexDropPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementSearchIndexControlPlanFreeze =>
-          _library._CBLConnection_ManagementSearchIndexControlPlanFreezePtr;
+      get CBDConnection_ManagementSearchIndexControlPlanFreeze =>
+          _library._CBDConnection_ManagementSearchIndexControlPlanFreezePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementSearchIndexStats =>
-          _library._CBLConnection_ManagementSearchIndexStatsPtr;
+      get CBDConnection_ManagementSearchIndexStats =>
+          _library._CBDConnection_ManagementSearchIndexStatsPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementUserDrop =>
-          _library._CBLConnection_ManagementUserDropPtr;
+      get CBDConnection_ManagementUserDrop =>
+          _library._CBDConnection_ManagementUserDropPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementAnalyticsDataverseCreate =>
-          _library._CBLConnection_ManagementAnalyticsDataverseCreatePtr;
+      get CBDConnection_ManagementAnalyticsDataverseCreate =>
+          _library._CBDConnection_ManagementAnalyticsDataverseCreatePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementSearchIndexControlQuery =>
-          _library._CBLConnection_ManagementSearchIndexControlQueryPtr;
+      get CBDConnection_ManagementSearchIndexControlQuery =>
+          _library._CBDConnection_ManagementSearchIndexControlQueryPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementRoleGetAll =>
-          _library._CBLConnection_ManagementRoleGetAllPtr;
+      get CBDConnection_ManagementRoleGetAll =>
+          _library._CBDConnection_ManagementRoleGetAllPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementGroupGetAll =>
-          _library._CBLConnection_ManagementGroupGetAllPtr;
+      get CBDConnection_ManagementGroupGetAll =>
+          _library._CBDConnection_ManagementGroupGetAllPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementEventingDropFunction =>
-          _library._CBLConnection_ManagementEventingDropFunctionPtr;
+      get CBDConnection_ManagementEventingDropFunction =>
+          _library._CBDConnection_ManagementEventingDropFunctionPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementCollectionDrop =>
-          _library._CBLConnection_ManagementCollectionDropPtr;
+      get CBDConnection_ManagementCollectionDrop =>
+          _library._CBDConnection_ManagementCollectionDropPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementSearchIndexControlIngest =>
-          _library._CBLConnection_ManagementSearchIndexControlIngestPtr;
+      get CBDConnection_ManagementSearchIndexControlIngest =>
+          _library._CBDConnection_ManagementSearchIndexControlIngestPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementEventingDeployFunction =>
-          _library._CBLConnection_ManagementEventingDeployFunctionPtr;
+      get CBDConnection_ManagementEventingDeployFunction =>
+          _library._CBDConnection_ManagementEventingDeployFunctionPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementGroupGet =>
-          _library._CBLConnection_ManagementGroupGetPtr;
+      get CBDConnection_ManagementGroupGet =>
+          _library._CBDConnection_ManagementGroupGetPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementViewIndexGet =>
-          _library._CBLConnection_ManagementViewIndexGetPtr;
+      get CBDConnection_ManagementViewIndexGet =>
+          _library._CBDConnection_ManagementViewIndexGetPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementBucketCreate =>
-          _library._CBLConnection_ManagementBucketCreatePtr;
+      get CBDConnection_ManagementBucketCreate =>
+          _library._CBDConnection_ManagementBucketCreatePtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementAnalyticsDatasetDrop =>
-          _library._CBLConnection_ManagementAnalyticsDatasetDropPtr;
+      get CBDConnection_ManagementAnalyticsDatasetDrop =>
+          _library._CBDConnection_ManagementAnalyticsDatasetDropPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementGroupDrop =>
-          _library._CBLConnection_ManagementGroupDropPtr;
+      get CBDConnection_ManagementGroupDrop =>
+          _library._CBDConnection_ManagementGroupDropPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementSearchIndexGet =>
-          _library._CBLConnection_ManagementSearchIndexGetPtr;
+      get CBDConnection_ManagementSearchIndexGet =>
+          _library._CBDConnection_ManagementSearchIndexGetPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementQueryIndexGetAllDeferred =>
-          _library._CBLConnection_ManagementQueryIndexGetAllDeferredPtr;
+      get CBDConnection_ManagementQueryIndexGetAllDeferred =>
+          _library._CBDConnection_ManagementQueryIndexGetAllDeferredPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementQueryIndexBuild =>
-          _library._CBLConnection_ManagementQueryIndexBuildPtr;
+      get CBDConnection_ManagementQueryIndexBuild =>
+          _library._CBDConnection_ManagementQueryIndexBuildPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementEventingUndeployFunction =>
-          _library._CBLConnection_ManagementEventingUndeployFunctionPtr;
+      get CBDConnection_ManagementEventingUndeployFunction =>
+          _library._CBDConnection_ManagementEventingUndeployFunctionPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementSearchIndexGetDocumentsCount =>
-          _library._CBLConnection_ManagementSearchIndexGetDocumentsCountPtr;
+      get CBDConnection_ManagementSearchIndexGetDocumentsCount =>
+          _library._CBDConnection_ManagementSearchIndexGetDocumentsCountPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBLConnection_ManagementAnalyticsLinkGetAll =>
-          _library._CBLConnection_ManagementAnalyticsLinkGetAllPtr;
+      get CBDConnection_ManagementAnalyticsLinkGetAll =>
+          _library._CBDConnection_ManagementAnalyticsLinkGetAllPtr;
   ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Pointer<ffi.Void>)>>
       get CBD_Init => _library._CBD_InitPtr;
 }

@@ -9,7 +9,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       PrependResponse.read,
-      bindings.CBLConnection_Prepend,
+      bindings.CBDConnection_Prepend,
     );
   }
 
@@ -20,7 +20,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       ExistsResponse.read,
-      bindings.CBLConnection_Exists,
+      bindings.CBDConnection_Exists,
     );
   }
 
@@ -31,7 +31,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       HttpNoopResponse.read,
-      bindings.CBLConnection_HttpNoop,
+      bindings.CBDConnection_HttpNoop,
     );
   }
 
@@ -42,7 +42,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       UnlockResponse.read,
-      bindings.CBLConnection_Unlock,
+      bindings.CBDConnection_Unlock,
     );
   }
 
@@ -53,7 +53,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       GetAllReplicasResponse.read,
-      bindings.CBLConnection_GetAllReplicas,
+      bindings.CBDConnection_GetAllReplicas,
     );
   }
 
@@ -64,7 +64,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       UpsertResponse.read,
-      bindings.CBLConnection_Upsert,
+      bindings.CBDConnection_Upsert,
     );
   }
 
@@ -75,7 +75,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       GetAnyReplicaResponse.read,
-      bindings.CBLConnection_GetAnyReplica,
+      bindings.CBDConnection_GetAnyReplica,
     );
   }
 
@@ -86,7 +86,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       AppendResponse.read,
-      bindings.CBLConnection_Append,
+      bindings.CBDConnection_Append,
     );
   }
 
@@ -97,7 +97,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       QueryErrorContext.read,
       QueryResponse.read,
-      bindings.CBLConnection_Query,
+      bindings.CBDConnection_Query,
     );
   }
 
@@ -108,7 +108,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       McbpNoopResponse.read,
-      bindings.CBLConnection_McbpNoop,
+      bindings.CBDConnection_McbpNoop,
     );
   }
 
@@ -119,7 +119,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       ReplaceResponse.read,
-      bindings.CBLConnection_Replace,
+      bindings.CBDConnection_Replace,
     );
   }
 
@@ -130,7 +130,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       GetAndTouchResponse.read,
-      bindings.CBLConnection_GetAndTouch,
+      bindings.CBDConnection_GetAndTouch,
     );
   }
 
@@ -141,7 +141,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       RemoveResponse.read,
-      bindings.CBLConnection_Remove,
+      bindings.CBDConnection_Remove,
     );
   }
 
@@ -152,7 +152,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       GetResponse.read,
-      bindings.CBLConnection_Get,
+      bindings.CBDConnection_Get,
     );
   }
 
@@ -163,7 +163,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       AnalyticsErrorContext.read,
       AnalyticsResponse.read,
-      bindings.CBLConnection_Analytics,
+      bindings.CBDConnection_Analytics,
     );
   }
 
@@ -174,7 +174,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       GetProjectedResponse.read,
-      bindings.CBLConnection_GetProjected,
+      bindings.CBDConnection_GetProjected,
     );
   }
 
@@ -185,7 +185,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       DecrementResponse.read,
-      bindings.CBLConnection_Decrement,
+      bindings.CBDConnection_Decrement,
     );
   }
 
@@ -196,7 +196,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       SearchErrorContext.read,
       SearchResponse.read,
-      bindings.CBLConnection_Search,
+      bindings.CBDConnection_Search,
     );
   }
 
@@ -207,7 +207,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       TouchResponse.read,
-      bindings.CBLConnection_Touch,
+      bindings.CBDConnection_Touch,
     );
   }
 
@@ -218,7 +218,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       SubdocumentErrorContext.read,
       LookupInResponse.read,
-      bindings.CBLConnection_LookupIn,
+      bindings.CBDConnection_LookupIn,
     );
   }
 
@@ -229,7 +229,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       ViewErrorContext.read,
       DocumentViewResponse.read,
-      bindings.CBLConnection_DocumentView,
+      bindings.CBDConnection_DocumentView,
     );
   }
 
@@ -240,7 +240,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       GetAndLockResponse.read,
-      bindings.CBLConnection_GetAndLock,
+      bindings.CBDConnection_GetAndLock,
     );
   }
 
@@ -251,7 +251,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       InsertResponse.read,
-      bindings.CBLConnection_Insert,
+      bindings.CBDConnection_Insert,
     );
   }
 
@@ -262,7 +262,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       SubdocumentErrorContext.read,
       MutateInResponse.read,
-      bindings.CBLConnection_MutateIn,
+      bindings.CBDConnection_MutateIn,
     );
   }
 
@@ -273,7 +273,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       IncrementResponse.read,
-      bindings.CBLConnection_Increment,
+      bindings.CBDConnection_Increment,
     );
   }
 
@@ -284,7 +284,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementGroupUpsertResponse.read,
-      bindings.CBLConnection_ManagementGroupUpsert,
+      bindings.CBDConnection_ManagementGroupUpsert,
     );
   }
 
@@ -296,7 +296,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementEventingPauseFunctionResponse.read,
-      bindings.CBLConnection_ManagementEventingPauseFunction,
+      bindings.CBDConnection_ManagementEventingPauseFunction,
     );
   }
 
@@ -307,7 +307,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementQueryIndexGetAllResponse.read,
-      bindings.CBLConnection_ManagementQueryIndexGetAll,
+      bindings.CBDConnection_ManagementQueryIndexGetAll,
     );
   }
 
@@ -318,7 +318,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementCollectionCreateResponse.read,
-      bindings.CBLConnection_ManagementCollectionCreate,
+      bindings.CBDConnection_ManagementCollectionCreate,
     );
   }
 
@@ -330,7 +330,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementEventingResumeFunctionResponse.read,
-      bindings.CBLConnection_ManagementEventingResumeFunction,
+      bindings.CBDConnection_ManagementEventingResumeFunction,
     );
   }
 
@@ -341,7 +341,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementSearchIndexGetStatsResponse.read,
-      bindings.CBLConnection_ManagementSearchIndexGetStats,
+      bindings.CBDConnection_ManagementSearchIndexGetStats,
     );
   }
 
@@ -352,7 +352,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementBucketGetAllResponse.read,
-      bindings.CBLConnection_ManagementBucketGetAll,
+      bindings.CBDConnection_ManagementBucketGetAll,
     );
   }
 
@@ -364,7 +364,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementQueryIndexBuildDeferredResponse.read,
-      bindings.CBLConnection_ManagementQueryIndexBuildDeferred,
+      bindings.CBDConnection_ManagementQueryIndexBuildDeferred,
     );
   }
 
@@ -375,7 +375,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementClusterDescribeResponse.read,
-      bindings.CBLConnection_ManagementClusterDescribe,
+      bindings.CBDConnection_ManagementClusterDescribe,
     );
   }
 
@@ -386,7 +386,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementSearchIndexGetAllResponse.read,
-      bindings.CBLConnection_ManagementSearchIndexGetAll,
+      bindings.CBDConnection_ManagementSearchIndexGetAll,
     );
   }
 
@@ -398,7 +398,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementSearchIndexAnalyzeDocumentResponse.read,
-      bindings.CBLConnection_ManagementSearchIndexAnalyzeDocument,
+      bindings.CBDConnection_ManagementSearchIndexAnalyzeDocument,
     );
   }
 
@@ -409,7 +409,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementQueryIndexDropResponse.read,
-      bindings.CBLConnection_ManagementQueryIndexDrop,
+      bindings.CBDConnection_ManagementQueryIndexDrop,
     );
   }
 
@@ -421,7 +421,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementAnalyticsDatasetCreateResponse.read,
-      bindings.CBLConnection_ManagementAnalyticsDatasetCreate,
+      bindings.CBDConnection_ManagementAnalyticsDatasetCreate,
     );
   }
 
@@ -432,7 +432,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementBucketFlushResponse.read,
-      bindings.CBLConnection_ManagementBucketFlush,
+      bindings.CBDConnection_ManagementBucketFlush,
     );
   }
 
@@ -443,7 +443,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementAnalyticsIndexDropResponse.read,
-      bindings.CBLConnection_ManagementAnalyticsIndexDrop,
+      bindings.CBDConnection_ManagementAnalyticsIndexDrop,
     );
   }
 
@@ -454,7 +454,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementQueryIndexCreateResponse.read,
-      bindings.CBLConnection_ManagementQueryIndexCreate,
+      bindings.CBDConnection_ManagementQueryIndexCreate,
     );
   }
 
@@ -465,7 +465,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementSearchIndexUpsertResponse.read,
-      bindings.CBLConnection_ManagementSearchIndexUpsert,
+      bindings.CBDConnection_ManagementSearchIndexUpsert,
     );
   }
 
@@ -477,7 +477,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementAnalyticsDatasetGetAllResponse.read,
-      bindings.CBLConnection_ManagementAnalyticsDatasetGetAll,
+      bindings.CBDConnection_ManagementAnalyticsDatasetGetAll,
     );
   }
 
@@ -488,7 +488,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementAnalyticsIndexGetAllResponse.read,
-      bindings.CBLConnection_ManagementAnalyticsIndexGetAll,
+      bindings.CBDConnection_ManagementAnalyticsIndexGetAll,
     );
   }
 
@@ -500,7 +500,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementAnalyticsGetPendingMutationsResponse.read,
-      bindings.CBLConnection_ManagementAnalyticsGetPendingMutations,
+      bindings.CBDConnection_ManagementAnalyticsGetPendingMutations,
     );
   }
 
@@ -512,7 +512,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementAnalyticsDataverseDropResponse.read,
-      bindings.CBLConnection_ManagementAnalyticsDataverseDrop,
+      bindings.CBDConnection_ManagementAnalyticsDataverseDrop,
     );
   }
 
@@ -523,7 +523,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementAnalyticsLinkConnectResponse.read,
-      bindings.CBLConnection_ManagementAnalyticsLinkConnect,
+      bindings.CBDConnection_ManagementAnalyticsLinkConnect,
     );
   }
 
@@ -535,7 +535,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       KeyValueErrorContext.read,
       ManagementCollectionsManifestGetResponse.read,
-      bindings.CBLConnection_ManagementCollectionsManifestGet,
+      bindings.CBDConnection_ManagementCollectionsManifestGet,
     );
   }
 
@@ -546,7 +546,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementChangePasswordResponse.read,
-      bindings.CBLConnection_ManagementChangePassword,
+      bindings.CBDConnection_ManagementChangePassword,
     );
   }
 
@@ -558,7 +558,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementClusterDeveloperPreviewEnableResponse.read,
-      bindings.CBLConnection_ManagementClusterDeveloperPreviewEnable,
+      bindings.CBDConnection_ManagementClusterDeveloperPreviewEnable,
     );
   }
 
@@ -569,7 +569,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementAnalyticsLinkDropResponse.read,
-      bindings.CBLConnection_ManagementAnalyticsLinkDrop,
+      bindings.CBDConnection_ManagementAnalyticsLinkDrop,
     );
   }
 
@@ -580,7 +580,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementBucketDescribeResponse.read,
-      bindings.CBLConnection_ManagementBucketDescribe,
+      bindings.CBDConnection_ManagementBucketDescribe,
     );
   }
 
@@ -592,7 +592,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementEventingUpsertFunctionResponse.read,
-      bindings.CBLConnection_ManagementEventingUpsertFunction,
+      bindings.CBDConnection_ManagementEventingUpsertFunction,
     );
   }
 
@@ -603,7 +603,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementViewIndexGetAllResponse.read,
-      bindings.CBLConnection_ManagementViewIndexGetAll,
+      bindings.CBDConnection_ManagementViewIndexGetAll,
     );
   }
 
@@ -614,7 +614,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementBucketGetResponse.read,
-      bindings.CBLConnection_ManagementBucketGet,
+      bindings.CBDConnection_ManagementBucketGet,
     );
   }
 
@@ -625,7 +625,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementBucketUpdateResponse.read,
-      bindings.CBLConnection_ManagementBucketUpdate,
+      bindings.CBDConnection_ManagementBucketUpdate,
     );
   }
 
@@ -636,7 +636,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementBucketDropResponse.read,
-      bindings.CBLConnection_ManagementBucketDrop,
+      bindings.CBDConnection_ManagementBucketDrop,
     );
   }
 
@@ -647,7 +647,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementFreeformResponse.read,
-      bindings.CBLConnection_ManagementFreeform,
+      bindings.CBDConnection_ManagementFreeform,
     );
   }
 
@@ -658,7 +658,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementScopeDropResponse.read,
-      bindings.CBLConnection_ManagementScopeDrop,
+      bindings.CBDConnection_ManagementScopeDrop,
     );
   }
 
@@ -669,7 +669,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementViewIndexUpsertResponse.read,
-      bindings.CBLConnection_ManagementViewIndexUpsert,
+      bindings.CBDConnection_ManagementViewIndexUpsert,
     );
   }
 
@@ -680,7 +680,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementUserGetAllResponse.read,
-      bindings.CBLConnection_ManagementUserGetAll,
+      bindings.CBDConnection_ManagementUserGetAll,
     );
   }
 
@@ -691,7 +691,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementScopeCreateResponse.read,
-      bindings.CBLConnection_ManagementScopeCreate,
+      bindings.CBDConnection_ManagementScopeCreate,
     );
   }
 
@@ -702,7 +702,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementEventingGetFunctionResponse.read,
-      bindings.CBLConnection_ManagementEventingGetFunction,
+      bindings.CBDConnection_ManagementEventingGetFunction,
     );
   }
 
@@ -713,7 +713,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementViewIndexDropResponse.read,
-      bindings.CBLConnection_ManagementViewIndexDrop,
+      bindings.CBDConnection_ManagementViewIndexDrop,
     );
   }
 
@@ -725,7 +725,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementAnalyticsLinkDisconnectResponse.read,
-      bindings.CBLConnection_ManagementAnalyticsLinkDisconnect,
+      bindings.CBDConnection_ManagementAnalyticsLinkDisconnect,
     );
   }
 
@@ -736,7 +736,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementUserUpsertResponse.read,
-      bindings.CBLConnection_ManagementUserUpsert,
+      bindings.CBDConnection_ManagementUserUpsert,
     );
   }
 
@@ -747,7 +747,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementEventingGetStatusResponse.read,
-      bindings.CBLConnection_ManagementEventingGetStatus,
+      bindings.CBDConnection_ManagementEventingGetStatus,
     );
   }
 
@@ -759,7 +759,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementEventingGetAllFunctionsResponse.read,
-      bindings.CBLConnection_ManagementEventingGetAllFunctions,
+      bindings.CBDConnection_ManagementEventingGetAllFunctions,
     );
   }
 
@@ -770,7 +770,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementAnalyticsIndexCreateResponse.read,
-      bindings.CBLConnection_ManagementAnalyticsIndexCreate,
+      bindings.CBDConnection_ManagementAnalyticsIndexCreate,
     );
   }
 
@@ -781,7 +781,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementScopeGetAllResponse.read,
-      bindings.CBLConnection_ManagementScopeGetAll,
+      bindings.CBDConnection_ManagementScopeGetAll,
     );
   }
 
@@ -792,7 +792,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementUserGetResponse.read,
-      bindings.CBLConnection_ManagementUserGet,
+      bindings.CBDConnection_ManagementUserGet,
     );
   }
 
@@ -803,7 +803,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementSearchIndexDropResponse.read,
-      bindings.CBLConnection_ManagementSearchIndexDrop,
+      bindings.CBDConnection_ManagementSearchIndexDrop,
     );
   }
 
@@ -815,7 +815,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementSearchIndexControlPlanFreezeResponse.read,
-      bindings.CBLConnection_ManagementSearchIndexControlPlanFreeze,
+      bindings.CBDConnection_ManagementSearchIndexControlPlanFreeze,
     );
   }
 
@@ -826,7 +826,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementSearchIndexStatsResponse.read,
-      bindings.CBLConnection_ManagementSearchIndexStats,
+      bindings.CBDConnection_ManagementSearchIndexStats,
     );
   }
 
@@ -837,7 +837,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementUserDropResponse.read,
-      bindings.CBLConnection_ManagementUserDrop,
+      bindings.CBDConnection_ManagementUserDrop,
     );
   }
 
@@ -849,7 +849,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementAnalyticsDataverseCreateResponse.read,
-      bindings.CBLConnection_ManagementAnalyticsDataverseCreate,
+      bindings.CBDConnection_ManagementAnalyticsDataverseCreate,
     );
   }
 
@@ -861,7 +861,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementSearchIndexControlQueryResponse.read,
-      bindings.CBLConnection_ManagementSearchIndexControlQuery,
+      bindings.CBDConnection_ManagementSearchIndexControlQuery,
     );
   }
 
@@ -872,7 +872,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementRoleGetAllResponse.read,
-      bindings.CBLConnection_ManagementRoleGetAll,
+      bindings.CBDConnection_ManagementRoleGetAll,
     );
   }
 
@@ -883,7 +883,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementGroupGetAllResponse.read,
-      bindings.CBLConnection_ManagementGroupGetAll,
+      bindings.CBDConnection_ManagementGroupGetAll,
     );
   }
 
@@ -894,7 +894,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementEventingDropFunctionResponse.read,
-      bindings.CBLConnection_ManagementEventingDropFunction,
+      bindings.CBDConnection_ManagementEventingDropFunction,
     );
   }
 
@@ -905,7 +905,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementCollectionDropResponse.read,
-      bindings.CBLConnection_ManagementCollectionDrop,
+      bindings.CBDConnection_ManagementCollectionDrop,
     );
   }
 
@@ -917,7 +917,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementSearchIndexControlIngestResponse.read,
-      bindings.CBLConnection_ManagementSearchIndexControlIngest,
+      bindings.CBDConnection_ManagementSearchIndexControlIngest,
     );
   }
 
@@ -929,7 +929,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementEventingDeployFunctionResponse.read,
-      bindings.CBLConnection_ManagementEventingDeployFunction,
+      bindings.CBDConnection_ManagementEventingDeployFunction,
     );
   }
 
@@ -940,7 +940,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementGroupGetResponse.read,
-      bindings.CBLConnection_ManagementGroupGet,
+      bindings.CBDConnection_ManagementGroupGet,
     );
   }
 
@@ -951,7 +951,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementViewIndexGetResponse.read,
-      bindings.CBLConnection_ManagementViewIndexGet,
+      bindings.CBDConnection_ManagementViewIndexGet,
     );
   }
 
@@ -962,7 +962,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementBucketCreateResponse.read,
-      bindings.CBLConnection_ManagementBucketCreate,
+      bindings.CBDConnection_ManagementBucketCreate,
     );
   }
 
@@ -973,7 +973,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementAnalyticsDatasetDropResponse.read,
-      bindings.CBLConnection_ManagementAnalyticsDatasetDrop,
+      bindings.CBDConnection_ManagementAnalyticsDatasetDrop,
     );
   }
 
@@ -984,7 +984,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementGroupDropResponse.read,
-      bindings.CBLConnection_ManagementGroupDrop,
+      bindings.CBDConnection_ManagementGroupDrop,
     );
   }
 
@@ -995,7 +995,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementSearchIndexGetResponse.read,
-      bindings.CBLConnection_ManagementSearchIndexGet,
+      bindings.CBDConnection_ManagementSearchIndexGet,
     );
   }
 
@@ -1007,7 +1007,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementQueryIndexGetAllDeferredResponse.read,
-      bindings.CBLConnection_ManagementQueryIndexGetAllDeferred,
+      bindings.CBDConnection_ManagementQueryIndexGetAllDeferred,
     );
   }
 
@@ -1018,7 +1018,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementQueryIndexBuildResponse.read,
-      bindings.CBLConnection_ManagementQueryIndexBuild,
+      bindings.CBDConnection_ManagementQueryIndexBuild,
     );
   }
 
@@ -1030,7 +1030,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementEventingUndeployFunctionResponse.read,
-      bindings.CBLConnection_ManagementEventingUndeployFunction,
+      bindings.CBDConnection_ManagementEventingUndeployFunction,
     );
   }
 
@@ -1042,7 +1042,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementSearchIndexGetDocumentsCountResponse.read,
-      bindings.CBLConnection_ManagementSearchIndexGetDocumentsCount,
+      bindings.CBDConnection_ManagementSearchIndexGetDocumentsCount,
     );
   }
 
@@ -1053,7 +1053,7 @@ extension GeneratedConnectionExtension on Connection {
       request.write,
       HttpErrorContext.read,
       ManagementAnalyticsLinkGetAllResponse.read,
-      bindings.CBLConnection_ManagementAnalyticsLinkGetAll,
+      bindings.CBDConnection_ManagementAnalyticsLinkGetAll,
     );
   }
 }
