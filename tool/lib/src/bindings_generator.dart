@@ -629,9 +629,7 @@ class BindingsGenerator {
     _writeln(';');
     _writeln();
     _writeln('  factory $dartName.read(MessageBuffer buffer) {');
-    _write('    final value = ');
-    _readValueInDart(type.type);
-    _writeln(';');
+    _writeln('  final value = buffer.readInt64();');
     _writeln('    switch (value) {');
     for (final value in type.values) {
       _writeln('      case ${value.value}: return ${value.dartName};');
@@ -647,7 +645,7 @@ class BindingsGenerator {
       _writeln('      case ${value.dartName}: value = ${value.value}; break;');
     }
     _writeln('    }');
-    _writeValueInDart(type.type, 'value');
+    _writeln('    buffer.writeInt64(value);');
     _writeln('  }');
     _writeln('}');
     _writeln();

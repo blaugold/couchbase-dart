@@ -40,7 +40,7 @@ class Connection implements Finalizable {
 
   Future<void> open(
     String connectionString,
-    NativeClusterCredentials credentials,
+    ClusterCredentials credentials,
   ) {
     return _makeRequest(
       (request) {

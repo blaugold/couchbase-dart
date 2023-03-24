@@ -1,6 +1,6 @@
 import 'package:couchbase/src/connection.dart';
 
-import 'message_buffer.dart';
+import 'message.dart';
 
 Future<Cluster> connect(
   String connectionString, [
@@ -36,19 +36,6 @@ class ConnectOptions {
   }
 }
 
-class NativeClusterCredentials implements MessageBufferSerializable {
-  NativeClusterCredentials();
-
-  String username = '';
-  String password = '';
-
-  @override
-  void write(MessageBuffer buffer) {
-    buffer.writeString(username);
-    buffer.writeString(password);
-  }
-}
-
 class Cluster {
   final String _connectionString;
   final ConnectOptions _options;
@@ -57,12 +44,13 @@ class Cluster {
   Cluster(this._connectionString, this._options) : _connection = Connection();
 
   Future<void> _connect() async {
-    final credentials = NativeClusterCredentials();
-
-    if (_options.username != null) {
-      credentials.username = _options.username!;
-      credentials.password = _options.password!;
-    }
+    final credentials = ClusterCredentials(
+      username: _options.username ?? '',
+      password: _options.password ?? '',
+      certificatePath: '',
+      keyPath: '',
+      allowedSaslMechanisms: null,
+    );
 
     try {
       await _connection.open(_connectionString, credentials);

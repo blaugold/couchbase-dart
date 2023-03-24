@@ -1,5 +1,6 @@
-#include <CBD_Utils.hpp>
 #include <Connection.hpp>
+#include <Message_Basic.hpp>
+#include <Message_Errors.hpp>
 #include <dart_api_dl.h>
 #include <iostream>
 
@@ -56,13 +57,13 @@ void Connection::open(MessageBuffer *request)
 
     auto connectionString =
         couchbase::core::utils::parse_connection_string(request->readString());
-    auto credentials = readClusterCredentials(*request);
+    auto credentials =
+        read_cbpp<couchbase::core::cluster_credentials>(*request);
     auto origin = couchbase::core::origin(credentials, connectionString);
 
     _cluster->open(origin, [response](std::error_code ec) mutable {
-        response.complete([ec](MessageBuffer &response) {
-            writeOptionalCommonError(response, ec);
-        });
+        response.complete(
+            [ec](MessageBuffer &response) { writeError(response, ec); });
     });
 }
 
@@ -82,9 +83,8 @@ void Connection::openBucket(MessageBuffer *request)
     auto bucketName = request->readString();
 
     _cluster->open_bucket(bucketName, [response](std::error_code ec) mutable {
-        response.complete([ec](MessageBuffer &response) {
-            writeOptionalCommonError(response, ec);
-        });
+        response.complete(
+            [ec](MessageBuffer &response) { writeError(response, ec); });
     });
 }
 

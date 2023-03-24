@@ -623,6 +623,75 @@ class HttpErrorContext {
   }
 }
 
+class ClusterCredentials {
+  ClusterCredentials({
+    required this.username,
+    required this.password,
+    required this.certificatePath,
+    required this.keyPath,
+    required this.allowedSaslMechanisms,
+  });
+
+  factory ClusterCredentials.read(MessageBuffer buffer) {
+    return ClusterCredentials(
+      username: buffer.readString(),
+      password: buffer.readString(),
+      certificatePath: buffer.readString(),
+      keyPath: buffer.readString(),
+      allowedSaslMechanisms: buffer.readBool()
+          ? Iterable.generate(buffer.readUInt64(), (_) => buffer.readString())
+              .toList()
+          : null,
+    );
+  }
+
+  final String username;
+  final String password;
+  final String certificatePath;
+  final String keyPath;
+  final List<String>? allowedSaslMechanisms;
+
+  void write(MessageBuffer buffer) {
+    buffer.writeString(username);
+    buffer.writeString(password);
+    buffer.writeString(certificatePath);
+    buffer.writeString(keyPath);
+    buffer.writeBool(allowedSaslMechanisms != null);
+    if (allowedSaslMechanisms != null) {
+      buffer.writeUInt64(allowedSaslMechanisms!.length);
+      for (final mechanism in allowedSaslMechanisms!) {
+        buffer.writeString(mechanism);
+      }
+    }
+  }
+}
+
+class DnsConfig {
+  DnsConfig({
+    required this.nameServer,
+    required this.port,
+    required this.timeout,
+  });
+
+  factory DnsConfig.read(MessageBuffer buffer) {
+    return DnsConfig(
+      nameServer: buffer.readString(),
+      port: buffer.readUInt16(),
+      timeout: Duration(microseconds: buffer.readUInt64()),
+    );
+  }
+
+  final String nameServer;
+  final int port;
+  final Duration timeout;
+
+  void write(MessageBuffer buffer) {
+    buffer.writeString(nameServer);
+    buffer.writeUInt16(port);
+    buffer.writeUInt64(timeout.inMicroseconds);
+  }
+}
+
 class DocumentId {
   const DocumentId({
     required this.bucket,

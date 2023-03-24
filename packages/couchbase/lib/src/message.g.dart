@@ -8,7 +8,7 @@ enum CouchbaseLinkEncryptionLevel {
   ;
 
   factory CouchbaseLinkEncryptionLevel.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return none;
@@ -34,7 +34,7 @@ enum CouchbaseLinkEncryptionLevel {
         value = 2;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -46,7 +46,7 @@ enum BucketType {
   ;
 
   factory BucketType.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return unknown;
@@ -77,7 +77,7 @@ enum BucketType {
         value = 3;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -89,7 +89,7 @@ enum BucketCompression {
   ;
 
   factory BucketCompression.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return unknown;
@@ -120,7 +120,7 @@ enum BucketCompression {
         value = 3;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -133,7 +133,7 @@ enum BucketEvictionPolicy {
   ;
 
   factory BucketEvictionPolicy.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return unknown;
@@ -169,7 +169,7 @@ enum BucketEvictionPolicy {
         value = 4;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -181,7 +181,7 @@ enum BucketConflictResolution {
   ;
 
   factory BucketConflictResolution.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return unknown;
@@ -212,7 +212,7 @@ enum BucketConflictResolution {
         value = 3;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -223,7 +223,7 @@ enum BucketStorageBackend {
   ;
 
   factory BucketStorageBackend.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return unknown;
@@ -249,7 +249,7 @@ enum BucketStorageBackend {
         value = 2;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -259,7 +259,7 @@ enum FunctionDcpBoundary {
   ;
 
   factory FunctionDcpBoundary.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return everything;
@@ -280,7 +280,7 @@ enum FunctionDcpBoundary {
         value = 1;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -291,7 +291,7 @@ enum FunctionLanguageCompatibility {
   ;
 
   factory FunctionLanguageCompatibility.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return version600;
@@ -317,7 +317,7 @@ enum FunctionLanguageCompatibility {
         value = 2;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -330,7 +330,7 @@ enum FunctionLogLevel {
   ;
 
   factory FunctionLogLevel.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return info;
@@ -366,7 +366,7 @@ enum FunctionLogLevel {
         value = 4;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -376,7 +376,7 @@ enum FunctionBucketAccess {
   ;
 
   factory FunctionBucketAccess.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return readOnly;
@@ -397,7 +397,7 @@ enum FunctionBucketAccess {
         value = 1;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -411,7 +411,7 @@ enum FunctionStatus {
   ;
 
   factory FunctionStatus.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return undeployed;
@@ -452,7 +452,7 @@ enum FunctionStatus {
         value = 5;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -462,7 +462,7 @@ enum FunctionDeploymentStatus {
   ;
 
   factory FunctionDeploymentStatus.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return deployed;
@@ -483,7 +483,7 @@ enum FunctionDeploymentStatus {
         value = 1;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -493,7 +493,7 @@ enum FunctionProcessingStatus {
   ;
 
   factory FunctionProcessingStatus.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return running;
@@ -514,7 +514,7 @@ enum FunctionProcessingStatus {
         value = 1;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -525,7 +525,7 @@ enum AuthDomain {
   ;
 
   factory AuthDomain.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return unknown;
@@ -551,7 +551,7 @@ enum AuthDomain {
         value = 2;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -580,7 +580,7 @@ enum RetryReason {
   ;
 
   factory RetryReason.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return doNotRetry;
@@ -696,7 +696,7 @@ enum RetryReason {
         value = 20;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -720,7 +720,7 @@ enum SubdocOpcode {
   ;
 
   factory SubdocOpcode.read(MessageBuffer buffer) {
-    final value = buffer.readUInt8();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return getDoc;
@@ -811,7 +811,7 @@ enum SubdocOpcode {
         value = -45;
         break;
     }
-    buffer.writeUInt8(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -821,7 +821,7 @@ enum AnalyticsScanConsistency {
   ;
 
   factory AnalyticsScanConsistency.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return notBounded;
@@ -842,7 +842,7 @@ enum AnalyticsScanConsistency {
         value = 1;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -852,7 +852,7 @@ enum DesignDocumentNamespace {
   ;
 
   factory DesignDocumentNamespace.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return development;
@@ -873,7 +873,7 @@ enum DesignDocumentNamespace {
         value = 1;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -884,7 +884,7 @@ enum ClusterState {
   ;
 
   factory ClusterState.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return online;
@@ -910,7 +910,7 @@ enum ClusterState {
         value = 2;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -922,7 +922,7 @@ enum EndpointState {
   ;
 
   factory EndpointState.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return disconnected;
@@ -953,7 +953,7 @@ enum EndpointState {
         value = 3;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -964,7 +964,7 @@ enum PingState {
   ;
 
   factory PingState.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return ok;
@@ -990,7 +990,7 @@ enum PingState {
         value = 2;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1001,7 +1001,7 @@ enum QueryProfile {
   ;
 
   factory QueryProfile.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return off;
@@ -1027,7 +1027,7 @@ enum QueryProfile {
         value = 2;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1037,7 +1037,7 @@ enum QueryScanConsistency {
   ;
 
   factory QueryScanConsistency.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return notBounded;
@@ -1058,7 +1058,7 @@ enum QueryScanConsistency {
         value = 1;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1068,7 +1068,7 @@ enum SearchHighlightStyle {
   ;
 
   factory SearchHighlightStyle.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return html;
@@ -1089,7 +1089,7 @@ enum SearchHighlightStyle {
         value = 1;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1098,7 +1098,7 @@ enum SearchScanConsistency {
   ;
 
   factory SearchScanConsistency.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return notBounded;
@@ -1114,7 +1114,7 @@ enum SearchScanConsistency {
         value = 0;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1129,7 +1129,7 @@ enum ServiceType {
   ;
 
   factory ServiceType.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return keyValue;
@@ -1175,7 +1175,7 @@ enum ServiceType {
         value = 6;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1185,7 +1185,7 @@ enum ViewOnError {
   ;
 
   factory ViewOnError.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return resume;
@@ -1206,7 +1206,7 @@ enum ViewOnError {
         value = 1;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1217,7 +1217,7 @@ enum ViewScanConsistency {
   ;
 
   factory ViewScanConsistency.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return notBounded;
@@ -1243,7 +1243,7 @@ enum ViewScanConsistency {
         value = 2;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1253,7 +1253,7 @@ enum ViewSortOrder {
   ;
 
   factory ViewSortOrder.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return ascending;
@@ -1274,7 +1274,7 @@ enum ViewSortOrder {
         value = 1;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1292,7 +1292,7 @@ enum AnalyticsStatus {
   ;
 
   factory AnalyticsStatus.read(MessageBuffer buffer) {
-    final value = buffer.readUInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return running;
@@ -1353,7 +1353,7 @@ enum AnalyticsStatus {
         value = 9;
         break;
     }
-    buffer.writeUInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1365,7 +1365,7 @@ enum DurabilityLevel {
   ;
 
   factory DurabilityLevel.read(MessageBuffer buffer) {
-    final value = buffer.readUInt8();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return none;
@@ -1396,7 +1396,7 @@ enum DurabilityLevel {
         value = 3;
         break;
     }
-    buffer.writeUInt8(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1425,7 +1425,7 @@ enum CommonErrorCode {
   ;
 
   factory CommonErrorCode.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 2:
         return requestCanceled;
@@ -1541,7 +1541,7 @@ enum CommonErrorCode {
         value = 22;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1579,7 +1579,7 @@ enum KeyValueErrorCode {
   ;
 
   factory KeyValueErrorCode.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 101:
         return documentNotFound;
@@ -1740,7 +1740,7 @@ enum KeyValueErrorCode {
         value = 134;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1752,7 +1752,7 @@ enum QueryErrorCode {
   ;
 
   factory QueryErrorCode.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 201:
         return planningFailure;
@@ -1783,7 +1783,7 @@ enum QueryErrorCode {
         value = 204;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1799,7 +1799,7 @@ enum AnalyticsErrorCode {
   ;
 
   factory AnalyticsErrorCode.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 301:
         return compilationFailure;
@@ -1850,7 +1850,7 @@ enum AnalyticsErrorCode {
         value = 308;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1860,7 +1860,7 @@ enum SearchErrorCode {
   ;
 
   factory SearchErrorCode.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 401:
         return indexNotReady;
@@ -1881,7 +1881,7 @@ enum SearchErrorCode {
         value = 402;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1891,7 +1891,7 @@ enum ViewErrorCode {
   ;
 
   factory ViewErrorCode.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 501:
         return viewNotFound;
@@ -1912,7 +1912,7 @@ enum ViewErrorCode {
         value = 502;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -1934,7 +1934,7 @@ enum ManagementErrorCode {
   ;
 
   factory ManagementErrorCode.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 601:
         return collectionExists;
@@ -2015,7 +2015,7 @@ enum ManagementErrorCode {
         value = 614;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -2031,7 +2031,7 @@ enum FieldLevelEncryptionErrorCode {
   ;
 
   factory FieldLevelEncryptionErrorCode.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 700:
         return genericCryptographyFailure;
@@ -2082,7 +2082,7 @@ enum FieldLevelEncryptionErrorCode {
         value = 707;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -2103,7 +2103,7 @@ enum NetworkErrorCode {
   ;
 
   factory NetworkErrorCode.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 1001:
         return resolveFailure;
@@ -2179,7 +2179,7 @@ enum NetworkErrorCode {
         value = 1013;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -2259,7 +2259,7 @@ enum KeyValueStatusCode {
   ;
 
   factory KeyValueStatusCode.read(MessageBuffer buffer) {
-    final value = buffer.readUInt16();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return success;
@@ -2630,7 +2630,7 @@ enum KeyValueStatusCode {
         value = -1;
         break;
     }
-    buffer.writeUInt16(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -2654,7 +2654,7 @@ enum Opcode {
   ;
 
   factory Opcode.read(MessageBuffer buffer) {
-    final value = buffer.readUInt8();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return getDoc;
@@ -2745,7 +2745,7 @@ enum Opcode {
         value = -45;
         break;
     }
-    buffer.writeUInt8(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -2757,7 +2757,7 @@ enum StoreSemantics {
   ;
 
   factory StoreSemantics.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return replace;
@@ -2788,7 +2788,7 @@ enum StoreSemantics {
         value = 3;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -2802,7 +2802,7 @@ enum PersistTo {
   ;
 
   factory PersistTo.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return none;
@@ -2843,7 +2843,7 @@ enum PersistTo {
         value = 5;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -2855,7 +2855,7 @@ enum ReplicateTo {
   ;
 
   factory ReplicateTo.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return none;
@@ -2886,7 +2886,7 @@ enum ReplicateTo {
         value = 3;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 
@@ -2896,7 +2896,7 @@ enum ScanSort {
   ;
 
   factory ScanSort.read(MessageBuffer buffer) {
-    final value = buffer.readInt32();
+    final value = buffer.readInt64();
     switch (value) {
       case 0:
         return none;
@@ -2917,7 +2917,7 @@ enum ScanSort {
         value = 1;
         break;
     }
-    buffer.writeInt32(value);
+    buffer.writeInt64(value);
   }
 }
 

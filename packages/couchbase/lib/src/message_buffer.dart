@@ -96,7 +96,3 @@ class MessageBuffer implements Finalizable {
     return slice.data.cast<Uint8>().asTypedList(slice.length);
   }
 }
-
-abstract class MessageBufferSerializable {
-  void write(MessageBuffer buffer);
-}
