@@ -29,3 +29,10 @@ jobs:
       - name: Build native binaries
         working-directory: native
         run: ./build.sh
+
+      - name: Start Couchbase Server
+        run: ./init-couchbase-server.sh
+
+      - name: Run tests
+        run: dart test
+        working-directory: packages/couchbase
