@@ -72,35 +72,29 @@ class DnsConfig {
 class DocumentId {
   const DocumentId({
     required this.bucket,
-    this.scope,
-    this.collection,
+    required this.scope,
+    required this.collection,
     required this.key,
   });
 
   factory DocumentId.read(MessageBuffer buffer) {
     return DocumentId(
       bucket: buffer.readString(),
-      scope: buffer.readBool() ? buffer.readString() : null,
-      collection: buffer.readBool() ? buffer.readString() : null,
+      scope: buffer.readString(),
+      collection: buffer.readString(),
       key: buffer.readString(),
     );
   }
 
   final String bucket;
-  final String? scope;
-  final String? collection;
+  final String scope;
+  final String collection;
   final String key;
 
   void write(MessageBuffer buffer) {
     buffer.writeString(bucket);
-    buffer.writeBool(scope != null);
-    if (scope != null) {
-      buffer.writeString(scope!);
-    }
-    buffer.writeBool(collection != null);
-    if (collection != null) {
-      buffer.writeString(collection!);
-    }
+    buffer.writeString(scope);
+    buffer.writeString(collection);
     buffer.writeString(key);
   }
 }
