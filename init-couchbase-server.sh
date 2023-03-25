@@ -21,7 +21,7 @@ done
 
 docker exec $CONTAINER_NAME couchbase-cli cluster-init \
   -c 127.0.0.1 \
-  --cluster-username Administrator \
+  --cluster-username admin \
   --cluster-password password \
   --services data \
   --cluster-ramsize 4096

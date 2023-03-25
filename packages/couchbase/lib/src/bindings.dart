@@ -1,10 +1,21 @@
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:couchbase/src/lib_couchbase_dart.dart';
 
-final library =
-    DynamicLibrary.open('../../native/build/libCouchbaseDart.dylib');
-final bindings = _initBindings(library);
+final bindings = _initBindings(_loadLibrary());
+
+DynamicLibrary _loadLibrary() {
+  if (Platform.isMacOS) {
+    return DynamicLibrary.open('../../native/build/libCouchbaseDart.dylib');
+  } else if (Platform.isLinux) {
+    return DynamicLibrary.open('../../native/build/libCouchbaseDart.so');
+  } else if (Platform.isWindows) {
+    return DynamicLibrary.open('../../native/build/libCouchbaseDart.dll');
+  } else {
+    throw UnsupportedError('Unsupported platform.');
+  }
+}
 
 LibCouchbaseDart _initBindings(DynamicLibrary library) {
   final bindings = LibCouchbaseDart(library);

@@ -15,7 +15,7 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Insatll Dart
+      - name: Install Dart
         uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
