@@ -13,6 +13,7 @@ const _generatedCConnectionImplementationFile =
 const _cppConnectionHeaderFile = '../native/src/Connection.hpp';
 const _generatedCppConnectionImplementationFile =
     '../native/src/Connection.g.cpp';
+const _generatedCppMessageCodecsFile = '../native/src/Message_Generated.hpp';
 
 class BindingsGenerator {
   BindingsGenerator({required BindingsModel model}) : _model = model;
@@ -27,6 +28,7 @@ class BindingsGenerator {
     _generateCConnectionImplementation();
     _updateCppConnectionHeader();
     _generateCppConnectionImplementation();
+    _generateCppMessageCodecs();
   }
 
   void _generateDartMessages() {
@@ -92,10 +94,45 @@ class BindingsGenerator {
       path: _generatedCppConnectionImplementationFile,
       () {
         _writeln('#include <Connection.hpp>');
+        _writeln('#include <Message_Generated.hpp>');
       },
       () {
         _writeln('namespace couchbase::dart {');
         _writeCppConnectionOperationDefinitions();
+        _writeln('} // namespace couchbase::dart');
+      },
+    );
+  }
+
+  void _generateCppMessageCodecs() {
+    _generateCppHeaderFile(
+      path: _generatedCppMessageCodecsFile,
+      () {
+        _writeln('#include <MessageCodec.hpp>');
+        _writeln('#include <Message_Basic.hpp>');
+        _writeln('#include <Message_CPP_Types.hpp>');
+        _writeln('#include <Message_Errors.hpp>');
+        _writeln();
+        _writeln('#include <core/cluster.hxx>');
+        _writeln('#include <core/operations/management/analytics.hxx>');
+        _writeln('#include <core/operations/management/bucket.hxx>');
+        _writeln('#include <core/operations/management/bucket_describe.hxx>');
+        _writeln('#include <core/operations/management/cluster_describe.hxx>');
+        _writeln(
+            '#include <core/operations/management/cluster_developer_preview_enable.hxx>');
+        _writeln('#include <core/operations/management/collections.hxx>');
+        _writeln('#include <core/operations/management/eventing.hxx>');
+        _writeln('#include <core/operations/management/freeform.hxx>');
+        _writeln('#include <core/operations/management/query.hxx>');
+        _writeln('#include <core/operations/management/search.hxx>');
+        _writeln('#include <core/operations/management/user.hxx>');
+        _writeln('#include <core/operations/management/view.hxx>');
+        _writeln('#include <core/range_scan_orchestrator_options.hxx>');
+        _writeln('#include <core/scan_options.hxx>');
+      },
+      () {
+        _writeln('namespace couchbase::dart {');
+        _writeCppMessageCodecs();
         _writeln('} // namespace couchbase::dart');
       },
     );
@@ -218,6 +255,23 @@ class BindingsGenerator {
     _formatFileWithClangFormat(path);
   }
 
+  void _generateCppHeaderFile(
+    void Function() writeHeaders,
+    void Function() writeDeclarations, {
+    required String path,
+  }) {
+    _generateFile(path: path, () {
+      _writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
+      _writeln('#pragma once');
+      _writeln();
+      writeHeaders();
+      _writeln();
+      writeDeclarations();
+      _writeln();
+    });
+    _formatFileWithClangFormat(path);
+  }
+
   void _generateCppImplementationFile(
     void Function() writeHeaders,
     void Function() writeDeclarations, {
@@ -258,6 +312,11 @@ class BindingsGenerator {
     final result = <_Operation>[];
     for (final struct in _model.structs) {
       if (!struct.name.startsWith('couchbase::core::operations::')) {
+        continue;
+      }
+
+      if (struct.name == 'couchbase::core::operations::mcbp_noop_request') {
+        // Filter out mcbp_noop_request because its currently broken...
         continue;
       }
 
@@ -624,8 +683,7 @@ class BindingsGenerator {
   }
 
   void _writeDartStructs() {
-    final structs = _model.structs.whereNot(_isIgnoredStruct);
-    for (final structType in structs) {
+    for (final structType in _model.structs.whereNot(_isIgnoredStruct)) {
       _writeDartStruct(structType);
     }
     _writeln();
@@ -750,11 +808,54 @@ class BindingsGenerator {
   }
 
   void _writeCppConnectionOperationDefinition(_Operation operation) {
+    final writeErrorContextFunction = operation.hasCoreErrorContext
+        ? 'writeCoreErrorContext'
+        : 'writeErrorContext';
+
     _writeln(
       'void Connection::${operation.name}(MessageBuffer *request) {',
     );
-    _writeln('throw std::runtime_error("Not implemented");');
+    _writeln('  Response response(this, request);');
+    _writeln('  auto req = read_cbpp<${operation.request.name}>(*request);');
+    _writeln(
+        '  _cluster->execute(req, [response](${operation.response.name} res) mutable {');
+    _writeln('    response.complete([res](MessageBuffer &response) {');
+    _writeln('      if (!$writeErrorContextFunction(response, res.ctx)) {');
+    _writeln('        write_cbpp(response, res);');
+    _writeln('      }');
+    _writeln('    });');
+    _writeln('  });');
     _writeln('}');
+  }
+
+  void _writeCppMessageCodecs() {
+    for (final structType in _model.structs.whereNot(_isIgnoredStruct)) {
+      _writeCppMessageCodec(structType);
+      _writeln();
+    }
+  }
+
+  void _writeCppMessageCodec(StructType type) {
+    final fields = type.usedFields;
+
+    _writeln('template <>');
+    _writeln('struct message_codec_t<${type.name}> {');
+    _writeln('  static inline ${type.name} read(MessageBuffer &buffer) {');
+    _writeln('    ${type.name} value;');
+    for (final field in fields) {
+      _writeln('read_cbpp(value.${field.name}, buffer);');
+    }
+    _writeln('    return value;');
+    _writeln('  }');
+    _writeln();
+    _writeln(
+      '  static inline void write(MessageBuffer &buffer, const ${type.name} &value) {',
+    );
+    for (final field in fields) {
+      _writeln('write_cbpp(buffer, value.${field.name});');
+    }
+    _writeln('  }');
+    _writeln('};');
   }
 }
 
@@ -763,17 +864,20 @@ class _Operation {
   final StructType request;
   final StructType response;
 
-  String get dartErrorContextType {
-    final type =
-        response.fields.firstWhere((field) => field.name == 'ctx').type;
+  TypeRef get errorContextType =>
+      response.fields.firstWhere((field) => field.name == 'ctx').type;
 
-    var name = type.name.replaceFirst('couchbase::', '');
+  String get dartErrorContextType {
+    var name = errorContextType.name.replaceFirst('couchbase::', '');
     if (name.startsWith('core::error_context::')) {
       name = name.split('::').last + '_error_context';
     }
 
     return name.camelCase.capitalize;
   }
+
+  bool get hasCoreErrorContext =>
+      errorContextType.name.startsWith('couchbase::core::');
 
   String get cFunctionName => 'CBDConnection_${name.capitalize}';
 

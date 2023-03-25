@@ -101,17 +101,6 @@ extension GeneratedConnectionExtension on Connection {
     );
   }
 
-  Future<McbpNoopResponse> mcbpNoop(
-    McbpNoopRequest request,
-  ) async {
-    return _executeOperation(
-      request.write,
-      KeyValueErrorContext.read,
-      McbpNoopResponse.read,
-      bindings.CBDConnection_McbpNoop,
-    );
-  }
-
   Future<ReplaceResponse> replace(
     ReplaceRequest request,
   ) async {

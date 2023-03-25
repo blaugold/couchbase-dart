@@ -28,8 +28,6 @@ void CBDConnection_Append(CBDConnection connection, CBDMessageBuffer request);
 
 void CBDConnection_Query(CBDConnection connection, CBDMessageBuffer request);
 
-void CBDConnection_McbpNoop(CBDConnection connection, CBDMessageBuffer request);
-
 void CBDConnection_Replace(CBDConnection connection, CBDMessageBuffer request);
 
 void CBDConnection_GetAndTouch(CBDConnection connection,
