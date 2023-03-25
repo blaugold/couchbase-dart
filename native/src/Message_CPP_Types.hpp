@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Message.hpp>
+#include <MessageCodec.hpp>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>

@@ -31,7 +31,11 @@ class BindingsGenerator {
 
   void _generateDartMessages() {
     _generateDartFile(path: _generatedDartMessagesFile, () {
-      _writeln("part of 'message.dart';");
+      _writeln("import 'dart:typed_data';");
+      _writeln();
+      _writeln("import 'message_basic.dart';");
+      _writeln("import 'message_buffer.dart';");
+      _writeln("import 'message_errors.dart';");
       _writeln();
       _writeDartEnums();
       _writeDartStructs();
