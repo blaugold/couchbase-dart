@@ -1,6 +1,9 @@
 #pragma once
 
 #include <Message.hpp>
+#include <cstddef>
+#include <cstdint>
+#include <cstring>
 
 namespace couchbase::dart
 {
@@ -121,6 +124,19 @@ struct message_codec_t<int64_t> {
     static inline void write(MessageBuffer &buffer, const int64_t value)
     {
         buffer.writeInt64(value);
+    }
+};
+
+template <>
+struct message_codec_t<size_t> {
+    static inline size_t read(MessageBuffer &buffer)
+    {
+        return static_cast<size_t>(buffer.readUInt64());
+    }
+
+    static inline void write(MessageBuffer &buffer, const size_t value)
+    {
+        buffer.writeUInt64(static_cast<uint64_t>(value));
     }
 };
 
