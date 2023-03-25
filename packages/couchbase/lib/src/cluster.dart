@@ -1,6 +1,6 @@
 import 'package:couchbase/src/connection.dart';
 
-import 'message.dart';
+import 'message_basic.dart';
 
 Future<Cluster> connect(
   String connectionString, [

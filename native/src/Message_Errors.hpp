@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Message.hpp>
+#include <MessageCodec.hpp>
 #include <Message_Basic.hpp>
 #include <Message_CPP_Types.hpp>
 #include <core/cluster.hxx>

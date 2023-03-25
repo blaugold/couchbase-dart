@@ -1,6 +1,5 @@
-import 'package:couchbase/src/message.dart';
-
 import 'message_buffer.dart';
+import 'message_errors.dart';
 
 extension OptionalCommonErrorExtension on MessageBuffer {
   void readOptionalCommonError() {
