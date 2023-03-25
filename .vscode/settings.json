@@ -87,6 +87,8 @@
     "variant": "cpp",
     "vector": "cpp",
     "format": "cpp",
-    "pointers": "cpp"
+    "pointers": "cpp",
+    "*.ipp": "cpp",
+    "string_span": "cpp"
   }
 }
