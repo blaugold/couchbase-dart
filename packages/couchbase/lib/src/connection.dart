@@ -5,7 +5,6 @@ import 'dart:isolate';
 import 'package:couchbase/src/basic.dart';
 
 import 'bindings.dart';
-import 'cluster.dart';
 import 'lib_couchbase_dart.dart';
 import 'message.dart';
 import 'message_buffer.dart';
