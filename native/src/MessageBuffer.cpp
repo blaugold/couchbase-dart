@@ -1,6 +1,7 @@
 #include <MessageBuffer.hpp>
 
 #include <cstdlib>
+#include <cstring>
 
 namespace couchbase::dart
 {
@@ -118,7 +119,7 @@ void *MessageBuffer::allocate(size_t size)
 
 void MessageBuffer::writeData(const Slice value)
 {
-    memcpy(allocate(value.length), value.data, value.length);
+    std::memcpy(allocate(value.length), value.data, value.length);
 }
 
 void MessageBuffer::writeString(const std::string &value)

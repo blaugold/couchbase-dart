@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Insatll Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Install ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+
+      - name: Build native binaries
+        working-directory: native
+        run: ./build.sh

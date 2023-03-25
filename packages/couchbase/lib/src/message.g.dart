@@ -3202,12 +3202,12 @@ class ManagementClusterBucketSettings {
       name: buffer.readString(),
       uuid: buffer.readString(),
       bucketType: BucketType.read(buffer),
-      ramQuotaMb: buffer.readUInt64(),
-      maxExpiry: buffer.readUInt32(),
+      ramQuotaMb: buffer.readInt64(),
+      maxExpiry: buffer.readInt64(),
       compressionMode: BucketCompression.read(buffer),
       minimumDurabilityLevel:
           buffer.readBool() ? DurabilityLevel.read(buffer) : null,
-      numReplicas: buffer.readUInt32(),
+      numReplicas: buffer.readInt64(),
       replicaIndexes: buffer.readBool(),
       flushEnabled: buffer.readBool(),
       evictionPolicy: BucketEvictionPolicy.read(buffer),
@@ -3240,14 +3240,14 @@ class ManagementClusterBucketSettings {
     buffer.writeString(name);
     buffer.writeString(uuid);
     bucketType.write(buffer);
-    buffer.writeUInt64(ramQuotaMb);
-    buffer.writeUInt32(maxExpiry);
+    buffer.writeInt64(ramQuotaMb);
+    buffer.writeInt64(maxExpiry);
     compressionMode.write(buffer);
     buffer.writeBool(minimumDurabilityLevel != null);
     if (minimumDurabilityLevel != null) {
       minimumDurabilityLevel!.write(buffer);
     }
-    buffer.writeUInt32(numReplicas);
+    buffer.writeInt64(numReplicas);
     buffer.writeBool(replicaIndexes);
     buffer.writeBool(flushEnabled);
     evictionPolicy.write(buffer);
@@ -3283,7 +3283,7 @@ class ManagementClusterBucketSettingsNode {
         final map = <String, int>{};
         final length = buffer.readUInt64();
         for (var i = 0; i < length; i++) {
-          map[buffer.readString()] = buffer.readUInt16();
+          map[buffer.readString()] = buffer.readInt64();
         }
         return map;
       })(),
@@ -3307,7 +3307,7 @@ class ManagementClusterBucketSettingsNode {
     buffer.writeUInt64(ports.length);
     for (final entry in ports.entries) {
       buffer.writeString(entry.key);
-      buffer.writeUInt16(entry.value);
+      buffer.writeInt64(entry.value);
     }
   }
 }
@@ -3930,8 +3930,8 @@ class ManagementEventingFunctionState {
     return ManagementEventingFunctionState(
       name: buffer.readString(),
       status: FunctionStatus.read(buffer),
-      numBootstrappingNodes: buffer.readUInt64(),
-      numDeployedNodes: buffer.readUInt64(),
+      numBootstrappingNodes: buffer.readInt64(),
+      numDeployedNodes: buffer.readInt64(),
       deploymentStatus: FunctionDeploymentStatus.read(buffer),
       processingStatus: FunctionProcessingStatus.read(buffer),
       redeployRequired: buffer.readBool() ? buffer.readBool() : null,
@@ -3949,8 +3949,8 @@ class ManagementEventingFunctionState {
   void write(MessageBuffer buffer) {
     buffer.writeString(name);
     status.write(buffer);
-    buffer.writeUInt64(numBootstrappingNodes);
-    buffer.writeUInt64(numDeployedNodes);
+    buffer.writeInt64(numBootstrappingNodes);
+    buffer.writeInt64(numDeployedNodes);
     deploymentStatus.write(buffer);
     processingStatus.write(buffer);
     buffer.writeBool(redeployRequired != null);
@@ -3968,7 +3968,7 @@ class ManagementEventingStatus {
 
   factory ManagementEventingStatus.read(MessageBuffer buffer) {
     return ManagementEventingStatus(
-      numEventingNodes: buffer.readUInt64(),
+      numEventingNodes: buffer.readInt64(),
       functions: List.generate(buffer.readUInt64(),
           (_) => ManagementEventingFunctionState.read(buffer)),
     );
@@ -3978,7 +3978,7 @@ class ManagementEventingStatus {
   final List<ManagementEventingFunctionState> functions;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(numEventingNodes);
+    buffer.writeInt64(numEventingNodes);
     buffer.writeUInt64(functions.length);
     for (final item in functions) {
       item.write(buffer);
@@ -4352,8 +4352,8 @@ class TopologyCollectionsManifest {
 
   factory TopologyCollectionsManifest.read(MessageBuffer buffer) {
     return TopologyCollectionsManifest(
-      id: List.generate(16, (_) => buffer.readUInt8()),
-      uid: buffer.readUInt64(),
+      id: List.generate(16, (_) => buffer.readInt64()),
+      uid: buffer.readInt64(),
       scopes: List.generate(buffer.readUInt64(),
           (_) => TopologyCollectionsManifestScope.read(buffer)),
     );
@@ -4365,9 +4365,9 @@ class TopologyCollectionsManifest {
 
   void write(MessageBuffer buffer) {
     for (final item in id) {
-      buffer.writeUInt8(item);
+      buffer.writeInt64(item);
     }
-    buffer.writeUInt64(uid);
+    buffer.writeInt64(uid);
     buffer.writeUInt64(scopes.length);
     for (final item in scopes) {
       item.write(buffer);
@@ -4384,9 +4384,9 @@ class TopologyCollectionsManifestCollection {
 
   factory TopologyCollectionsManifestCollection.read(MessageBuffer buffer) {
     return TopologyCollectionsManifestCollection(
-      uid: buffer.readUInt64(),
+      uid: buffer.readInt64(),
       name: buffer.readString(),
-      maxExpiry: buffer.readUInt32(),
+      maxExpiry: buffer.readInt64(),
     );
   }
 
@@ -4395,9 +4395,9 @@ class TopologyCollectionsManifestCollection {
   final int maxExpiry;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(uid);
+    buffer.writeInt64(uid);
     buffer.writeString(name);
-    buffer.writeUInt32(maxExpiry);
+    buffer.writeInt64(maxExpiry);
   }
 }
 
@@ -4410,7 +4410,7 @@ class TopologyCollectionsManifestScope {
 
   factory TopologyCollectionsManifestScope.read(MessageBuffer buffer) {
     return TopologyCollectionsManifestScope(
-      uid: buffer.readUInt64(),
+      uid: buffer.readInt64(),
       name: buffer.readString(),
       collections: List.generate(buffer.readUInt64(),
           (_) => TopologyCollectionsManifestCollection.read(buffer)),
@@ -4422,7 +4422,7 @@ class TopologyCollectionsManifestScope {
   final List<TopologyCollectionsManifestCollection> collections;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(uid);
+    buffer.writeInt64(uid);
     buffer.writeString(name);
     buffer.writeUInt64(collections.length);
     for (final item in collections) {
@@ -4508,7 +4508,7 @@ class DiagDiagnosticsResult {
         }
         return map;
       })(),
-      version: buffer.readInt32(),
+      version: buffer.readInt64(),
     );
   }
 
@@ -4528,7 +4528,7 @@ class DiagDiagnosticsResult {
         item.write(buffer);
       }
     }
-    buffer.writeInt32(version);
+    buffer.writeInt64(version);
   }
 }
 
@@ -4605,7 +4605,7 @@ class DiagPingResult {
         }
         return map;
       })(),
-      version: buffer.readInt32(),
+      version: buffer.readInt64(),
     );
   }
 
@@ -4625,7 +4625,7 @@ class DiagPingResult {
         item.write(buffer);
       }
     }
-    buffer.writeInt32(version);
+    buffer.writeInt64(version);
   }
 }
 
@@ -4665,8 +4665,8 @@ class PrependRequest {
     return PrependRequest(
       id: DocumentId.read(buffer),
       value: buffer.readData(),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       durabilityLevel: DurabilityLevel.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
@@ -4683,8 +4683,8 @@ class PrependRequest {
   void write(MessageBuffer buffer) {
     id.write(buffer);
     buffer.writeData(value);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     durabilityLevel.write(buffer);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
@@ -4708,8 +4708,8 @@ class PrependWithLegacyDurability {
     return PrependWithLegacyDurability(
       id: DocumentId.read(buffer),
       value: buffer.readData(),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
       persistTo: PersistTo.read(buffer),
@@ -4728,8 +4728,8 @@ class PrependWithLegacyDurability {
   void write(MessageBuffer buffer) {
     id.write(buffer);
     buffer.writeData(value);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
       buffer.writeInt64(timeout!.inMicroseconds);
@@ -4754,10 +4754,10 @@ class ExistsResponse {
     return ExistsResponse(
       deleted: buffer.readBool(),
       cas: Cas.read(buffer),
-      flags: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
-      sequenceNumber: buffer.readUInt64(),
-      datatype: buffer.readUInt8(),
+      flags: buffer.readInt64(),
+      expiry: buffer.readInt64(),
+      sequenceNumber: buffer.readInt64(),
+      datatype: buffer.readInt64(),
       documentExists: buffer.readBool(),
     );
   }
@@ -4773,10 +4773,10 @@ class ExistsResponse {
   void write(MessageBuffer buffer) {
     buffer.writeBool(deleted);
     cas.write(buffer);
-    buffer.writeUInt32(flags);
-    buffer.writeUInt32(expiry);
-    buffer.writeUInt64(sequenceNumber);
-    buffer.writeUInt8(datatype);
+    buffer.writeInt64(flags);
+    buffer.writeInt64(expiry);
+    buffer.writeInt64(sequenceNumber);
+    buffer.writeInt64(datatype);
     buffer.writeBool(documentExists);
   }
 }
@@ -4792,8 +4792,8 @@ class ExistsRequest {
   factory ExistsRequest.read(MessageBuffer buffer) {
     return ExistsRequest(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
     );
@@ -4806,8 +4806,8 @@ class ExistsRequest {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
       buffer.writeInt64(timeout!.inMicroseconds);
@@ -4888,8 +4888,8 @@ class UnlockRequest {
   factory UnlockRequest.read(MessageBuffer buffer) {
     return UnlockRequest(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       cas: Cas.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
@@ -4904,8 +4904,8 @@ class UnlockRequest {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     cas.write(buffer);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
@@ -4948,7 +4948,7 @@ class GetAllReplicasResponseEntry {
     return GetAllReplicasResponseEntry(
       value: buffer.readData(),
       cas: Cas.read(buffer),
-      flags: buffer.readUInt32(),
+      flags: buffer.readInt64(),
       replica: buffer.readBool(),
     );
   }
@@ -4961,7 +4961,7 @@ class GetAllReplicasResponseEntry {
   void write(MessageBuffer buffer) {
     buffer.writeData(value);
     cas.write(buffer);
-    buffer.writeUInt32(flags);
+    buffer.writeInt64(flags);
     buffer.writeBool(replica);
   }
 }
@@ -5031,10 +5031,10 @@ class UpsertRequest {
     return UpsertRequest(
       id: DocumentId.read(buffer),
       value: buffer.readData(),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
-      flags: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
+      flags: buffer.readInt64(),
+      expiry: buffer.readInt64(),
       durabilityLevel: DurabilityLevel.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
@@ -5055,10 +5055,10 @@ class UpsertRequest {
   void write(MessageBuffer buffer) {
     id.write(buffer);
     buffer.writeData(value);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
-    buffer.writeUInt32(flags);
-    buffer.writeUInt32(expiry);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
+    buffer.writeInt64(flags);
+    buffer.writeInt64(expiry);
     durabilityLevel.write(buffer);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
@@ -5086,10 +5086,10 @@ class UpsertWithLegacyDurability {
     return UpsertWithLegacyDurability(
       id: DocumentId.read(buffer),
       value: buffer.readData(),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
-      flags: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
+      flags: buffer.readInt64(),
+      expiry: buffer.readInt64(),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
       preserveExpiry: buffer.readBool(),
@@ -5112,10 +5112,10 @@ class UpsertWithLegacyDurability {
   void write(MessageBuffer buffer) {
     id.write(buffer);
     buffer.writeData(value);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
-    buffer.writeUInt32(flags);
-    buffer.writeUInt32(expiry);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
+    buffer.writeInt64(flags);
+    buffer.writeInt64(expiry);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
       buffer.writeInt64(timeout!.inMicroseconds);
@@ -5138,7 +5138,7 @@ class GetAnyReplicaResponse {
     return GetAnyReplicaResponse(
       value: buffer.readData(),
       cas: Cas.read(buffer),
-      flags: buffer.readUInt32(),
+      flags: buffer.readInt64(),
       replica: buffer.readBool(),
     );
   }
@@ -5151,7 +5151,7 @@ class GetAnyReplicaResponse {
   void write(MessageBuffer buffer) {
     buffer.writeData(value);
     cas.write(buffer);
-    buffer.writeUInt32(flags);
+    buffer.writeInt64(flags);
     buffer.writeBool(replica);
   }
 }
@@ -5218,8 +5218,8 @@ class AppendRequest {
     return AppendRequest(
       id: DocumentId.read(buffer),
       value: buffer.readData(),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       durabilityLevel: DurabilityLevel.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
@@ -5236,8 +5236,8 @@ class AppendRequest {
   void write(MessageBuffer buffer) {
     id.write(buffer);
     buffer.writeData(value);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     durabilityLevel.write(buffer);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
@@ -5261,8 +5261,8 @@ class AppendWithLegacyDurability {
     return AppendWithLegacyDurability(
       id: DocumentId.read(buffer),
       value: buffer.readData(),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
       persistTo: PersistTo.read(buffer),
@@ -5281,8 +5281,8 @@ class AppendWithLegacyDurability {
   void write(MessageBuffer buffer) {
     id.write(buffer);
     buffer.writeData(value);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
       buffer.writeInt64(timeout!.inMicroseconds);
@@ -5344,12 +5344,12 @@ class QueryResponseQueryMetrics {
     return QueryResponseQueryMetrics(
       elapsedTime: Duration(microseconds: buffer.readInt64()),
       executionTime: Duration(microseconds: buffer.readInt64()),
-      resultCount: buffer.readUInt64(),
-      resultSize: buffer.readUInt64(),
-      sortCount: buffer.readUInt64(),
-      mutationCount: buffer.readUInt64(),
-      errorCount: buffer.readUInt64(),
-      warningCount: buffer.readUInt64(),
+      resultCount: buffer.readInt64(),
+      resultSize: buffer.readInt64(),
+      sortCount: buffer.readInt64(),
+      mutationCount: buffer.readInt64(),
+      errorCount: buffer.readInt64(),
+      warningCount: buffer.readInt64(),
     );
   }
 
@@ -5365,12 +5365,12 @@ class QueryResponseQueryMetrics {
   void write(MessageBuffer buffer) {
     buffer.writeInt64(elapsedTime.inMicroseconds);
     buffer.writeInt64(executionTime.inMicroseconds);
-    buffer.writeUInt64(resultCount);
-    buffer.writeUInt64(resultSize);
-    buffer.writeUInt64(sortCount);
-    buffer.writeUInt64(mutationCount);
-    buffer.writeUInt64(errorCount);
-    buffer.writeUInt64(warningCount);
+    buffer.writeInt64(resultCount);
+    buffer.writeInt64(resultSize);
+    buffer.writeInt64(sortCount);
+    buffer.writeInt64(mutationCount);
+    buffer.writeInt64(errorCount);
+    buffer.writeInt64(warningCount);
   }
 }
 
@@ -5384,9 +5384,9 @@ class QueryResponseQueryProblem {
 
   factory QueryResponseQueryProblem.read(MessageBuffer buffer) {
     return QueryResponseQueryProblem(
-      code: buffer.readUInt64(),
+      code: buffer.readInt64(),
       message: buffer.readString(),
-      reason: buffer.readBool() ? buffer.readUInt64() : null,
+      reason: buffer.readBool() ? buffer.readInt64() : null,
       retry: buffer.readBool() ? buffer.readBool() : null,
     );
   }
@@ -5397,11 +5397,11 @@ class QueryResponseQueryProblem {
   final bool? retry;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(code);
+    buffer.writeInt64(code);
     buffer.writeString(message);
     buffer.writeBool(reason != null);
     if (reason != null) {
-      buffer.writeUInt64(reason!);
+      buffer.writeInt64(reason!);
     }
     buffer.writeBool(retry != null);
     if (retry != null) {
@@ -5518,12 +5518,12 @@ class QueryRequest {
       readonly: buffer.readBool(),
       flexIndex: buffer.readBool(),
       preserveExpiry: buffer.readBool(),
-      maxParallelism: buffer.readBool() ? buffer.readUInt64() : null,
-      scanCap: buffer.readBool() ? buffer.readUInt64() : null,
+      maxParallelism: buffer.readBool() ? buffer.readInt64() : null,
+      scanCap: buffer.readBool() ? buffer.readInt64() : null,
       scanWait:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
-      pipelineBatch: buffer.readBool() ? buffer.readUInt64() : null,
-      pipelineCap: buffer.readBool() ? buffer.readUInt64() : null,
+      pipelineBatch: buffer.readBool() ? buffer.readInt64() : null,
+      pipelineCap: buffer.readBool() ? buffer.readInt64() : null,
       scanConsistency:
           buffer.readBool() ? QueryScanConsistency.read(buffer) : null,
       mutationState:
@@ -5588,11 +5588,11 @@ class QueryRequest {
     buffer.writeBool(preserveExpiry);
     buffer.writeBool(maxParallelism != null);
     if (maxParallelism != null) {
-      buffer.writeUInt64(maxParallelism!);
+      buffer.writeInt64(maxParallelism!);
     }
     buffer.writeBool(scanCap != null);
     if (scanCap != null) {
-      buffer.writeUInt64(scanCap!);
+      buffer.writeInt64(scanCap!);
     }
     buffer.writeBool(scanWait != null);
     if (scanWait != null) {
@@ -5600,11 +5600,11 @@ class QueryRequest {
     }
     buffer.writeBool(pipelineBatch != null);
     if (pipelineBatch != null) {
-      buffer.writeUInt64(pipelineBatch!);
+      buffer.writeInt64(pipelineBatch!);
     }
     buffer.writeBool(pipelineCap != null);
     if (pipelineCap != null) {
-      buffer.writeUInt64(pipelineCap!);
+      buffer.writeInt64(pipelineCap!);
     }
     buffer.writeBool(scanConsistency != null);
     if (scanConsistency != null) {
@@ -5668,8 +5668,8 @@ class McbpNoopRequest {
 
   factory McbpNoopRequest.read(MessageBuffer buffer) {
     return McbpNoopRequest(
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
     );
@@ -5680,8 +5680,8 @@ class McbpNoopRequest {
   final Duration? timeout;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
       buffer.writeInt64(timeout!.inMicroseconds);
@@ -5729,10 +5729,10 @@ class ReplaceRequest {
     return ReplaceRequest(
       id: DocumentId.read(buffer),
       value: buffer.readData(),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
-      flags: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
+      flags: buffer.readInt64(),
+      expiry: buffer.readInt64(),
       cas: Cas.read(buffer),
       durabilityLevel: DurabilityLevel.read(buffer),
       timeout:
@@ -5755,10 +5755,10 @@ class ReplaceRequest {
   void write(MessageBuffer buffer) {
     id.write(buffer);
     buffer.writeData(value);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
-    buffer.writeUInt32(flags);
-    buffer.writeUInt32(expiry);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
+    buffer.writeInt64(flags);
+    buffer.writeInt64(expiry);
     cas.write(buffer);
     durabilityLevel.write(buffer);
     buffer.writeBool(timeout != null);
@@ -5788,10 +5788,10 @@ class ReplaceWithLegacyDurability {
     return ReplaceWithLegacyDurability(
       id: DocumentId.read(buffer),
       value: buffer.readData(),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
-      flags: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
+      flags: buffer.readInt64(),
+      expiry: buffer.readInt64(),
       cas: Cas.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
@@ -5816,10 +5816,10 @@ class ReplaceWithLegacyDurability {
   void write(MessageBuffer buffer) {
     id.write(buffer);
     buffer.writeData(value);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
-    buffer.writeUInt32(flags);
-    buffer.writeUInt32(expiry);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
+    buffer.writeInt64(flags);
+    buffer.writeInt64(expiry);
     cas.write(buffer);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
@@ -5842,7 +5842,7 @@ class GetAndTouchResponse {
     return GetAndTouchResponse(
       value: buffer.readData(),
       cas: Cas.read(buffer),
-      flags: buffer.readUInt32(),
+      flags: buffer.readInt64(),
     );
   }
 
@@ -5853,7 +5853,7 @@ class GetAndTouchResponse {
   void write(MessageBuffer buffer) {
     buffer.writeData(value);
     cas.write(buffer);
-    buffer.writeUInt32(flags);
+    buffer.writeInt64(flags);
   }
 }
 
@@ -5869,9 +5869,9 @@ class GetAndTouchRequest {
   factory GetAndTouchRequest.read(MessageBuffer buffer) {
     return GetAndTouchRequest(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
+      expiry: buffer.readInt64(),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
     );
@@ -5885,9 +5885,9 @@ class GetAndTouchRequest {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
-    buffer.writeUInt32(expiry);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
+    buffer.writeInt64(expiry);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
       buffer.writeInt64(timeout!.inMicroseconds);
@@ -5930,8 +5930,8 @@ class RemoveRequest {
   factory RemoveRequest.read(MessageBuffer buffer) {
     return RemoveRequest(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       cas: Cas.read(buffer),
       durabilityLevel: DurabilityLevel.read(buffer),
       timeout:
@@ -5948,8 +5948,8 @@ class RemoveRequest {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     cas.write(buffer);
     durabilityLevel.write(buffer);
     buffer.writeBool(timeout != null);
@@ -5973,8 +5973,8 @@ class RemoveWithLegacyDurability {
   factory RemoveWithLegacyDurability.read(MessageBuffer buffer) {
     return RemoveWithLegacyDurability(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       cas: Cas.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
@@ -5993,8 +5993,8 @@ class RemoveWithLegacyDurability {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     cas.write(buffer);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
@@ -6016,7 +6016,7 @@ class GetResponse {
     return GetResponse(
       value: buffer.readData(),
       cas: Cas.read(buffer),
-      flags: buffer.readUInt32(),
+      flags: buffer.readInt64(),
     );
   }
 
@@ -6027,7 +6027,7 @@ class GetResponse {
   void write(MessageBuffer buffer) {
     buffer.writeData(value);
     cas.write(buffer);
-    buffer.writeUInt32(flags);
+    buffer.writeInt64(flags);
   }
 }
 
@@ -6042,8 +6042,8 @@ class GetRequest {
   factory GetRequest.read(MessageBuffer buffer) {
     return GetRequest(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
     );
@@ -6056,8 +6056,8 @@ class GetRequest {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
       buffer.writeInt64(timeout!.inMicroseconds);
@@ -6105,11 +6105,11 @@ class AnalyticsResponseAnalyticsMetrics {
     return AnalyticsResponseAnalyticsMetrics(
       elapsedTime: Duration(microseconds: buffer.readInt64()),
       executionTime: Duration(microseconds: buffer.readInt64()),
-      resultCount: buffer.readUInt64(),
-      resultSize: buffer.readUInt64(),
-      errorCount: buffer.readUInt64(),
-      processedObjects: buffer.readUInt64(),
-      warningCount: buffer.readUInt64(),
+      resultCount: buffer.readInt64(),
+      resultSize: buffer.readInt64(),
+      errorCount: buffer.readInt64(),
+      processedObjects: buffer.readInt64(),
+      warningCount: buffer.readInt64(),
     );
   }
 
@@ -6124,11 +6124,11 @@ class AnalyticsResponseAnalyticsMetrics {
   void write(MessageBuffer buffer) {
     buffer.writeInt64(elapsedTime.inMicroseconds);
     buffer.writeInt64(executionTime.inMicroseconds);
-    buffer.writeUInt64(resultCount);
-    buffer.writeUInt64(resultSize);
-    buffer.writeUInt64(errorCount);
-    buffer.writeUInt64(processedObjects);
-    buffer.writeUInt64(warningCount);
+    buffer.writeInt64(resultCount);
+    buffer.writeInt64(resultSize);
+    buffer.writeInt64(errorCount);
+    buffer.writeInt64(processedObjects);
+    buffer.writeInt64(warningCount);
   }
 }
 
@@ -6140,7 +6140,7 @@ class AnalyticsResponseAnalyticsProblem {
 
   factory AnalyticsResponseAnalyticsProblem.read(MessageBuffer buffer) {
     return AnalyticsResponseAnalyticsProblem(
-      code: buffer.readUInt64(),
+      code: buffer.readInt64(),
       message: buffer.readString(),
     );
   }
@@ -6149,7 +6149,7 @@ class AnalyticsResponseAnalyticsProblem {
   final String message;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(code);
+    buffer.writeInt64(code);
     buffer.writeString(message);
   }
 }
@@ -6331,8 +6331,8 @@ class GetProjectedResponse {
     return GetProjectedResponse(
       value: buffer.readData(),
       cas: Cas.read(buffer),
-      flags: buffer.readUInt32(),
-      expiry: buffer.readBool() ? buffer.readUInt32() : null,
+      flags: buffer.readInt64(),
+      expiry: buffer.readBool() ? buffer.readInt64() : null,
     );
   }
 
@@ -6344,10 +6344,10 @@ class GetProjectedResponse {
   void write(MessageBuffer buffer) {
     buffer.writeData(value);
     cas.write(buffer);
-    buffer.writeUInt32(flags);
+    buffer.writeInt64(flags);
     buffer.writeBool(expiry != null);
     if (expiry != null) {
-      buffer.writeUInt32(expiry!);
+      buffer.writeInt64(expiry!);
     }
   }
 }
@@ -6367,8 +6367,8 @@ class GetProjectedRequest {
   factory GetProjectedRequest.read(MessageBuffer buffer) {
     return GetProjectedRequest(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       projections:
           List.generate(buffer.readUInt64(), (_) => buffer.readString()),
       withExpiry: buffer.readBool(),
@@ -6391,8 +6391,8 @@ class GetProjectedRequest {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     buffer.writeUInt64(projections.length);
     for (final item in projections) {
       buffer.writeString(item);
@@ -6419,7 +6419,7 @@ class DecrementResponse {
 
   factory DecrementResponse.read(MessageBuffer buffer) {
     return DecrementResponse(
-      content: buffer.readUInt64(),
+      content: buffer.readInt64(),
       cas: Cas.read(buffer),
       token: MutationToken.read(buffer),
     );
@@ -6430,7 +6430,7 @@ class DecrementResponse {
   final MutationToken token;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(content);
+    buffer.writeInt64(content);
     cas.write(buffer);
     token.write(buffer);
   }
@@ -6451,11 +6451,11 @@ class DecrementRequest {
   factory DecrementRequest.read(MessageBuffer buffer) {
     return DecrementRequest(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
-      delta: buffer.readUInt64(),
-      initialValue: buffer.readBool() ? buffer.readUInt64() : null,
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
+      expiry: buffer.readInt64(),
+      delta: buffer.readInt64(),
+      initialValue: buffer.readBool() ? buffer.readInt64() : null,
       durabilityLevel: DurabilityLevel.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
@@ -6473,13 +6473,13 @@ class DecrementRequest {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
-    buffer.writeUInt32(expiry);
-    buffer.writeUInt64(delta);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
+    buffer.writeInt64(expiry);
+    buffer.writeInt64(delta);
     buffer.writeBool(initialValue != null);
     if (initialValue != null) {
-      buffer.writeUInt64(initialValue!);
+      buffer.writeInt64(initialValue!);
     }
     durabilityLevel.write(buffer);
     buffer.writeBool(timeout != null);
@@ -6505,11 +6505,11 @@ class DecrementWithLegacyDurability {
   factory DecrementWithLegacyDurability.read(MessageBuffer buffer) {
     return DecrementWithLegacyDurability(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
-      delta: buffer.readUInt64(),
-      initialValue: buffer.readBool() ? buffer.readUInt64() : null,
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
+      expiry: buffer.readInt64(),
+      delta: buffer.readInt64(),
+      initialValue: buffer.readBool() ? buffer.readInt64() : null,
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
       persistTo: PersistTo.read(buffer),
@@ -6529,13 +6529,13 @@ class DecrementWithLegacyDurability {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
-    buffer.writeUInt32(expiry);
-    buffer.writeUInt64(delta);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
+    buffer.writeInt64(expiry);
+    buffer.writeInt64(delta);
     buffer.writeBool(initialValue != null);
     if (initialValue != null) {
-      buffer.writeUInt64(initialValue!);
+      buffer.writeInt64(initialValue!);
     }
     buffer.writeBool(timeout != null);
     if (timeout != null) {
@@ -6600,10 +6600,10 @@ class SearchResponseSearchMetrics {
   factory SearchResponseSearchMetrics.read(MessageBuffer buffer) {
     return SearchResponseSearchMetrics(
       took: Duration(microseconds: buffer.readInt64()),
-      totalRows: buffer.readUInt64(),
+      totalRows: buffer.readInt64(),
       maxScore: buffer.readDouble(),
-      successPartitionCount: buffer.readUInt64(),
-      errorPartitionCount: buffer.readUInt64(),
+      successPartitionCount: buffer.readInt64(),
+      errorPartitionCount: buffer.readInt64(),
     );
   }
 
@@ -6615,10 +6615,10 @@ class SearchResponseSearchMetrics {
 
   void write(MessageBuffer buffer) {
     buffer.writeInt64(took.inMicroseconds);
-    buffer.writeUInt64(totalRows);
+    buffer.writeInt64(totalRows);
     buffer.writeDouble(maxScore);
-    buffer.writeUInt64(successPartitionCount);
-    buffer.writeUInt64(errorPartitionCount);
+    buffer.writeInt64(successPartitionCount);
+    buffer.writeInt64(errorPartitionCount);
   }
 }
 
@@ -6673,11 +6673,11 @@ class SearchResponseSearchLocation {
     return SearchResponseSearchLocation(
       field: buffer.readString(),
       term: buffer.readString(),
-      position: buffer.readUInt64(),
-      startOffset: buffer.readUInt64(),
-      endOffset: buffer.readUInt64(),
+      position: buffer.readInt64(),
+      startOffset: buffer.readInt64(),
+      endOffset: buffer.readInt64(),
       arrayPositions: buffer.readBool()
-          ? List.generate(buffer.readUInt64(), (_) => buffer.readUInt64())
+          ? List.generate(buffer.readUInt64(), (_) => buffer.readInt64())
           : null,
     );
   }
@@ -6692,14 +6692,14 @@ class SearchResponseSearchLocation {
   void write(MessageBuffer buffer) {
     buffer.writeString(field);
     buffer.writeString(term);
-    buffer.writeUInt64(position);
-    buffer.writeUInt64(startOffset);
-    buffer.writeUInt64(endOffset);
+    buffer.writeInt64(position);
+    buffer.writeInt64(startOffset);
+    buffer.writeInt64(endOffset);
     buffer.writeBool(arrayPositions != null);
     if (arrayPositions != null) {
       buffer.writeUInt64(arrayPositions!.length);
       for (final item in arrayPositions!) {
-        buffer.writeUInt64(item);
+        buffer.writeInt64(item);
       }
     }
   }
@@ -6782,9 +6782,9 @@ class SearchResponseSearchFacet {
     return SearchResponseSearchFacet(
       name: buffer.readString(),
       field: buffer.readString(),
-      total: buffer.readUInt64(),
-      missing: buffer.readUInt64(),
-      other: buffer.readUInt64(),
+      total: buffer.readInt64(),
+      missing: buffer.readInt64(),
+      other: buffer.readInt64(),
       terms: List.generate(buffer.readUInt64(),
           (_) => SearchResponseSearchFacetTermFacet.read(buffer)),
       dateRanges: List.generate(buffer.readUInt64(),
@@ -6806,9 +6806,9 @@ class SearchResponseSearchFacet {
   void write(MessageBuffer buffer) {
     buffer.writeString(name);
     buffer.writeString(field);
-    buffer.writeUInt64(total);
-    buffer.writeUInt64(missing);
-    buffer.writeUInt64(other);
+    buffer.writeInt64(total);
+    buffer.writeInt64(missing);
+    buffer.writeInt64(other);
     buffer.writeUInt64(terms.length);
     for (final item in terms) {
       item.write(buffer);
@@ -6833,7 +6833,7 @@ class SearchResponseSearchFacetTermFacet {
   factory SearchResponseSearchFacetTermFacet.read(MessageBuffer buffer) {
     return SearchResponseSearchFacetTermFacet(
       term: buffer.readString(),
-      count: buffer.readUInt64(),
+      count: buffer.readInt64(),
     );
   }
 
@@ -6842,7 +6842,7 @@ class SearchResponseSearchFacetTermFacet {
 
   void write(MessageBuffer buffer) {
     buffer.writeString(term);
-    buffer.writeUInt64(count);
+    buffer.writeInt64(count);
   }
 }
 
@@ -6857,7 +6857,7 @@ class SearchResponseSearchFacetDateRangeFacet {
   factory SearchResponseSearchFacetDateRangeFacet.read(MessageBuffer buffer) {
     return SearchResponseSearchFacetDateRangeFacet(
       name: buffer.readString(),
-      count: buffer.readUInt64(),
+      count: buffer.readInt64(),
       start: buffer.readBool() ? buffer.readString() : null,
       end: buffer.readBool() ? buffer.readString() : null,
     );
@@ -6870,7 +6870,7 @@ class SearchResponseSearchFacetDateRangeFacet {
 
   void write(MessageBuffer buffer) {
     buffer.writeString(name);
-    buffer.writeUInt64(count);
+    buffer.writeInt64(count);
     buffer.writeBool(start != null);
     if (start != null) {
       buffer.writeString(start!);
@@ -6894,14 +6894,14 @@ class SearchResponseSearchFacetNumericRangeFacet {
       MessageBuffer buffer) {
     return SearchResponseSearchFacetNumericRangeFacet(
       name: buffer.readString(),
-      count: buffer.readUInt64(),
+      count: buffer.readInt64(),
       min: (() {
         final variantIndex = buffer.readUInt8();
         switch (variantIndex) {
           case 0:
             return null;
           case 1:
-            return buffer.readUInt64();
+            return buffer.readInt64();
           case 2:
             return buffer.readDouble();
           default:
@@ -6914,7 +6914,7 @@ class SearchResponseSearchFacetNumericRangeFacet {
           case 0:
             return null;
           case 1:
-            return buffer.readUInt64();
+            return buffer.readInt64();
           case 2:
             return buffer.readDouble();
           default:
@@ -6931,12 +6931,12 @@ class SearchResponseSearchFacetNumericRangeFacet {
 
   void write(MessageBuffer buffer) {
     buffer.writeString(name);
-    buffer.writeUInt64(count);
+    buffer.writeInt64(count);
     if (min is Null) {
       buffer.writeUInt8(0);
     } else if (min is int) {
       buffer.writeUInt8(1);
-      buffer.writeUInt64((min as int));
+      buffer.writeInt64((min as int));
     } else if (min is double) {
       buffer.writeUInt8(2);
       buffer.writeDouble((min as double));
@@ -6947,7 +6947,7 @@ class SearchResponseSearchFacetNumericRangeFacet {
       buffer.writeUInt8(0);
     } else if (max is int) {
       buffer.writeUInt8(1);
-      buffer.writeUInt64((max as int));
+      buffer.writeInt64((max as int));
     } else if (max is double) {
       buffer.writeUInt8(2);
       buffer.writeDouble((max as double));
@@ -6984,8 +6984,8 @@ class SearchRequest {
     return SearchRequest(
       indexName: buffer.readString(),
       query: buffer.readString(),
-      limit: buffer.readBool() ? buffer.readUInt32() : null,
-      skip: buffer.readBool() ? buffer.readUInt32() : null,
+      limit: buffer.readBool() ? buffer.readInt64() : null,
+      skip: buffer.readBool() ? buffer.readInt64() : null,
       explain: buffer.readBool(),
       disableScoring: buffer.readBool(),
       includeLocations: buffer.readBool(),
@@ -7049,11 +7049,11 @@ class SearchRequest {
     buffer.writeString(query);
     buffer.writeBool(limit != null);
     if (limit != null) {
-      buffer.writeUInt32(limit!);
+      buffer.writeInt64(limit!);
     }
     buffer.writeBool(skip != null);
     if (skip != null) {
-      buffer.writeUInt32(skip!);
+      buffer.writeInt64(skip!);
     }
     buffer.writeBool(explain);
     buffer.writeBool(disableScoring);
@@ -7138,9 +7138,9 @@ class TouchRequest {
   factory TouchRequest.read(MessageBuffer buffer) {
     return TouchRequest(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
+      expiry: buffer.readInt64(),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
     );
@@ -7154,9 +7154,9 @@ class TouchRequest {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
-    buffer.writeUInt32(expiry);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
+    buffer.writeInt64(expiry);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
       buffer.writeInt64(timeout!.inMicroseconds);
@@ -7209,7 +7209,7 @@ class LookupInResponseEntry {
     return LookupInResponseEntry(
       path: buffer.readString(),
       value: buffer.readData(),
-      originalIndex: buffer.readUInt64(),
+      originalIndex: buffer.readInt64(),
       exists: buffer.readBool(),
       opcode: SubdocOpcode.read(buffer),
       status: KeyValueStatusCode.read(buffer),
@@ -7228,7 +7228,7 @@ class LookupInResponseEntry {
   void write(MessageBuffer buffer) {
     buffer.writeString(path);
     buffer.writeData(value);
-    buffer.writeUInt64(originalIndex);
+    buffer.writeInt64(originalIndex);
     buffer.writeBool(exists);
     opcode.write(buffer);
     status.write(buffer);
@@ -7252,8 +7252,8 @@ class LookupInRequest {
   factory LookupInRequest.read(MessageBuffer buffer) {
     return LookupInRequest(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       accessDeleted: buffer.readBool(),
       specs: List.generate(
           buffer.readUInt64(), (_) => ImplSubdocCommand.read(buffer)),
@@ -7271,8 +7271,8 @@ class LookupInRequest {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     buffer.writeBool(accessDeleted);
     buffer.writeUInt64(specs.length);
     for (final item in specs) {
@@ -7327,7 +7327,7 @@ class DocumentViewResponseMetaData {
 
   factory DocumentViewResponseMetaData.read(MessageBuffer buffer) {
     return DocumentViewResponseMetaData(
-      totalRows: buffer.readBool() ? buffer.readUInt64() : null,
+      totalRows: buffer.readBool() ? buffer.readInt64() : null,
       debugInfo: buffer.readBool() ? buffer.readString() : null,
     );
   }
@@ -7338,7 +7338,7 @@ class DocumentViewResponseMetaData {
   void write(MessageBuffer buffer) {
     buffer.writeBool(totalRows != null);
     if (totalRows != null) {
-      buffer.writeUInt64(totalRows!);
+      buffer.writeInt64(totalRows!);
     }
     buffer.writeBool(debugInfo != null);
     if (debugInfo != null) {
@@ -7432,8 +7432,8 @@ class DocumentViewRequest {
       documentName: buffer.readString(),
       viewName: buffer.readString(),
       ns: DesignDocumentNamespace.read(buffer),
-      limit: buffer.readBool() ? buffer.readUInt64() : null,
-      skip: buffer.readBool() ? buffer.readUInt64() : null,
+      limit: buffer.readBool() ? buffer.readInt64() : null,
+      skip: buffer.readBool() ? buffer.readInt64() : null,
       consistency: buffer.readBool() ? ViewScanConsistency.read(buffer) : null,
       keys: List.generate(buffer.readUInt64(), (_) => buffer.readString()),
       key: buffer.readBool() ? buffer.readString() : null,
@@ -7444,7 +7444,7 @@ class DocumentViewRequest {
       inclusiveEnd: buffer.readBool() ? buffer.readBool() : null,
       reduce: buffer.readBool() ? buffer.readBool() : null,
       group: buffer.readBool() ? buffer.readBool() : null,
-      groupLevel: buffer.readBool() ? buffer.readUInt32() : null,
+      groupLevel: buffer.readBool() ? buffer.readInt64() : null,
       debug: buffer.readBool(),
       raw: (() {
         final map = <String, String>{};
@@ -7496,11 +7496,11 @@ class DocumentViewRequest {
     ns.write(buffer);
     buffer.writeBool(limit != null);
     if (limit != null) {
-      buffer.writeUInt64(limit!);
+      buffer.writeInt64(limit!);
     }
     buffer.writeBool(skip != null);
     if (skip != null) {
-      buffer.writeUInt64(skip!);
+      buffer.writeInt64(skip!);
     }
     buffer.writeBool(consistency != null);
     if (consistency != null) {
@@ -7544,7 +7544,7 @@ class DocumentViewRequest {
     }
     buffer.writeBool(groupLevel != null);
     if (groupLevel != null) {
-      buffer.writeUInt32(groupLevel!);
+      buffer.writeInt64(groupLevel!);
     }
     buffer.writeBool(debug);
     buffer.writeUInt64(raw.length);
@@ -7586,7 +7586,7 @@ class GetAndLockResponse {
     return GetAndLockResponse(
       value: buffer.readData(),
       cas: Cas.read(buffer),
-      flags: buffer.readUInt32(),
+      flags: buffer.readInt64(),
     );
   }
 
@@ -7597,7 +7597,7 @@ class GetAndLockResponse {
   void write(MessageBuffer buffer) {
     buffer.writeData(value);
     cas.write(buffer);
-    buffer.writeUInt32(flags);
+    buffer.writeInt64(flags);
   }
 }
 
@@ -7613,9 +7613,9 @@ class GetAndLockRequest {
   factory GetAndLockRequest.read(MessageBuffer buffer) {
     return GetAndLockRequest(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
-      lockTime: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
+      lockTime: buffer.readInt64(),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
     );
@@ -7629,9 +7629,9 @@ class GetAndLockRequest {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
-    buffer.writeUInt32(lockTime);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
+    buffer.writeInt64(lockTime);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
       buffer.writeInt64(timeout!.inMicroseconds);
@@ -7677,10 +7677,10 @@ class InsertRequest {
     return InsertRequest(
       id: DocumentId.read(buffer),
       value: buffer.readData(),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
-      flags: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
+      flags: buffer.readInt64(),
+      expiry: buffer.readInt64(),
       durabilityLevel: DurabilityLevel.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
@@ -7699,10 +7699,10 @@ class InsertRequest {
   void write(MessageBuffer buffer) {
     id.write(buffer);
     buffer.writeData(value);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
-    buffer.writeUInt32(flags);
-    buffer.writeUInt32(expiry);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
+    buffer.writeInt64(flags);
+    buffer.writeInt64(expiry);
     durabilityLevel.write(buffer);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
@@ -7728,10 +7728,10 @@ class InsertWithLegacyDurability {
     return InsertWithLegacyDurability(
       id: DocumentId.read(buffer),
       value: buffer.readData(),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
-      flags: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
+      flags: buffer.readInt64(),
+      expiry: buffer.readInt64(),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
       persistTo: PersistTo.read(buffer),
@@ -7752,10 +7752,10 @@ class InsertWithLegacyDurability {
   void write(MessageBuffer buffer) {
     id.write(buffer);
     buffer.writeData(value);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
-    buffer.writeUInt32(flags);
-    buffer.writeUInt32(expiry);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
+    buffer.writeInt64(flags);
+    buffer.writeInt64(expiry);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
       buffer.writeInt64(timeout!.inMicroseconds);
@@ -7813,7 +7813,7 @@ class MutateInResponseEntry {
     return MutateInResponseEntry(
       path: buffer.readString(),
       value: buffer.readData(),
-      originalIndex: buffer.readUInt64(),
+      originalIndex: buffer.readInt64(),
       opcode: SubdocOpcode.read(buffer),
       status: KeyValueStatusCode.read(buffer),
       ec: buffer.readBool() ? CommonError.read(buffer) : null,
@@ -7830,7 +7830,7 @@ class MutateInResponseEntry {
   void write(MessageBuffer buffer) {
     buffer.writeString(path);
     buffer.writeData(value);
-    buffer.writeUInt64(originalIndex);
+    buffer.writeInt64(originalIndex);
     opcode.write(buffer);
     status.write(buffer);
     buffer.writeBool(ec != null);
@@ -7859,12 +7859,12 @@ class MutateInRequest {
   factory MutateInRequest.read(MessageBuffer buffer) {
     return MutateInRequest(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       cas: Cas.read(buffer),
       accessDeleted: buffer.readBool(),
       createAsDeleted: buffer.readBool(),
-      expiry: buffer.readBool() ? buffer.readUInt32() : null,
+      expiry: buffer.readBool() ? buffer.readInt64() : null,
       storeSemantics: StoreSemantics.read(buffer),
       specs: List.generate(
           buffer.readUInt64(), (_) => ImplSubdocCommand.read(buffer)),
@@ -7890,14 +7890,14 @@ class MutateInRequest {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     cas.write(buffer);
     buffer.writeBool(accessDeleted);
     buffer.writeBool(createAsDeleted);
     buffer.writeBool(expiry != null);
     if (expiry != null) {
-      buffer.writeUInt32(expiry!);
+      buffer.writeInt64(expiry!);
     }
     storeSemantics.write(buffer);
     buffer.writeUInt64(specs.length);
@@ -7933,12 +7933,12 @@ class MutateInWithLegacyDurability {
   factory MutateInWithLegacyDurability.read(MessageBuffer buffer) {
     return MutateInWithLegacyDurability(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       cas: Cas.read(buffer),
       accessDeleted: buffer.readBool(),
       createAsDeleted: buffer.readBool(),
-      expiry: buffer.readBool() ? buffer.readUInt32() : null,
+      expiry: buffer.readBool() ? buffer.readInt64() : null,
       storeSemantics: StoreSemantics.read(buffer),
       specs: List.generate(
           buffer.readUInt64(), (_) => ImplSubdocCommand.read(buffer)),
@@ -7966,14 +7966,14 @@ class MutateInWithLegacyDurability {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     cas.write(buffer);
     buffer.writeBool(accessDeleted);
     buffer.writeBool(createAsDeleted);
     buffer.writeBool(expiry != null);
     if (expiry != null) {
-      buffer.writeUInt32(expiry!);
+      buffer.writeInt64(expiry!);
     }
     storeSemantics.write(buffer);
     buffer.writeUInt64(specs.length);
@@ -7999,7 +7999,7 @@ class IncrementResponse {
 
   factory IncrementResponse.read(MessageBuffer buffer) {
     return IncrementResponse(
-      content: buffer.readUInt64(),
+      content: buffer.readInt64(),
       cas: Cas.read(buffer),
       token: MutationToken.read(buffer),
     );
@@ -8010,7 +8010,7 @@ class IncrementResponse {
   final MutationToken token;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(content);
+    buffer.writeInt64(content);
     cas.write(buffer);
     token.write(buffer);
   }
@@ -8031,11 +8031,11 @@ class IncrementRequest {
   factory IncrementRequest.read(MessageBuffer buffer) {
     return IncrementRequest(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
-      delta: buffer.readUInt64(),
-      initialValue: buffer.readBool() ? buffer.readUInt64() : null,
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
+      expiry: buffer.readInt64(),
+      delta: buffer.readInt64(),
+      initialValue: buffer.readBool() ? buffer.readInt64() : null,
       durabilityLevel: DurabilityLevel.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
@@ -8053,13 +8053,13 @@ class IncrementRequest {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
-    buffer.writeUInt32(expiry);
-    buffer.writeUInt64(delta);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
+    buffer.writeInt64(expiry);
+    buffer.writeInt64(delta);
     buffer.writeBool(initialValue != null);
     if (initialValue != null) {
-      buffer.writeUInt64(initialValue!);
+      buffer.writeInt64(initialValue!);
     }
     durabilityLevel.write(buffer);
     buffer.writeBool(timeout != null);
@@ -8085,11 +8085,11 @@ class IncrementWithLegacyDurability {
   factory IncrementWithLegacyDurability.read(MessageBuffer buffer) {
     return IncrementWithLegacyDurability(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
-      delta: buffer.readUInt64(),
-      initialValue: buffer.readBool() ? buffer.readUInt64() : null,
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
+      expiry: buffer.readInt64(),
+      delta: buffer.readInt64(),
+      initialValue: buffer.readBool() ? buffer.readInt64() : null,
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
       persistTo: PersistTo.read(buffer),
@@ -8109,13 +8109,13 @@ class IncrementWithLegacyDurability {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
-    buffer.writeUInt32(expiry);
-    buffer.writeUInt64(delta);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
+    buffer.writeInt64(expiry);
+    buffer.writeInt64(delta);
     buffer.writeBool(initialValue != null);
     if (initialValue != null) {
-      buffer.writeUInt64(initialValue!);
+      buffer.writeInt64(initialValue!);
     }
     buffer.writeBool(timeout != null);
     if (timeout != null) {
@@ -8312,14 +8312,14 @@ class ManagementCollectionCreateResponse {
 
   factory ManagementCollectionCreateResponse.read(MessageBuffer buffer) {
     return ManagementCollectionCreateResponse(
-      uid: buffer.readUInt64(),
+      uid: buffer.readInt64(),
     );
   }
 
   final int uid;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(uid);
+    buffer.writeInt64(uid);
   }
 }
 
@@ -8338,7 +8338,7 @@ class ManagementCollectionCreateRequest {
       bucketName: buffer.readString(),
       scopeName: buffer.readString(),
       collectionName: buffer.readString(),
-      maxExpiry: buffer.readUInt32(),
+      maxExpiry: buffer.readInt64(),
       clientContextId: buffer.readBool() ? buffer.readString() : null,
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
@@ -8356,7 +8356,7 @@ class ManagementCollectionCreateRequest {
     buffer.writeString(bucketName);
     buffer.writeString(scopeName);
     buffer.writeString(collectionName);
-    buffer.writeUInt32(maxExpiry);
+    buffer.writeInt64(maxExpiry);
     buffer.writeBool(clientContextId != null);
     if (clientContextId != null) {
       buffer.writeString(clientContextId!);
@@ -8569,7 +8569,7 @@ class ManagementQueryIndexBuildDeferredResponseQueryProblem {
   factory ManagementQueryIndexBuildDeferredResponseQueryProblem.read(
       MessageBuffer buffer) {
     return ManagementQueryIndexBuildDeferredResponseQueryProblem(
-      code: buffer.readUInt64(),
+      code: buffer.readInt64(),
       message: buffer.readString(),
     );
   }
@@ -8578,7 +8578,7 @@ class ManagementQueryIndexBuildDeferredResponseQueryProblem {
   final String message;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(code);
+    buffer.writeInt64(code);
     buffer.writeString(message);
   }
 }
@@ -8950,7 +8950,7 @@ class ManagementQueryIndexDropResponseQueryProblem {
   factory ManagementQueryIndexDropResponseQueryProblem.read(
       MessageBuffer buffer) {
     return ManagementQueryIndexDropResponseQueryProblem(
-      code: buffer.readUInt64(),
+      code: buffer.readInt64(),
       message: buffer.readString(),
     );
   }
@@ -8959,7 +8959,7 @@ class ManagementQueryIndexDropResponseQueryProblem {
   final String message;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(code);
+    buffer.writeInt64(code);
     buffer.writeString(message);
   }
 }
@@ -9248,7 +9248,7 @@ class ManagementQueryIndexCreateResponseQueryProblem {
   factory ManagementQueryIndexCreateResponseQueryProblem.read(
       MessageBuffer buffer) {
     return ManagementQueryIndexCreateResponseQueryProblem(
-      code: buffer.readUInt64(),
+      code: buffer.readInt64(),
       message: buffer.readString(),
     );
   }
@@ -9257,7 +9257,7 @@ class ManagementQueryIndexCreateResponseQueryProblem {
   final String message;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(code);
+    buffer.writeInt64(code);
     buffer.writeString(message);
   }
 }
@@ -9291,7 +9291,7 @@ class ManagementQueryIndexCreateRequest {
       ignoreIfExists: buffer.readBool(),
       condition: buffer.readBool() ? buffer.readString() : null,
       deferred: buffer.readBool() ? buffer.readBool() : null,
-      numReplicas: buffer.readBool() ? buffer.readInt32() : null,
+      numReplicas: buffer.readBool() ? buffer.readInt64() : null,
       clientContextId: buffer.readBool() ? buffer.readString() : null,
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
@@ -9334,7 +9334,7 @@ class ManagementQueryIndexCreateRequest {
     }
     buffer.writeBool(numReplicas != null);
     if (numReplicas != null) {
-      buffer.writeInt32(numReplicas!);
+      buffer.writeInt64(numReplicas!);
     }
     buffer.writeBool(clientContextId != null);
     if (clientContextId != null) {
@@ -9680,7 +9680,7 @@ class ManagementEventingProblem {
 
   factory ManagementEventingProblem.read(MessageBuffer buffer) {
     return ManagementEventingProblem(
-      code: buffer.readUInt64(),
+      code: buffer.readInt64(),
       name: buffer.readString(),
       description: buffer.readString(),
     );
@@ -9691,7 +9691,7 @@ class ManagementEventingProblem {
   final String description;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(code);
+    buffer.writeInt64(code);
     buffer.writeString(name);
     buffer.writeString(description);
   }
@@ -9732,7 +9732,7 @@ class ManagementAnalyticsLinkConnectResponseProblem {
   factory ManagementAnalyticsLinkConnectResponseProblem.read(
       MessageBuffer buffer) {
     return ManagementAnalyticsLinkConnectResponseProblem(
-      code: buffer.readUInt32(),
+      code: buffer.readInt64(),
       message: buffer.readString(),
     );
   }
@@ -9741,7 +9741,7 @@ class ManagementAnalyticsLinkConnectResponseProblem {
   final String message;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt32(code);
+    buffer.writeInt64(code);
     buffer.writeString(message);
   }
 }
@@ -9816,8 +9816,8 @@ class ManagementCollectionsManifestGetRequest {
   factory ManagementCollectionsManifestGetRequest.read(MessageBuffer buffer) {
     return ManagementCollectionsManifestGetRequest(
       id: DocumentId.read(buffer),
-      partition: buffer.readUInt16(),
-      opaque: buffer.readUInt32(),
+      partition: buffer.readInt64(),
+      opaque: buffer.readInt64(),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
     );
@@ -9830,8 +9830,8 @@ class ManagementCollectionsManifestGetRequest {
 
   void write(MessageBuffer buffer) {
     id.write(buffer);
-    buffer.writeUInt16(partition);
-    buffer.writeUInt32(opaque);
+    buffer.writeInt64(partition);
+    buffer.writeInt64(opaque);
     buffer.writeBool(timeout != null);
     if (timeout != null) {
       buffer.writeInt64(timeout!.inMicroseconds);
@@ -9958,7 +9958,7 @@ class ManagementAnalyticsLinkDropResponseProblem {
   factory ManagementAnalyticsLinkDropResponseProblem.read(
       MessageBuffer buffer) {
     return ManagementAnalyticsLinkDropResponseProblem(
-      code: buffer.readUInt32(),
+      code: buffer.readInt64(),
       message: buffer.readString(),
     );
   }
@@ -9967,7 +9967,7 @@ class ManagementAnalyticsLinkDropResponseProblem {
   final String message;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt32(code);
+    buffer.writeInt64(code);
     buffer.writeString(message);
   }
 }
@@ -10042,8 +10042,8 @@ class ManagementBucketDescribeResponseBucketInfo {
     return ManagementBucketDescribeResponseBucketInfo(
       name: buffer.readString(),
       uuid: buffer.readString(),
-      numberOfNodes: buffer.readUInt64(),
-      numberOfReplicas: buffer.readUInt64(),
+      numberOfNodes: buffer.readInt64(),
+      numberOfReplicas: buffer.readInt64(),
       bucketCapabilities:
           List.generate(buffer.readUInt64(), (_) => buffer.readString()),
       storageBackend: BucketStorageBackend.read(buffer),
@@ -10060,8 +10060,8 @@ class ManagementBucketDescribeResponseBucketInfo {
   void write(MessageBuffer buffer) {
     buffer.writeString(name);
     buffer.writeString(uuid);
-    buffer.writeUInt64(numberOfNodes);
-    buffer.writeUInt64(numberOfReplicas);
+    buffer.writeInt64(numberOfNodes);
+    buffer.writeInt64(numberOfReplicas);
     buffer.writeUInt64(bucketCapabilities.length);
     for (final item in bucketCapabilities) {
       buffer.writeString(item);
@@ -10374,7 +10374,7 @@ class ManagementFreeformResponse {
 
   factory ManagementFreeformResponse.read(MessageBuffer buffer) {
     return ManagementFreeformResponse(
-      status: buffer.readUInt32(),
+      status: buffer.readInt64(),
       headers: (() {
         final map = <String, String>{};
         final length = buffer.readUInt64();
@@ -10392,7 +10392,7 @@ class ManagementFreeformResponse {
   final String body;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt32(status);
+    buffer.writeInt64(status);
     buffer.writeUInt64(headers.length);
     for (final entry in headers.entries) {
       buffer.writeString(entry.key);
@@ -10469,14 +10469,14 @@ class ManagementScopeDropResponse {
 
   factory ManagementScopeDropResponse.read(MessageBuffer buffer) {
     return ManagementScopeDropResponse(
-      uid: buffer.readUInt64(),
+      uid: buffer.readInt64(),
     );
   }
 
   final int uid;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(uid);
+    buffer.writeInt64(uid);
   }
 }
 
@@ -10626,14 +10626,14 @@ class ManagementScopeCreateResponse {
 
   factory ManagementScopeCreateResponse.read(MessageBuffer buffer) {
     return ManagementScopeCreateResponse(
-      uid: buffer.readUInt64(),
+      uid: buffer.readInt64(),
     );
   }
 
   final int uid;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(uid);
+    buffer.writeInt64(uid);
   }
 }
 
@@ -10818,7 +10818,7 @@ class ManagementAnalyticsLinkReplaceResponseProblem {
   factory ManagementAnalyticsLinkReplaceResponseProblem.read(
       MessageBuffer buffer) {
     return ManagementAnalyticsLinkReplaceResponseProblem(
-      code: buffer.readUInt32(),
+      code: buffer.readInt64(),
       message: buffer.readString(),
     );
   }
@@ -10827,7 +10827,7 @@ class ManagementAnalyticsLinkReplaceResponseProblem {
   final String message;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt32(code);
+    buffer.writeInt64(code);
     buffer.writeString(message);
   }
 }
@@ -10867,7 +10867,7 @@ class ManagementAnalyticsLinkDisconnectResponseProblem {
   factory ManagementAnalyticsLinkDisconnectResponseProblem.read(
       MessageBuffer buffer) {
     return ManagementAnalyticsLinkDisconnectResponseProblem(
-      code: buffer.readUInt32(),
+      code: buffer.readInt64(),
       message: buffer.readString(),
     );
   }
@@ -10876,7 +10876,7 @@ class ManagementAnalyticsLinkDisconnectResponseProblem {
   final String message;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt32(code);
+    buffer.writeInt64(code);
     buffer.writeString(message);
   }
 }
@@ -11750,7 +11750,7 @@ class ManagementAnalyticsLinkCreateResponseProblem {
   factory ManagementAnalyticsLinkCreateResponseProblem.read(
       MessageBuffer buffer) {
     return ManagementAnalyticsLinkCreateResponseProblem(
-      code: buffer.readUInt32(),
+      code: buffer.readInt64(),
       message: buffer.readString(),
     );
   }
@@ -11759,7 +11759,7 @@ class ManagementAnalyticsLinkCreateResponseProblem {
   final String message;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt32(code);
+    buffer.writeInt64(code);
     buffer.writeString(message);
   }
 }
@@ -11825,14 +11825,14 @@ class ManagementCollectionDropResponse {
 
   factory ManagementCollectionDropResponse.read(MessageBuffer buffer) {
     return ManagementCollectionDropResponse(
-      uid: buffer.readUInt64(),
+      uid: buffer.readInt64(),
     );
   }
 
   final int uid;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(uid);
+    buffer.writeInt64(uid);
   }
 }
 
@@ -11885,7 +11885,7 @@ class ManagementAnalyticsProblem {
 
   factory ManagementAnalyticsProblem.read(MessageBuffer buffer) {
     return ManagementAnalyticsProblem(
-      code: buffer.readUInt32(),
+      code: buffer.readInt64(),
       message: buffer.readString(),
     );
   }
@@ -11894,7 +11894,7 @@ class ManagementAnalyticsProblem {
   final String message;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt32(code);
+    buffer.writeInt64(code);
     buffer.writeString(message);
   }
 }
@@ -12450,7 +12450,7 @@ class ManagementQueryIndexBuildResponseQueryProblem {
   factory ManagementQueryIndexBuildResponseQueryProblem.read(
       MessageBuffer buffer) {
     return ManagementQueryIndexBuildResponseQueryProblem(
-      code: buffer.readUInt64(),
+      code: buffer.readInt64(),
       message: buffer.readString(),
     );
   }
@@ -12459,7 +12459,7 @@ class ManagementQueryIndexBuildResponseQueryProblem {
   final String message;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(code);
+    buffer.writeInt64(code);
     buffer.writeString(message);
   }
 }
@@ -12583,7 +12583,7 @@ class ManagementSearchIndexGetDocumentsCountResponse {
       MessageBuffer buffer) {
     return ManagementSearchIndexGetDocumentsCountResponse(
       status: buffer.readString(),
-      count: buffer.readUInt64(),
+      count: buffer.readInt64(),
       error: buffer.readString(),
     );
   }
@@ -12594,7 +12594,7 @@ class ManagementSearchIndexGetDocumentsCountResponse {
 
   void write(MessageBuffer buffer) {
     buffer.writeString(status);
-    buffer.writeUInt64(count);
+    buffer.writeInt64(count);
     buffer.writeString(error);
   }
 }
@@ -12692,7 +12692,7 @@ class ManagementAnalyticsLinkGetAllResponseProblem {
   factory ManagementAnalyticsLinkGetAllResponseProblem.read(
       MessageBuffer buffer) {
     return ManagementAnalyticsLinkGetAllResponseProblem(
-      code: buffer.readUInt32(),
+      code: buffer.readInt64(),
       message: buffer.readString(),
     );
   }
@@ -12701,7 +12701,7 @@ class ManagementAnalyticsLinkGetAllResponseProblem {
   final String message;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt32(code);
+    buffer.writeInt64(code);
     buffer.writeString(message);
   }
 }
@@ -12761,8 +12761,8 @@ class ImplSubdocCommand {
       opcode: Opcode.read(buffer),
       path: buffer.readString(),
       value: buffer.readData(),
-      flags: buffer.readUInt8(),
-      originalIndex: buffer.readUInt64(),
+      flags: buffer.readInt64(),
+      originalIndex: buffer.readInt64(),
     );
   }
 
@@ -12776,8 +12776,8 @@ class ImplSubdocCommand {
     opcode.write(buffer);
     buffer.writeString(path);
     buffer.writeData(value);
-    buffer.writeUInt8(flags);
-    buffer.writeUInt64(originalIndex);
+    buffer.writeInt64(flags);
+    buffer.writeInt64(originalIndex);
   }
 }
 
@@ -12833,8 +12833,8 @@ class SamplingScan {
 
   factory SamplingScan.read(MessageBuffer buffer) {
     return SamplingScan(
-      limit: buffer.readUInt64(),
-      seed: buffer.readBool() ? buffer.readUInt32() : null,
+      limit: buffer.readInt64(),
+      seed: buffer.readBool() ? buffer.readInt64() : null,
     );
   }
 
@@ -12842,10 +12842,10 @@ class SamplingScan {
   final int? seed;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(limit);
+    buffer.writeInt64(limit);
     buffer.writeBool(seed != null);
     if (seed != null) {
-      buffer.writeUInt32(seed!);
+      buffer.writeInt64(seed!);
     }
   }
 }
@@ -12859,8 +12859,8 @@ class RangeSnapshotRequirements {
 
   factory RangeSnapshotRequirements.read(MessageBuffer buffer) {
     return RangeSnapshotRequirements(
-      vbucketUuid: buffer.readUInt64(),
-      sequenceNumber: buffer.readUInt64(),
+      vbucketUuid: buffer.readInt64(),
+      sequenceNumber: buffer.readInt64(),
       sequenceNumberExists: buffer.readBool(),
     );
   }
@@ -12870,8 +12870,8 @@ class RangeSnapshotRequirements {
   final bool sequenceNumberExists;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(vbucketUuid);
-    buffer.writeUInt64(sequenceNumber);
+    buffer.writeInt64(vbucketUuid);
+    buffer.writeInt64(sequenceNumber);
     buffer.writeBool(sequenceNumberExists);
   }
 }
@@ -12905,7 +12905,7 @@ class RangeScanCreateOptions {
         }
       })(),
       timeout: Duration(microseconds: buffer.readInt64()),
-      collectionId: buffer.readUInt32(),
+      collectionId: buffer.readInt64(),
       snapshotRequirements:
           buffer.readBool() ? RangeSnapshotRequirements.read(buffer) : null,
       idsOnly: buffer.readBool(),
@@ -12935,7 +12935,7 @@ class RangeScanCreateOptions {
       throw StateError("Invalid variant type: $scanType");
     }
     buffer.writeInt64(timeout.inMicroseconds);
-    buffer.writeUInt32(collectionId);
+    buffer.writeInt64(collectionId);
     buffer.writeBool(snapshotRequirements != null);
     if (snapshotRequirements != null) {
       snapshotRequirements!.write(buffer);
@@ -12976,8 +12976,8 @@ class RangeScanContinueOptions {
 
   factory RangeScanContinueOptions.read(MessageBuffer buffer) {
     return RangeScanContinueOptions(
-      batchItemLimit: buffer.readUInt32(),
-      batchByteLimit: buffer.readUInt32(),
+      batchItemLimit: buffer.readInt64(),
+      batchByteLimit: buffer.readInt64(),
       batchTimeLimit: Duration(microseconds: buffer.readInt64()),
       idsOnly: buffer.readBool(),
     );
@@ -12989,8 +12989,8 @@ class RangeScanContinueOptions {
   final bool idsOnly;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt32(batchItemLimit);
-    buffer.writeUInt32(batchByteLimit);
+    buffer.writeInt64(batchItemLimit);
+    buffer.writeInt64(batchByteLimit);
     buffer.writeInt64(batchTimeLimit.inMicroseconds);
     buffer.writeBool(idsOnly);
   }
@@ -13052,11 +13052,11 @@ class RangeScanItemBody {
 
   factory RangeScanItemBody.read(MessageBuffer buffer) {
     return RangeScanItemBody(
-      flags: buffer.readUInt32(),
-      expiry: buffer.readUInt32(),
+      flags: buffer.readInt64(),
+      expiry: buffer.readInt64(),
       cas: Cas.read(buffer),
-      sequenceNumber: buffer.readUInt64(),
-      datatype: buffer.readUInt8(),
+      sequenceNumber: buffer.readInt64(),
+      datatype: buffer.readInt64(),
       value: buffer.readData(),
     );
   }
@@ -13069,11 +13069,11 @@ class RangeScanItemBody {
   final Uint8List value;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt32(flags);
-    buffer.writeUInt32(expiry);
+    buffer.writeInt64(flags);
+    buffer.writeInt64(expiry);
     cas.write(buffer);
-    buffer.writeUInt64(sequenceNumber);
-    buffer.writeUInt8(datatype);
+    buffer.writeInt64(sequenceNumber);
+    buffer.writeInt64(datatype);
     buffer.writeData(value);
   }
 }
@@ -13151,8 +13151,8 @@ class RangeScanOrchestratorOptions {
       idsOnly: buffer.readBool(),
       consistentWith: buffer.readBool() ? MutationState.read(buffer) : null,
       sort: ScanSort.read(buffer),
-      batchItemLimit: buffer.readUInt32(),
-      batchByteLimit: buffer.readUInt32(),
+      batchItemLimit: buffer.readInt64(),
+      batchByteLimit: buffer.readInt64(),
       batchTimeLimit: Duration(microseconds: buffer.readInt64()),
       timeout: Duration(microseconds: buffer.readInt64()),
     );
@@ -13173,8 +13173,8 @@ class RangeScanOrchestratorOptions {
       consistentWith!.write(buffer);
     }
     sort.write(buffer);
-    buffer.writeUInt32(batchItemLimit);
-    buffer.writeUInt32(batchByteLimit);
+    buffer.writeInt64(batchItemLimit);
+    buffer.writeInt64(batchByteLimit);
     buffer.writeInt64(batchTimeLimit.inMicroseconds);
     buffer.writeInt64(timeout.inMicroseconds);
   }
