@@ -5,6 +5,7 @@
 #include <Message_CPP_Types.hpp>
 #include <core/cluster.hxx>
 #include <core/operations/management/error_utils.hxx>
+#include <stdexcept>
 
 namespace couchbase::dart
 {
