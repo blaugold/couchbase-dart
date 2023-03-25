@@ -10,133 +10,24 @@ namespace couchbase::dart
 
 // Integral types
 
-template <>
-struct message_codec_t<bool> {
-    static inline bool read(MessageBuffer &buffer)
+template <typename T>
+struct message_codec_t<T, typename std::enable_if_t<std::is_integral_v<T>>> {
+    static inline T read(MessageBuffer &buffer)
     {
-        return buffer.readBool();
+        if constexpr (std::is_same_v<T, bool>) {
+            return buffer.readBool();
+        } else {
+            return static_cast<T>(buffer.readInt64());
+        }
     }
 
-    static inline void write(MessageBuffer &buffer, const bool value)
+    static inline void write(MessageBuffer &buffer, const T value)
     {
-        buffer.writeBool(value);
-    }
-};
-
-template <>
-struct message_codec_t<uint8_t> {
-    static inline uint8_t read(MessageBuffer &buffer)
-    {
-        return buffer.readUInt8();
-    }
-
-    static inline void write(MessageBuffer &buffer, const uint8_t value)
-    {
-        buffer.writeUInt8(value);
-    }
-};
-
-template <>
-struct message_codec_t<int8_t> {
-    static inline int8_t read(MessageBuffer &buffer)
-    {
-        return buffer.readInt8();
-    }
-
-    static inline void write(MessageBuffer &buffer, const int8_t value)
-    {
-        buffer.writeInt8(value);
-    }
-};
-
-template <>
-struct message_codec_t<uint16_t> {
-    static inline uint16_t read(MessageBuffer &buffer)
-    {
-        return buffer.readUInt16();
-    }
-
-    static inline void write(MessageBuffer &buffer, const uint16_t value)
-    {
-        buffer.writeUInt16(value);
-    }
-};
-
-template <>
-struct message_codec_t<int16_t> {
-    static inline int16_t read(MessageBuffer &buffer)
-    {
-        return buffer.readInt16();
-    }
-
-    static inline void write(MessageBuffer &buffer, const int16_t value)
-    {
-        buffer.writeInt16(value);
-    }
-};
-
-template <>
-struct message_codec_t<uint32_t> {
-    static inline uint32_t read(MessageBuffer &buffer)
-    {
-        return buffer.readUInt32();
-    }
-
-    static inline void write(MessageBuffer &buffer, const uint32_t value)
-    {
-        buffer.writeUInt32(value);
-    }
-};
-
-template <>
-struct message_codec_t<int32_t> {
-    static inline int32_t read(MessageBuffer &buffer)
-    {
-        return buffer.readInt32();
-    }
-
-    static inline void write(MessageBuffer &buffer, const int32_t value)
-    {
-        buffer.writeInt32(value);
-    }
-};
-
-template <>
-struct message_codec_t<uint64_t> {
-    static inline uint64_t read(MessageBuffer &buffer)
-    {
-        return buffer.readUInt64();
-    }
-
-    static inline void write(MessageBuffer &buffer, const uint64_t value)
-    {
-        buffer.writeUInt64(value);
-    }
-};
-
-template <>
-struct message_codec_t<int64_t> {
-    static inline int64_t read(MessageBuffer &buffer)
-    {
-        return buffer.readInt64();
-    }
-
-    static inline void write(MessageBuffer &buffer, const int64_t value)
-    {
-        buffer.writeInt64(value);
-    }
-};
-
-template <>
-struct message_codec_t<size_t> {
-    static inline size_t read(MessageBuffer &buffer)
-    {
-        return static_cast<size_t>(buffer.readUInt64());
-    }
-
-    static inline void write(MessageBuffer &buffer, const size_t value)
-    {
-        buffer.writeUInt64(static_cast<uint64_t>(value));
+        if constexpr (std::is_same_v<T, bool>) {
+            buffer.writeBool(value);
+        } else {
+            buffer.writeInt64(static_cast<int64_t>(value));
+        }
     }
 };
 

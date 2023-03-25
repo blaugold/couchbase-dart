@@ -352,31 +352,15 @@ class BindingsGenerator {
         return;
       case 'std::byte':
       case 'std::uint8_t':
-        _writeln('buffer.writeUInt8($identifier);');
-        return;
       case 'std::int8_t':
-        _writeln('buffer.writeInt8($identifier);');
-        return;
       case 'std::uint16_t':
-        _writeln('buffer.writeUInt16($identifier);');
-        return;
       case 'std::int16_t':
-        _writeln('buffer.writeInt16($identifier);');
-        return;
       case 'std::uint32_t':
-        _writeln('buffer.writeUInt32($identifier);');
-        return;
       case 'std::int32_t':
-        _writeln('buffer.writeInt32($identifier);');
-        return;
       case 'std::uint64_t':
-        _writeln('buffer.writeUInt64($identifier);');
-        return;
       case 'std::int64_t':
-        _writeln('buffer.writeInt64($identifier);');
-        return;
       case 'std::size_t':
-        _writeln('buffer.writeUInt64($identifier);');
+        _writeln('buffer.writeInt64($identifier);');
         return;
       case 'std::float':
         _writeln('buffer.writeFloat($identifier);');
@@ -487,31 +471,15 @@ class BindingsGenerator {
         return;
       case 'std::byte':
       case 'std::uint8_t':
-        _write('buffer.readUInt8()');
-        return;
       case 'std::int8_t':
-        _write('buffer.readInt8()');
-        return;
       case 'std::uint16_t':
-        _write('buffer.readUInt16()');
-        return;
       case 'std::int16_t':
-        _write('buffer.readInt16()');
-        return;
       case 'std::uint32_t':
-        _write('buffer.readUInt32()');
-        return;
       case 'std::int32_t':
-        _write('buffer.readInt32()');
-        return;
       case 'std::uint64_t':
-        _write('buffer.readUInt64()');
-        return;
       case 'std::int64_t':
-        _write('buffer.readInt64()');
-        return;
       case 'std::size_t':
-        _write('buffer.readUInt64()');
+        _write('buffer.readInt64()');
         return;
       case 'std::float':
         _write('buffer.readFloat()');
