@@ -1,9 +1,7 @@
 {
   "cmake.sourceDirectory": "${workspaceFolder}/native",
   "cmake.buildDirectory": "${workspaceFolder}/native/build",
-  "cSpell.words": ["asio", "cindex", "PEGTL", "Sasl", "subdocument"],
-
-  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+  "cSpell.words": ["asio", "cindex", "PEGTL", "Sasl", "spdlog", "subdocument"],
   "files.associations": {
     "cstdint": "cpp",
     "__bit_reference": "cpp",
