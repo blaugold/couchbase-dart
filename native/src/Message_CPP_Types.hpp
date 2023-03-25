@@ -8,6 +8,7 @@
 #include <map>
 #include <optional>
 #include <set>
+#include <stdexcept>
 #include <variant>
 #include <vector>
 
