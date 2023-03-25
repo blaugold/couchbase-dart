@@ -10,7 +10,7 @@ extern "C" {
 typedef struct {
     void *data;
     size_t length;
-} CBLSlice;
+} CBDSlice;
 
 typedef struct CBDMessageBuffer_ *CBDMessageBuffer;
 
@@ -70,7 +70,7 @@ float CBDMessageBuffer_ReadFloat(CBDMessageBuffer buffer);
 
 double CBDMessageBuffer_ReadDouble(CBDMessageBuffer buffer);
 
-CBLSlice CBDMessageBuffer_ReadData(CBDMessageBuffer buffer);
+CBDSlice CBDMessageBuffer_ReadData(CBDMessageBuffer buffer);
 
 #ifdef __cplusplus
 } // extern "C"

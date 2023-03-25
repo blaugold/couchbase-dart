@@ -409,7 +409,7 @@ class LibCouchbaseDart {
   late final _CBDMessageBuffer_ReadDouble = _CBDMessageBuffer_ReadDoublePtr
       .asFunction<double Function(CBDMessageBuffer)>();
 
-  CBLSlice CBDMessageBuffer_ReadData(
+  CBDSlice CBDMessageBuffer_ReadData(
     CBDMessageBuffer buffer,
   ) {
     return _CBDMessageBuffer_ReadData(
@@ -418,10 +418,10 @@ class LibCouchbaseDart {
   }
 
   late final _CBDMessageBuffer_ReadDataPtr =
-      _lookup<ffi.NativeFunction<CBLSlice Function(CBDMessageBuffer)>>(
+      _lookup<ffi.NativeFunction<CBDSlice Function(CBDMessageBuffer)>>(
           'CBDMessageBuffer_ReadData');
   late final _CBDMessageBuffer_ReadData = _CBDMessageBuffer_ReadDataPtr
-      .asFunction<CBLSlice Function(CBDMessageBuffer)>();
+      .asFunction<CBDSlice Function(CBDMessageBuffer)>();
 
   CBDConnection CBDConnection_Create(
     int port,
@@ -2266,7 +2266,7 @@ class _SymbolAddresses {
   ffi.Pointer<ffi.NativeFunction<ffi.Double Function(CBDMessageBuffer)>>
       get CBDMessageBuffer_ReadDouble =>
           _library._CBDMessageBuffer_ReadDoublePtr;
-  ffi.Pointer<ffi.NativeFunction<CBLSlice Function(CBDMessageBuffer)>>
+  ffi.Pointer<ffi.NativeFunction<CBDSlice Function(CBDMessageBuffer)>>
       get CBDMessageBuffer_ReadData => _library._CBDMessageBuffer_ReadDataPtr;
   ffi.Pointer<ffi.NativeFunction<CBDConnection Function(Dart_Port_DL)>>
       get CBDConnection_Create => _library._CBDConnection_CreatePtr;
@@ -2735,7 +2735,7 @@ class _SymbolAddresses {
       get CBD_Init => _library._CBD_InitPtr;
 }
 
-class CBLSlice extends ffi.Struct {
+class CBDSlice extends ffi.Struct {
   external ffi.Pointer<ffi.Void> data;
 
   @ffi.Size()
