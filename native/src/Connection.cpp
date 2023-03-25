@@ -7,31 +7,6 @@
 namespace couchbase::dart
 {
 
-class Response
-{
-public:
-    Response(Connection *connection, MessageBuffer *buffer)
-        : _connection(connection)
-        , _requestId(buffer->readInt64())
-        , _buffer(buffer)
-    {
-    }
-
-    template <typename ResponseWriter>
-    void complete(ResponseWriter responseWriter)
-    {
-        _buffer->reset();
-        responseWriter(*_buffer);
-        _buffer->reset();
-        _connection->completeRequest(_requestId);
-    }
-
-private:
-    Connection *_connection;
-    int64_t _requestId;
-    MessageBuffer *_buffer;
-};
-
 Connection::Connection(Dart_Port_DL port)
     : _port(port)
     , _cluster(couchbase::core::cluster::create(_io))

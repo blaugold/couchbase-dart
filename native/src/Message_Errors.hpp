@@ -5,19 +5,12 @@
 #include <Message_CPP_Types.hpp>
 #include <core/cluster.hxx>
 #include <core/operations/management/error_utils.hxx>
+#include <stdexcept>
 
 namespace couchbase::dart
 {
 
-bool writeError(MessageBuffer &buffer, const std::error_code &ec)
-{
-    buffer.writeBool(!!ec);
-    if (ec) {
-        write_cbpp(buffer, ec);
-        return true;
-    }
-    return false;
-}
+bool writeError(MessageBuffer &buffer, const std::error_code &ec);
 
 template <typename T>
 bool writeErrorContext(MessageBuffer &buffer, T ctx)
@@ -50,6 +43,12 @@ struct message_codec_t<std::error_code> {
     {
         write_cbpp(buffer, static_cast<int64_t>(value.value()));
         write_cbpp(buffer, value.message());
+    }
+
+    static inline std::error_code read(MessageBuffer &buffer)
+    {
+        throw std::runtime_error(
+            "std::error_code should not be read from a MessageBuffer");
     }
 };
 

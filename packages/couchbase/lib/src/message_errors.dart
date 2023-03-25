@@ -18,10 +18,7 @@ class CommonError {
   final CommonErrorCode code;
   final String message;
 
-  void write(MessageBuffer buffer) {
-    code.write(buffer);
-    buffer.writeString(message);
-  }
+  void write(MessageBuffer buffer) => throw UnimplementedError();
 }
 
 class KeyValueExtendedErrorInfo {
@@ -39,11 +36,6 @@ class KeyValueExtendedErrorInfo {
 
   final String reference;
   final String context;
-
-  void write(MessageBuffer buffer) {
-    buffer.writeString(reference);
-    buffer.writeString(context);
-  }
 }
 
 class KeyValueErrorContext {
@@ -90,32 +82,6 @@ class KeyValueErrorContext {
   final String? lastDispatchedFrom;
   final int retryAttempts;
   final Set<RetryReason> retryReasons;
-
-  void write(MessageBuffer buffer) {
-    code.write(buffer);
-    buffer.writeString(message);
-    buffer.writeString(id);
-    buffer.writeUInt32(opaque);
-    cas.write(buffer);
-    statusCode.write(buffer);
-    buffer.writeBool(extendedErrorInfo != null);
-    if (extendedErrorInfo != null) {
-      extendedErrorInfo!.write(buffer);
-    }
-    buffer.writeBool(lastDispatchedTo != null);
-    if (lastDispatchedTo != null) {
-      buffer.writeString(lastDispatchedTo!);
-    }
-    buffer.writeBool(lastDispatchedFrom != null);
-    if (lastDispatchedFrom != null) {
-      buffer.writeString(lastDispatchedFrom!);
-    }
-    buffer.writeUInt8(retryAttempts);
-    buffer.writeUInt64(retryReasons.length);
-    for (final reason in retryReasons) {
-      reason.write(buffer);
-    }
-  }
 }
 
 class SubdocumentErrorContext {
@@ -171,41 +137,6 @@ class SubdocumentErrorContext {
   final String? firstErrorPath;
   final int? firstErrorIndex;
   final bool deleted;
-
-  void write(MessageBuffer buffer) {
-    code.write(buffer);
-    buffer.writeString(message);
-    buffer.writeString(id);
-    buffer.writeUInt32(opaque);
-    cas.write(buffer);
-    statusCode.write(buffer);
-    buffer.writeBool(extendedErrorInfo != null);
-    if (extendedErrorInfo != null) {
-      extendedErrorInfo!.write(buffer);
-    }
-    buffer.writeBool(lastDispatchedTo != null);
-    if (lastDispatchedTo != null) {
-      buffer.writeString(lastDispatchedTo!);
-    }
-    buffer.writeBool(lastDispatchedFrom != null);
-    if (lastDispatchedFrom != null) {
-      buffer.writeString(lastDispatchedFrom!);
-    }
-    buffer.writeUInt8(retryAttempts);
-    buffer.writeUInt64(retryReasons.length);
-    for (final reason in retryReasons) {
-      reason.write(buffer);
-    }
-    buffer.writeBool(firstErrorPath != null);
-    if (firstErrorPath != null) {
-      buffer.writeString(firstErrorPath!);
-    }
-    buffer.writeBool(firstErrorIndex != null);
-    if (firstErrorIndex != null) {
-      buffer.writeUInt32(firstErrorIndex!);
-    }
-    buffer.writeBool(deleted);
-  }
 }
 
 class ViewErrorContext {
@@ -262,35 +193,6 @@ class ViewErrorContext {
   final String? lastDispatchedFrom;
   final int retryAttempts;
   final Set<RetryReason> retryReasons;
-
-  void write(MessageBuffer buffer) {
-    code.write(buffer);
-    buffer.writeString(message);
-    buffer.writeString(clientContextId);
-    buffer.writeString(designDocumentName);
-    buffer.writeString(viewName);
-    buffer.writeUInt64(queryString.length);
-    for (final query in queryString) {
-      buffer.writeString(query);
-    }
-    buffer.writeString(method);
-    buffer.writeString(path);
-    buffer.writeUInt32(httpStatus);
-    buffer.writeString(httpBody);
-    buffer.writeBool(lastDispatchedTo != null);
-    if (lastDispatchedTo != null) {
-      buffer.writeString(lastDispatchedTo!);
-    }
-    buffer.writeBool(lastDispatchedFrom != null);
-    if (lastDispatchedFrom != null) {
-      buffer.writeString(lastDispatchedFrom!);
-    }
-    buffer.writeUInt64(retryAttempts);
-    buffer.writeUInt64(retryReasons.length);
-    for (final reason in retryReasons) {
-      reason.write(buffer);
-    }
-  }
 }
 
 class QueryErrorContext {
@@ -348,36 +250,6 @@ class QueryErrorContext {
   final String? lastDispatchedFrom;
   final int retryAttempts;
   final Set<RetryReason> retryReasons;
-
-  void write(MessageBuffer buffer) {
-    code.write(buffer);
-    buffer.writeString(message);
-    buffer.writeUInt64(firstErrorCode);
-    buffer.writeString(firstErrorMessage);
-    buffer.writeString(clientContextId);
-    buffer.writeString(statement);
-    buffer.writeBool(parameters != null);
-    if (parameters != null) {
-      buffer.writeString(parameters!);
-    }
-    buffer.writeString(method);
-    buffer.writeString(path);
-    buffer.writeUInt32(httpStatus);
-    buffer.writeString(httpBody);
-    buffer.writeBool(lastDispatchedTo != null);
-    if (lastDispatchedTo != null) {
-      buffer.writeString(lastDispatchedTo!);
-    }
-    buffer.writeBool(lastDispatchedFrom != null);
-    if (lastDispatchedFrom != null) {
-      buffer.writeString(lastDispatchedFrom!);
-    }
-    buffer.writeUInt64(retryAttempts);
-    buffer.writeUInt64(retryReasons.length);
-    for (final reason in retryReasons) {
-      reason.write(buffer);
-    }
-  }
 }
 
 class SearchErrorContext {
@@ -432,38 +304,6 @@ class SearchErrorContext {
   final String? lastDispatchedFrom;
   final int retryAttempts;
   final Set<RetryReason> retryReasons;
-
-  void write(MessageBuffer buffer) {
-    code.write(buffer);
-    buffer.writeString(message);
-    buffer.writeString(clientContextId);
-    buffer.writeString(indexName);
-    buffer.writeBool(query != null);
-    if (query != null) {
-      buffer.writeString(query!);
-    }
-    buffer.writeBool(parameters != null);
-    if (parameters != null) {
-      buffer.writeString(parameters!);
-    }
-    buffer.writeString(method);
-    buffer.writeString(path);
-    buffer.writeUInt32(httpStatus);
-    buffer.writeString(httpBody);
-    buffer.writeBool(lastDispatchedTo != null);
-    if (lastDispatchedTo != null) {
-      buffer.writeString(lastDispatchedTo!);
-    }
-    buffer.writeBool(lastDispatchedFrom != null);
-    if (lastDispatchedFrom != null) {
-      buffer.writeString(lastDispatchedFrom!);
-    }
-    buffer.writeUInt64(retryAttempts);
-    buffer.writeUInt64(retryReasons.length);
-    for (final reason in retryReasons) {
-      reason.write(buffer);
-    }
-  }
 }
 
 class AnalyticsErrorContext {
@@ -521,36 +361,6 @@ class AnalyticsErrorContext {
   final String? lastDispatchedFrom;
   final int retryAttempts;
   final Set<RetryReason> retryReasons;
-
-  void write(MessageBuffer buffer) {
-    code.write(buffer);
-    buffer.writeString(message);
-    buffer.writeUInt64(firstErrorCode);
-    buffer.writeString(firstErrorMessage);
-    buffer.writeString(clientContextId);
-    buffer.writeString(statement);
-    buffer.writeBool(parameters != null);
-    if (parameters != null) {
-      buffer.writeString(parameters!);
-    }
-    buffer.writeString(method);
-    buffer.writeString(path);
-    buffer.writeUInt32(httpStatus);
-    buffer.writeString(httpBody);
-    buffer.writeBool(lastDispatchedTo != null);
-    if (lastDispatchedTo != null) {
-      buffer.writeString(lastDispatchedTo!);
-    }
-    buffer.writeBool(lastDispatchedFrom != null);
-    if (lastDispatchedFrom != null) {
-      buffer.writeString(lastDispatchedFrom!);
-    }
-    buffer.writeUInt64(retryAttempts);
-    buffer.writeUInt64(retryReasons.length);
-    for (final reason in retryReasons) {
-      reason.write(buffer);
-    }
-  }
 }
 
 class HttpErrorContext {
@@ -596,27 +406,4 @@ class HttpErrorContext {
   final String? lastDispatchedFrom;
   final int retryAttempts;
   final Set<RetryReason> retryReasons;
-
-  void write(MessageBuffer buffer) {
-    code.write(buffer);
-    buffer.writeString(message);
-    buffer.writeString(clientContextId);
-    buffer.writeString(method);
-    buffer.writeString(path);
-    buffer.writeUInt32(httpStatus);
-    buffer.writeString(httpBody);
-    buffer.writeBool(lastDispatchedTo != null);
-    if (lastDispatchedTo != null) {
-      buffer.writeString(lastDispatchedTo!);
-    }
-    buffer.writeBool(lastDispatchedFrom != null);
-    if (lastDispatchedFrom != null) {
-      buffer.writeString(lastDispatchedFrom!);
-    }
-    buffer.writeUInt64(retryAttempts);
-    buffer.writeUInt64(retryReasons.length);
-    for (final reason in retryReasons) {
-      reason.write(buffer);
-    }
-  }
 }

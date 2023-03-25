@@ -84,13 +84,18 @@ public:
     std::string readString();
 
 private:
-    size_t length() const;
+    size_t size() const;
+
+    size_t offset() const;
 
     size_t remainingCapacity() const;
 
     void ensureCapacity(size_t additionalCapacity);
 
-    uint8_t *_data;
+    void checkCanRead(size_t bytesToRead) const;
+
+    uint8_t *_start;
+    uint8_t *_end;
     uint8_t *_position;
     size_t _capacity;
 };

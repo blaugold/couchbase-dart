@@ -38,7 +38,6 @@ public:
     void getAnyReplica(MessageBuffer *request);
     void append(MessageBuffer *request);
     void query(MessageBuffer *request);
-    void mcbpNoop(MessageBuffer *request);
     void replace(MessageBuffer *request);
     void getAndTouch(MessageBuffer *request);
     void remove(MessageBuffer *request);
@@ -136,4 +135,30 @@ private:
     std::thread _ioThread;
     std::shared_ptr<couchbase::core::cluster> _cluster;
 };
+
+class Response
+{
+public:
+    Response(Connection *connection, MessageBuffer *buffer)
+        : _connection(connection)
+        , _requestId(buffer->readInt64())
+        , _buffer(buffer)
+    {
+    }
+
+    template <typename ResponseWriter>
+    void complete(ResponseWriter responseWriter)
+    {
+        _buffer->reset();
+        responseWriter(*_buffer);
+        _buffer->reset();
+        _connection->completeRequest(_requestId);
+    }
+
+private:
+    Connection *_connection;
+    int64_t _requestId;
+    MessageBuffer *_buffer;
+};
+
 }; // namespace couchbase::dart

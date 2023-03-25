@@ -655,23 +655,6 @@ class LibCouchbaseDart {
   late final _CBDConnection_Query = _CBDConnection_QueryPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
-  void CBDConnection_McbpNoop(
-    CBDConnection connection,
-    CBDMessageBuffer request,
-  ) {
-    return _CBDConnection_McbpNoop(
-      connection,
-      request,
-    );
-  }
-
-  late final _CBDConnection_McbpNoopPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              CBDConnection, CBDMessageBuffer)>>('CBDConnection_McbpNoop');
-  late final _CBDConnection_McbpNoop = _CBDConnection_McbpNoopPtr.asFunction<
-      void Function(CBDConnection, CBDMessageBuffer)>();
-
   void CBDConnection_Replace(
     CBDConnection connection,
     CBDMessageBuffer request,
@@ -2322,10 +2305,6 @@ class _SymbolAddresses {
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
       get CBDConnection_Query => _library._CBDConnection_QueryPtr;
-  ffi.Pointer<
-          ffi.NativeFunction<
-              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
-      get CBDConnection_McbpNoop => _library._CBDConnection_McbpNoopPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>

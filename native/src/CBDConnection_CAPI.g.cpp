@@ -53,11 +53,6 @@ void CBDConnection_Query(Connection *connection, MessageBuffer *request)
     connection->query(request);
 }
 
-void CBDConnection_McbpNoop(Connection *connection, MessageBuffer *request)
-{
-    connection->mcbpNoop(request);
-}
-
 void CBDConnection_Replace(Connection *connection, MessageBuffer *request)
 {
     connection->replace(request);

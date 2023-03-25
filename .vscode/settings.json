@@ -1,7 +1,17 @@
 {
   "cmake.sourceDirectory": "${workspaceFolder}/native",
   "cmake.buildDirectory": "${workspaceFolder}/native/build",
-  "cSpell.words": ["asio", "cindex", "PEGTL", "Sasl", "spdlog", "subdocument"],
+  "cSpell.words": [
+    "asio",
+    "cindex",
+    "dataverse",
+    "keyspace",
+    "mcbp",
+    "PEGTL",
+    "Sasl",
+    "spdlog",
+    "subdocument"
+  ],
   "files.associations": {
     "cstdint": "cpp",
     "__bit_reference": "cpp",
@@ -75,6 +85,10 @@
     "type_traits": "cpp",
     "typeinfo": "cpp",
     "variant": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "format": "cpp",
+    "pointers": "cpp",
+    "*.ipp": "cpp",
+    "string_span": "cpp"
   }
 }

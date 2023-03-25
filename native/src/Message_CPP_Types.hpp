@@ -1,9 +1,16 @@
 #pragma once
 
 #include <MessageCodec.hpp>
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <map>
+#include <optional>
+#include <set>
+#include <stdexcept>
+#include <variant>
+#include <vector>
 
 namespace couchbase::dart
 {
