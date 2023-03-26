@@ -1,5 +1,7 @@
 import 'package:couchbase/src/connection.dart';
+import 'package:couchbase/src/transcoder.dart';
 
+import 'bucket.dart';
 import 'message_basic.dart';
 
 Future<Cluster> connect(
@@ -39,9 +41,26 @@ class ConnectOptions {
 class Cluster {
   final String _connectionString;
   final ConnectOptions _options;
+  final Transcoder _transcoder;
   final Connection _connection;
+  final Set<String> _openBuckets = {};
 
-  Cluster(this._connectionString, this._options) : _connection = Connection();
+  Cluster(this._connectionString, this._options)
+      : _transcoder = DefaultTranscoder(),
+        _connection = Connection();
+
+  Future<void> close() => _connection.close();
+
+  Bucket bucket(String name) {
+    if (!_openBuckets.contains(name)) {
+      _openBuckets.add(name);
+      _connection.openBucket(name).onError((error, _) => {
+            // TODO: Move to log framework.
+            print('Error opening bucket $name: $error'),
+          });
+    }
+    return Bucket(name: name, cluster: this);
+  }
 
   Future<void> _connect() async {
     final credentials = ClusterCredentials(
@@ -60,6 +79,9 @@ class Cluster {
       rethrow;
     }
   }
+}
 
-  Future<void> close() => _connection.close();
+extension ClusterInternal on Cluster {
+  Transcoder get transcoder => _transcoder;
+  Connection get connection => _connection;
 }

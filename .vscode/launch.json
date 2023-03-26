@@ -15,6 +15,28 @@
       "cwd": "packages/couchbase",
       "request": "launch",
       "type": "dart"
+    },
+    {
+      "name": "Run",
+      "type": "dart",
+      "request": "launch",
+      "env": {
+        "CBPPLOGLEVEL": "debug"
+      },
+      "codeLens": {
+        "for": ["run-test-file", "run-file"]
+      }
+    },
+    {
+      "name": "Debug",
+      "type": "dart",
+      "request": "launch",
+      "env": {
+        "CBPPLOGLEVEL": "debug"
+      },
+      "codeLens": {
+        "for": ["debug-test-file", "debug-test"]
+      }
     }
   ]
 }
