@@ -14,13 +14,15 @@ scripts:
     description: Check if the Dart codebase is formatted.
 
   analyze:
-    run: dart analyze .
+    run: dart analyze --fatal-infos
     description: Analyze the Dart codebase.
 
   test:
     exec: dart test
     packageFilters:
       dirExists: test
+    env:
+      CBPPLOGLEVEL: debug
     description: Run Dart tests.
 
   build:native:

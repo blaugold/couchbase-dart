@@ -48,11 +48,13 @@ extension on Cluster {
         ),
       );
 
-      if (response.buckets.any((element) => element.name == name)) {
+      if (response.buckets.any((bucket) => bucket.name == name)) {
+        // ignore: avoid_print
         print('Bucket $name is now available.');
         break;
       }
 
+      // ignore: avoid_print
       print('Waiting for bucket $name...');
 
       await Future<void>.delayed(const Duration(seconds: 1));
