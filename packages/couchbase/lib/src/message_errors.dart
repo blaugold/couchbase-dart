@@ -58,7 +58,7 @@ class KeyValueErrorContext {
       id: buffer.readString(),
       opaque: buffer.readInt64(),
       cas: Cas.read(buffer),
-      statusCode: KeyValueStatusCode.read(buffer),
+      statusCode: buffer.readBool() ? KeyValueStatusCode.read(buffer) : null,
       extendedErrorInfo:
           buffer.readBool() ? KeyValueExtendedErrorInfo.read(buffer) : null,
       lastDispatchedTo: buffer.readBool() ? buffer.readString() : null,
@@ -73,7 +73,7 @@ class KeyValueErrorContext {
   final String id;
   final int opaque;
   final Cas cas;
-  final KeyValueStatusCode statusCode;
+  final KeyValueStatusCode? statusCode;
   final KeyValueExtendedErrorInfo? extendedErrorInfo;
   final String? lastDispatchedTo;
   final String? lastDispatchedFrom;
@@ -104,7 +104,7 @@ class SubdocumentErrorContext {
       id: buffer.readString(),
       opaque: buffer.readInt64(),
       cas: Cas.read(buffer),
-      statusCode: KeyValueStatusCode.read(buffer),
+      statusCode: buffer.readBool() ? KeyValueStatusCode.read(buffer) : null,
       extendedErrorInfo:
           buffer.readBool() ? KeyValueExtendedErrorInfo.read(buffer) : null,
       lastDispatchedTo: buffer.readBool() ? buffer.readString() : null,
@@ -122,7 +122,7 @@ class SubdocumentErrorContext {
   final String id;
   final int opaque;
   final Cas cas;
-  final KeyValueStatusCode statusCode;
+  final KeyValueStatusCode? statusCode;
   final KeyValueExtendedErrorInfo? extendedErrorInfo;
   final String? lastDispatchedTo;
   final String? lastDispatchedFrom;
