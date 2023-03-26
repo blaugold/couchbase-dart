@@ -34,3 +34,6 @@ docker exec $CONTAINER_NAME couchbase-cli bucket-create \
   --bucket-type couchbase \
   --bucket-ramsize 256 \
   --wait
+
+# Wait for bucket to become available.
+sleep 10
