@@ -20,25 +20,18 @@ jobs:
         with:
           sdk: stable
 
+      - name: Install Melos
+        run: dart pub global activate melos
+
       - name: Install CMake
         uses: lukka/get-cmake@latest
 
       - name: Install ccache
         uses: hendrikmuhs/ccache-action@v1.2
 
-      - name: Check Dart code formatting
-        run: dart format . --set-exit-if-changed
-
-      - name: Anaalyze Dart code
-        run: dart analyze --fatal-infos
-
-      - name: Build native binaries
-        working-directory: native
-        run: ./build.sh
-
-      - name: Start Couchbase Server
-        run: ./init-couchbase-server.sh
-
-      - name: Run tests
-        run: dart test
-        working-directory: packages/couchbase
+      - run: melos format:check
+      - run: melos bootstrap
+      - run: melos analyze
+      - run: melos build:native
+      - run: melos initCouchbaseServer
+      - run: melos test

@@ -43,7 +43,7 @@ class TypeRef {
     return TypeRef(
       name: json['name']! as String,
       typeArguments: typeArguments,
-      size: json['size']! as int?,
+      size: json['size'] as int?,
       comparator: json['comparator'] != null
           ? TypeRef.fromJson(json['comparator']! as JsonMap)
           : null,

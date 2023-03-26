@@ -1,0 +1,37 @@
+name: couchbase_dart
+repository: https://github.com/blaugold/couchbase-dart
+packages:
+  - tool
+  - packages/couchbase
+
+scripts:
+  format:
+    run: dart format .
+    description: Format the Dart codebase.
+
+  format:check:
+    run: dart format --set-exit-if-changed .
+    description: Check if the Dart codebase is formatted.
+
+  analyze:
+    run: dart analyze .
+    description: Analyze the Dart codebase.
+
+  test:
+    exec: dart test
+    packageFilters:
+      dirExists: test
+    description: Run Dart tests.
+
+  build:native:
+    run: cd native && ./build.sh
+
+  build:bindings:
+    run: |
+      cd tool && \
+      dart run tool:generate_bindings && \
+      cd ../packages/couchbase && \
+      ./tool/ffigen.sh
+
+  initCouchbaseServer:
+    run: ./init-couchbase-server.sh
