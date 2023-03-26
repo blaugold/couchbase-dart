@@ -32,4 +32,5 @@ docker exec $CONTAINER_NAME couchbase-cli bucket-create \
   --password password \
   --bucket test \
   --bucket-type couchbase \
-  --bucket-ramsize 256
+  --bucket-ramsize 256 \
+  --wait
