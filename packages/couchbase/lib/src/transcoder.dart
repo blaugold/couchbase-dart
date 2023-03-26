@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 class EncodedDocumentData {
+  EncodedDocumentData({required this.flags, required this.bytes});
+
   final int flags;
   final Uint8List bytes;
-
-  EncodedDocumentData({required this.flags, required this.bytes});
 }
 
 abstract class Transcoder {
@@ -78,7 +78,7 @@ class DefaultTranscoder implements Transcoder {
     } else if (dartFormat == _dartFormatJson) {
       try {
         return _jsonUtf8Decoder.decode(data.bytes);
-      } catch (e) {
+      } on FormatException {
         // If we encounter a parse error, assume that we need
         // to return bytes instead of an object.
         return data.bytes;

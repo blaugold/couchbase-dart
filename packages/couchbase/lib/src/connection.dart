@@ -34,7 +34,7 @@ class Connection implements Finalizable {
 
   late final CBDConnection _connection;
   _RequestId _nextRequestId = 0;
-  final _pendingRequests = <_RequestId, _PendingRequest>{};
+  final _pendingRequests = <_RequestId, _PendingRequest<void>>{};
   late final StreamSubscription<void> _pendingRequestSubscription;
 
   Future<void> open(
@@ -106,6 +106,7 @@ class Connection implements Finalizable {
       requestWriter,
       (response) {
         if (response.readBool()) {
+          // ignore: only_throw_errors
           throw errorDecoder(response);
         }
         return responseDecoder(response);
@@ -123,14 +124,6 @@ typedef _ResponseDecoder<T> = T Function(MessageBuffer response);
 typedef _NativeRequestHandler = void Function(CBDConnection, CBDMessageBuffer);
 
 class _PendingRequest<T> {
-  final MessageBuffer _buffer;
-  final _ResponseDecoder<T> _responseDecoder;
-  final _completer = Completer<void>.sync();
-
-  MessageBuffer get request => _buffer;
-
-  late final Future<T> result;
-
   _PendingRequest(
     int requestId,
     this._buffer,
@@ -150,6 +143,14 @@ class _PendingRequest<T> {
     });
   }
 
+  final MessageBuffer _buffer;
+  final _ResponseDecoder<T> _responseDecoder;
+  final _completer = Completer<void>.sync();
+
+  MessageBuffer get request => _buffer;
+
+  late final Future<T> result;
+
   void handleResponse() => _completer.complete();
 }
 
@@ -162,6 +163,7 @@ extension on MessageBuffer {
       return;
     }
 
+    // ignore: only_throw_errors
     throw ErrorCode.read(this);
   }
 }

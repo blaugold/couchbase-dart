@@ -1,10 +1,10 @@
-import 'package:couchbase/src/bucket.dart';
-import 'package:couchbase/src/cluster.dart';
-import 'package:couchbase/src/connection.dart';
-import 'package:couchbase/src/message.g.dart';
-import 'package:couchbase/src/message_basic.dart';
-import 'package:couchbase/src/scope.dart';
-import 'package:couchbase/src/transcoder.dart';
+import 'bucket.dart';
+import 'cluster.dart';
+import 'connection.dart';
+import 'message.g.dart';
+import 'message_basic.dart';
+import 'scope.dart';
+import 'transcoder.dart';
 
 const defaultCollectionName = '_default';
 
@@ -19,13 +19,13 @@ class GetResult {
 }
 
 class MutationResult {
-  final Cas cas;
-  final MutationToken? token;
-
   MutationResult({
     required this.cas,
     required this.token,
   });
+
+  final Cas cas;
+  final MutationToken? token;
 }
 
 class Collection {
@@ -41,34 +41,40 @@ class Collection {
   final Connection _connection;
 
   Future<GetResult> get(String key) async {
-    final response = await _connection.get(GetRequest(
-      id: _documentId(key),
-      partition: 0,
-      opaque: 0,
-      timeout: null,
-    ));
+    final response = await _connection.get(
+      GetRequest(
+        id: _documentId(key),
+        partition: 0,
+        opaque: 0,
+        timeout: null,
+      ),
+    );
 
     return GetResult(
-      content: _scope.bucket.cluster.transcoder.decode(EncodedDocumentData(
-        flags: response.flags,
-        bytes: response.value,
-      )),
+      content: _scope.bucket.cluster.transcoder.decode(
+        EncodedDocumentData(
+          flags: response.flags,
+          bytes: response.value,
+        ),
+      ),
       cas: response.cas,
     );
   }
 
   Future<MutationResult> insert(String key, Object? value) async {
     final encodedData = _scope.bucket.cluster.transcoder.encode(value);
-    final response = await _connection.insert(InsertRequest(
-      id: _documentId(key),
-      value: encodedData.bytes,
-      flags: encodedData.flags,
-      expiry: 0,
-      timeout: null,
-      partition: 0,
-      opaque: 0,
-      durabilityLevel: DurabilityLevel.none,
-    ));
+    final response = await _connection.insert(
+      InsertRequest(
+        id: _documentId(key),
+        value: encodedData.bytes,
+        flags: encodedData.flags,
+        expiry: 0,
+        timeout: null,
+        partition: 0,
+        opaque: 0,
+        durabilityLevel: DurabilityLevel.none,
+      ),
+    );
 
     return MutationResult(
       cas: response.cas,

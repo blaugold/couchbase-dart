@@ -1,9 +1,11 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:typed_data';
 
-import 'package:couchbase/src/bindings.dart';
-import 'package:couchbase/src/lib_couchbase_dart.dart';
+import 'bindings.dart';
+import 'lib_couchbase_dart.dart';
 
 class MessageBuffer implements Finalizable {
   MessageBuffer({int initialCapacity = 1024})
@@ -18,6 +20,7 @@ class MessageBuffer implements Finalizable {
 
   void reset() => bindings.CBDMessageBuffer_Reset(pointer);
 
+  // ignore: avoid_positional_boolean_parameters
   void writeBool(bool value) =>
       bindings.CBDMessageBuffer_WriteBool(pointer, value);
 

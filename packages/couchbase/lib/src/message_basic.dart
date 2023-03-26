@@ -1,3 +1,7 @@
+// ignore_for_file: public_member_api_docs
+
+import 'package:meta/meta.dart';
+
 import 'message_buffer.dart';
 
 class ClusterCredentials {
@@ -36,9 +40,7 @@ class ClusterCredentials {
     buffer.writeBool(allowedSaslMechanisms != null);
     if (allowedSaslMechanisms != null) {
       buffer.writeUInt64(allowedSaslMechanisms!.length);
-      for (final mechanism in allowedSaslMechanisms!) {
-        buffer.writeString(mechanism);
-      }
+      allowedSaslMechanisms!.forEach(buffer.writeString);
     }
   }
 }
@@ -99,6 +101,7 @@ class DocumentId {
   }
 }
 
+@immutable
 class Cas {
   const Cas._(this._value);
 

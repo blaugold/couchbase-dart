@@ -17,18 +17,18 @@
       "type": "dart"
     },
     {
-      "name": "Run",
+      "name": "Run with logging",
       "type": "dart",
       "request": "launch",
       "env": {
         "CBPPLOGLEVEL": "debug"
       },
       "codeLens": {
-        "for": ["run-test-file", "run-file"]
+        "for": ["run-test-file", "run-test"]
       }
     },
     {
-      "name": "Debug",
+      "name": "Debug with logging",
       "type": "dart",
       "request": "launch",
       "env": {

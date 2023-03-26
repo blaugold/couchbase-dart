@@ -1,7 +1,9 @@
-import 'package:couchbase/couchbase.dart';
-import 'package:couchbase/src/cluster.dart';
-import 'package:couchbase/src/connection.dart';
-import 'package:couchbase/src/scope.dart';
+// ignore_for_file: unused_field
+
+import '../couchbase.dart';
+import 'cluster.dart';
+import 'connection.dart';
+import 'scope.dart';
 
 class Bucket {
   Bucket({

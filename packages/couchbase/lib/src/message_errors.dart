@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'message.g.dart';
 import 'message_basic.dart';
 import 'message_buffer.dart';
@@ -65,7 +67,9 @@ class KeyValueErrorContext {
       lastDispatchedFrom: buffer.readBool() ? buffer.readString() : null,
       retryAttempts: buffer.readUInt8(),
       retryReasons: Iterable.generate(
-          buffer.readUInt64(), (_) => RetryReason.read(buffer)).toSet(),
+        buffer.readUInt64(),
+        (_) => RetryReason.read(buffer),
+      ).toSet(),
     );
   }
 
@@ -111,7 +115,9 @@ class SubdocumentErrorContext {
       lastDispatchedFrom: buffer.readBool() ? buffer.readString() : null,
       retryAttempts: buffer.readUInt8(),
       retryReasons: Iterable.generate(
-          buffer.readUInt64(), (_) => RetryReason.read(buffer)).toSet(),
+        buffer.readUInt64(),
+        (_) => RetryReason.read(buffer),
+      ).toSet(),
       firstErrorPath: buffer.readBool() ? buffer.readString() : null,
       firstErrorIndex: buffer.readBool() ? buffer.readInt64() : null,
       deleted: buffer.readBool(),
@@ -167,7 +173,9 @@ class ViewErrorContext {
       lastDispatchedFrom: buffer.readBool() ? buffer.readString() : null,
       retryAttempts: buffer.readUInt64(),
       retryReasons: Iterable.generate(
-          buffer.readUInt64(), (_) => RetryReason.read(buffer)).toSet(),
+        buffer.readUInt64(),
+        (_) => RetryReason.read(buffer),
+      ).toSet(),
     );
   }
 
@@ -220,7 +228,9 @@ class QueryErrorContext {
       lastDispatchedFrom: buffer.readBool() ? buffer.readString() : null,
       retryAttempts: buffer.readUInt64(),
       retryReasons: Iterable.generate(
-          buffer.readUInt64(), (_) => RetryReason.read(buffer)).toSet(),
+        buffer.readUInt64(),
+        (_) => RetryReason.read(buffer),
+      ).toSet(),
     );
   }
 
@@ -272,7 +282,9 @@ class SearchErrorContext {
       lastDispatchedFrom: buffer.readBool() ? buffer.readString() : null,
       retryAttempts: buffer.readUInt64(),
       retryReasons: Iterable.generate(
-          buffer.readUInt64(), (_) => RetryReason.read(buffer)).toSet(),
+        buffer.readUInt64(),
+        (_) => RetryReason.read(buffer),
+      ).toSet(),
     );
   }
 
@@ -325,7 +337,9 @@ class AnalyticsErrorContext {
       lastDispatchedFrom: buffer.readBool() ? buffer.readString() : null,
       retryAttempts: buffer.readUInt64(),
       retryReasons: Iterable.generate(
-          buffer.readUInt64(), (_) => RetryReason.read(buffer)).toSet(),
+        buffer.readUInt64(),
+        (_) => RetryReason.read(buffer),
+      ).toSet(),
     );
   }
 
@@ -371,7 +385,9 @@ class HttpErrorContext {
       lastDispatchedFrom: buffer.readBool() ? buffer.readString() : null,
       retryAttempts: buffer.readUInt64(),
       retryReasons: Iterable.generate(
-          buffer.readUInt64(), (_) => RetryReason.read(buffer)).toSet(),
+        buffer.readUInt64(),
+        (_) => RetryReason.read(buffer),
+      ).toSet(),
     );
   }
 

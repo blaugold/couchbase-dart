@@ -1,7 +1,9 @@
-import 'package:couchbase/src/bucket.dart';
-import 'package:couchbase/src/cluster.dart';
-import 'package:couchbase/src/collection.dart';
-import 'package:couchbase/src/connection.dart';
+// ignore_for_file: unused_field
+
+import 'bucket.dart';
+import 'cluster.dart';
+import 'collection.dart';
+import 'connection.dart';
 
 const defaultScopeName = '_default';
 
