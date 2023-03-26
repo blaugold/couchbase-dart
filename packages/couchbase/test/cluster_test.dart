@@ -49,6 +49,7 @@ extension on Cluster {
       );
 
       if (response.buckets.any((element) => element.name == name)) {
+        print('Bucket $name is now available.');
         break;
       }
 
