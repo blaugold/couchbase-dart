@@ -6,10 +6,12 @@ import 'message_buffer.dart';
 import 'message_errors.dart';
 
 enum CouchbaseLinkEncryptionLevel {
-  none,
-  half,
-  full,
+  none(0),
+  half(1),
+  full(2),
   ;
+
+  const CouchbaseLinkEncryptionLevel(this.value);
 
   factory CouchbaseLinkEncryptionLevel.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -25,29 +27,30 @@ enum CouchbaseLinkEncryptionLevel {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case none:
-        value = 0;
-        break;
-      case half:
-        value = 1;
-        break;
-      case full:
-        value = 2;
-        break;
+  static CouchbaseLinkEncryptionLevel? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum BucketType {
-  unknown,
-  couchbase,
-  memcached,
-  ephemeral,
+  unknown(0),
+  couchbase(1),
+  memcached(2),
+  ephemeral(3),
   ;
+
+  const BucketType(this.value);
 
   factory BucketType.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -65,32 +68,30 @@ enum BucketType {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case unknown:
-        value = 0;
-        break;
-      case couchbase:
-        value = 1;
-        break;
-      case memcached:
-        value = 2;
-        break;
-      case ephemeral:
-        value = 3;
-        break;
+  static BucketType? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum BucketCompression {
-  unknown,
-  off,
-  active,
-  passive,
+  unknown(0),
+  off(1),
+  active(2),
+  passive(3),
   ;
+
+  const BucketCompression(this.value);
 
   factory BucketCompression.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -108,33 +109,31 @@ enum BucketCompression {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case unknown:
-        value = 0;
-        break;
-      case off:
-        value = 1;
-        break;
-      case active:
-        value = 2;
-        break;
-      case passive:
-        value = 3;
-        break;
+  static BucketCompression? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum BucketEvictionPolicy {
-  unknown,
-  full,
-  valueOnly,
-  noEviction,
-  notRecentlyUsed,
+  unknown(0),
+  full(1),
+  valueOnly(2),
+  noEviction(3),
+  notRecentlyUsed(4),
   ;
+
+  const BucketEvictionPolicy(this.value);
 
   factory BucketEvictionPolicy.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -154,35 +153,30 @@ enum BucketEvictionPolicy {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case unknown:
-        value = 0;
-        break;
-      case full:
-        value = 1;
-        break;
-      case valueOnly:
-        value = 2;
-        break;
-      case noEviction:
-        value = 3;
-        break;
-      case notRecentlyUsed:
-        value = 4;
-        break;
+  static BucketEvictionPolicy? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum BucketConflictResolution {
-  unknown,
-  timestamp,
-  sequenceNumber,
-  custom,
+  unknown(0),
+  timestamp(1),
+  sequenceNumber(2),
+  custom(3),
   ;
+
+  const BucketConflictResolution(this.value);
 
   factory BucketConflictResolution.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -200,31 +194,29 @@ enum BucketConflictResolution {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case unknown:
-        value = 0;
-        break;
-      case timestamp:
-        value = 1;
-        break;
-      case sequenceNumber:
-        value = 2;
-        break;
-      case custom:
-        value = 3;
-        break;
+  static BucketConflictResolution? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum BucketStorageBackend {
-  unknown,
-  couchstore,
-  magma,
+  unknown(0),
+  couchstore(1),
+  magma(2),
   ;
+
+  const BucketStorageBackend(this.value);
 
   factory BucketStorageBackend.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -240,27 +232,28 @@ enum BucketStorageBackend {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case unknown:
-        value = 0;
-        break;
-      case couchstore:
-        value = 1;
-        break;
-      case magma:
-        value = 2;
-        break;
+  static BucketStorageBackend? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum FunctionDcpBoundary {
-  everything,
-  fromNow,
+  everything(0),
+  fromNow(1),
   ;
+
+  const FunctionDcpBoundary(this.value);
 
   factory FunctionDcpBoundary.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -274,25 +267,29 @@ enum FunctionDcpBoundary {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case everything:
-        value = 0;
-        break;
-      case fromNow:
-        value = 1;
-        break;
+  static FunctionDcpBoundary? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum FunctionLanguageCompatibility {
-  version600,
-  version650,
-  version662,
+  version600(0),
+  version650(1),
+  version662(2),
   ;
+
+  const FunctionLanguageCompatibility(this.value);
 
   factory FunctionLanguageCompatibility.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -308,30 +305,31 @@ enum FunctionLanguageCompatibility {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case version600:
-        value = 0;
-        break;
-      case version650:
-        value = 1;
-        break;
-      case version662:
-        value = 2;
-        break;
+  static FunctionLanguageCompatibility? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum FunctionLogLevel {
-  info,
-  error,
-  warning,
-  debug,
-  trace,
+  info(0),
+  error(1),
+  warning(2),
+  debug(3),
+  trace(4),
   ;
+
+  const FunctionLogLevel(this.value);
 
   factory FunctionLogLevel.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -351,33 +349,28 @@ enum FunctionLogLevel {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case info:
-        value = 0;
-        break;
-      case error:
-        value = 1;
-        break;
-      case warning:
-        value = 2;
-        break;
-      case debug:
-        value = 3;
-        break;
-      case trace:
-        value = 4;
-        break;
+  static FunctionLogLevel? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum FunctionBucketAccess {
-  readOnly,
-  readWrite,
+  readOnly(0),
+  readWrite(1),
   ;
+
+  const FunctionBucketAccess(this.value);
 
   factory FunctionBucketAccess.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -391,28 +384,32 @@ enum FunctionBucketAccess {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case readOnly:
-        value = 0;
-        break;
-      case readWrite:
-        value = 1;
-        break;
+  static FunctionBucketAccess? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum FunctionStatus {
-  undeployed,
-  undeploying,
-  deploying,
-  deployed,
-  paused,
-  pausing,
+  undeployed(0),
+  undeploying(1),
+  deploying(2),
+  deployed(3),
+  paused(4),
+  pausing(5),
   ;
+
+  const FunctionStatus(this.value);
 
   factory FunctionStatus.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -434,36 +431,28 @@ enum FunctionStatus {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case undeployed:
-        value = 0;
-        break;
-      case undeploying:
-        value = 1;
-        break;
-      case deploying:
-        value = 2;
-        break;
-      case deployed:
-        value = 3;
-        break;
-      case paused:
-        value = 4;
-        break;
-      case pausing:
-        value = 5;
-        break;
+  static FunctionStatus? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum FunctionDeploymentStatus {
-  deployed,
-  undeployed,
+  deployed(0),
+  undeployed(1),
   ;
+
+  const FunctionDeploymentStatus(this.value);
 
   factory FunctionDeploymentStatus.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -477,24 +466,28 @@ enum FunctionDeploymentStatus {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case deployed:
-        value = 0;
-        break;
-      case undeployed:
-        value = 1;
-        break;
+  static FunctionDeploymentStatus? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum FunctionProcessingStatus {
-  running,
-  paused,
+  running(0),
+  paused(1),
   ;
+
+  const FunctionProcessingStatus(this.value);
 
   factory FunctionProcessingStatus.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -508,25 +501,29 @@ enum FunctionProcessingStatus {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case running:
-        value = 0;
-        break;
-      case paused:
-        value = 1;
-        break;
+  static FunctionProcessingStatus? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum AuthDomain {
-  unknown,
-  local,
-  external,
+  unknown(0),
+  local(1),
+  external(2),
   ;
+
+  const AuthDomain(this.value);
 
   factory AuthDomain.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -542,46 +539,47 @@ enum AuthDomain {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case unknown:
-        value = 0;
-        break;
-      case local:
-        value = 1;
-        break;
-      case external:
-        value = 2;
-        break;
+  static AuthDomain? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum RetryReason {
-  doNotRetry,
-  unknown,
-  socketNotAvailable,
-  serviceNotAvailable,
-  nodeNotAvailable,
-  keyValueNotMyVbucket,
-  keyValueCollectionOutdated,
-  keyValueErrorMapRetryIndicated,
-  keyValueLocked,
-  keyValueTemporaryFailure,
-  keyValueSyncWriteInProgress,
-  keyValueSyncWriteReCommitInProgress,
-  serviceResponseCodeIndicated,
-  socketClosedWhileInFlight,
-  circuitBreakerOpen,
-  queryPreparedStatementFailure,
-  queryIndexNotFound,
-  analyticsTemporaryFailure,
-  searchTooManyRequests,
-  viewsTemporaryFailure,
-  viewsNoActivePartition,
+  doNotRetry(0),
+  unknown(1),
+  socketNotAvailable(2),
+  serviceNotAvailable(3),
+  nodeNotAvailable(4),
+  keyValueNotMyVbucket(5),
+  keyValueCollectionOutdated(6),
+  keyValueErrorMapRetryIndicated(7),
+  keyValueLocked(8),
+  keyValueTemporaryFailure(9),
+  keyValueSyncWriteInProgress(10),
+  keyValueSyncWriteReCommitInProgress(11),
+  serviceResponseCodeIndicated(12),
+  socketClosedWhileInFlight(13),
+  circuitBreakerOpen(14),
+  queryPreparedStatementFailure(15),
+  queryIndexNotFound(16),
+  analyticsTemporaryFailure(17),
+  searchTooManyRequests(18),
+  viewsTemporaryFailure(19),
+  viewsNoActivePartition(20),
   ;
+
+  const RetryReason(this.value);
 
   factory RetryReason.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -633,95 +631,42 @@ enum RetryReason {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case doNotRetry:
-        value = 0;
-        break;
-      case unknown:
-        value = 1;
-        break;
-      case socketNotAvailable:
-        value = 2;
-        break;
-      case serviceNotAvailable:
-        value = 3;
-        break;
-      case nodeNotAvailable:
-        value = 4;
-        break;
-      case keyValueNotMyVbucket:
-        value = 5;
-        break;
-      case keyValueCollectionOutdated:
-        value = 6;
-        break;
-      case keyValueErrorMapRetryIndicated:
-        value = 7;
-        break;
-      case keyValueLocked:
-        value = 8;
-        break;
-      case keyValueTemporaryFailure:
-        value = 9;
-        break;
-      case keyValueSyncWriteInProgress:
-        value = 10;
-        break;
-      case keyValueSyncWriteReCommitInProgress:
-        value = 11;
-        break;
-      case serviceResponseCodeIndicated:
-        value = 12;
-        break;
-      case socketClosedWhileInFlight:
-        value = 13;
-        break;
-      case circuitBreakerOpen:
-        value = 14;
-        break;
-      case queryPreparedStatementFailure:
-        value = 15;
-        break;
-      case queryIndexNotFound:
-        value = 16;
-        break;
-      case analyticsTemporaryFailure:
-        value = 17;
-        break;
-      case searchTooManyRequests:
-        value = 18;
-        break;
-      case viewsTemporaryFailure:
-        value = 19;
-        break;
-      case viewsNoActivePartition:
-        value = 20;
-        break;
+  static RetryReason? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum SubdocOpcode {
-  getDoc,
-  setDoc,
-  removeDoc,
-  get,
-  exists,
-  dictAdd,
-  dictUpsert,
-  remove,
-  replace,
-  arrayPushLast,
-  arrayPushFirst,
-  arrayInsert,
-  arrayAddUnique,
-  counter,
-  getCount,
-  replaceBodyWithXattr,
+  getDoc(0),
+  setDoc(1),
+  removeDoc(4),
+  get(-59),
+  exists(-58),
+  dictAdd(-57),
+  dictUpsert(-56),
+  remove(-55),
+  replace(-54),
+  arrayPushLast(-53),
+  arrayPushFirst(-52),
+  arrayInsert(-51),
+  arrayAddUnique(-50),
+  counter(-49),
+  getCount(-46),
+  replaceBodyWithXattr(-45),
   ;
+
+  const SubdocOpcode(this.value);
 
   factory SubdocOpcode.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -763,66 +708,28 @@ enum SubdocOpcode {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case getDoc:
-        value = 0;
-        break;
-      case setDoc:
-        value = 1;
-        break;
-      case removeDoc:
-        value = 4;
-        break;
-      case get:
-        value = -59;
-        break;
-      case exists:
-        value = -58;
-        break;
-      case dictAdd:
-        value = -57;
-        break;
-      case dictUpsert:
-        value = -56;
-        break;
-      case remove:
-        value = -55;
-        break;
-      case replace:
-        value = -54;
-        break;
-      case arrayPushLast:
-        value = -53;
-        break;
-      case arrayPushFirst:
-        value = -52;
-        break;
-      case arrayInsert:
-        value = -51;
-        break;
-      case arrayAddUnique:
-        value = -50;
-        break;
-      case counter:
-        value = -49;
-        break;
-      case getCount:
-        value = -46;
-        break;
-      case replaceBodyWithXattr:
-        value = -45;
-        break;
+  static SubdocOpcode? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum AnalyticsScanConsistency {
-  notBounded,
-  requestPlus,
+  notBounded(0),
+  requestPlus(1),
   ;
+
+  const AnalyticsScanConsistency(this.value);
 
   factory AnalyticsScanConsistency.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -836,24 +743,28 @@ enum AnalyticsScanConsistency {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case notBounded:
-        value = 0;
-        break;
-      case requestPlus:
-        value = 1;
-        break;
+  static AnalyticsScanConsistency? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum DesignDocumentNamespace {
-  development,
-  production,
+  development(0),
+  production(1),
   ;
+
+  const DesignDocumentNamespace(this.value);
 
   factory DesignDocumentNamespace.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -867,25 +778,29 @@ enum DesignDocumentNamespace {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case development:
-        value = 0;
-        break;
-      case production:
-        value = 1;
-        break;
+  static DesignDocumentNamespace? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum ClusterState {
-  online,
-  degraded,
-  offline,
+  online(0),
+  degraded(1),
+  offline(2),
   ;
+
+  const ClusterState(this.value);
 
   factory ClusterState.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -901,29 +816,30 @@ enum ClusterState {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case online:
-        value = 0;
-        break;
-      case degraded:
-        value = 1;
-        break;
-      case offline:
-        value = 2;
-        break;
+  static ClusterState? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum EndpointState {
-  disconnected,
-  connecting,
-  connected,
-  disconnecting,
+  disconnected(0),
+  connecting(1),
+  connected(2),
+  disconnecting(3),
   ;
+
+  const EndpointState(this.value);
 
   factory EndpointState.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -941,31 +857,29 @@ enum EndpointState {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case disconnected:
-        value = 0;
-        break;
-      case connecting:
-        value = 1;
-        break;
-      case connected:
-        value = 2;
-        break;
-      case disconnecting:
-        value = 3;
-        break;
+  static EndpointState? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum PingState {
-  ok,
-  timeout,
-  error,
+  ok(0),
+  timeout(1),
+  error(2),
   ;
+
+  const PingState(this.value);
 
   factory PingState.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -981,28 +895,29 @@ enum PingState {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case ok:
-        value = 0;
-        break;
-      case timeout:
-        value = 1;
-        break;
-      case error:
-        value = 2;
-        break;
+  static PingState? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum QueryProfile {
-  off,
-  phases,
-  timings,
+  off(0),
+  phases(1),
+  timings(2),
   ;
+
+  const QueryProfile(this.value);
 
   factory QueryProfile.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1018,27 +933,28 @@ enum QueryProfile {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case off:
-        value = 0;
-        break;
-      case phases:
-        value = 1;
-        break;
-      case timings:
-        value = 2;
-        break;
+  static QueryProfile? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum QueryScanConsistency {
-  notBounded,
-  requestPlus,
+  notBounded(0),
+  requestPlus(1),
   ;
+
+  const QueryScanConsistency(this.value);
 
   factory QueryScanConsistency.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1052,24 +968,28 @@ enum QueryScanConsistency {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case notBounded:
-        value = 0;
-        break;
-      case requestPlus:
-        value = 1;
-        break;
+  static QueryScanConsistency? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum SearchHighlightStyle {
-  html,
-  ansi,
+  html(0),
+  ansi(1),
   ;
+
+  const SearchHighlightStyle(this.value);
 
   factory SearchHighlightStyle.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1083,23 +1003,27 @@ enum SearchHighlightStyle {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case html:
-        value = 0;
-        break;
-      case ansi:
-        value = 1;
-        break;
+  static SearchHighlightStyle? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum SearchScanConsistency {
-  notBounded,
+  notBounded(0),
   ;
+
+  const SearchScanConsistency(this.value);
 
   factory SearchScanConsistency.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1111,26 +1035,33 @@ enum SearchScanConsistency {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case notBounded:
-        value = 0;
-        break;
+  static SearchScanConsistency? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum ServiceType {
-  keyValue,
-  query,
-  analytics,
-  search,
-  view,
-  management,
-  eventing,
+  keyValue(0),
+  query(1),
+  analytics(2),
+  search(3),
+  view(4),
+  management(5),
+  eventing(6),
   ;
+
+  const ServiceType(this.value);
 
   factory ServiceType.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1154,39 +1085,28 @@ enum ServiceType {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case keyValue:
-        value = 0;
-        break;
-      case query:
-        value = 1;
-        break;
-      case analytics:
-        value = 2;
-        break;
-      case search:
-        value = 3;
-        break;
-      case view:
-        value = 4;
-        break;
-      case management:
-        value = 5;
-        break;
-      case eventing:
-        value = 6;
-        break;
+  static ServiceType? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum ViewOnError {
-  resume,
-  stop,
+  resume(0),
+  stop(1),
   ;
+
+  const ViewOnError(this.value);
 
   factory ViewOnError.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1200,25 +1120,29 @@ enum ViewOnError {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case resume:
-        value = 0;
-        break;
-      case stop:
-        value = 1;
-        break;
+  static ViewOnError? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum ViewScanConsistency {
-  notBounded,
-  updateAfter,
-  requestPlus,
+  notBounded(0),
+  updateAfter(1),
+  requestPlus(2),
   ;
+
+  const ViewScanConsistency(this.value);
 
   factory ViewScanConsistency.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1234,27 +1158,28 @@ enum ViewScanConsistency {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case notBounded:
-        value = 0;
-        break;
-      case updateAfter:
-        value = 1;
-        break;
-      case requestPlus:
-        value = 2;
-        break;
+  static ViewScanConsistency? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum ViewSortOrder {
-  ascending,
-  descending,
+  ascending(0),
+  descending(1),
   ;
+
+  const ViewSortOrder(this.value);
 
   factory ViewSortOrder.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1268,32 +1193,36 @@ enum ViewSortOrder {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case ascending:
-        value = 0;
-        break;
-      case descending:
-        value = 1;
-        break;
+  static ViewSortOrder? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum AnalyticsStatus {
-  running,
-  success,
-  errors,
-  completed,
-  stopped,
-  timedout,
-  closed,
-  fatal,
-  aborted,
-  unknown,
+  running(0),
+  success(1),
+  errors(2),
+  completed(3),
+  stopped(4),
+  timedout(5),
+  closed(6),
+  fatal(7),
+  aborted(8),
+  unknown(9),
   ;
+
+  const AnalyticsStatus(this.value);
 
   factory AnalyticsStatus.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1323,50 +1252,30 @@ enum AnalyticsStatus {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case running:
-        value = 0;
-        break;
-      case success:
-        value = 1;
-        break;
-      case errors:
-        value = 2;
-        break;
-      case completed:
-        value = 3;
-        break;
-      case stopped:
-        value = 4;
-        break;
-      case timedout:
-        value = 5;
-        break;
-      case closed:
-        value = 6;
-        break;
-      case fatal:
-        value = 7;
-        break;
-      case aborted:
-        value = 8;
-        break;
-      case unknown:
-        value = 9;
-        break;
+  static AnalyticsStatus? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum DurabilityLevel {
-  none,
-  majority,
-  majorityAndPersistToActive,
-  persistToMajority,
+  none(0),
+  majority(1),
+  majorityAndPersistToActive(2),
+  persistToMajority(3),
   ;
+
+  const DurabilityLevel(this.value);
 
   factory DurabilityLevel.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1384,49 +1293,47 @@ enum DurabilityLevel {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case none:
-        value = 0;
-        break;
-      case majority:
-        value = 1;
-        break;
-      case majorityAndPersistToActive:
-        value = 2;
-        break;
-      case persistToMajority:
-        value = 3;
-        break;
+  static DurabilityLevel? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum CommonErrorCode {
-  requestCanceled,
-  invalidArgument,
-  serviceNotAvailable,
-  internalServerFailure,
-  authenticationFailure,
-  temporaryFailure,
-  parsingFailure,
-  casMismatch,
-  bucketNotFound,
-  collectionNotFound,
-  unsupportedOperation,
-  ambiguousTimeout,
-  unambiguousTimeout,
-  featureNotAvailable,
-  scopeNotFound,
-  indexNotFound,
-  indexExists,
-  encodingFailure,
-  decodingFailure,
-  rateLimited,
-  quotaLimited,
+  requestCanceled(2),
+  invalidArgument(3),
+  serviceNotAvailable(4),
+  internalServerFailure(5),
+  authenticationFailure(6),
+  temporaryFailure(7),
+  parsingFailure(8),
+  casMismatch(9),
+  bucketNotFound(10),
+  collectionNotFound(11),
+  unsupportedOperation(12),
+  ambiguousTimeout(13),
+  unambiguousTimeout(14),
+  featureNotAvailable(15),
+  scopeNotFound(16),
+  indexNotFound(17),
+  indexExists(18),
+  encodingFailure(19),
+  decodingFailure(20),
+  rateLimited(21),
+  quotaLimited(22),
   ;
+
+  const CommonErrorCode(this.value);
 
   factory CommonErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1478,109 +1385,56 @@ enum CommonErrorCode {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case requestCanceled:
-        value = 2;
-        break;
-      case invalidArgument:
-        value = 3;
-        break;
-      case serviceNotAvailable:
-        value = 4;
-        break;
-      case internalServerFailure:
-        value = 5;
-        break;
-      case authenticationFailure:
-        value = 6;
-        break;
-      case temporaryFailure:
-        value = 7;
-        break;
-      case parsingFailure:
-        value = 8;
-        break;
-      case casMismatch:
-        value = 9;
-        break;
-      case bucketNotFound:
-        value = 10;
-        break;
-      case collectionNotFound:
-        value = 11;
-        break;
-      case unsupportedOperation:
-        value = 12;
-        break;
-      case ambiguousTimeout:
-        value = 13;
-        break;
-      case unambiguousTimeout:
-        value = 14;
-        break;
-      case featureNotAvailable:
-        value = 15;
-        break;
-      case scopeNotFound:
-        value = 16;
-        break;
-      case indexNotFound:
-        value = 17;
-        break;
-      case indexExists:
-        value = 18;
-        break;
-      case encodingFailure:
-        value = 19;
-        break;
-      case decodingFailure:
-        value = 20;
-        break;
-      case rateLimited:
-        value = 21;
-        break;
-      case quotaLimited:
-        value = 22;
-        break;
+  static CommonErrorCode? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum KeyValueErrorCode {
-  documentNotFound,
-  documentIrretrievable,
-  documentLocked,
-  valueTooLarge,
-  documentExists,
-  durabilityLevelNotAvailable,
-  durabilityImpossible,
-  durabilityAmbiguous,
-  durableWriteInProgress,
-  durableWriteReCommitInProgress,
-  pathNotFound,
-  pathMismatch,
-  pathInvalid,
-  pathTooBig,
-  pathTooDeep,
-  valueTooDeep,
-  valueInvalid,
-  documentNotJson,
-  numberTooBig,
-  deltaInvalid,
-  pathExists,
-  xattrUnknownMacro,
-  xattrInvalidKeyCombo,
-  xattrUnknownVirtualAttribute,
-  xattrCannotModifyVirtualAttribute,
-  xattrNoAccess,
-  cannotReviveLivingDocument,
-  rangeScanCancelled,
-  rangeScanVbUuidNotEqual,
-  rangeScanCompleted,
+  documentNotFound(101),
+  documentIrretrievable(102),
+  documentLocked(103),
+  valueTooLarge(104),
+  documentExists(105),
+  durabilityLevelNotAvailable(107),
+  durabilityImpossible(108),
+  durabilityAmbiguous(109),
+  durableWriteInProgress(110),
+  durableWriteReCommitInProgress(111),
+  pathNotFound(113),
+  pathMismatch(114),
+  pathInvalid(115),
+  pathTooBig(116),
+  pathTooDeep(117),
+  valueTooDeep(118),
+  valueInvalid(119),
+  documentNotJson(120),
+  numberTooBig(121),
+  deltaInvalid(122),
+  pathExists(123),
+  xattrUnknownMacro(124),
+  xattrInvalidKeyCombo(126),
+  xattrUnknownVirtualAttribute(127),
+  xattrCannotModifyVirtualAttribute(128),
+  xattrNoAccess(130),
+  cannotReviveLivingDocument(131),
+  rangeScanCancelled(132),
+  rangeScanVbUuidNotEqual(133),
+  rangeScanCompleted(134),
   ;
+
+  const KeyValueErrorCode(this.value);
 
   factory KeyValueErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1650,110 +1504,30 @@ enum KeyValueErrorCode {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case documentNotFound:
-        value = 101;
-        break;
-      case documentIrretrievable:
-        value = 102;
-        break;
-      case documentLocked:
-        value = 103;
-        break;
-      case valueTooLarge:
-        value = 104;
-        break;
-      case documentExists:
-        value = 105;
-        break;
-      case durabilityLevelNotAvailable:
-        value = 107;
-        break;
-      case durabilityImpossible:
-        value = 108;
-        break;
-      case durabilityAmbiguous:
-        value = 109;
-        break;
-      case durableWriteInProgress:
-        value = 110;
-        break;
-      case durableWriteReCommitInProgress:
-        value = 111;
-        break;
-      case pathNotFound:
-        value = 113;
-        break;
-      case pathMismatch:
-        value = 114;
-        break;
-      case pathInvalid:
-        value = 115;
-        break;
-      case pathTooBig:
-        value = 116;
-        break;
-      case pathTooDeep:
-        value = 117;
-        break;
-      case valueTooDeep:
-        value = 118;
-        break;
-      case valueInvalid:
-        value = 119;
-        break;
-      case documentNotJson:
-        value = 120;
-        break;
-      case numberTooBig:
-        value = 121;
-        break;
-      case deltaInvalid:
-        value = 122;
-        break;
-      case pathExists:
-        value = 123;
-        break;
-      case xattrUnknownMacro:
-        value = 124;
-        break;
-      case xattrInvalidKeyCombo:
-        value = 126;
-        break;
-      case xattrUnknownVirtualAttribute:
-        value = 127;
-        break;
-      case xattrCannotModifyVirtualAttribute:
-        value = 128;
-        break;
-      case xattrNoAccess:
-        value = 130;
-        break;
-      case cannotReviveLivingDocument:
-        value = 131;
-        break;
-      case rangeScanCancelled:
-        value = 132;
-        break;
-      case rangeScanVbUuidNotEqual:
-        value = 133;
-        break;
-      case rangeScanCompleted:
-        value = 134;
-        break;
+  static KeyValueErrorCode? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum QueryErrorCode {
-  planningFailure,
-  indexFailure,
-  preparedStatementFailure,
-  dmlFailure,
+  planningFailure(201),
+  indexFailure(202),
+  preparedStatementFailure(203),
+  dmlFailure(204),
   ;
+
+  const QueryErrorCode(this.value);
 
   factory QueryErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1771,36 +1545,34 @@ enum QueryErrorCode {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case planningFailure:
-        value = 201;
-        break;
-      case indexFailure:
-        value = 202;
-        break;
-      case preparedStatementFailure:
-        value = 203;
-        break;
-      case dmlFailure:
-        value = 204;
-        break;
+  static QueryErrorCode? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum AnalyticsErrorCode {
-  compilationFailure,
-  jobQueueFull,
-  datasetNotFound,
-  dataverseNotFound,
-  datasetExists,
-  dataverseExists,
-  linkNotFound,
-  linkExists,
+  compilationFailure(301),
+  jobQueueFull(302),
+  datasetNotFound(303),
+  dataverseNotFound(304),
+  datasetExists(305),
+  dataverseExists(306),
+  linkNotFound(307),
+  linkExists(308),
   ;
+
+  const AnalyticsErrorCode(this.value);
 
   factory AnalyticsErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1826,42 +1598,28 @@ enum AnalyticsErrorCode {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case compilationFailure:
-        value = 301;
-        break;
-      case jobQueueFull:
-        value = 302;
-        break;
-      case datasetNotFound:
-        value = 303;
-        break;
-      case dataverseNotFound:
-        value = 304;
-        break;
-      case datasetExists:
-        value = 305;
-        break;
-      case dataverseExists:
-        value = 306;
-        break;
-      case linkNotFound:
-        value = 307;
-        break;
-      case linkExists:
-        value = 308;
-        break;
+  static AnalyticsErrorCode? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum SearchErrorCode {
-  indexNotReady,
-  consistencyMismatch,
+  indexNotReady(401),
+  consistencyMismatch(402),
   ;
+
+  const SearchErrorCode(this.value);
 
   factory SearchErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1875,24 +1633,28 @@ enum SearchErrorCode {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case indexNotReady:
-        value = 401;
-        break;
-      case consistencyMismatch:
-        value = 402;
-        break;
+  static SearchErrorCode? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum ViewErrorCode {
-  viewNotFound,
-  designDocumentNotFound,
+  viewNotFound(501),
+  designDocumentNotFound(502),
   ;
+
+  const ViewErrorCode(this.value);
 
   factory ViewErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1906,36 +1668,40 @@ enum ViewErrorCode {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case viewNotFound:
-        value = 501;
-        break;
-      case designDocumentNotFound:
-        value = 502;
-        break;
+  static ViewErrorCode? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum ManagementErrorCode {
-  collectionExists,
-  scopeExists,
-  userNotFound,
-  groupNotFound,
-  bucketExists,
-  userExists,
-  bucketNotFlushable,
-  eventingFunctionNotFound,
-  eventingFunctionNotDeployed,
-  eventingFunctionCompilationFailure,
-  eventingFunctionIdenticalKeyspace,
-  eventingFunctionNotBootstrapped,
-  eventingFunctionDeployed,
-  eventingFunctionPaused,
+  collectionExists(601),
+  scopeExists(602),
+  userNotFound(603),
+  groupNotFound(604),
+  bucketExists(605),
+  userExists(606),
+  bucketNotFlushable(607),
+  eventingFunctionNotFound(608),
+  eventingFunctionNotDeployed(609),
+  eventingFunctionCompilationFailure(610),
+  eventingFunctionIdenticalKeyspace(611),
+  eventingFunctionNotBootstrapped(612),
+  eventingFunctionDeployed(613),
+  eventingFunctionPaused(614),
   ;
+
+  const ManagementErrorCode(this.value);
 
   factory ManagementErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -1973,66 +1739,34 @@ enum ManagementErrorCode {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case collectionExists:
-        value = 601;
-        break;
-      case scopeExists:
-        value = 602;
-        break;
-      case userNotFound:
-        value = 603;
-        break;
-      case groupNotFound:
-        value = 604;
-        break;
-      case bucketExists:
-        value = 605;
-        break;
-      case userExists:
-        value = 606;
-        break;
-      case bucketNotFlushable:
-        value = 607;
-        break;
-      case eventingFunctionNotFound:
-        value = 608;
-        break;
-      case eventingFunctionNotDeployed:
-        value = 609;
-        break;
-      case eventingFunctionCompilationFailure:
-        value = 610;
-        break;
-      case eventingFunctionIdenticalKeyspace:
-        value = 611;
-        break;
-      case eventingFunctionNotBootstrapped:
-        value = 612;
-        break;
-      case eventingFunctionDeployed:
-        value = 613;
-        break;
-      case eventingFunctionPaused:
-        value = 614;
-        break;
+  static ManagementErrorCode? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum FieldLevelEncryptionErrorCode {
-  genericCryptographyFailure,
-  encryptionFailure,
-  decryptionFailure,
-  cryptoKeyNotFound,
-  invalidCryptoKey,
-  decrypterNotFound,
-  encrypterNotFound,
-  invalidCiphertext,
+  genericCryptographyFailure(700),
+  encryptionFailure(701),
+  decryptionFailure(702),
+  cryptoKeyNotFound(703),
+  invalidCryptoKey(704),
+  decrypterNotFound(705),
+  encrypterNotFound(706),
+  invalidCiphertext(707),
   ;
+
+  const FieldLevelEncryptionErrorCode(this.value);
 
   factory FieldLevelEncryptionErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -2058,53 +1792,39 @@ enum FieldLevelEncryptionErrorCode {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case genericCryptographyFailure:
-        value = 700;
-        break;
-      case encryptionFailure:
-        value = 701;
-        break;
-      case decryptionFailure:
-        value = 702;
-        break;
-      case cryptoKeyNotFound:
-        value = 703;
-        break;
-      case invalidCryptoKey:
-        value = 704;
-        break;
-      case decrypterNotFound:
-        value = 705;
-        break;
-      case encrypterNotFound:
-        value = 706;
-        break;
-      case invalidCiphertext:
-        value = 707;
-        break;
+  static FieldLevelEncryptionErrorCode? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum NetworkErrorCode {
-  resolveFailure,
-  noEndpointsLeft,
-  handshakeFailure,
-  protocolError,
-  configurationNotAvailable,
-  clusterClosed,
-  endOfStream,
-  needMoreData,
-  operationQueueClosed,
-  operationQueueFull,
-  requestAlreadyQueued,
-  requestCancelled,
-  bucketClosed,
+  resolveFailure(1001),
+  noEndpointsLeft(1002),
+  handshakeFailure(1003),
+  protocolError(1004),
+  configurationNotAvailable(1005),
+  clusterClosed(1006),
+  endOfStream(1007),
+  needMoreData(1008),
+  operationQueueClosed(1009),
+  operationQueueFull(1010),
+  requestAlreadyQueued(1011),
+  requestCancelled(1012),
+  bucketClosed(1013),
   ;
+
+  const NetworkErrorCode(this.value);
 
   factory NetworkErrorCode.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -2140,127 +1860,98 @@ enum NetworkErrorCode {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case resolveFailure:
-        value = 1001;
-        break;
-      case noEndpointsLeft:
-        value = 1002;
-        break;
-      case handshakeFailure:
-        value = 1003;
-        break;
-      case protocolError:
-        value = 1004;
-        break;
-      case configurationNotAvailable:
-        value = 1005;
-        break;
-      case clusterClosed:
-        value = 1006;
-        break;
-      case endOfStream:
-        value = 1007;
-        break;
-      case needMoreData:
-        value = 1008;
-        break;
-      case operationQueueClosed:
-        value = 1009;
-        break;
-      case operationQueueFull:
-        value = 1010;
-        break;
-      case requestAlreadyQueued:
-        value = 1011;
-        break;
-      case requestCancelled:
-        value = 1012;
-        break;
-      case bucketClosed:
-        value = 1013;
-        break;
+  static NetworkErrorCode? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum KeyValueStatusCode {
-  success,
-  notFound,
-  exists,
-  tooBig,
-  invalid,
-  notStored,
-  deltaBadValue,
-  notMyVbucket,
-  noBucket,
-  dcpStreamNotFound,
-  opaqueNoMatch,
-  locked,
-  authStale,
-  authError,
-  authContinue,
-  rangeError,
-  rollback,
-  noAccess,
-  notInitialized,
-  rateLimitedNetworkIngress,
-  rateLimitedNetworkEgress,
-  rateLimitedMaxConnections,
-  rateLimitedMaxCommands,
-  scopeSizeLimitExceeded,
-  unknownFrameInfo,
-  unknownCommand,
-  noMemory,
-  notSupported,
-  internal,
-  busy,
-  temporaryFailure,
-  xattrInvalid,
-  unknownCollection,
-  noCollectionsManifest,
-  cannotApplyCollectionsManifest,
-  collectionsManifestIsAhead,
-  unknownScope,
-  dcpStreamIdInvalid,
-  durabilityInvalidLevel,
-  durabilityImpossible,
-  syncWriteInProgress,
-  syncWriteAmbiguous,
-  syncWriteReCommitInProgress,
-  subdocPathNotFound,
-  subdocPathMismatch,
-  subdocPathInvalid,
-  subdocPathTooBig,
-  subdocDocTooDeep,
-  subdocValueCannotInsert,
-  subdocDocNotJson,
-  subdocNumRangeError,
-  subdocDeltaInvalid,
-  subdocPathExists,
-  subdocValueTooDeep,
-  subdocInvalidCombo,
-  subdocMultiPathFailure,
-  subdocSuccessDeleted,
-  subdocXattrInvalidFlagCombo,
-  subdocXattrInvalidKeyCombo,
-  subdocXattrUnknownMacro,
-  subdocXattrUnknownVattr,
-  subdocXattrCannotModifyVattr,
-  subdocMultiPathFailureDeleted,
-  subdocInvalidXattrOrder,
-  subdocXattrUnknownVattrMacro,
-  subdocCanOnlyReviveDeletedDocuments,
-  subdocDeletedDocumentCannotHaveValue,
-  rangeScanCancelled,
-  rangeScanMore,
-  rangeScanComplete,
-  rangeScanVbUuidNotEqual,
-  unknown,
+  success(0),
+  notFound(1),
+  exists(2),
+  tooBig(3),
+  invalid(4),
+  notStored(5),
+  deltaBadValue(6),
+  notMyVbucket(7),
+  noBucket(8),
+  dcpStreamNotFound(10),
+  opaqueNoMatch(11),
+  locked(9),
+  authStale(31),
+  authError(32),
+  authContinue(33),
+  rangeError(34),
+  rollback(35),
+  noAccess(36),
+  notInitialized(37),
+  rateLimitedNetworkIngress(48),
+  rateLimitedNetworkEgress(49),
+  rateLimitedMaxConnections(50),
+  rateLimitedMaxCommands(51),
+  scopeSizeLimitExceeded(52),
+  unknownFrameInfo(128),
+  unknownCommand(129),
+  noMemory(130),
+  notSupported(131),
+  internal(132),
+  busy(133),
+  temporaryFailure(134),
+  xattrInvalid(135),
+  unknownCollection(136),
+  noCollectionsManifest(137),
+  cannotApplyCollectionsManifest(138),
+  collectionsManifestIsAhead(139),
+  unknownScope(140),
+  dcpStreamIdInvalid(141),
+  durabilityInvalidLevel(160),
+  durabilityImpossible(161),
+  syncWriteInProgress(162),
+  syncWriteAmbiguous(163),
+  syncWriteReCommitInProgress(164),
+  subdocPathNotFound(192),
+  subdocPathMismatch(193),
+  subdocPathInvalid(194),
+  subdocPathTooBig(195),
+  subdocDocTooDeep(196),
+  subdocValueCannotInsert(197),
+  subdocDocNotJson(198),
+  subdocNumRangeError(199),
+  subdocDeltaInvalid(200),
+  subdocPathExists(201),
+  subdocValueTooDeep(202),
+  subdocInvalidCombo(203),
+  subdocMultiPathFailure(204),
+  subdocSuccessDeleted(205),
+  subdocXattrInvalidFlagCombo(206),
+  subdocXattrInvalidKeyCombo(207),
+  subdocXattrUnknownMacro(208),
+  subdocXattrUnknownVattr(209),
+  subdocXattrCannotModifyVattr(210),
+  subdocMultiPathFailureDeleted(211),
+  subdocInvalidXattrOrder(212),
+  subdocXattrUnknownVattrMacro(213),
+  subdocCanOnlyReviveDeletedDocuments(214),
+  subdocDeletedDocumentCannotHaveValue(215),
+  rangeScanCancelled(165),
+  rangeScanMore(166),
+  rangeScanComplete(167),
+  rangeScanVbUuidNotEqual(168),
+  unknown(-1),
   ;
+
+  const KeyValueStatusCode(this.value);
 
   factory KeyValueStatusCode.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -2414,248 +2105,42 @@ enum KeyValueStatusCode {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case success:
-        value = 0;
-        break;
-      case notFound:
-        value = 1;
-        break;
-      case exists:
-        value = 2;
-        break;
-      case tooBig:
-        value = 3;
-        break;
-      case invalid:
-        value = 4;
-        break;
-      case notStored:
-        value = 5;
-        break;
-      case deltaBadValue:
-        value = 6;
-        break;
-      case notMyVbucket:
-        value = 7;
-        break;
-      case noBucket:
-        value = 8;
-        break;
-      case dcpStreamNotFound:
-        value = 10;
-        break;
-      case opaqueNoMatch:
-        value = 11;
-        break;
-      case locked:
-        value = 9;
-        break;
-      case authStale:
-        value = 31;
-        break;
-      case authError:
-        value = 32;
-        break;
-      case authContinue:
-        value = 33;
-        break;
-      case rangeError:
-        value = 34;
-        break;
-      case rollback:
-        value = 35;
-        break;
-      case noAccess:
-        value = 36;
-        break;
-      case notInitialized:
-        value = 37;
-        break;
-      case rateLimitedNetworkIngress:
-        value = 48;
-        break;
-      case rateLimitedNetworkEgress:
-        value = 49;
-        break;
-      case rateLimitedMaxConnections:
-        value = 50;
-        break;
-      case rateLimitedMaxCommands:
-        value = 51;
-        break;
-      case scopeSizeLimitExceeded:
-        value = 52;
-        break;
-      case unknownFrameInfo:
-        value = 128;
-        break;
-      case unknownCommand:
-        value = 129;
-        break;
-      case noMemory:
-        value = 130;
-        break;
-      case notSupported:
-        value = 131;
-        break;
-      case internal:
-        value = 132;
-        break;
-      case busy:
-        value = 133;
-        break;
-      case temporaryFailure:
-        value = 134;
-        break;
-      case xattrInvalid:
-        value = 135;
-        break;
-      case unknownCollection:
-        value = 136;
-        break;
-      case noCollectionsManifest:
-        value = 137;
-        break;
-      case cannotApplyCollectionsManifest:
-        value = 138;
-        break;
-      case collectionsManifestIsAhead:
-        value = 139;
-        break;
-      case unknownScope:
-        value = 140;
-        break;
-      case dcpStreamIdInvalid:
-        value = 141;
-        break;
-      case durabilityInvalidLevel:
-        value = 160;
-        break;
-      case durabilityImpossible:
-        value = 161;
-        break;
-      case syncWriteInProgress:
-        value = 162;
-        break;
-      case syncWriteAmbiguous:
-        value = 163;
-        break;
-      case syncWriteReCommitInProgress:
-        value = 164;
-        break;
-      case subdocPathNotFound:
-        value = 192;
-        break;
-      case subdocPathMismatch:
-        value = 193;
-        break;
-      case subdocPathInvalid:
-        value = 194;
-        break;
-      case subdocPathTooBig:
-        value = 195;
-        break;
-      case subdocDocTooDeep:
-        value = 196;
-        break;
-      case subdocValueCannotInsert:
-        value = 197;
-        break;
-      case subdocDocNotJson:
-        value = 198;
-        break;
-      case subdocNumRangeError:
-        value = 199;
-        break;
-      case subdocDeltaInvalid:
-        value = 200;
-        break;
-      case subdocPathExists:
-        value = 201;
-        break;
-      case subdocValueTooDeep:
-        value = 202;
-        break;
-      case subdocInvalidCombo:
-        value = 203;
-        break;
-      case subdocMultiPathFailure:
-        value = 204;
-        break;
-      case subdocSuccessDeleted:
-        value = 205;
-        break;
-      case subdocXattrInvalidFlagCombo:
-        value = 206;
-        break;
-      case subdocXattrInvalidKeyCombo:
-        value = 207;
-        break;
-      case subdocXattrUnknownMacro:
-        value = 208;
-        break;
-      case subdocXattrUnknownVattr:
-        value = 209;
-        break;
-      case subdocXattrCannotModifyVattr:
-        value = 210;
-        break;
-      case subdocMultiPathFailureDeleted:
-        value = 211;
-        break;
-      case subdocInvalidXattrOrder:
-        value = 212;
-        break;
-      case subdocXattrUnknownVattrMacro:
-        value = 213;
-        break;
-      case subdocCanOnlyReviveDeletedDocuments:
-        value = 214;
-        break;
-      case subdocDeletedDocumentCannotHaveValue:
-        value = 215;
-        break;
-      case rangeScanCancelled:
-        value = 165;
-        break;
-      case rangeScanMore:
-        value = 166;
-        break;
-      case rangeScanComplete:
-        value = 167;
-        break;
-      case rangeScanVbUuidNotEqual:
-        value = 168;
-        break;
-      case unknown:
-        value = -1;
-        break;
+  static KeyValueStatusCode? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum Opcode {
-  getDoc,
-  setDoc,
-  removeDoc,
-  get,
-  exists,
-  dictAdd,
-  dictUpsert,
-  remove,
-  replace,
-  arrayPushLast,
-  arrayPushFirst,
-  arrayInsert,
-  arrayAddUnique,
-  counter,
-  getCount,
-  replaceBodyWithXattr,
+  getDoc(0),
+  setDoc(1),
+  removeDoc(4),
+  get(-59),
+  exists(-58),
+  dictAdd(-57),
+  dictUpsert(-56),
+  remove(-55),
+  replace(-54),
+  arrayPushLast(-53),
+  arrayPushFirst(-52),
+  arrayInsert(-51),
+  arrayAddUnique(-50),
+  counter(-49),
+  getCount(-46),
+  replaceBodyWithXattr(-45),
   ;
+
+  const Opcode(this.value);
 
   factory Opcode.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -2697,68 +2182,30 @@ enum Opcode {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case getDoc:
-        value = 0;
-        break;
-      case setDoc:
-        value = 1;
-        break;
-      case removeDoc:
-        value = 4;
-        break;
-      case get:
-        value = -59;
-        break;
-      case exists:
-        value = -58;
-        break;
-      case dictAdd:
-        value = -57;
-        break;
-      case dictUpsert:
-        value = -56;
-        break;
-      case remove:
-        value = -55;
-        break;
-      case replace:
-        value = -54;
-        break;
-      case arrayPushLast:
-        value = -53;
-        break;
-      case arrayPushFirst:
-        value = -52;
-        break;
-      case arrayInsert:
-        value = -51;
-        break;
-      case arrayAddUnique:
-        value = -50;
-        break;
-      case counter:
-        value = -49;
-        break;
-      case getCount:
-        value = -46;
-        break;
-      case replaceBodyWithXattr:
-        value = -45;
-        break;
+  static Opcode? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum StoreSemantics {
-  replace,
-  upsert,
-  insert,
-  revive,
+  replace(0),
+  upsert(1),
+  insert(2),
+  revive(3),
   ;
+
+  const StoreSemantics(this.value);
 
   factory StoreSemantics.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -2776,34 +2223,32 @@ enum StoreSemantics {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case replace:
-        value = 0;
-        break;
-      case upsert:
-        value = 1;
-        break;
-      case insert:
-        value = 2;
-        break;
-      case revive:
-        value = 3;
-        break;
+  static StoreSemantics? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum PersistTo {
-  none,
-  active,
-  one,
-  two,
-  three,
-  four,
+  none(0),
+  active(1),
+  one(2),
+  two(3),
+  three(4),
+  four(5),
   ;
+
+  const PersistTo(this.value);
 
   factory PersistTo.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -2825,38 +2270,30 @@ enum PersistTo {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case none:
-        value = 0;
-        break;
-      case active:
-        value = 1;
-        break;
-      case one:
-        value = 2;
-        break;
-      case two:
-        value = 3;
-        break;
-      case three:
-        value = 4;
-        break;
-      case four:
-        value = 5;
-        break;
+  static PersistTo? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum ReplicateTo {
-  none,
-  one,
-  two,
-  three,
+  none(0),
+  one(1),
+  two(2),
+  three(3),
   ;
+
+  const ReplicateTo(this.value);
 
   factory ReplicateTo.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -2874,30 +2311,28 @@ enum ReplicateTo {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case none:
-        value = 0;
-        break;
-      case one:
-        value = 1;
-        break;
-      case two:
-        value = 2;
-        break;
-      case three:
-        value = 3;
-        break;
+  static ReplicateTo? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }
 
 enum ScanSort {
-  none,
-  ascending,
+  none(0),
+  ascending(1),
   ;
+
+  const ScanSort(this.value);
 
   factory ScanSort.read(MessageBuffer buffer) {
     final value = buffer.readInt64();
@@ -2911,16 +2346,18 @@ enum ScanSort {
     }
   }
 
-  void write(MessageBuffer buffer) {
-    final int value;
-    switch (this) {
-      case none:
-        value = 0;
-        break;
-      case ascending:
-        value = 1;
-        break;
+  static ScanSort? byValue(int value) {
+    for (final enumValue in values) {
+      if (enumValue.value == value) {
+        return enumValue;
+      }
     }
+    return null;
+  }
+
+  final int value;
+
+  void write(MessageBuffer buffer) {
     buffer.writeInt64(value);
   }
 }

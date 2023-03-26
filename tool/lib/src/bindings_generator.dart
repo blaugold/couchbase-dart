@@ -654,9 +654,11 @@ class BindingsGenerator {
 
     _writeln('enum $dartName {');
     for (final value in type.values) {
-      _writeln('  ${value.dartName},');
+      _writeln('  ${value.dartName}(${value.value}),');
     }
     _writeln(';');
+    _writeln();
+    _writeln('  const $dartName(this.value);');
     _writeln();
     _writeln('  factory $dartName.read(MessageBuffer buffer) {');
     _writeln('  final value = buffer.readInt64();');
@@ -668,13 +670,18 @@ class BindingsGenerator {
     _writeln('    }');
     _writeln('  }');
     _writeln();
-    _writeln('  void write(MessageBuffer buffer) {');
-    _writeln('    final int value;');
-    _writeln('    switch (this) {');
-    for (final value in type.values) {
-      _writeln('      case ${value.dartName}: value = ${value.value}; break;');
-    }
+    _writeln('  static $dartName? byValue(int value) {');
+    _writeln('    for (final enumValue in values) {');
+    _writeln('      if (enumValue.value == value) {');
+    _writeln('        return enumValue;');
+    _writeln('      }');
     _writeln('    }');
+    _writeln('    return null;');
+    _writeln('  }');
+    _writeln();
+    _writeln('  final int value;');
+    _writeln();
+    _writeln('  void write(MessageBuffer buffer) {');
     _writeln('    buffer.writeInt64(value);');
     _writeln('  }');
     _writeln('}');

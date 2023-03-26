@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'dart:isolate';
 
 import 'bindings.dart';
+import 'exception.dart' as exception;
 import 'lib_couchbase_dart.dart';
 import 'message.g.dart';
 import 'message_basic.dart';
@@ -107,7 +108,7 @@ class Connection implements Finalizable {
       (response) {
         if (response.readBool()) {
           // ignore: only_throw_errors
-          throw errorDecoder(response);
+          throw exception.convertMessageError(errorDecoder(response));
         }
         return responseDecoder(response);
       },
@@ -164,6 +165,6 @@ extension on MessageBuffer {
     }
 
     // ignore: only_throw_errors
-    throw ErrorCode.read(this);
+    throw exception.convertMessageError(ErrorCode.read(this));
   }
 }

@@ -13,14 +13,15 @@ analyzer:
 
 linter:
   rules:
-    prefer_double_quotes: false
-    always_use_package_imports: false
-    prefer_final_parameters: false
+    always_put_required_named_parameters_first: false
     always_specify_types: false
-    unnecessary_final: false
+    always_use_package_imports: false
+    cascade_invocations: false
+    flutter_style_todos: false
+    parameter_assignments: false
+    prefer_double_quotes: false
+    prefer_expression_function_bodies: false
+    prefer_final_parameters: false
     # TODO: Enable
     public_member_api_docs: false
-    flutter_style_todos: false
-    prefer_expression_function_bodies: false
-    cascade_invocations: false
-    parameter_assignments: false
+    unnecessary_final: false
