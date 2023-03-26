@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:isolate';
 
-import 'package:couchbase/src/basic.dart';
-
 import 'bindings.dart';
 import 'lib_couchbase_dart.dart';
 import 'message.g.dart';
@@ -48,7 +46,7 @@ class Connection implements Finalizable {
         request.writeString(connectionString);
         credentials.write(request);
       },
-      _optionalCommonErrorDecoder,
+      _optionalErrorCodeDecoder,
       bindings.CBDConnection_Open,
     );
   }
@@ -65,7 +63,7 @@ class Connection implements Finalizable {
   Future<void> openBucket(String bucketName) {
     return _makeRequest(
       (request) => request.writeString(bucketName),
-      _optionalCommonErrorDecoder,
+      _optionalErrorCodeDecoder,
       bindings.CBDConnection_OpenBucket,
     );
   }
@@ -127,40 +125,43 @@ typedef _NativeRequestHandler = void Function(CBDConnection, CBDMessageBuffer);
 class _PendingRequest<T> {
   final MessageBuffer _buffer;
   final _ResponseDecoder<T> _responseDecoder;
-  final _completer = Completer<T>.sync();
+  final _completer = Completer<void>.sync();
 
   MessageBuffer get request => _buffer;
 
-  late final result = _completer.future.withNewStackTrace();
+  late final Future<T> result;
 
-  _PendingRequest(int requestId, this._buffer, _RequestWriter requestWriter,
-      this._responseDecoder) {
+  _PendingRequest(
+    int requestId,
+    this._buffer,
+    _RequestWriter requestWriter,
+    this._responseDecoder,
+  ) {
     // Write the request ID into the buffer which at this point serves as the
     // request.
     _buffer.reset();
     _buffer.writeInt64(requestId);
     requestWriter(_buffer);
     _buffer.reset();
+
+    result = Future.sync(() async {
+      await _completer.future;
+      return _responseDecoder(_buffer);
+    });
   }
 
-  void handleResponse() {
-    try {
-      _completer.complete(_responseDecoder(_buffer));
-    } catch (e) {
-      _completer.completeError(e);
-    }
-  }
+  void handleResponse() => _completer.complete();
 }
 
-void _optionalCommonErrorDecoder(MessageBuffer response) =>
-    response.readOptionalCommonError();
+void _optionalErrorCodeDecoder(MessageBuffer response) =>
+    response.readOptionalErrorCode();
 
-extension<T> on Future<T> {
-  Future<T> withNewStackTrace() async {
-    try {
-      return await this;
-    } catch (e) {
-      throw e;
+extension on MessageBuffer {
+  void readOptionalErrorCode() {
+    if (!readBool()) {
+      return;
     }
+
+    throw ErrorCode.read(this);
   }
 }

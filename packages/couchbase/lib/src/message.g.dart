@@ -7217,7 +7217,7 @@ class LookupInResponseEntry {
       exists: buffer.readBool(),
       opcode: SubdocOpcode.read(buffer),
       status: KeyValueStatusCode.read(buffer),
-      ec: buffer.readBool() ? CommonError.read(buffer) : null,
+      ec: ErrorCode.read(buffer),
     );
   }
 
@@ -7227,7 +7227,7 @@ class LookupInResponseEntry {
   final bool exists;
   final SubdocOpcode opcode;
   final KeyValueStatusCode status;
-  final CommonError? ec;
+  final ErrorCode ec;
 
   void write(MessageBuffer buffer) {
     buffer.writeString(path);
@@ -7236,10 +7236,7 @@ class LookupInResponseEntry {
     buffer.writeBool(exists);
     opcode.write(buffer);
     status.write(buffer);
-    buffer.writeBool(ec != null);
-    if (ec != null) {
-      ec!.write(buffer);
-    }
+    ec.write(buffer);
   }
 }
 
@@ -7820,7 +7817,7 @@ class MutateInResponseEntry {
       originalIndex: buffer.readInt64(),
       opcode: SubdocOpcode.read(buffer),
       status: KeyValueStatusCode.read(buffer),
-      ec: buffer.readBool() ? CommonError.read(buffer) : null,
+      ec: ErrorCode.read(buffer),
     );
   }
 
@@ -7829,7 +7826,7 @@ class MutateInResponseEntry {
   final int originalIndex;
   final SubdocOpcode opcode;
   final KeyValueStatusCode status;
-  final CommonError? ec;
+  final ErrorCode ec;
 
   void write(MessageBuffer buffer) {
     buffer.writeString(path);
@@ -7837,10 +7834,7 @@ class MutateInResponseEntry {
     buffer.writeInt64(originalIndex);
     opcode.write(buffer);
     status.write(buffer);
-    buffer.writeBool(ec != null);
-    if (ec != null) {
-      ec!.write(buffer);
-    }
+    ec.write(buffer);
   }
 }
 

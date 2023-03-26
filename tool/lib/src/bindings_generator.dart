@@ -382,7 +382,7 @@ class BindingsGenerator {
         else
           return 'Object';
       case 'std::error_code':
-        return 'CommonError?';
+        return 'ErrorCode';
       case 'couchbase::core::json_string':
         return 'String';
     }
@@ -494,10 +494,7 @@ class BindingsGenerator {
         _writeln('}');
         return;
       case 'std::error_code':
-        _writeln('buffer.writeBool($identifier != null);');
-        _writeln('if ($identifier != null) {');
-        _writeln('$identifier!.write(buffer);');
-        _writeln('}');
+        _writeln('$identifier.write(buffer);');
         return;
       case 'couchbase::core::json_string':
         _writeln('buffer.writeString($identifier);');
@@ -619,7 +616,7 @@ class BindingsGenerator {
         _writeln('})()');
         return;
       case 'std::error_code':
-        _writeln('buffer.readBool() ? CommonError.read(buffer) : null');
+        _writeln('ErrorCode.read(buffer)');
         return;
       case 'couchbase::core::json_string':
         _writeln('buffer.readString()');

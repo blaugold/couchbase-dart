@@ -2,20 +2,20 @@ import 'message.g.dart';
 import 'message_basic.dart';
 import 'message_buffer.dart';
 
-class CommonError {
-  const CommonError({
+class ErrorCode {
+  const ErrorCode({
     required this.code,
     required this.message,
   });
 
-  factory CommonError.read(MessageBuffer buffer) {
-    return CommonError(
-      code: CommonErrorCode.read(buffer),
+  factory ErrorCode.read(MessageBuffer buffer) {
+    return ErrorCode(
+      code: buffer.readInt64(),
       message: buffer.readString(),
     );
   }
 
-  final CommonErrorCode code;
+  final int code;
   final String message;
 
   void write(MessageBuffer buffer) => throw UnimplementedError();
@@ -41,7 +41,6 @@ class KeyValueExtendedErrorInfo {
 class KeyValueErrorContext {
   const KeyValueErrorContext({
     required this.code,
-    required this.message,
     required this.id,
     required this.opaque,
     required this.cas,
@@ -55,8 +54,7 @@ class KeyValueErrorContext {
 
   factory KeyValueErrorContext.read(MessageBuffer buffer) {
     return KeyValueErrorContext(
-      code: KeyValueErrorCode.read(buffer),
-      message: buffer.readString(),
+      code: ErrorCode.read(buffer),
       id: buffer.readString(),
       opaque: buffer.readInt64(),
       cas: Cas.read(buffer),
@@ -71,8 +69,7 @@ class KeyValueErrorContext {
     );
   }
 
-  final KeyValueErrorCode code;
-  final String message;
+  final ErrorCode code;
   final String id;
   final int opaque;
   final Cas cas;
@@ -87,7 +84,6 @@ class KeyValueErrorContext {
 class SubdocumentErrorContext {
   const SubdocumentErrorContext({
     required this.code,
-    required this.message,
     required this.id,
     required this.opaque,
     required this.cas,
@@ -104,8 +100,7 @@ class SubdocumentErrorContext {
 
   factory SubdocumentErrorContext.read(MessageBuffer buffer) {
     return SubdocumentErrorContext(
-      code: KeyValueErrorCode.read(buffer),
-      message: buffer.readString(),
+      code: ErrorCode.read(buffer),
       id: buffer.readString(),
       opaque: buffer.readInt64(),
       cas: Cas.read(buffer),
@@ -123,8 +118,7 @@ class SubdocumentErrorContext {
     );
   }
 
-  final KeyValueErrorCode code;
-  final String message;
+  final ErrorCode code;
   final String id;
   final int opaque;
   final Cas cas;
@@ -142,7 +136,6 @@ class SubdocumentErrorContext {
 class ViewErrorContext {
   const ViewErrorContext({
     required this.code,
-    required this.message,
     required this.clientContextId,
     required this.designDocumentName,
     required this.viewName,
@@ -159,8 +152,7 @@ class ViewErrorContext {
 
   factory ViewErrorContext.read(MessageBuffer buffer) {
     return ViewErrorContext(
-      code: ViewErrorCode.read(buffer),
-      message: buffer.readString(),
+      code: ErrorCode.read(buffer),
       clientContextId: buffer.readString(),
       designDocumentName: buffer.readString(),
       viewName: buffer.readString(),
@@ -179,8 +171,7 @@ class ViewErrorContext {
     );
   }
 
-  final ViewErrorCode code;
-  final String message;
+  final ErrorCode code;
   final String clientContextId;
   final String designDocumentName;
   final String viewName;
@@ -198,7 +189,6 @@ class ViewErrorContext {
 class QueryErrorContext {
   const QueryErrorContext({
     required this.code,
-    required this.message,
     required this.firstErrorCode,
     required this.firstErrorMessage,
     required this.clientContextId,
@@ -216,8 +206,7 @@ class QueryErrorContext {
 
   factory QueryErrorContext.read(MessageBuffer buffer) {
     return QueryErrorContext(
-      code: ViewErrorCode.read(buffer),
-      message: buffer.readString(),
+      code: ErrorCode.read(buffer),
       firstErrorCode: buffer.readUInt64(),
       firstErrorMessage: buffer.readString(),
       clientContextId: buffer.readString(),
@@ -235,8 +224,7 @@ class QueryErrorContext {
     );
   }
 
-  final ViewErrorCode code;
-  final String message;
+  final ErrorCode code;
   final int firstErrorCode;
   final String firstErrorMessage;
   final String clientContextId;
@@ -255,7 +243,6 @@ class QueryErrorContext {
 class SearchErrorContext {
   const SearchErrorContext({
     required this.code,
-    required this.message,
     required this.clientContextId,
     required this.indexName,
     required this.query,
@@ -272,8 +259,7 @@ class SearchErrorContext {
 
   factory SearchErrorContext.read(MessageBuffer buffer) {
     return SearchErrorContext(
-      code: ViewErrorCode.read(buffer),
-      message: buffer.readString(),
+      code: ErrorCode.read(buffer),
       clientContextId: buffer.readString(),
       indexName: buffer.readString(),
       query: buffer.readBool() ? buffer.readString() : null,
@@ -290,8 +276,7 @@ class SearchErrorContext {
     );
   }
 
-  final ViewErrorCode code;
-  final String message;
+  final ErrorCode code;
   final String clientContextId;
   final String indexName;
   final String? query;
@@ -309,7 +294,6 @@ class SearchErrorContext {
 class AnalyticsErrorContext {
   const AnalyticsErrorContext({
     required this.code,
-    required this.message,
     required this.firstErrorCode,
     required this.firstErrorMessage,
     required this.clientContextId,
@@ -327,8 +311,7 @@ class AnalyticsErrorContext {
 
   factory AnalyticsErrorContext.read(MessageBuffer buffer) {
     return AnalyticsErrorContext(
-      code: ViewErrorCode.read(buffer),
-      message: buffer.readString(),
+      code: ErrorCode.read(buffer),
       firstErrorCode: buffer.readUInt64(),
       firstErrorMessage: buffer.readString(),
       clientContextId: buffer.readString(),
@@ -346,8 +329,7 @@ class AnalyticsErrorContext {
     );
   }
 
-  final ViewErrorCode code;
-  final String message;
+  final ErrorCode code;
   final int firstErrorCode;
   final String firstErrorMessage;
   final String clientContextId;
@@ -366,7 +348,6 @@ class AnalyticsErrorContext {
 class HttpErrorContext {
   const HttpErrorContext({
     required this.code,
-    required this.message,
     required this.clientContextId,
     required this.method,
     required this.path,
@@ -380,8 +361,7 @@ class HttpErrorContext {
 
   factory HttpErrorContext.read(MessageBuffer buffer) {
     return HttpErrorContext(
-      code: ViewErrorCode.read(buffer),
-      message: buffer.readString(),
+      code: ErrorCode.read(buffer),
       clientContextId: buffer.readString(),
       method: buffer.readString(),
       path: buffer.readString(),
@@ -395,8 +375,7 @@ class HttpErrorContext {
     );
   }
 
-  final ViewErrorCode code;
-  final String message;
+  final ErrorCode code;
   final String clientContextId;
   final String method;
   final String path;
