@@ -53,8 +53,8 @@ class DnsConfig {
   factory DnsConfig.read(MessageBuffer buffer) {
     return DnsConfig(
       nameServer: buffer.readString(),
-      port: buffer.readUInt16(),
-      timeout: Duration(microseconds: buffer.readUInt64()),
+      port: buffer.readInt64(),
+      timeout: Duration(microseconds: buffer.readInt64()),
     );
   }
 
@@ -64,8 +64,8 @@ class DnsConfig {
 
   void write(MessageBuffer buffer) {
     buffer.writeString(nameServer);
-    buffer.writeUInt16(port);
-    buffer.writeUInt64(timeout.inMicroseconds);
+    buffer.writeInt64(port);
+    buffer.writeInt64(timeout.inMicroseconds);
   }
 }
 
@@ -135,9 +135,9 @@ class MutationToken {
 
   factory MutationToken.read(MessageBuffer buffer) {
     return MutationToken._(
-      partitionUuid: buffer.readUInt64(),
-      sequenceNumber: buffer.readUInt64(),
-      partitionId: buffer.readUInt16(),
+      partitionUuid: buffer.readInt64(),
+      sequenceNumber: buffer.readInt64(),
+      partitionId: buffer.readInt64(),
       bucketName: buffer.readString(),
     );
   }
@@ -148,9 +148,9 @@ class MutationToken {
   final String _bucketName;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(_partitionUuid);
-    buffer.writeUInt64(_sequenceNumber);
-    buffer.writeUInt16(_partitionId);
+    buffer.writeInt64(_partitionUuid);
+    buffer.writeInt64(_sequenceNumber);
+    buffer.writeInt64(_partitionId);
     buffer.writeString(_bucketName);
   }
 }
