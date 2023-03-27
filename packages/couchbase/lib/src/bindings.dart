@@ -1,7 +1,9 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:couchbase/src/lib_couchbase_dart.dart';
+import 'lib_couchbase_dart.dart';
 
 final bindings = _initBindings(_loadLibrary());
 

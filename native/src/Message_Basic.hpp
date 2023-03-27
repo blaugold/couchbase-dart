@@ -58,9 +58,11 @@ struct message_codec_t<couchbase::core::io::dns::dns_config> {
     static inline couchbase::core::io::dns::dns_config
     read(MessageBuffer &buffer)
     {
+        auto nameserver = read_cbpp<std::string>(buffer);
+        auto port = read_cbpp<std::int64_t>(buffer);
+        auto timeout = read_cbpp<std::chrono::milliseconds>(buffer);
         return couchbase::core::io::dns::dns_config(
-            read_cbpp<std::string>(buffer), read_cbpp<std::uint16_t>(buffer),
-            read_cbpp<std::chrono::milliseconds>(buffer));
+            nameserver, static_cast<std::uint16_t>(port), timeout);
     }
 
     static inline void write(MessageBuffer &buffer,
@@ -78,9 +80,11 @@ template <>
 struct message_codec_t<couchbase::core::document_id> {
     static inline couchbase::core::document_id read(MessageBuffer &buffer)
     {
-        return couchbase::core::document_id(
-            read_cbpp<std::string>(buffer), read_cbpp<std::string>(buffer),
-            read_cbpp<std::string>(buffer), read_cbpp<std::string>(buffer));
+        auto bucket = read_cbpp<std::string>(buffer);
+        auto scope = read_cbpp<std::string>(buffer);
+        auto collection = read_cbpp<std::string>(buffer);
+        auto key = read_cbpp<std::string>(buffer);
+        return couchbase::core::document_id(bucket, scope, collection, key);
     }
 
     static inline void write(MessageBuffer &buffer,
@@ -114,9 +118,14 @@ template <>
 struct message_codec_t<couchbase::mutation_token> {
     static inline couchbase::mutation_token read(MessageBuffer &buffer)
     {
-        return couchbase::mutation_token(
-            read_cbpp<uint64_t>(buffer), read_cbpp<uint64_t>(buffer),
-            read_cbpp<uint16_t>(buffer), read_cbpp<std::string>(buffer));
+        auto partition_uuid = read_cbpp<int64_t>(buffer);
+        auto sequence_number = read_cbpp<int64_t>(buffer);
+        auto partition_id = read_cbpp<int64_t>(buffer);
+        auto bucket_name = read_cbpp<std::string>(buffer);
+        return couchbase::mutation_token(static_cast<uint64_t>(partition_uuid),
+                                         static_cast<uint64_t>(sequence_number),
+                                         static_cast<uint16_t>(partition_id),
+                                         bucket_name);
     }
 
     static inline void write(MessageBuffer &buffer,
@@ -135,8 +144,9 @@ template <>
 struct message_codec_t<couchbase::core::query_context> {
     static inline couchbase::core::query_context read(MessageBuffer &buffer)
     {
-        return couchbase::core::query_context(read_cbpp<std::string>(buffer),
-                                              read_cbpp<std::string>(buffer));
+        auto bucket_name = read_cbpp<std::string>(buffer);
+        auto scope_name = read_cbpp<std::string>(buffer);
+        return couchbase::core::query_context(bucket_name, scope_name);
     }
 
     static inline void write(MessageBuffer &buffer,

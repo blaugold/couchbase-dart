@@ -89,6 +89,21 @@
     "format": "cpp",
     "pointers": "cpp",
     "*.ipp": "cpp",
-    "string_span": "cpp"
+    "string_span": "cpp",
+    "__hash_table": "cpp",
+    "cfenv": "cpp",
+    "charconv": "cpp",
+    "complex": "cpp",
+    "forward_list": "cpp",
+    "iostream": "cpp",
+    "queue": "cpp",
+    "regex": "cpp",
+    "string_view": "cpp",
+    "strstream": "cpp",
+    "typeindex": "cpp",
+    "unordered_map": "cpp",
+    "unordered_set": "cpp",
+    "valarray": "cpp",
+    "algorithm": "cpp"
   }
 }

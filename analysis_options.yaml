@@ -1,0 +1,27 @@
+include: alll_linter_rules.yaml
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-raw-types: true
+    strict-inference: true
+  errors:
+    included_file_warning: ignore
+  # TODO: Fix analysis errors in generated code
+  exclude:
+    - '**/*.g.dart'
+
+linter:
+  rules:
+    always_put_required_named_parameters_first: false
+    always_specify_types: false
+    always_use_package_imports: false
+    cascade_invocations: false
+    flutter_style_todos: false
+    parameter_assignments: false
+    prefer_double_quotes: false
+    prefer_expression_function_bodies: false
+    prefer_final_parameters: false
+    # TODO: Enable
+    public_member_api_docs: false
+    unnecessary_final: false

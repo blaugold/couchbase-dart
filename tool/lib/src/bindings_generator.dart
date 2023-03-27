@@ -1,7 +1,10 @@
+// ignore_for_file: lines_longer_than_80_chars, public_member_api_docs
+
 import 'dart:io';
 
 import 'package:collection/collection.dart';
-import 'package:tool/src/bindings_model.dart';
+
+import 'bindings_model.dart';
 
 const _generatedDartMessagesFile =
     '../packages/couchbase/lib/src/message.g.dart';
@@ -59,9 +62,7 @@ class BindingsGenerator {
         _writeln('#include "CBDMessageBuffer.h"');
         _writeln('#include "CBDConnection.h"');
       },
-      () {
-        _writeCConnectionOperationDeclarations();
-      },
+      _writeCConnectionOperationDeclarations,
     );
   }
 
@@ -119,7 +120,8 @@ class BindingsGenerator {
         _writeln('#include <core/operations/management/bucket_describe.hxx>');
         _writeln('#include <core/operations/management/cluster_describe.hxx>');
         _writeln(
-            '#include <core/operations/management/cluster_developer_preview_enable.hxx>');
+          '#include <core/operations/management/cluster_developer_preview_enable.hxx>',
+        );
         _writeln('#include <core/operations/management/collections.hxx>');
         _writeln('#include <core/operations/management/eventing.hxx>');
         _writeln('#include <core/operations/management/freeform.hxx>');
@@ -377,12 +379,13 @@ class BindingsGenerator {
             '${_resolveDartType(type.typeArguments!.last)}>';
       case 'std::variant':
         if (type.typeArguments!
-            .any((typeArgument) => typeArgument.name == 'std::monostate'))
+            .any((typeArgument) => typeArgument.name == 'std::monostate')) {
           return 'Object?';
-        else
+        } else {
           return 'Object';
+        }
       case 'std::error_code':
-        return 'CommonError?';
+        return 'ErrorCode';
       case 'couchbase::core::json_string':
         return 'String';
     }
@@ -481,12 +484,13 @@ class BindingsGenerator {
           _writeln('if ($identifier is ${_resolveDartType(variantType)}) {');
           final variantIndex =
               type.typeArguments!.indexWhere((t) => t.name == variantType.name);
-          _writeln('buffer.writeUInt8(${variantIndex});');
-          if (variantType.name != 'std::monostate')
+          _writeln('buffer.writeUInt8($variantIndex);');
+          if (variantType.name != 'std::monostate') {
             _writeValueInDart(
               variantType,
               '($identifier as ${_resolveDartType(variantType)})',
             );
+          }
           _writeln('}');
         }
         _writeln('else {');
@@ -494,10 +498,7 @@ class BindingsGenerator {
         _writeln('}');
         return;
       case 'std::error_code':
-        _writeln('buffer.writeBool($identifier != null);');
-        _writeln('if ($identifier != null) {');
-        _writeln('$identifier!.write(buffer);');
-        _writeln('}');
+        _writeln('$identifier.write(buffer);');
         return;
       case 'couchbase::core::json_string':
         _writeln('buffer.writeString($identifier);');
@@ -604,7 +605,7 @@ class BindingsGenerator {
         for (final variantType in type.typeArguments!) {
           final variantIndex =
               type.typeArguments!.indexWhere((t) => t.name == variantType.name);
-          _writeln('case ${variantIndex}:');
+          _writeln('case $variantIndex:');
           if (variantType.name != 'std::monostate') {
             _write('return ');
             _readValueInDart(variantType);
@@ -614,12 +615,12 @@ class BindingsGenerator {
           _writeln(';');
         }
         _writeln('default:');
-        _writeln('throw StateError("Invalid variant index: \$variantIndex");');
+        _writeln(r'throw StateError("Invalid variant index: $variantIndex");');
         _writeln('}');
         _writeln('})()');
         return;
       case 'std::error_code':
-        _writeln('buffer.readBool() ? CommonError.read(buffer) : null');
+        _writeln('ErrorCode.read(buffer)');
         return;
       case 'couchbase::core::json_string':
         _writeln('buffer.readString()');
@@ -644,20 +645,20 @@ class BindingsGenerator {
   }
 
   void _writeDartEnums() {
-    for (final enumType in _model.enums) {
-      _writeDartEnum(enumType);
-    }
+    _model.enums.forEach(_writeDartEnum);
     _writeln();
   }
 
   void _writeDartEnum(EnumType type) {
     final dartName = type.dartName;
 
-    _writeln('enum ${dartName} {');
+    _writeln('enum $dartName {');
     for (final value in type.values) {
-      _writeln('  ${value.dartName},');
+      _writeln('  ${value.dartName}(${value.value}),');
     }
     _writeln(';');
+    _writeln();
+    _writeln('  const $dartName(this.value);');
     _writeln();
     _writeln('  factory $dartName.read(MessageBuffer buffer) {');
     _writeln('  final value = buffer.readInt64();');
@@ -665,17 +666,22 @@ class BindingsGenerator {
     for (final value in type.values) {
       _writeln('      case ${value.value}: return ${value.dartName};');
     }
-    _writeln('      default: throw Exception(\'Unknown value: \$value\');');
+    _writeln(r"      default: throw Exception('Unknown value: $value');");
     _writeln('    }');
     _writeln('  }');
     _writeln();
-    _writeln('  void write(MessageBuffer buffer) {');
-    _writeln('    final int value;');
-    _writeln('    switch (this) {');
-    for (final value in type.values) {
-      _writeln('      case ${value.dartName}: value = ${value.value}; break;');
-    }
+    _writeln('  static $dartName? byValue(int value) {');
+    _writeln('    for (final enumValue in values) {');
+    _writeln('      if (enumValue.value == value) {');
+    _writeln('        return enumValue;');
+    _writeln('      }');
     _writeln('    }');
+    _writeln('    return null;');
+    _writeln('  }');
+    _writeln();
+    _writeln('  final int value;');
+    _writeln();
+    _writeln('  void write(MessageBuffer buffer) {');
     _writeln('    buffer.writeInt64(value);');
     _writeln('  }');
     _writeln('}');
@@ -683,9 +689,7 @@ class BindingsGenerator {
   }
 
   void _writeDartStructs() {
-    for (final structType in _model.structs.whereNot(_isIgnoredStruct)) {
-      _writeDartStruct(structType);
-    }
+    _model.structs.whereNot(_isIgnoredStruct).forEach(_writeDartStruct);
     _writeln();
   }
 
@@ -742,9 +746,7 @@ class BindingsGenerator {
 
   void _writeDartConnectionExtension() {
     _writeln('extension GeneratedConnectionExtension on Connection {');
-    for (final operation in _resolveOperations()) {
-      _writeDartOperationMethod(operation);
-    }
+    _resolveOperations().forEach(_writeDartOperationMethod);
     _writeln('}');
   }
 
@@ -818,7 +820,8 @@ class BindingsGenerator {
     _writeln('  Response response(this, request);');
     _writeln('  auto req = read_cbpp<${operation.request.name}>(*request);');
     _writeln(
-        '  _cluster->execute(req, [response](${operation.response.name} res) mutable {');
+      '  _cluster->execute(req, [response](${operation.response.name} res) mutable {',
+    );
     _writeln('    response.complete([res](MessageBuffer &response) {');
     _writeln('      if (!$writeErrorContextFunction(response, res.ctx)) {');
     _writeln('        write_cbpp(response, res);');
@@ -860,6 +863,10 @@ class BindingsGenerator {
 }
 
 class _Operation {
+  _Operation(this.request, this.response)
+      : name = _unprefixedName(request.name)
+            .replaceFirst('_request', '')
+            .camelCase;
   final String name;
   final StructType request;
   final StructType response;
@@ -870,7 +877,7 @@ class _Operation {
   String get dartErrorContextType {
     var name = errorContextType.name.replaceFirst('couchbase::', '');
     if (name.startsWith('core::error_context::')) {
-      name = name.split('::').last + '_error_context';
+      name = '${name.split('::').last}_error_context';
     }
 
     return name.camelCase.capitalize;
@@ -880,11 +887,6 @@ class _Operation {
       errorContextType.name.startsWith('couchbase::core::');
 
   String get cFunctionName => 'CBDConnection_${name.capitalize}';
-
-  _Operation(this.request, this.response)
-      : name = _unprefixedName(request.name)
-            .replaceFirst('_request', '')
-            .camelCase;
 }
 
 extension on String {

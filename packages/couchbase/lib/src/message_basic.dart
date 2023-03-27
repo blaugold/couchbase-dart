@@ -1,3 +1,7 @@
+// ignore_for_file: public_member_api_docs
+
+import 'package:meta/meta.dart';
+
 import 'message_buffer.dart';
 
 class ClusterCredentials {
@@ -36,9 +40,7 @@ class ClusterCredentials {
     buffer.writeBool(allowedSaslMechanisms != null);
     if (allowedSaslMechanisms != null) {
       buffer.writeUInt64(allowedSaslMechanisms!.length);
-      for (final mechanism in allowedSaslMechanisms!) {
-        buffer.writeString(mechanism);
-      }
+      allowedSaslMechanisms!.forEach(buffer.writeString);
     }
   }
 }
@@ -53,8 +55,8 @@ class DnsConfig {
   factory DnsConfig.read(MessageBuffer buffer) {
     return DnsConfig(
       nameServer: buffer.readString(),
-      port: buffer.readUInt16(),
-      timeout: Duration(microseconds: buffer.readUInt64()),
+      port: buffer.readInt64(),
+      timeout: Duration(microseconds: buffer.readInt64()),
     );
   }
 
@@ -64,8 +66,8 @@ class DnsConfig {
 
   void write(MessageBuffer buffer) {
     buffer.writeString(nameServer);
-    buffer.writeUInt16(port);
-    buffer.writeUInt64(timeout.inMicroseconds);
+    buffer.writeInt64(port);
+    buffer.writeInt64(timeout.inMicroseconds);
   }
 }
 
@@ -99,6 +101,7 @@ class DocumentId {
   }
 }
 
+@immutable
 class Cas {
   const Cas._(this._value);
 
@@ -135,9 +138,9 @@ class MutationToken {
 
   factory MutationToken.read(MessageBuffer buffer) {
     return MutationToken._(
-      partitionUuid: buffer.readUInt64(),
-      sequenceNumber: buffer.readUInt64(),
-      partitionId: buffer.readUInt16(),
+      partitionUuid: buffer.readInt64(),
+      sequenceNumber: buffer.readInt64(),
+      partitionId: buffer.readInt64(),
       bucketName: buffer.readString(),
     );
   }
@@ -148,9 +151,9 @@ class MutationToken {
   final String _bucketName;
 
   void write(MessageBuffer buffer) {
-    buffer.writeUInt64(_partitionUuid);
-    buffer.writeUInt64(_sequenceNumber);
-    buffer.writeUInt16(_partitionId);
+    buffer.writeInt64(_partitionUuid);
+    buffer.writeInt64(_sequenceNumber);
+    buffer.writeInt64(_partitionId);
     buffer.writeString(_bucketName);
   }
 }

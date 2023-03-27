@@ -42,7 +42,10 @@ struct message_codec_t<std::error_code> {
                              const std::error_code &value)
     {
         write_cbpp(buffer, static_cast<int64_t>(value.value()));
-        write_cbpp(buffer, value.message());
+        if (value)
+            write_cbpp(buffer, value.message());
+        else
+            write_cbpp(buffer, std::string());
     }
 
     static inline std::error_code read(MessageBuffer &buffer)
