@@ -13,6 +13,17 @@ extension GeneratedConnectionExtension on Connection {
     );
   }
 
+  Future<PrependResponse> prependWithLegacyDurability(
+    PrependWithLegacyDurability request,
+  ) async {
+    return _executeOperation(
+      request.write,
+      KeyValueErrorContext.read,
+      PrependResponse.read,
+      bindings.CBDConnection_PrependWithLegacyDurability,
+    );
+  }
+
   Future<ExistsResponse> exists(
     ExistsRequest request,
   ) async {
@@ -68,6 +79,17 @@ extension GeneratedConnectionExtension on Connection {
     );
   }
 
+  Future<UpsertResponse> upsertWithLegacyDurability(
+    UpsertWithLegacyDurability request,
+  ) async {
+    return _executeOperation(
+      request.write,
+      KeyValueErrorContext.read,
+      UpsertResponse.read,
+      bindings.CBDConnection_UpsertWithLegacyDurability,
+    );
+  }
+
   Future<GetAnyReplicaResponse> getAnyReplica(
     GetAnyReplicaRequest request,
   ) async {
@@ -87,6 +109,17 @@ extension GeneratedConnectionExtension on Connection {
       KeyValueErrorContext.read,
       AppendResponse.read,
       bindings.CBDConnection_Append,
+    );
+  }
+
+  Future<AppendResponse> appendWithLegacyDurability(
+    AppendWithLegacyDurability request,
+  ) async {
+    return _executeOperation(
+      request.write,
+      KeyValueErrorContext.read,
+      AppendResponse.read,
+      bindings.CBDConnection_AppendWithLegacyDurability,
     );
   }
 
@@ -112,6 +145,17 @@ extension GeneratedConnectionExtension on Connection {
     );
   }
 
+  Future<ReplaceResponse> replaceWithLegacyDurability(
+    ReplaceWithLegacyDurability request,
+  ) async {
+    return _executeOperation(
+      request.write,
+      KeyValueErrorContext.read,
+      ReplaceResponse.read,
+      bindings.CBDConnection_ReplaceWithLegacyDurability,
+    );
+  }
+
   Future<GetAndTouchResponse> getAndTouch(
     GetAndTouchRequest request,
   ) async {
@@ -131,6 +175,17 @@ extension GeneratedConnectionExtension on Connection {
       KeyValueErrorContext.read,
       RemoveResponse.read,
       bindings.CBDConnection_Remove,
+    );
+  }
+
+  Future<RemoveResponse> removeWithLegacyDurability(
+    RemoveWithLegacyDurability request,
+  ) async {
+    return _executeOperation(
+      request.write,
+      KeyValueErrorContext.read,
+      RemoveResponse.read,
+      bindings.CBDConnection_RemoveWithLegacyDurability,
     );
   }
 
@@ -175,6 +230,17 @@ extension GeneratedConnectionExtension on Connection {
       KeyValueErrorContext.read,
       DecrementResponse.read,
       bindings.CBDConnection_Decrement,
+    );
+  }
+
+  Future<DecrementResponse> decrementWithLegacyDurability(
+    DecrementWithLegacyDurability request,
+  ) async {
+    return _executeOperation(
+      request.write,
+      KeyValueErrorContext.read,
+      DecrementResponse.read,
+      bindings.CBDConnection_DecrementWithLegacyDurability,
     );
   }
 
@@ -244,6 +310,17 @@ extension GeneratedConnectionExtension on Connection {
     );
   }
 
+  Future<InsertResponse> insertWithLegacyDurability(
+    InsertWithLegacyDurability request,
+  ) async {
+    return _executeOperation(
+      request.write,
+      KeyValueErrorContext.read,
+      InsertResponse.read,
+      bindings.CBDConnection_InsertWithLegacyDurability,
+    );
+  }
+
   Future<MutateInResponse> mutateIn(
     MutateInRequest request,
   ) async {
@@ -255,6 +332,17 @@ extension GeneratedConnectionExtension on Connection {
     );
   }
 
+  Future<MutateInResponse> mutateInWithLegacyDurability(
+    MutateInWithLegacyDurability request,
+  ) async {
+    return _executeOperation(
+      request.write,
+      SubdocumentErrorContext.read,
+      MutateInResponse.read,
+      bindings.CBDConnection_MutateInWithLegacyDurability,
+    );
+  }
+
   Future<IncrementResponse> increment(
     IncrementRequest request,
   ) async {
@@ -263,6 +351,17 @@ extension GeneratedConnectionExtension on Connection {
       KeyValueErrorContext.read,
       IncrementResponse.read,
       bindings.CBDConnection_Increment,
+    );
+  }
+
+  Future<IncrementResponse> incrementWithLegacyDurability(
+    IncrementWithLegacyDurability request,
+  ) async {
+    return _executeOperation(
+      request.write,
+      KeyValueErrorContext.read,
+      IncrementResponse.read,
+      bindings.CBDConnection_IncrementWithLegacyDurability,
     );
   }
 

@@ -30,29 +30,38 @@ public:
     // #region Generated Operation Methods
 
     void prepend(MessageBuffer *request);
+    void prependWithLegacyDurability(MessageBuffer *request);
     void exists(MessageBuffer *request);
     void httpNoop(MessageBuffer *request);
     void unlock(MessageBuffer *request);
     void getAllReplicas(MessageBuffer *request);
     void upsert(MessageBuffer *request);
+    void upsertWithLegacyDurability(MessageBuffer *request);
     void getAnyReplica(MessageBuffer *request);
     void append(MessageBuffer *request);
+    void appendWithLegacyDurability(MessageBuffer *request);
     void query(MessageBuffer *request);
     void replace(MessageBuffer *request);
+    void replaceWithLegacyDurability(MessageBuffer *request);
     void getAndTouch(MessageBuffer *request);
     void remove(MessageBuffer *request);
+    void removeWithLegacyDurability(MessageBuffer *request);
     void get(MessageBuffer *request);
     void analytics(MessageBuffer *request);
     void getProjected(MessageBuffer *request);
     void decrement(MessageBuffer *request);
+    void decrementWithLegacyDurability(MessageBuffer *request);
     void search(MessageBuffer *request);
     void touch(MessageBuffer *request);
     void lookupIn(MessageBuffer *request);
     void documentView(MessageBuffer *request);
     void getAndLock(MessageBuffer *request);
     void insert(MessageBuffer *request);
+    void insertWithLegacyDurability(MessageBuffer *request);
     void mutateIn(MessageBuffer *request);
+    void mutateInWithLegacyDurability(MessageBuffer *request);
     void increment(MessageBuffer *request);
+    void incrementWithLegacyDurability(MessageBuffer *request);
     void managementGroupUpsert(MessageBuffer *request);
     void managementEventingPauseFunction(MessageBuffer *request);
     void managementQueryIndexGetAll(MessageBuffer *request);

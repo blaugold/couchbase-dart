@@ -21,6 +21,23 @@ void Connection::prepend(MessageBuffer *request)
         });
 }
 
+void Connection::prependWithLegacyDurability(MessageBuffer *request)
+{
+    Response response(this, request);
+    auto req = read_cbpp<
+        couchbase::core::operations::prepend_request_with_legacy_durability>(
+        *request);
+    _cluster->execute(
+        req,
+        [response](couchbase::core::operations::prepend_response res) mutable {
+            response.complete([res](MessageBuffer &response) {
+                if (!writeErrorContext(response, res.ctx)) {
+                    write_cbpp(response, res);
+                }
+            });
+        });
+}
+
 void Connection::exists(MessageBuffer *request)
 {
     Response response(this, request);
@@ -98,6 +115,23 @@ void Connection::upsert(MessageBuffer *request)
         });
 }
 
+void Connection::upsertWithLegacyDurability(MessageBuffer *request)
+{
+    Response response(this, request);
+    auto req = read_cbpp<
+        couchbase::core::operations::upsert_request_with_legacy_durability>(
+        *request);
+    _cluster->execute(
+        req,
+        [response](couchbase::core::operations::upsert_response res) mutable {
+            response.complete([res](MessageBuffer &response) {
+                if (!writeErrorContext(response, res.ctx)) {
+                    write_cbpp(response, res);
+                }
+            });
+        });
+}
+
 void Connection::getAnyReplica(MessageBuffer *request)
 {
     Response response(this, request);
@@ -119,6 +153,23 @@ void Connection::append(MessageBuffer *request)
 {
     Response response(this, request);
     auto req = read_cbpp<couchbase::core::operations::append_request>(*request);
+    _cluster->execute(
+        req,
+        [response](couchbase::core::operations::append_response res) mutable {
+            response.complete([res](MessageBuffer &response) {
+                if (!writeErrorContext(response, res.ctx)) {
+                    write_cbpp(response, res);
+                }
+            });
+        });
+}
+
+void Connection::appendWithLegacyDurability(MessageBuffer *request)
+{
+    Response response(this, request);
+    auto req = read_cbpp<
+        couchbase::core::operations::append_request_with_legacy_durability>(
+        *request);
     _cluster->execute(
         req,
         [response](couchbase::core::operations::append_response res) mutable {
@@ -161,6 +212,23 @@ void Connection::replace(MessageBuffer *request)
         });
 }
 
+void Connection::replaceWithLegacyDurability(MessageBuffer *request)
+{
+    Response response(this, request);
+    auto req = read_cbpp<
+        couchbase::core::operations::replace_request_with_legacy_durability>(
+        *request);
+    _cluster->execute(
+        req,
+        [response](couchbase::core::operations::replace_response res) mutable {
+            response.complete([res](MessageBuffer &response) {
+                if (!writeErrorContext(response, res.ctx)) {
+                    write_cbpp(response, res);
+                }
+            });
+        });
+}
+
 void Connection::getAndTouch(MessageBuffer *request)
 {
     Response response(this, request);
@@ -182,6 +250,23 @@ void Connection::remove(MessageBuffer *request)
 {
     Response response(this, request);
     auto req = read_cbpp<couchbase::core::operations::remove_request>(*request);
+    _cluster->execute(
+        req,
+        [response](couchbase::core::operations::remove_response res) mutable {
+            response.complete([res](MessageBuffer &response) {
+                if (!writeErrorContext(response, res.ctx)) {
+                    write_cbpp(response, res);
+                }
+            });
+        });
+}
+
+void Connection::removeWithLegacyDurability(MessageBuffer *request)
+{
+    Response response(this, request);
+    auto req = read_cbpp<
+        couchbase::core::operations::remove_request_with_legacy_durability>(
+        *request);
     _cluster->execute(
         req,
         [response](couchbase::core::operations::remove_response res) mutable {
@@ -245,6 +330,23 @@ void Connection::decrement(MessageBuffer *request)
     Response response(this, request);
     auto req =
         read_cbpp<couchbase::core::operations::decrement_request>(*request);
+    _cluster->execute(
+        req, [response](
+                 couchbase::core::operations::decrement_response res) mutable {
+            response.complete([res](MessageBuffer &response) {
+                if (!writeErrorContext(response, res.ctx)) {
+                    write_cbpp(response, res);
+                }
+            });
+        });
+}
+
+void Connection::decrementWithLegacyDurability(MessageBuffer *request)
+{
+    Response response(this, request);
+    auto req = read_cbpp<
+        couchbase::core::operations::decrement_request_with_legacy_durability>(
+        *request);
     _cluster->execute(
         req, [response](
                  couchbase::core::operations::decrement_response res) mutable {
@@ -351,6 +453,23 @@ void Connection::insert(MessageBuffer *request)
         });
 }
 
+void Connection::insertWithLegacyDurability(MessageBuffer *request)
+{
+    Response response(this, request);
+    auto req = read_cbpp<
+        couchbase::core::operations::insert_request_with_legacy_durability>(
+        *request);
+    _cluster->execute(
+        req,
+        [response](couchbase::core::operations::insert_response res) mutable {
+            response.complete([res](MessageBuffer &response) {
+                if (!writeErrorContext(response, res.ctx)) {
+                    write_cbpp(response, res);
+                }
+            });
+        });
+}
+
 void Connection::mutateIn(MessageBuffer *request)
 {
     Response response(this, request);
@@ -367,11 +486,45 @@ void Connection::mutateIn(MessageBuffer *request)
         });
 }
 
+void Connection::mutateInWithLegacyDurability(MessageBuffer *request)
+{
+    Response response(this, request);
+    auto req = read_cbpp<
+        couchbase::core::operations::mutate_in_request_with_legacy_durability>(
+        *request);
+    _cluster->execute(
+        req, [response](
+                 couchbase::core::operations::mutate_in_response res) mutable {
+            response.complete([res](MessageBuffer &response) {
+                if (!writeErrorContext(response, res.ctx)) {
+                    write_cbpp(response, res);
+                }
+            });
+        });
+}
+
 void Connection::increment(MessageBuffer *request)
 {
     Response response(this, request);
     auto req =
         read_cbpp<couchbase::core::operations::increment_request>(*request);
+    _cluster->execute(
+        req, [response](
+                 couchbase::core::operations::increment_response res) mutable {
+            response.complete([res](MessageBuffer &response) {
+                if (!writeErrorContext(response, res.ctx)) {
+                    write_cbpp(response, res);
+                }
+            });
+        });
+}
+
+void Connection::incrementWithLegacyDurability(MessageBuffer *request)
+{
+    Response response(this, request);
+    auto req = read_cbpp<
+        couchbase::core::operations::increment_request_with_legacy_durability>(
+        *request);
     _cluster->execute(
         req, [response](
                  couchbase::core::operations::increment_response res) mutable {

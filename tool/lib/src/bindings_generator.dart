@@ -322,11 +322,13 @@ class BindingsGenerator {
         continue;
       }
 
-      if (!struct.name.endsWith('_request')) {
+      final requestRegExp = RegExp(r'_request(_with_legacy_durability)?$');
+
+      if (!requestRegExp.hasMatch(struct.name)) {
         continue;
       }
 
-      final responseName = struct.name.replaceFirst('_request', '_response');
+      final responseName = struct.name.replaceFirst(requestRegExp, '_response');
       final response =
           _model.structs.firstWhere((struct) => struct.name == responseName);
 

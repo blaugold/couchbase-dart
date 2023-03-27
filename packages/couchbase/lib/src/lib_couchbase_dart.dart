@@ -519,6 +519,24 @@ class LibCouchbaseDart {
   late final _CBDConnection_Prepend = _CBDConnection_PrependPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
+  void CBDConnection_PrependWithLegacyDurability(
+    CBDConnection connection,
+    CBDMessageBuffer request,
+  ) {
+    return _CBDConnection_PrependWithLegacyDurability(
+      connection,
+      request,
+    );
+  }
+
+  late final _CBDConnection_PrependWithLegacyDurabilityPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(CBDConnection,
+              CBDMessageBuffer)>>('CBDConnection_PrependWithLegacyDurability');
+  late final _CBDConnection_PrependWithLegacyDurability =
+      _CBDConnection_PrependWithLegacyDurabilityPtr.asFunction<
+          void Function(CBDConnection, CBDMessageBuffer)>();
+
   void CBDConnection_Exists(
     CBDConnection connection,
     CBDMessageBuffer request,
@@ -604,6 +622,24 @@ class LibCouchbaseDart {
   late final _CBDConnection_Upsert = _CBDConnection_UpsertPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
+  void CBDConnection_UpsertWithLegacyDurability(
+    CBDConnection connection,
+    CBDMessageBuffer request,
+  ) {
+    return _CBDConnection_UpsertWithLegacyDurability(
+      connection,
+      request,
+    );
+  }
+
+  late final _CBDConnection_UpsertWithLegacyDurabilityPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(CBDConnection,
+              CBDMessageBuffer)>>('CBDConnection_UpsertWithLegacyDurability');
+  late final _CBDConnection_UpsertWithLegacyDurability =
+      _CBDConnection_UpsertWithLegacyDurabilityPtr.asFunction<
+          void Function(CBDConnection, CBDMessageBuffer)>();
+
   void CBDConnection_GetAnyReplica(
     CBDConnection connection,
     CBDMessageBuffer request,
@@ -637,6 +673,24 @@ class LibCouchbaseDart {
               CBDConnection, CBDMessageBuffer)>>('CBDConnection_Append');
   late final _CBDConnection_Append = _CBDConnection_AppendPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
+
+  void CBDConnection_AppendWithLegacyDurability(
+    CBDConnection connection,
+    CBDMessageBuffer request,
+  ) {
+    return _CBDConnection_AppendWithLegacyDurability(
+      connection,
+      request,
+    );
+  }
+
+  late final _CBDConnection_AppendWithLegacyDurabilityPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(CBDConnection,
+              CBDMessageBuffer)>>('CBDConnection_AppendWithLegacyDurability');
+  late final _CBDConnection_AppendWithLegacyDurability =
+      _CBDConnection_AppendWithLegacyDurabilityPtr.asFunction<
+          void Function(CBDConnection, CBDMessageBuffer)>();
 
   void CBDConnection_Query(
     CBDConnection connection,
@@ -672,6 +726,24 @@ class LibCouchbaseDart {
   late final _CBDConnection_Replace = _CBDConnection_ReplacePtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
+  void CBDConnection_ReplaceWithLegacyDurability(
+    CBDConnection connection,
+    CBDMessageBuffer request,
+  ) {
+    return _CBDConnection_ReplaceWithLegacyDurability(
+      connection,
+      request,
+    );
+  }
+
+  late final _CBDConnection_ReplaceWithLegacyDurabilityPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(CBDConnection,
+              CBDMessageBuffer)>>('CBDConnection_ReplaceWithLegacyDurability');
+  late final _CBDConnection_ReplaceWithLegacyDurability =
+      _CBDConnection_ReplaceWithLegacyDurabilityPtr.asFunction<
+          void Function(CBDConnection, CBDMessageBuffer)>();
+
   void CBDConnection_GetAndTouch(
     CBDConnection connection,
     CBDMessageBuffer request,
@@ -705,6 +777,24 @@ class LibCouchbaseDart {
               CBDConnection, CBDMessageBuffer)>>('CBDConnection_Remove');
   late final _CBDConnection_Remove = _CBDConnection_RemovePtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
+
+  void CBDConnection_RemoveWithLegacyDurability(
+    CBDConnection connection,
+    CBDMessageBuffer request,
+  ) {
+    return _CBDConnection_RemoveWithLegacyDurability(
+      connection,
+      request,
+    );
+  }
+
+  late final _CBDConnection_RemoveWithLegacyDurabilityPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(CBDConnection,
+              CBDMessageBuffer)>>('CBDConnection_RemoveWithLegacyDurability');
+  late final _CBDConnection_RemoveWithLegacyDurability =
+      _CBDConnection_RemoveWithLegacyDurabilityPtr.asFunction<
+          void Function(CBDConnection, CBDMessageBuffer)>();
 
   void CBDConnection_Get(
     CBDConnection connection,
@@ -773,6 +863,24 @@ class LibCouchbaseDart {
               CBDConnection, CBDMessageBuffer)>>('CBDConnection_Decrement');
   late final _CBDConnection_Decrement = _CBDConnection_DecrementPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
+
+  void CBDConnection_DecrementWithLegacyDurability(
+    CBDConnection connection,
+    CBDMessageBuffer request,
+  ) {
+    return _CBDConnection_DecrementWithLegacyDurability(
+      connection,
+      request,
+    );
+  }
+
+  late final _CBDConnection_DecrementWithLegacyDurabilityPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
+      'CBDConnection_DecrementWithLegacyDurability');
+  late final _CBDConnection_DecrementWithLegacyDurability =
+      _CBDConnection_DecrementWithLegacyDurabilityPtr.asFunction<
+          void Function(CBDConnection, CBDMessageBuffer)>();
 
   void CBDConnection_Search(
     CBDConnection connection,
@@ -876,6 +984,24 @@ class LibCouchbaseDart {
   late final _CBDConnection_Insert = _CBDConnection_InsertPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
+  void CBDConnection_InsertWithLegacyDurability(
+    CBDConnection connection,
+    CBDMessageBuffer request,
+  ) {
+    return _CBDConnection_InsertWithLegacyDurability(
+      connection,
+      request,
+    );
+  }
+
+  late final _CBDConnection_InsertWithLegacyDurabilityPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(CBDConnection,
+              CBDMessageBuffer)>>('CBDConnection_InsertWithLegacyDurability');
+  late final _CBDConnection_InsertWithLegacyDurability =
+      _CBDConnection_InsertWithLegacyDurabilityPtr.asFunction<
+          void Function(CBDConnection, CBDMessageBuffer)>();
+
   void CBDConnection_MutateIn(
     CBDConnection connection,
     CBDMessageBuffer request,
@@ -893,6 +1019,24 @@ class LibCouchbaseDart {
   late final _CBDConnection_MutateIn = _CBDConnection_MutateInPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
 
+  void CBDConnection_MutateInWithLegacyDurability(
+    CBDConnection connection,
+    CBDMessageBuffer request,
+  ) {
+    return _CBDConnection_MutateInWithLegacyDurability(
+      connection,
+      request,
+    );
+  }
+
+  late final _CBDConnection_MutateInWithLegacyDurabilityPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(CBDConnection,
+              CBDMessageBuffer)>>('CBDConnection_MutateInWithLegacyDurability');
+  late final _CBDConnection_MutateInWithLegacyDurability =
+      _CBDConnection_MutateInWithLegacyDurabilityPtr.asFunction<
+          void Function(CBDConnection, CBDMessageBuffer)>();
+
   void CBDConnection_Increment(
     CBDConnection connection,
     CBDMessageBuffer request,
@@ -909,6 +1053,24 @@ class LibCouchbaseDart {
               CBDConnection, CBDMessageBuffer)>>('CBDConnection_Increment');
   late final _CBDConnection_Increment = _CBDConnection_IncrementPtr.asFunction<
       void Function(CBDConnection, CBDMessageBuffer)>();
+
+  void CBDConnection_IncrementWithLegacyDurability(
+    CBDConnection connection,
+    CBDMessageBuffer request,
+  ) {
+    return _CBDConnection_IncrementWithLegacyDurability(
+      connection,
+      request,
+    );
+  }
+
+  late final _CBDConnection_IncrementWithLegacyDurabilityPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>(
+      'CBDConnection_IncrementWithLegacyDurability');
+  late final _CBDConnection_IncrementWithLegacyDurability =
+      _CBDConnection_IncrementWithLegacyDurabilityPtr.asFunction<
+          void Function(CBDConnection, CBDMessageBuffer)>();
 
   void CBDConnection_ManagementGroupUpsert(
     CBDConnection connection,
@@ -2274,6 +2436,11 @@ class _SymbolAddresses {
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
+      get CBDConnection_PrependWithLegacyDurability =>
+          _library._CBDConnection_PrependWithLegacyDurabilityPtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
       get CBDConnection_Exists => _library._CBDConnection_ExistsPtr;
   ffi.Pointer<
           ffi.NativeFunction<
@@ -2295,12 +2462,22 @@ class _SymbolAddresses {
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
+      get CBDConnection_UpsertWithLegacyDurability =>
+          _library._CBDConnection_UpsertWithLegacyDurabilityPtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
       get CBDConnection_GetAnyReplica =>
           _library._CBDConnection_GetAnyReplicaPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
       get CBDConnection_Append => _library._CBDConnection_AppendPtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
+      get CBDConnection_AppendWithLegacyDurability =>
+          _library._CBDConnection_AppendWithLegacyDurabilityPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
@@ -2312,11 +2489,21 @@ class _SymbolAddresses {
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
+      get CBDConnection_ReplaceWithLegacyDurability =>
+          _library._CBDConnection_ReplaceWithLegacyDurabilityPtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
       get CBDConnection_GetAndTouch => _library._CBDConnection_GetAndTouchPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
       get CBDConnection_Remove => _library._CBDConnection_RemovePtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
+      get CBDConnection_RemoveWithLegacyDurability =>
+          _library._CBDConnection_RemoveWithLegacyDurabilityPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
@@ -2333,6 +2520,11 @@ class _SymbolAddresses {
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
       get CBDConnection_Decrement => _library._CBDConnection_DecrementPtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
+      get CBDConnection_DecrementWithLegacyDurability =>
+          _library._CBDConnection_DecrementWithLegacyDurabilityPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
@@ -2360,11 +2552,26 @@ class _SymbolAddresses {
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
+      get CBDConnection_InsertWithLegacyDurability =>
+          _library._CBDConnection_InsertWithLegacyDurabilityPtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
       get CBDConnection_MutateIn => _library._CBDConnection_MutateInPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
+      get CBDConnection_MutateInWithLegacyDurability =>
+          _library._CBDConnection_MutateInWithLegacyDurabilityPtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
       get CBDConnection_Increment => _library._CBDConnection_IncrementPtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
+      get CBDConnection_IncrementWithLegacyDurability =>
+          _library._CBDConnection_IncrementWithLegacyDurabilityPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>

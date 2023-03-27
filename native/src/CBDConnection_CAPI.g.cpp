@@ -12,6 +12,12 @@ void CBDConnection_Prepend(Connection *connection, MessageBuffer *request)
     connection->prepend(request);
 }
 
+void CBDConnection_PrependWithLegacyDurability(Connection *connection,
+                                               MessageBuffer *request)
+{
+    connection->prependWithLegacyDurability(request);
+}
+
 void CBDConnection_Exists(Connection *connection, MessageBuffer *request)
 {
     connection->exists(request);
@@ -38,6 +44,12 @@ void CBDConnection_Upsert(Connection *connection, MessageBuffer *request)
     connection->upsert(request);
 }
 
+void CBDConnection_UpsertWithLegacyDurability(Connection *connection,
+                                              MessageBuffer *request)
+{
+    connection->upsertWithLegacyDurability(request);
+}
+
 void CBDConnection_GetAnyReplica(Connection *connection, MessageBuffer *request)
 {
     connection->getAnyReplica(request);
@@ -46,6 +58,12 @@ void CBDConnection_GetAnyReplica(Connection *connection, MessageBuffer *request)
 void CBDConnection_Append(Connection *connection, MessageBuffer *request)
 {
     connection->append(request);
+}
+
+void CBDConnection_AppendWithLegacyDurability(Connection *connection,
+                                              MessageBuffer *request)
+{
+    connection->appendWithLegacyDurability(request);
 }
 
 void CBDConnection_Query(Connection *connection, MessageBuffer *request)
@@ -58,6 +76,12 @@ void CBDConnection_Replace(Connection *connection, MessageBuffer *request)
     connection->replace(request);
 }
 
+void CBDConnection_ReplaceWithLegacyDurability(Connection *connection,
+                                               MessageBuffer *request)
+{
+    connection->replaceWithLegacyDurability(request);
+}
+
 void CBDConnection_GetAndTouch(Connection *connection, MessageBuffer *request)
 {
     connection->getAndTouch(request);
@@ -66,6 +90,12 @@ void CBDConnection_GetAndTouch(Connection *connection, MessageBuffer *request)
 void CBDConnection_Remove(Connection *connection, MessageBuffer *request)
 {
     connection->remove(request);
+}
+
+void CBDConnection_RemoveWithLegacyDurability(Connection *connection,
+                                              MessageBuffer *request)
+{
+    connection->removeWithLegacyDurability(request);
 }
 
 void CBDConnection_Get(Connection *connection, MessageBuffer *request)
@@ -86,6 +116,12 @@ void CBDConnection_GetProjected(Connection *connection, MessageBuffer *request)
 void CBDConnection_Decrement(Connection *connection, MessageBuffer *request)
 {
     connection->decrement(request);
+}
+
+void CBDConnection_DecrementWithLegacyDurability(Connection *connection,
+                                                 MessageBuffer *request)
+{
+    connection->decrementWithLegacyDurability(request);
 }
 
 void CBDConnection_Search(Connection *connection, MessageBuffer *request)
@@ -118,14 +154,32 @@ void CBDConnection_Insert(Connection *connection, MessageBuffer *request)
     connection->insert(request);
 }
 
+void CBDConnection_InsertWithLegacyDurability(Connection *connection,
+                                              MessageBuffer *request)
+{
+    connection->insertWithLegacyDurability(request);
+}
+
 void CBDConnection_MutateIn(Connection *connection, MessageBuffer *request)
 {
     connection->mutateIn(request);
 }
 
+void CBDConnection_MutateInWithLegacyDurability(Connection *connection,
+                                                MessageBuffer *request)
+{
+    connection->mutateInWithLegacyDurability(request);
+}
+
 void CBDConnection_Increment(Connection *connection, MessageBuffer *request)
 {
     connection->increment(request);
+}
+
+void CBDConnection_IncrementWithLegacyDurability(Connection *connection,
+                                                 MessageBuffer *request)
+{
+    connection->incrementWithLegacyDurability(request);
 }
 
 void CBDConnection_ManagementGroupUpsert(Connection *connection,

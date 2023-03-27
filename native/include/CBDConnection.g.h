@@ -10,6 +10,9 @@ extern "C" {
 
 void CBDConnection_Prepend(CBDConnection connection, CBDMessageBuffer request);
 
+void CBDConnection_PrependWithLegacyDurability(CBDConnection connection,
+                                               CBDMessageBuffer request);
+
 void CBDConnection_Exists(CBDConnection connection, CBDMessageBuffer request);
 
 void CBDConnection_HttpNoop(CBDConnection connection, CBDMessageBuffer request);
@@ -21,19 +24,31 @@ void CBDConnection_GetAllReplicas(CBDConnection connection,
 
 void CBDConnection_Upsert(CBDConnection connection, CBDMessageBuffer request);
 
+void CBDConnection_UpsertWithLegacyDurability(CBDConnection connection,
+                                              CBDMessageBuffer request);
+
 void CBDConnection_GetAnyReplica(CBDConnection connection,
                                  CBDMessageBuffer request);
 
 void CBDConnection_Append(CBDConnection connection, CBDMessageBuffer request);
 
+void CBDConnection_AppendWithLegacyDurability(CBDConnection connection,
+                                              CBDMessageBuffer request);
+
 void CBDConnection_Query(CBDConnection connection, CBDMessageBuffer request);
 
 void CBDConnection_Replace(CBDConnection connection, CBDMessageBuffer request);
+
+void CBDConnection_ReplaceWithLegacyDurability(CBDConnection connection,
+                                               CBDMessageBuffer request);
 
 void CBDConnection_GetAndTouch(CBDConnection connection,
                                CBDMessageBuffer request);
 
 void CBDConnection_Remove(CBDConnection connection, CBDMessageBuffer request);
+
+void CBDConnection_RemoveWithLegacyDurability(CBDConnection connection,
+                                              CBDMessageBuffer request);
 
 void CBDConnection_Get(CBDConnection connection, CBDMessageBuffer request);
 
@@ -45,6 +60,9 @@ void CBDConnection_GetProjected(CBDConnection connection,
 
 void CBDConnection_Decrement(CBDConnection connection,
                              CBDMessageBuffer request);
+
+void CBDConnection_DecrementWithLegacyDurability(CBDConnection connection,
+                                                 CBDMessageBuffer request);
 
 void CBDConnection_Search(CBDConnection connection, CBDMessageBuffer request);
 
@@ -60,10 +78,19 @@ void CBDConnection_GetAndLock(CBDConnection connection,
 
 void CBDConnection_Insert(CBDConnection connection, CBDMessageBuffer request);
 
+void CBDConnection_InsertWithLegacyDurability(CBDConnection connection,
+                                              CBDMessageBuffer request);
+
 void CBDConnection_MutateIn(CBDConnection connection, CBDMessageBuffer request);
+
+void CBDConnection_MutateInWithLegacyDurability(CBDConnection connection,
+                                                CBDMessageBuffer request);
 
 void CBDConnection_Increment(CBDConnection connection,
                              CBDMessageBuffer request);
+
+void CBDConnection_IncrementWithLegacyDurability(CBDConnection connection,
+                                                 CBDMessageBuffer request);
 
 void CBDConnection_ManagementGroupUpsert(CBDConnection connection,
                                          CBDMessageBuffer request);
