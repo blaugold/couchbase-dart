@@ -21,8 +21,6 @@ scripts:
     exec: dart test
     packageFilters:
       dirExists: test
-    env:
-      CBPPLOGLEVEL: debug
     description: Run Dart tests.
 
   build:native:
