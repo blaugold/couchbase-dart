@@ -41,6 +41,11 @@ class ConnectOptions {
   final String? password;
 }
 
+/// Exposes the operations which are available to be performed against a
+/// cluster.
+///
+/// Namely the ability to access [Bucket]s as well as performing management
+/// operations against the cluster.
 class Cluster {
   Cluster(this._connectionString, this._options)
       : _transcoder = DefaultTranscoder(),
@@ -51,8 +56,12 @@ class Cluster {
   final Connection _connection;
   final Set<String> _openBuckets = {};
 
+  /// Disconnects and this [Cluster], cleaning up all resources associated with
+  /// it.
   Future<void> close() => _connection.close();
 
+  /// Returns a [Bucket] which can be used to perform operations against
+  /// a specific bucket.
   Bucket bucket(String name) {
     if (!_openBuckets.contains(name)) {
       _openBuckets.add(name);

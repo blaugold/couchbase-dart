@@ -28,6 +28,10 @@ class MutationResult {
   final MutationToken? token;
 }
 
+/// Exposes the operations which are available to be performed against a
+/// collection.
+///
+/// Namely the ability to perform Key-Value operations.
 class Collection {
   Collection({
     required this.name,
@@ -35,6 +39,7 @@ class Collection {
   })  : _scope = scope,
         _connection = scope.bucket.cluster.connection;
 
+  /// The name of the collection.
   final String name;
 
   final Scope _scope;
