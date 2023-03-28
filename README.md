@@ -1,6 +1,10 @@
 ## TODO
 
 - [ ] Determine the right convention for passing options in the Dart API
+- [ ] Distribution of native libraries
+
+### API
+
 - [ ] connect
 - [ ] Cluster
   - [x] bucket
