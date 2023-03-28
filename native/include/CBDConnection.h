@@ -21,6 +21,11 @@ void CBDConnection_Close(CBDConnection connection, CBDMessageBuffer request);
 void CBDConnection_OpenBucket(CBDConnection connection,
                               CBDMessageBuffer request);
 
+void CBDConnection_Diagnostics(CBDConnection connection,
+                               CBDMessageBuffer request);
+
+void CBDConnection_Ping(CBDConnection connection, CBDMessageBuffer request);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'bucket.dart';
 import 'connection.dart';
+import 'diagnostics.dart';
+import 'general.dart';
 import 'message_basic.dart';
 import 'transcoder.dart';
 
@@ -65,6 +67,34 @@ class Cluster {
       );
     }
     return Bucket(name: name, cluster: this);
+  }
+
+  /// Returns a diagnostics report about the currently active connections with
+  /// the cluster.
+  ///
+  /// Includes information about remote and local addresses, last activity,
+  /// and other diagnostics information.
+  Future<DiagnosticsResult> diagnostics([DiagnosticsOptions? options]) async {
+    final response = await _connection.diagnostics(reportId: options?.reportId);
+    return response.toDart();
+  }
+
+  /// Performs a ping operation against the cluster.
+  ///
+  /// Pinging the services which are specified (or all services if none are
+  /// specified). Returns a report which describes the outcome of the ping
+  /// operations which were performed.
+  Future<PingResult> ping([PingOptions? options]) async {
+    final response = await _connection.ping(
+      reportId: options?.reportId,
+      services: options?.serviceTypes
+          ?.map((serviceType) => serviceType.toMessage())
+          .toSet(),
+      bucketName: options?.bucket,
+      // TODO: Send to C++ client.
+      // timeout: options?.timeout,
+    );
+    return response.toDart();
   }
 
   Future<void> _connect() async {
