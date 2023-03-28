@@ -30,4 +30,14 @@ void CBDConnection_OpenBucket(Connection *connection, MessageBuffer *request)
 {
     connection->openBucket(request);
 }
+
+void CBDConnection_Diagnostics(Connection *connection, MessageBuffer *request)
+{
+    connection->diagnostics(request);
+}
+
+void CBDConnection_Ping(Connection *connection, MessageBuffer *request)
+{
+    connection->ping(request);
+}
 }

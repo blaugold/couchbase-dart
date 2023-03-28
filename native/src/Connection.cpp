@@ -1,6 +1,7 @@
 #include <Connection.hpp>
 #include <Message_Basic.hpp>
 #include <Message_Errors.hpp>
+#include <Message_Generated.hpp>
 #include <dart_api_dl.h>
 #include <iostream>
 
@@ -61,6 +62,42 @@ void Connection::openBucket(MessageBuffer *request)
         response.complete(
             [ec](MessageBuffer &response) { writeError(response, ec); });
     });
+}
+
+void Connection::diagnostics(MessageBuffer *request)
+{
+    Response response(this, request);
+
+    std::optional<std::string> reportId;
+    read_cbpp(reportId, *request);
+
+    _cluster->diagnostics(
+        reportId,
+        [response](couchbase::core::diag::diagnostics_result result) mutable {
+            response.complete([result](MessageBuffer &response) {
+                write_cbpp(response, result);
+            });
+        });
+}
+
+void Connection::ping(MessageBuffer *request)
+{
+    Response response(this, request);
+
+    std::optional<std::string> reportId;
+    read_cbpp(reportId, *request);
+    std::optional<std::string> bucketName;
+    read_cbpp(bucketName, *request);
+    std::set<couchbase::core::service_type> services;
+    read_cbpp(services, *request);
+
+    _cluster->ping(
+        reportId, bucketName, services,
+        [response](couchbase::core::diag::ping_result result) mutable {
+            response.complete([result](MessageBuffer &response) {
+                write_cbpp(response, result);
+            });
+        });
 }
 
 Connection::~Connection()

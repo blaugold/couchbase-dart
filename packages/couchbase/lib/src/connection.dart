@@ -69,6 +69,46 @@ class Connection implements Finalizable {
     );
   }
 
+  Future<DiagDiagnosticsResult> diagnostics({String? reportId}) {
+    return _makeRequest(
+      (request) {
+        request.writeOptional(
+          reportId,
+          (reportId) => request.writeString(reportId),
+        );
+      },
+      DiagDiagnosticsResult.read,
+      bindings.CBDConnection_Diagnostics,
+    );
+  }
+
+  Future<DiagPingResult> ping({
+    String? reportId,
+    String? bucketName,
+    Set<ServiceType>? services,
+  }) {
+    services ??= {};
+
+    return _makeRequest(
+      (request) {
+        request.writeOptional(
+          reportId,
+          (reportId) => request.writeString(reportId),
+        );
+        request.writeOptional(
+          bucketName,
+          (bucketName) => request.writeString(bucketName),
+        );
+        request.writeUInt64(services!.length);
+        for (final service in services) {
+          service.write(request);
+        }
+      },
+      DiagPingResult.read,
+      bindings.CBDConnection_Ping,
+    );
+  }
+
   Future<void> _close() {
     return _makeRequest(
       (_) {},
@@ -166,5 +206,12 @@ extension on MessageBuffer {
 
     // ignore: only_throw_errors
     throw exception.convertMessageError(ErrorCode.read(this));
+  }
+
+  void writeOptional<T>(T? value, void Function(T) writeValue) {
+    writeBool(value != null);
+    if (value != null) {
+      writeValue(value);
+    }
   }
 }

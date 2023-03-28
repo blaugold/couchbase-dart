@@ -502,6 +502,40 @@ class LibCouchbaseDart {
   late final _CBDConnection_OpenBucket = _CBDConnection_OpenBucketPtr
       .asFunction<void Function(CBDConnection, CBDMessageBuffer)>();
 
+  void CBDConnection_Diagnostics(
+    CBDConnection connection,
+    CBDMessageBuffer request,
+  ) {
+    return _CBDConnection_Diagnostics(
+      connection,
+      request,
+    );
+  }
+
+  late final _CBDConnection_DiagnosticsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Diagnostics');
+  late final _CBDConnection_Diagnostics = _CBDConnection_DiagnosticsPtr
+      .asFunction<void Function(CBDConnection, CBDMessageBuffer)>();
+
+  void CBDConnection_Ping(
+    CBDConnection connection,
+    CBDMessageBuffer request,
+  ) {
+    return _CBDConnection_Ping(
+      connection,
+      request,
+    );
+  }
+
+  late final _CBDConnection_PingPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              CBDConnection, CBDMessageBuffer)>>('CBDConnection_Ping');
+  late final _CBDConnection_Ping = _CBDConnection_PingPtr.asFunction<
+      void Function(CBDConnection, CBDMessageBuffer)>();
+
   void CBDConnection_Prepend(
     CBDConnection connection,
     CBDMessageBuffer request,
@@ -2429,6 +2463,14 @@ class _SymbolAddresses {
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
       get CBDConnection_OpenBucket => _library._CBDConnection_OpenBucketPtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
+      get CBDConnection_Diagnostics => _library._CBDConnection_DiagnosticsPtr;
+  ffi.Pointer<
+          ffi.NativeFunction<
+              ffi.Void Function(CBDConnection, CBDMessageBuffer)>>
+      get CBDConnection_Ping => _library._CBDConnection_PingPtr;
   ffi.Pointer<
           ffi.NativeFunction<
               ffi.Void Function(CBDConnection, CBDMessageBuffer)>>

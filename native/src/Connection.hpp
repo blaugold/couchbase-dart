@@ -22,10 +22,10 @@ public:
     void destroy();
 
     void open(MessageBuffer *request);
-
     void close(MessageBuffer *request);
-
     void openBucket(MessageBuffer *request);
+    void diagnostics(MessageBuffer *request);
+    void ping(MessageBuffer *request);
 
     // #region Generated Operation Methods
 

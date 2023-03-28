@@ -7,6 +7,7 @@
     "dataverse",
     "keyspace",
     "mcbp",
+    "mgmt",
     "PEGTL",
     "Sasl",
     "spdlog",
@@ -105,5 +106,6 @@
     "unordered_set": "cpp",
     "valarray": "cpp",
     "algorithm": "cpp"
-  }
+  },
+  "dart.runPubGetOnPubspecChanges": "never"
 }
