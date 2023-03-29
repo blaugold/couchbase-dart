@@ -1,12 +1,18 @@
 ## TODO
 
-- [ ] Determine the right convention for passing options in the Dart API
 - [ ] Distribution of native libraries
+- [ ] Auto generate version.g.dart
+- [ ] Data Classes
+  - [ ] ToString
+  - [ ] Equality
+  - [ ] CopyWith
 
 ### API
 
-- [ ] connect
+- [ ] Error contexts
+- [ ] cbppVersion
 - [ ] Cluster
+  - [x] connect
   - [x] bucket
   - [ ] users
   - [ ] buckets

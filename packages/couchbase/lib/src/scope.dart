@@ -10,6 +10,8 @@ const defaultScopeName = '_default';
 /// Exposes the operations which are available to be performed against a scope.
 ///
 /// Namely the ability to access [Collection]s.
+///
+/// {@category Core}
 class Scope {
   Scope({
     required this.name,

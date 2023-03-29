@@ -5,9 +5,9 @@ void main() async {
   late Cluster cluster;
 
   setUp(() async {
-    cluster = await connect(
+    cluster = await Cluster.connect(
       'couchbase://localhost',
-      ConnectOptions(
+      ClusterOptions(
         username: 'admin',
         password: 'password',
       ),

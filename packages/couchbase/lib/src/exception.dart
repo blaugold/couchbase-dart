@@ -2,8 +2,10 @@ import 'message.g.dart';
 import 'message_basic.dart';
 import 'message_errors.dart' as message_errors;
 
+/// {@category Error Handling}
 abstract class ErrorContext {}
 
+/// {@category Error Handling}
 class KeyValueErrorContext extends ErrorContext {
   KeyValueErrorContext({
     required this.statusCode,
@@ -68,6 +70,7 @@ extension KeyValueErrorContextToDart on message_errors.KeyValueErrorContext {
   }
 }
 
+/// {@category Error Handling}
 abstract class CouchbaseException<Code extends Enum,
     Context extends ErrorContext?> implements Exception {
   CouchbaseException(this.message, this.code, this.context);
@@ -84,6 +87,7 @@ abstract class CouchbaseException<Code extends Enum,
   }
 }
 
+/// {@category Error Handling}
 class CommonException
     extends CouchbaseException<CommonErrorCode, ErrorContext?> {
   CommonException(super.message, super.code, super.context);
@@ -92,6 +96,7 @@ class CommonException
   String get _name => 'CommonException';
 }
 
+/// {@category Error Handling}
 class KeyValueException
     extends CouchbaseException<KeyValueErrorCode, KeyValueErrorContext> {
   KeyValueException(super.message, super.error, super.context);

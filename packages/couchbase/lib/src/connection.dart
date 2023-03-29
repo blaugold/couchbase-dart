@@ -41,11 +41,16 @@ class Connection implements Finalizable {
   Future<void> open(
     String connectionString,
     ClusterCredentials credentials,
+    DnsConfig? dnsConfig,
   ) {
     return _makeRequest(
       (request) {
         request.writeString(connectionString);
         credentials.write(request);
+        request.writeOptional(
+          dnsConfig,
+          (dnsConfig) => dnsConfig.write(request),
+        );
       },
       _optionalErrorCodeDecoder,
       bindings.CBDConnection_Open,
