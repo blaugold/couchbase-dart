@@ -5,6 +5,8 @@ import 'general.dart';
 import 'message.g.dart' as message;
 
 /// The status of an an endpoint in a diagnostics report.
+///
+/// {@category Diagnostics}
 enum EndpointState {
   /// Indicates the endpoint is disconnected.
   disconnected,
@@ -35,6 +37,8 @@ extension MessageEndpointState on message.EndpointState {
 }
 
 /// The status of an an endpoint in a ping report.
+///
+/// {@category Diagnostics}
 enum PingState {
   /// Indicates the endpoint was pinged successfully.
   ok,
@@ -60,6 +64,8 @@ extension MessagePingState on message.PingState {
 }
 
 /// A single endpoint in a [PingResult].
+///
+/// {@category Diagnostics}
 class PingEndpoint {
   const PingEndpoint({
     required this.type,
@@ -113,6 +119,8 @@ extension MessagePingEndpoint on message.DiagEndpointPingInfo {
 }
 
 /// The output of [Cluster.ping].
+///
+/// {@category Diagnostics}
 class PingResult {
   const PingResult({
     required this.version,
@@ -151,6 +159,8 @@ extension MessagePingResult on message.DiagPingResult {
 }
 
 /// The options available for [Cluster.ping].
+///
+/// {@category Diagnostics}
 class PingOptions {
   const PingOptions({
     this.reportId,
@@ -173,6 +183,8 @@ class PingOptions {
 }
 
 /// A single endpoint in a [DiagnosticsResult].
+///
+/// {@category Diagnostics}
 class DiagnosticsEndpoint {
   const DiagnosticsEndpoint({
     required this.type,
@@ -226,6 +238,8 @@ extension MessageDiagEndpointDiagInfoExtension on message.DiagEndpointDiagInfo {
 }
 
 /// The output of [Cluster.diagnostics].
+///
+/// {@category Diagnostics}
 class DiagnosticsResult {
   const DiagnosticsResult({
     required this.version,
@@ -265,6 +279,8 @@ extension MessageDiagDiagnosticsResultExtension
 }
 
 /// The options available for [Cluster.diagnostics].
+///
+/// {@category Diagnostics}
 class DiagnosticsOptions {
   const DiagnosticsOptions({
     this.reportId,

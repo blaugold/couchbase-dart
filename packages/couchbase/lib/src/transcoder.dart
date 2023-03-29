@@ -1,19 +1,48 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+/// Encapsulates the raw bytes of a document along with the flags which
+/// indicate the format of the raw bytes.
+///
+/// {@category Key-Value}
 class EncodedDocumentData {
   EncodedDocumentData({required this.flags, required this.bytes});
 
+  /// The flags which indicate the format of the raw [bytes].
   final int flags;
+
+  /// The raw bytes of the document.
   final Uint8List bytes;
 }
 
+/// A transcoder is responsible for encoding and decoding document values
+/// to and from raw bytes.
+///
+/// Along with the raw bytes a document stores a set of flags which indicate the
+/// format of the raw bytes. A transcoder uses these flags to determine how to
+/// decode the raw bytes into a Dart value.
+///
+/// {@category Key-Value}
 abstract class Transcoder {
+  const Transcoder();
+
+  /// Encodes the given [value] into [EncodedDocumentData].
   EncodedDocumentData encode(Object? value);
+
+  /// Decodes the given [EncodedDocumentData] into a Dart value.
   Object? decode(EncodedDocumentData data);
 }
 
+/// [Transcoder] which implements cross-SDK transcoding capabilities by
+/// taking advantage of the common flags specification.
+///
+/// This transcoder is capable of encoding/decoding any value which is encodable
+/// to JSON, and additionally has special-case handling for [Uint8List]s.
+///
+/// {@category Key-Value}
 class DefaultTranscoder implements Transcoder {
+  const DefaultTranscoder();
+
   static const _dartFormatJson = 0x00;
   static const _dartFormatRaw = 0x02;
   static const _dartFormatUtf8 = 0x04;

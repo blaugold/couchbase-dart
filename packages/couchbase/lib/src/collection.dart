@@ -32,6 +32,8 @@ class MutationResult {
 /// collection.
 ///
 /// Namely the ability to perform Key-Value operations.
+///
+/// {@category Core}
 class Collection {
   Collection({
     required this.name,

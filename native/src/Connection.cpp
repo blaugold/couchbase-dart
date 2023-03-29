@@ -35,6 +35,10 @@ void Connection::open(MessageBuffer *request)
         couchbase::core::utils::parse_connection_string(request->readString());
     auto credentials =
         read_cbpp<couchbase::core::cluster_credentials>(*request);
+    if (request->readBool()) {
+        connectionString.options.dns_config =
+            read_cbpp<couchbase::core::io::dns::dns_config>(*request);
+    }
     auto origin = couchbase::core::origin(credentials, connectionString);
 
     _cluster->open(origin, [response](std::error_code ec) mutable {

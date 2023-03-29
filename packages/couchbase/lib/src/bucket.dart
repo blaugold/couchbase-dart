@@ -9,6 +9,8 @@ import 'scope.dart';
 ///
 /// Namely the ability to access [Collection]s as well as performing management
 /// operations against the bucket.
+///
+/// {@category Core}
 class Bucket {
   Bucket({
     required this.name,
