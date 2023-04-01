@@ -24,7 +24,7 @@ docker exec $CONTAINER_NAME couchbase-cli cluster-init \
   --cluster-username admin \
   --cluster-password password \
   --services data \
-  --cluster-ramsize 4096
+  --cluster-ramsize 1024
 
 docker exec $CONTAINER_NAME couchbase-cli bucket-create \
   -c 127.0.0.1 \
