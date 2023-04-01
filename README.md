@@ -12,8 +12,8 @@
 - [ ] Tests for connect
 - [ ] Dartdoc Categories
 - [ ] CI for
-  - [ ] macOS
-  - [ ] Linux
+  - [x] macOS
+  - [x] Linux
   - [ ] Windows
 
 ### API

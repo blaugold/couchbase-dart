@@ -3,17 +3,21 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:path/path.dart' as path;
+
 import 'lib_couchbase_dart.dart';
 
 final bindings = _initBindings(_loadLibrary());
 
 DynamicLibrary _loadLibrary() {
+  final buildDirectory = path.absolute('../../native/build');
+  final libBaseNamePath = path.join(buildDirectory, 'libCouchbaseDart');
   if (Platform.isMacOS) {
-    return DynamicLibrary.open('../../native/build/libCouchbaseDart.dylib');
+    return DynamicLibrary.open('$libBaseNamePath.dylib');
   } else if (Platform.isLinux) {
-    return DynamicLibrary.open('../../native/build/libCouchbaseDart.so');
+    return DynamicLibrary.open('$libBaseNamePath.so');
   } else if (Platform.isWindows) {
-    return DynamicLibrary.open('../../native/build/libCouchbaseDart.dll');
+    return DynamicLibrary.open('$libBaseNamePath.dll');
   } else {
     throw UnsupportedError('Unsupported platform.');
   }

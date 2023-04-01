@@ -92,16 +92,29 @@ void main() async {
       ],
     );
     expect(result.content.length, 8);
+    expect(result.content[0].error, isNull);
     expect(
       (result.content[0].value! as Map<String, Object?>)['datatype'],
       ['json'],
     );
+    expect(result.content[1].error, isNull);
     expect(result.content[1].value, isNull);
+    expect(result.content[2].error, isNull);
     expect(result.content[2].value, result.cas);
+    expect(result.content[3].error, isNull);
     expect(result.content[3].value, '0x0000000000000001');
-    expect(result.content[4].value, isA<DateTime>());
+    // TODO: Try to insert document with higher durability, once implemented.
+    // This might allow us to always get a last modified date.
+    // Currently, retrieving the last modified date fails in CI. It seems to
+    // have something to do with how new the cluster/bucket is. Locally, the
+    // last modified date is always returned, after a few mutation operations.
+    // expect(result.content[4].error, isNull);
+    // expect(result.content[4].value, isA<DateTime>());
+    expect(result.content[5].error, isNull);
     expect(result.content[5].value, false);
+    expect(result.content[6].error, isNull);
     expect(result.content[6].value, 17);
+    expect(result.content[7].error, isNull);
     expect(result.content[7].value, '1');
   });
 
