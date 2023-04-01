@@ -92,25 +92,25 @@ void main() async {
       ],
     );
     expect(result.content.length, 8);
+    expect(result.content[0].error, isNull);
     expect(
       (result.content[0].value! as Map<String, Object?>)['datatype'],
       ['json'],
     );
-    expect(result.content[0].error, isNull);
-    expect(result.content[1].value, isNull);
     expect(result.content[1].error, isNull);
-    expect(result.content[2].value, result.cas);
+    expect(result.content[1].value, isNull);
     expect(result.content[2].error, isNull);
-    expect(result.content[3].value, '0x0000000000000001');
+    expect(result.content[2].value, result.cas);
     expect(result.content[3].error, isNull);
-    expect(result.content[4].value, isA<DateTime>());
+    expect(result.content[3].value, '0x0000000000000001');
     expect(result.content[4].error, isNull);
-    expect(result.content[5].value, false);
+    expect(result.content[4].value, isA<DateTime>());
     expect(result.content[5].error, isNull);
-    expect(result.content[6].value, 17);
+    expect(result.content[5].value, false);
     expect(result.content[6].error, isNull);
-    expect(result.content[7].value, '1');
+    expect(result.content[6].value, 17);
     expect(result.content[7].error, isNull);
+    expect(result.content[7].value, '1');
   });
 
   test('check if document exists', () async {
