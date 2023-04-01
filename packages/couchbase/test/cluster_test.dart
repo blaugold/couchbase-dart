@@ -51,7 +51,10 @@ void main() async {
     final testDocumentId = 'test-${DateTime.now().microsecondsSinceEpoch}';
     final testDocumentValue = {'hello': 'world'};
     await collection.insert(testDocumentId, testDocumentValue);
-    final getResult = await collection.get(testDocumentId, GetOptions(withExpiry: true));
+    final getResult = await collection.get(
+      testDocumentId,
+      const GetOptions(withExpiry: true),
+    );
     expect(getResult.content, testDocumentValue);
   });
 
@@ -78,7 +81,6 @@ void main() async {
     final result = await collection.lookupIn(
       testDocumentId,
       [
-        LookupInSpec.get(''),
         LookupInSpec.get(LookupInMacro.document),
         LookupInSpec.get(LookupInMacro.expiry),
         LookupInSpec.get(LookupInMacro.cas),
@@ -89,6 +91,18 @@ void main() async {
         LookupInSpec.get(LookupInMacro.revId),
       ],
     );
+    expect(result.content.length, 8);
+    expect(
+      (result.content[0].value! as Map<String, Object?>)['datatype'],
+      ['json'],
+    );
+    expect(result.content[1].value, isNull);
+    expect(result.content[2].value, result.cas);
+    expect(result.content[3].value, '0x0000000000000001');
+    expect(result.content[4].value, isA<DateTime>());
+    expect(result.content[5].value, false);
+    expect(result.content[6].value, 17);
+    expect(result.content[7].value, '1');
   });
 
   test('check if document exists', () async {
