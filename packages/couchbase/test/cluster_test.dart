@@ -91,13 +91,6 @@ void main() async {
         LookupInSpec.get(LookupInMacro.revId),
       ],
     );
-    for (final element in result.content) {
-      // ignore: avoid_print
-      print({
-        'error': element.error,
-        'value': element.value,
-      });
-    }
     expect(result.content.length, 8);
     expect(
       (result.content[0].value! as Map<String, Object?>)['datatype'],
