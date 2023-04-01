@@ -22,7 +22,9 @@ jobs:
 
       - name: Setup Docker
         if: runner.os == 'macOS'
-        uses: docker-practice/actions-setup-docker@master
+        run: |
+          brew install docker
+          colima start
 
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
