@@ -64,12 +64,12 @@ void main() async {
     final testDocumentId = 'test-${DateTime.now().microsecondsSinceEpoch}';
     final testDocumentValue = {'hello': 'world'};
     await collection.insert(testDocumentId, testDocumentValue);
-    var existsResult = await collection
+    var result = await collection
         .lookupIn(testDocumentId, [LookupInSpec.exists('hello')]);
-    expect(existsResult.content.single.value, true);
-    existsResult =
+    expect(result.content.single.value, true);
+    result =
         await collection.lookupIn(testDocumentId, [LookupInSpec.exists('foo')]);
-    expect(existsResult.content.single.value, false);
+    expect(result.content.single.value, false);
   });
 
   test('fetch all LookupInMacros for document', () async {

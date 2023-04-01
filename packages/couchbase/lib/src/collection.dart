@@ -218,12 +218,11 @@ class Collection {
           final stringValue = value! as String;
           value = Cas(int.parse(stringValue.substring(2), radix: 16));
         }
-      } else {
-        // TODO: Write tests for this
-        if (field.opcode == SubdocOpcode.exists) {
-          error = null;
-          value = field.exists;
-        }
+      }
+
+      if (field.opcode == SubdocOpcode.exists) {
+        error = null;
+        value = field.exists;
       }
 
       return LookupInResultEntry(error: error, value: value);

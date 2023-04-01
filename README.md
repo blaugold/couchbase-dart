@@ -11,6 +11,10 @@
 - [ ] Use Dart 3
 - [ ] Tests for connect
 - [ ] Dartdoc Categories
+- [ ] CI for
+  - [ ] macOS
+  - [ ] Linux
+  - [ ] Windows
 
 ### API
 
