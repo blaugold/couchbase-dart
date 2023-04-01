@@ -98,7 +98,7 @@ class CommonException
 
 /// {@category Error Handling}
 class KeyValueException
-    extends CouchbaseException<KeyValueErrorCode, KeyValueErrorContext> {
+    extends CouchbaseException<KeyValueErrorCode, KeyValueErrorContext?> {
   KeyValueException(super.message, super.error, super.context);
 
   @override
@@ -106,25 +106,24 @@ class KeyValueException
 }
 
 Object convertMessageError(Object error, [ErrorContext? context]) {
-  if (error is message_errors.ErrorCode) {
-    return CommonException(
-      error.message,
-      CommonErrorCode.byValue(error.code)!,
-      context,
-    );
+  if (error is message_errors.KeyValueErrorContext) {
+    return convertMessageError(error.code, error.toDart());
   }
 
-  if (error is message_errors.KeyValueErrorContext) {
-    final keyValueErrorCode = KeyValueErrorCode.byValue(error.code.code);
-    if (keyValueErrorCode != null) {
-      return KeyValueException(
-        error.code.message,
-        keyValueErrorCode,
-        error.toDart(),
-      );
+  if (error is message_errors.ErrorCode) {
+    final commonErrorCode = CommonErrorCode.byValue(error.code);
+    if (commonErrorCode != null) {
+      return CommonException(error.message, commonErrorCode, context);
     }
 
-    return convertMessageError(error.code, error.toDart());
+    final keyValueErrorCode = KeyValueErrorCode.byValue(error.code);
+    if (keyValueErrorCode != null) {
+      return KeyValueException(
+        error.message,
+        keyValueErrorCode,
+        context as KeyValueErrorContext?,
+      );
+    }
   }
 
   return error;

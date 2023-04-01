@@ -9,6 +9,7 @@
     "mcbp",
     "mgmt",
     "PEGTL",
+    "reprojection",
     "Sasl",
     "spdlog",
     "subdocument"
@@ -105,7 +106,9 @@
     "unordered_map": "cpp",
     "unordered_set": "cpp",
     "valarray": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "__memory": "cpp",
+    "filesystem": "cpp"
   },
   "dart.runPubGetOnPubspecChanges": "never"
 }

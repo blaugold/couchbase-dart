@@ -268,6 +268,7 @@ class Cluster {
 
 extension ClusterInternal on Cluster {
   Transcoder get transcoder => _options.transcoder;
+  TimeoutConfig get timeouts => _options.timeouts;
   Connection get connection => _connection;
 }
 
