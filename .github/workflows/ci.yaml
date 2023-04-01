@@ -20,6 +20,10 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Setup Docker
+        if: runner.os == 'macOS'
+        uses: docker-practice/actions-setup-docker@master
+
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
         with:
