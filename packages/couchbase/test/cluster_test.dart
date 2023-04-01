@@ -78,6 +78,9 @@ void main() async {
     final testDocumentId = 'test-${DateTime.now().microsecondsSinceEpoch}';
     final testDocumentValue = {'hello': 'world'};
     await collection.insert(testDocumentId, testDocumentValue);
+    // TODO: Try to remove delay with higher durability, once implemented.
+    // Wait a bit to ensure all virtual XATTRs are available.
+    await Future<void>.delayed(const Duration(milliseconds: 100));
     final result = await collection.lookupIn(
       testDocumentId,
       [
