@@ -653,10 +653,20 @@ class BindingsGenerator {
 
   void _writeDartEnum(EnumType type) {
     final dartName = type.dartName;
+    final typeName = type.type.name;
+    final isUnsigned = typeName.startsWith('std::uint');
+    final size = int.parse(typeName.substring(9, typeName.length - 2));
+    int intValue(EnumValue value) {
+      var intValue = value.value;
+      if (isUnsigned) {
+        intValue = intValue.toUnsigned(size);
+      }
+      return intValue;
+    }
 
     _writeln('enum $dartName {');
     for (final value in type.values) {
-      _writeln('  ${value.dartName}(${value.value}),');
+      _writeln('  ${value.dartName}(${intValue(value)}),');
     }
     _writeln(';');
     _writeln();
@@ -666,7 +676,7 @@ class BindingsGenerator {
     _writeln('  final value = buffer.readInt64();');
     _writeln('    switch (value) {');
     for (final value in type.values) {
-      _writeln('      case ${value.value}: return ${value.dartName};');
+      _writeln('      case ${intValue(value)}: return ${value.dartName};');
     }
     _writeln(r"      default: throw Exception('Unknown value: $value');");
     _writeln('    }');

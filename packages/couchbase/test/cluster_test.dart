@@ -45,13 +45,63 @@ void main() async {
     expect(bucketEndpoint.bucket, 'test');
   });
 
-  test('insert and get document', timeout: const Timeout.factor(2), () async {
+  test('insert and get document', () async {
     final bucket = cluster.bucket('test');
     final collection = bucket.defaultCollection;
     final testDocumentId = 'test-${DateTime.now().microsecondsSinceEpoch}';
     final testDocumentValue = {'hello': 'world'};
     await collection.insert(testDocumentId, testDocumentValue);
-    final getResult = await collection.get(testDocumentId);
+    final getResult = await collection.get(testDocumentId, GetOptions(withExpiry: true));
     expect(getResult.content, testDocumentValue);
+  });
+
+  test('sub document lookup: exists', () async {
+    final bucket = cluster.bucket('test');
+    final collection = bucket.defaultCollection;
+    final testDocumentId = 'test-${DateTime.now().microsecondsSinceEpoch}';
+    final testDocumentValue = {'hello': 'world'};
+    await collection.insert(testDocumentId, testDocumentValue);
+    var existsResult = await collection
+        .lookupIn(testDocumentId, [LookupInSpec.exists('hello')]);
+    expect(existsResult.content.single.value, true);
+    existsResult =
+        await collection.lookupIn(testDocumentId, [LookupInSpec.exists('foo')]);
+    expect(existsResult.content.single.value, false);
+  });
+
+  test('fetch all LookupInMacros for document', () async {
+    final bucket = cluster.bucket('test');
+    final collection = bucket.defaultCollection;
+    final testDocumentId = 'test-${DateTime.now().microsecondsSinceEpoch}';
+    final testDocumentValue = {'hello': 'world'};
+    await collection.insert(testDocumentId, testDocumentValue);
+    final result = await collection.lookupIn(
+      testDocumentId,
+      [
+        LookupInSpec.get(''),
+        LookupInSpec.get(LookupInMacro.document),
+        LookupInSpec.get(LookupInMacro.expiry),
+        LookupInSpec.get(LookupInMacro.cas),
+        LookupInSpec.get(LookupInMacro.seqNo),
+        LookupInSpec.get(LookupInMacro.lastModified),
+        LookupInSpec.get(LookupInMacro.isDeleted),
+        LookupInSpec.get(LookupInMacro.valueSizeBytes),
+        LookupInSpec.get(LookupInMacro.revId),
+      ],
+    );
+  });
+
+  test('check if document exists', () async {
+    final bucket = cluster.bucket('test');
+    final collection = bucket.defaultCollection;
+    final testDocumentId = 'test-${DateTime.now().microsecondsSinceEpoch}';
+    final testDocumentValue = {'hello': 'world'};
+
+    var result = await collection.exists(testDocumentId);
+    expect(result.exists, false);
+
+    await collection.insert(testDocumentId, testDocumentValue);
+    result = await collection.exists(testDocumentId);
+    expect(result.exists, true);
   });
 }

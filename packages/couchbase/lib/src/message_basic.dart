@@ -103,9 +103,9 @@ class DocumentId {
 
 @immutable
 class Cas {
-  const Cas._(this._value);
+  const Cas(this._value);
 
-  factory Cas.read(MessageBuffer buffer) => Cas._(buffer.readUInt64());
+  factory Cas.read(MessageBuffer buffer) => Cas(buffer.readUInt64());
 
   final int _value;
 

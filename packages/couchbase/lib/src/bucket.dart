@@ -1,7 +1,7 @@
 // ignore_for_file: unused_field
 
-import '../couchbase.dart';
 import 'cluster.dart';
+import 'collection.dart';
 import 'connection.dart';
 import 'scope.dart';
 

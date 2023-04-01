@@ -6,10 +6,14 @@
   - [ ] ToString
   - [ ] Equality
   - [ ] CopyWith
+- [ ] Make Cas a public API
+- [ ] Exceptions classes
+- [ ] Use Dart 3
+- [ ] Tests for connect
+- [ ] Dartdoc Categories
 
 ### API
 
-- [ ] Error contexts
 - [ ] cbppVersion
 - [ ] Cluster
   - [x] connect

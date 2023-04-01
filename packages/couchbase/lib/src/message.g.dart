@@ -651,19 +651,19 @@ enum SubdocOpcode {
   getDoc(0),
   setDoc(1),
   removeDoc(4),
-  get(-59),
-  exists(-58),
-  dictAdd(-57),
-  dictUpsert(-56),
-  remove(-55),
-  replace(-54),
-  arrayPushLast(-53),
-  arrayPushFirst(-52),
-  arrayInsert(-51),
-  arrayAddUnique(-50),
-  counter(-49),
-  getCount(-46),
-  replaceBodyWithXattr(-45),
+  get(197),
+  exists(198),
+  dictAdd(199),
+  dictUpsert(200),
+  remove(201),
+  replace(202),
+  arrayPushLast(203),
+  arrayPushFirst(204),
+  arrayInsert(205),
+  arrayAddUnique(206),
+  counter(207),
+  getCount(210),
+  replaceBodyWithXattr(211),
   ;
 
   const SubdocOpcode(this.value);
@@ -677,31 +677,31 @@ enum SubdocOpcode {
         return setDoc;
       case 4:
         return removeDoc;
-      case -59:
+      case 197:
         return get;
-      case -58:
+      case 198:
         return exists;
-      case -57:
+      case 199:
         return dictAdd;
-      case -56:
+      case 200:
         return dictUpsert;
-      case -55:
+      case 201:
         return remove;
-      case -54:
+      case 202:
         return replace;
-      case -53:
+      case 203:
         return arrayPushLast;
-      case -52:
+      case 204:
         return arrayPushFirst;
-      case -51:
+      case 205:
         return arrayInsert;
-      case -50:
+      case 206:
         return arrayAddUnique;
-      case -49:
+      case 207:
         return counter;
-      case -46:
+      case 210:
         return getCount;
-      case -45:
+      case 211:
         return replaceBodyWithXattr;
       default:
         throw Exception('Unknown value: $value');
@@ -1948,7 +1948,7 @@ enum KeyValueStatusCode {
   rangeScanMore(166),
   rangeScanComplete(167),
   rangeScanVbUuidNotEqual(168),
-  unknown(-1),
+  unknown(65535),
   ;
 
   const KeyValueStatusCode(this.value);
@@ -2098,7 +2098,7 @@ enum KeyValueStatusCode {
         return rangeScanComplete;
       case 168:
         return rangeScanVbUuidNotEqual;
-      case -1:
+      case 65535:
         return unknown;
       default:
         throw Exception('Unknown value: $value');
@@ -2125,19 +2125,19 @@ enum Opcode {
   getDoc(0),
   setDoc(1),
   removeDoc(4),
-  get(-59),
-  exists(-58),
-  dictAdd(-57),
-  dictUpsert(-56),
-  remove(-55),
-  replace(-54),
-  arrayPushLast(-53),
-  arrayPushFirst(-52),
-  arrayInsert(-51),
-  arrayAddUnique(-50),
-  counter(-49),
-  getCount(-46),
-  replaceBodyWithXattr(-45),
+  get(197),
+  exists(198),
+  dictAdd(199),
+  dictUpsert(200),
+  remove(201),
+  replace(202),
+  arrayPushLast(203),
+  arrayPushFirst(204),
+  arrayInsert(205),
+  arrayAddUnique(206),
+  counter(207),
+  getCount(210),
+  replaceBodyWithXattr(211),
   ;
 
   const Opcode(this.value);
@@ -2151,31 +2151,31 @@ enum Opcode {
         return setDoc;
       case 4:
         return removeDoc;
-      case -59:
+      case 197:
         return get;
-      case -58:
+      case 198:
         return exists;
-      case -57:
+      case 199:
         return dictAdd;
-      case -56:
+      case 200:
         return dictUpsert;
-      case -55:
+      case 201:
         return remove;
-      case -54:
+      case 202:
         return replace;
-      case -53:
+      case 203:
         return arrayPushLast;
-      case -52:
+      case 204:
         return arrayPushFirst;
-      case -51:
+      case 205:
         return arrayInsert;
-      case -50:
+      case 206:
         return arrayAddUnique;
-      case -49:
+      case 207:
         return counter;
-      case -46:
+      case 210:
         return getCount;
-      case -45:
+      case 211:
         return replaceBodyWithXattr;
       default:
         throw Exception('Unknown value: $value');
