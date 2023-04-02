@@ -1,7 +1,7 @@
 import 'package:couchbase/couchbase.dart';
 import 'package:test/test.dart';
 
-import 'utils/cluster.dart';
+import 'utils/test_cluster.dart';
 
 void main() {
   test('insert and get document', () async {
