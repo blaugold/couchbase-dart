@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'general.dart';
 import 'message.g.dart';
 import 'message_basic.dart';
 import 'message_buffer.dart';
@@ -59,7 +60,7 @@ class KeyValueErrorContext {
       code: ErrorCode.read(buffer),
       id: buffer.readString(),
       opaque: buffer.readInt64(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       statusCode: buffer.readBool() ? KeyValueStatusCode.read(buffer) : null,
       extendedErrorInfo:
           buffer.readBool() ? KeyValueExtendedErrorInfo.read(buffer) : null,
@@ -107,7 +108,7 @@ class SubdocumentErrorContext {
       code: ErrorCode.read(buffer),
       id: buffer.readString(),
       opaque: buffer.readInt64(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       statusCode: buffer.readBool() ? KeyValueStatusCode.read(buffer) : null,
       extendedErrorInfo:
           buffer.readBool() ? KeyValueExtendedErrorInfo.read(buffer) : null,

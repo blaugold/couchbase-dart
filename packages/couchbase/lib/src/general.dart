@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import 'message.g.dart' as message;
 
 /// The various service types available.
@@ -29,7 +31,7 @@ enum ServiceType {
 }
 
 extension MessageServiceTypeExtension on message.ServiceType {
-  ServiceType toDart() {
+  ServiceType toApi() {
     switch (this) {
       case message.ServiceType.keyValue:
         return ServiceType.keyValue;
@@ -68,4 +70,62 @@ extension ServiceTypeExtension on ServiceType {
         return message.ServiceType.eventing;
     }
   }
+}
+
+/// An opaque value which can be used to compare document states to determine if
+/// a change has occurred.
+///
+/// {@category Key-Value}
+@immutable
+class Cas {
+  const Cas._(this._value);
+
+  /// Parses the string representation of a [Cas] as returned by [toString].
+  factory Cas.parse(String value) {
+    Never throwFormatException() =>
+        throw FormatException('Invalid CAS string value', value);
+
+    if (value.length != 18 || !value.startsWith('0x')) {
+      throwFormatException();
+    }
+
+    try {
+      final hexDigits = value.substring(2);
+      final higher = int.parse(hexDigits.substring(0, 8), radix: 16);
+      final lower = int.parse(hexDigits.substring(8), radix: 16);
+      return Cas._(higher << 32 | lower);
+    } on FormatException {
+      throwFormatException();
+    }
+  }
+
+  final int _value;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Cas &&
+          runtimeType == other.runtimeType &&
+          _value == other._value;
+
+  @override
+  int get hashCode => _value.hashCode;
+
+  /// Returns a string representation of this [Cas].
+  ///
+  /// This representation can be parsed by [Cas.parse].
+  @override
+  String toString() {
+    // Return a hex string representation of the CAS.
+    final higher = _value >>> 32;
+    final lower = _value & 0xFFFFFFFF;
+    final hexDigits = '${higher.toRadixString(16).padLeft(8, '0')}'
+        '${lower.toRadixString(16).padLeft(8, '0')}';
+    return '0x$hexDigits';
+  }
+}
+
+extension InternalCas on Cas {
+  static Cas fromValue(int value) => Cas._(value);
+  int get value => _value;
 }

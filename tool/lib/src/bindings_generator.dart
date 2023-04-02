@@ -41,6 +41,7 @@ class BindingsGenerator {
       _writeln("import 'message_basic.dart';");
       _writeln("import 'message_buffer.dart';");
       _writeln("import 'message_errors.dart';");
+      _writeln("import 'general.dart';");
       _writeln();
       _writeDartEnums();
       _writeDartStructs();
@@ -622,10 +623,13 @@ class BindingsGenerator {
         _writeln('})()');
         return;
       case 'std::error_code':
-        _writeln('ErrorCode.read(buffer)');
+        _write('ErrorCode.read(buffer)');
         return;
       case 'couchbase::core::json_string':
-        _writeln('buffer.readString()');
+        _write('buffer.readString()');
+        return;
+      case 'couchbase::cas':
+        _write('CasMessage.read(buffer)');
         return;
     }
 

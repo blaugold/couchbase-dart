@@ -6,6 +6,7 @@ import 'cluster.dart';
 import 'connection.dart';
 import 'crud_operation_type.dart';
 import 'exception.dart';
+import 'general.dart';
 import 'message.g.dart';
 import 'message_basic.dart';
 import 'scope.dart';
@@ -215,8 +216,7 @@ class Collection {
           value = DateTime.fromMillisecondsSinceEpoch(integerValue * 1000);
         } else if (field.path == LookupInMacro.cas.path) {
           // Comes from the C++ client as a hex string.
-          final stringValue = value! as String;
-          value = Cas(int.parse(stringValue.substring(2), radix: 16));
+          value = Cas.parse(value! as String);
         }
       }
 

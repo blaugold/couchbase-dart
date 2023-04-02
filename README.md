@@ -6,10 +6,13 @@
   - [ ] ToString
   - [ ] Equality
   - [ ] CopyWith
-- [ ] Make Cas a public API
 - [ ] Exceptions classes
 - [ ] Use Dart 3
-- [ ] Tests for connect
+- [ ] Tests
+  - [ ] Cluster
+    - [ ] connect
+    - [ ] diagnostics
+    - [ ] ping
 - [ ] Dartdoc Categories
 - [ ] CI for
   - [x] macOS

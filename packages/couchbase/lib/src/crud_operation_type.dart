@@ -1,4 +1,5 @@
 import 'collection.dart';
+import 'general.dart';
 import 'message_basic.dart';
 
 /// Contains the results of a Get operation.

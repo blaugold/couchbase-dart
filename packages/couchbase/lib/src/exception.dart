@@ -1,5 +1,5 @@
+import 'general.dart';
 import 'message.g.dart';
-import 'message_basic.dart';
 import 'message_errors.dart' as message_errors;
 
 /// {@category Error Handling}
@@ -58,7 +58,7 @@ class KeyValueErrorContext extends ErrorContext {
 }
 
 extension KeyValueErrorContextToDart on message_errors.KeyValueErrorContext {
-  KeyValueErrorContext toDart() {
+  KeyValueErrorContext toApi() {
     return KeyValueErrorContext(
       statusCode: statusCode,
       opaque: opaque,
@@ -107,7 +107,7 @@ class KeyValueException
 
 Object convertMessageError(Object error, [ErrorContext? context]) {
   if (error is message_errors.KeyValueErrorContext) {
-    return convertMessageError(error.code, error.toDart());
+    return convertMessageError(error.code, error.toApi());
   }
 
   if (error is message_errors.ErrorCode) {
