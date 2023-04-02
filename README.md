@@ -8,6 +8,7 @@
   - [ ] CopyWith
 - [ ] Exceptions classes
 - [ ] Use Dart 3
+- [ ] Use `checks` package for test assertions
 - [ ] CI for
   - [x] macOS
   - [x] Linux
@@ -51,7 +52,7 @@
 - [ ] Collection
   - [x] name
   - [ ] get
-  - [ ] exists
+  - [x] exists
   - [ ] getAnyReplica
   - [ ] getAllReplicas
   - [ ] insert

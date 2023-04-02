@@ -127,5 +127,8 @@ class Cas {
 
 extension InternalCas on Cas {
   static Cas fromValue(int value) => Cas._(value);
+
+  static const zero = Cas._(0);
+
   int get value => _value;
 }

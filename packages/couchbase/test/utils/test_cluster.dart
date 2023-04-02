@@ -8,6 +8,7 @@ const testClusterAuthenticator = PasswordAuthenticator(
 );
 final testClusterOptions =
     ClusterOptions(authenticator: testClusterAuthenticator);
+const testBucketName = 'test';
 
 Future<Cluster> connectToTestCluster({
   String? connectionString,
@@ -19,4 +20,8 @@ Future<Cluster> connectToTestCluster({
   );
   addTearDown(cluster.close);
   return cluster;
+}
+
+extension TestClusterExtensions on Cluster {
+  Bucket get testBucket => bucket(testBucketName);
 }

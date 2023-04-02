@@ -2,46 +2,68 @@ import 'package:couchbase/couchbase.dart';
 import 'package:test/test.dart';
 
 import 'utils/test_cluster.dart';
+import 'utils/test_document.dart';
 
 void main() {
+  late Cluster cluster;
+  late Collection defaultCollection;
+
+  setUpAll(() async {
+    cluster = await connectToTestCluster();
+    defaultCollection = cluster.testBucket.defaultCollection;
+  });
+
+  test('exists', () async {
+    final documentId = createTestDocumentId();
+
+    var result = await defaultCollection.exists(documentId);
+    expect(result.cas, isNotNull);
+    expect(result.exists, false);
+
+    final insertResult = await defaultCollection.insert(documentId, null);
+    result = await defaultCollection.exists(documentId);
+    expect(result.cas, insertResult.cas);
+    expect(result.exists, true);
+
+    await defaultCollection.remove(documentId);
+    result = await defaultCollection.exists(documentId);
+    expect(result.cas, isNull);
+    expect(result.exists, false);
+  });
+
   test('insert and get document', () async {
-    final cluster = await connectToTestCluster();
-    final bucket = cluster.bucket('test');
-    final collection = bucket.defaultCollection;
-    final testDocumentId = 'test-${DateTime.now().microsecondsSinceEpoch}';
-    final testDocumentValue = {'hello': 'world'};
-    await collection.insert(testDocumentId, testDocumentValue);
-    final getResult = await collection.get(
-      testDocumentId,
+    final documentId = createTestDocumentId();
+    final documentContent = {'hello': 'world'};
+
+    await defaultCollection.insert(documentId, documentContent);
+    final getResult = await defaultCollection.get(
+      documentId,
       const GetOptions(withExpiry: true),
     );
-    expect(getResult.content, testDocumentValue);
+    expect(getResult.content, documentContent);
   });
 
   test('sub document lookup: exists', () async {
-    final cluster = await connectToTestCluster();
-    final bucket = cluster.bucket('test');
-    final collection = bucket.defaultCollection;
-    final testDocumentId = 'test-${DateTime.now().microsecondsSinceEpoch}';
-    final testDocumentValue = {'hello': 'world'};
-    await collection.insert(testDocumentId, testDocumentValue);
-    var result = await collection
-        .lookupIn(testDocumentId, [LookupInSpec.exists('hello')]);
+    final documentId = createTestDocumentId();
+    final documentContent = {'hello': 'world'};
+
+    await defaultCollection.insert(documentId, documentContent);
+    var result = await defaultCollection
+        .lookupIn(documentId, [LookupInSpec.exists('hello')]);
     expect(result.content.single.value, true);
-    result =
-        await collection.lookupIn(testDocumentId, [LookupInSpec.exists('foo')]);
+
+    result = await defaultCollection
+        .lookupIn(documentId, [LookupInSpec.exists('foo')]);
     expect(result.content.single.value, false);
   });
 
   test('fetch all LookupInMacros for document', () async {
-    final cluster = await connectToTestCluster();
-    final bucket = cluster.bucket('test');
-    final collection = bucket.defaultCollection;
-    final testDocumentId = 'test-${DateTime.now().microsecondsSinceEpoch}';
-    final testDocumentValue = {'hello': 'world'};
-    await collection.insert(testDocumentId, testDocumentValue);
-    final result = await collection.lookupIn(
-      testDocumentId,
+    final documentId = createTestDocumentId();
+    final documentContent = {'hello': 'world'};
+
+    await defaultCollection.insert(documentId, documentContent);
+    final result = await defaultCollection.lookupIn(
+      documentId,
       [
         LookupInSpec.get(LookupInMacro.document),
         LookupInSpec.get(LookupInMacro.expiry),
@@ -78,20 +100,5 @@ void main() {
     expect(result.content[6].value, 17);
     expect(result.content[7].error, isNull);
     expect(result.content[7].value, '1');
-  });
-
-  test('check if document exists', () async {
-    final cluster = await connectToTestCluster();
-    final bucket = cluster.bucket('test');
-    final collection = bucket.defaultCollection;
-    final testDocumentId = 'test-${DateTime.now().microsecondsSinceEpoch}';
-    final testDocumentValue = {'hello': 'world'};
-
-    var result = await collection.exists(testDocumentId);
-    expect(result.exists, false);
-
-    await collection.insert(testDocumentId, testDocumentValue);
-    result = await collection.exists(testDocumentId);
-    expect(result.exists, true);
   });
 }

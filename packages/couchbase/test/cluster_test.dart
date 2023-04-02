@@ -62,11 +62,12 @@ void main() async {
 
     test('with bucket', () async {
       final cluster = await connectToTestCluster();
-      final result = await cluster.ping(const PingOptions(bucket: 'test'));
+      final result =
+          await cluster.ping(const PingOptions(bucket: testBucketName));
       final services = result.services;
       expect(services.keys, [ServiceType.keyValue]);
       final bucketEndpoint = services[ServiceType.keyValue]!.single;
-      expect(bucketEndpoint.bucket, 'test');
+      expect(bucketEndpoint.bucket, testBucketName);
     });
 
     test('with reportId', () async {
