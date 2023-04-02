@@ -210,7 +210,7 @@ class Cluster {
   /// and other diagnostics information.
   Future<DiagnosticsResult> diagnostics([DiagnosticsOptions? options]) async {
     final response = await _connection.diagnostics(reportId: options?.reportId);
-    return response.toDart();
+    return response.toApi();
   }
 
   /// Performs a ping operation against the cluster.
@@ -228,7 +228,7 @@ class Cluster {
       // TODO: Send to C++ client.
       // timeout: options?.timeout,
     );
-    return response.toDart();
+    return response.toApi();
   }
 
   Future<void> _connect() async {

@@ -22,7 +22,7 @@ enum EndpointState {
 }
 
 extension MessageEndpointState on message.EndpointState {
-  EndpointState toDart() {
+  EndpointState toApi() {
     switch (this) {
       case message.EndpointState.disconnected:
         return EndpointState.disconnected;
@@ -51,7 +51,7 @@ enum PingState {
 }
 
 extension MessagePingState on message.PingState {
-  PingState toDart() {
+  PingState toApi() {
     switch (this) {
       case message.PingState.ok:
         return PingState.ok;
@@ -104,14 +104,14 @@ class PingEndpoint {
 }
 
 extension MessagePingEndpoint on message.DiagEndpointPingInfo {
-  PingEndpoint toDart() {
+  PingEndpoint toApi() {
     return PingEndpoint(
-      type: type.toDart(),
+      type: type.toApi(),
       id: id,
       remote: remote,
       local: local,
       latency: latency,
-      state: state.toDart(),
+      state: state.toApi(),
       bucket: bucket,
       error: error,
     );
@@ -143,15 +143,15 @@ class PingResult {
 }
 
 extension MessagePingResult on message.DiagPingResult {
-  PingResult toDart() {
+  PingResult toApi() {
     return PingResult(
       version: version,
       id: id,
       sdk: sdk,
       services: services.map((serviceType, endpoints) {
         return MapEntry(
-          serviceType.toDart(),
-          endpoints.map((endpoint) => endpoint.toDart()).toList(),
+          serviceType.toApi(),
+          endpoints.map((endpoint) => endpoint.toApi()).toList(),
         );
       }),
     );
@@ -223,14 +223,14 @@ class DiagnosticsEndpoint {
 }
 
 extension MessageDiagEndpointDiagInfoExtension on message.DiagEndpointDiagInfo {
-  DiagnosticsEndpoint toDart() {
+  DiagnosticsEndpoint toApi() {
     return DiagnosticsEndpoint(
-      type: type.toDart(),
+      type: type.toApi(),
       id: id,
       local: local,
       remote: remote,
       lastActivity: lastActivity,
-      state: state.toDart(),
+      state: state.toApi(),
       bucket: bucket,
       details: details != null ? jsonDecode(details!) : null,
     );
@@ -263,15 +263,15 @@ class DiagnosticsResult {
 
 extension MessageDiagDiagnosticsResultExtension
     on message.DiagDiagnosticsResult {
-  DiagnosticsResult toDart() {
+  DiagnosticsResult toApi() {
     return DiagnosticsResult(
       version: version,
       id: id,
       sdk: sdk,
       services: services.map((serviceType, endpoints) {
         return MapEntry(
-          serviceType.toDart(),
-          endpoints.map((endpoint) => endpoint.toDart()).toList(),
+          serviceType.toApi(),
+          endpoints.map((endpoint) => endpoint.toApi()).toList(),
         );
       }),
     );

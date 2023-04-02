@@ -29,7 +29,7 @@ enum ServiceType {
 }
 
 extension MessageServiceTypeExtension on message.ServiceType {
-  ServiceType toDart() {
+  ServiceType toApi() {
     switch (this) {
       case message.ServiceType.keyValue:
         return ServiceType.keyValue;
