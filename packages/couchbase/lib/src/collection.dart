@@ -137,14 +137,14 @@ class Collection {
 
     if (response.deleted) {
       return const ExistsResult(
-        exists: false,
         cas: null,
+        exists: false,
       );
     }
 
     return ExistsResult(
-      exists: response.documentExists,
       cas: response.cas,
+      exists: response.documentExists,
     );
   }
 
@@ -166,6 +166,21 @@ class Collection {
     return MutationResult(
       cas: response.cas,
       token: response.token,
+    );
+  }
+
+  Future<void> remove(String key) async {
+    final timeout = _timeouts.kvTimeout;
+    const cas = InternalCas.zero;
+    await _connection.remove(
+      RemoveRequest(
+        id: _documentId(key),
+        timeout: timeout,
+        cas: cas,
+        partition: 0,
+        opaque: 0,
+        durabilityLevel: DurabilityLevel.none,
+      ),
     );
   }
 
