@@ -6,7 +6,6 @@
   - [ ] ToString
   - [ ] Equality
   - [ ] CopyWith
-- [ ] Make Cas a public API
 - [ ] Exceptions classes
 - [ ] Use Dart 3
 - [ ] Tests

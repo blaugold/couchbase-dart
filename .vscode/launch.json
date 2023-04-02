@@ -5,18 +5,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "tool",
-      "cwd": "tool",
-      "request": "launch",
-      "type": "dart"
-    },
-    {
-      "name": "couchbase",
-      "cwd": "packages/couchbase",
-      "request": "launch",
-      "type": "dart"
-    },
-    {
       "name": "Run with logging",
       "type": "dart",
       "request": "launch",

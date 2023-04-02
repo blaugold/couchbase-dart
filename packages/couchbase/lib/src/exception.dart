@@ -1,5 +1,5 @@
+import 'general.dart';
 import 'message.g.dart';
-import 'message_basic.dart';
 import 'message_errors.dart' as message_errors;
 
 /// {@category Error Handling}

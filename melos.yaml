@@ -4,6 +4,9 @@ packages:
   - tool
   - packages/couchbase
 
+ide:
+  intellij: false
+
 scripts:
   format:
     run: dart format .

@@ -29,8 +29,7 @@ export 'src/exception.dart'
         ErrorContext,
         KeyValueErrorContext,
         KeyValueException;
-export 'src/general.dart' show ServiceType;
-export 'src/message_basic.dart' show Cas;
+export 'src/general.dart' show Cas, ServiceType;
 export 'src/scope.dart' show Scope;
 export 'src/sub_document_spec.dart' show LookupInMacro, LookupInSpec;
 export 'src/transcoder.dart'

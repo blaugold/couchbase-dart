@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
-import 'package:meta/meta.dart';
-
+import 'general.dart';
 import 'message_buffer.dart';
 
 class ClusterCredentials {
@@ -101,28 +100,10 @@ class DocumentId {
   }
 }
 
-@immutable
-class Cas {
-  const Cas(this._value);
-
-  factory Cas.read(MessageBuffer buffer) => Cas(buffer.readUInt64());
-
-  final int _value;
-
-  void write(MessageBuffer buffer) => buffer.writeUInt64(_value);
-
-  @override
-  String toString() => 'Cas($_value)';
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Cas &&
-          runtimeType == other.runtimeType &&
-          _value == other._value;
-
-  @override
-  int get hashCode => _value.hashCode;
+extension CasMessage on Cas {
+  static Cas read(MessageBuffer buffer) =>
+      InternalCas.fromValue(buffer.readUInt64());
+  void write(MessageBuffer buffer) => buffer.writeUInt64(value);
 }
 
 class MutationToken {

@@ -192,12 +192,12 @@ class Cluster {
       _openBuckets.add(name);
       unawaited(
         _connection.openBucket(name).onError(
-              (error, _) => {
-                // TODO: Move to log framework.
-                // ignore: avoid_print
-                print('Error opening bucket $name: $error'),
-              },
-            ),
+          (error, _) {
+            // TODO: Move to log framework.
+            // ignore: avoid_print
+            print('Error opening bucket $name: $error');
+          },
+        ),
       );
     }
     return Bucket(name: name, cluster: this);

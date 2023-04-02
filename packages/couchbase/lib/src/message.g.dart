@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'message_basic.dart';
 import 'message_buffer.dart';
 import 'message_errors.dart';
+import 'general.dart';
 
 enum CouchbaseLinkEncryptionLevel {
   none(0),
@@ -4078,7 +4079,7 @@ class PrependResponse {
 
   factory PrependResponse.read(MessageBuffer buffer) {
     return PrependResponse(
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       token: MutationToken.read(buffer),
     );
   }
@@ -4194,7 +4195,7 @@ class ExistsResponse {
   factory ExistsResponse.read(MessageBuffer buffer) {
     return ExistsResponse(
       deleted: buffer.readBool(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       flags: buffer.readInt64(),
       expiry: buffer.readInt64(),
       sequenceNumber: buffer.readInt64(),
@@ -4306,7 +4307,7 @@ class UnlockResponse {
 
   factory UnlockResponse.read(MessageBuffer buffer) {
     return UnlockResponse(
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
     );
   }
 
@@ -4331,7 +4332,7 @@ class UnlockRequest {
       id: DocumentId.read(buffer),
       partition: buffer.readInt64(),
       opaque: buffer.readInt64(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
     );
@@ -4388,7 +4389,7 @@ class GetAllReplicasResponseEntry {
   factory GetAllReplicasResponseEntry.read(MessageBuffer buffer) {
     return GetAllReplicasResponseEntry(
       value: buffer.readData(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       flags: buffer.readInt64(),
       replica: buffer.readBool(),
     );
@@ -4441,7 +4442,7 @@ class UpsertResponse {
 
   factory UpsertResponse.read(MessageBuffer buffer) {
     return UpsertResponse(
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       token: MutationToken.read(buffer),
     );
   }
@@ -4578,7 +4579,7 @@ class GetAnyReplicaResponse {
   factory GetAnyReplicaResponse.read(MessageBuffer buffer) {
     return GetAnyReplicaResponse(
       value: buffer.readData(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       flags: buffer.readInt64(),
       replica: buffer.readBool(),
     );
@@ -4631,7 +4632,7 @@ class AppendResponse {
 
   factory AppendResponse.read(MessageBuffer buffer) {
     return AppendResponse(
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       token: MutationToken.read(buffer),
     );
   }
@@ -5138,7 +5139,7 @@ class ReplaceResponse {
 
   factory ReplaceResponse.read(MessageBuffer buffer) {
     return ReplaceResponse(
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       token: MutationToken.read(buffer),
     );
   }
@@ -5174,7 +5175,7 @@ class ReplaceRequest {
       opaque: buffer.readInt64(),
       flags: buffer.readInt64(),
       expiry: buffer.readInt64(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       durabilityLevel: DurabilityLevel.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
@@ -5233,7 +5234,7 @@ class ReplaceWithLegacyDurability {
       opaque: buffer.readInt64(),
       flags: buffer.readInt64(),
       expiry: buffer.readInt64(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
       preserveExpiry: buffer.readBool(),
@@ -5282,7 +5283,7 @@ class GetAndTouchResponse {
   factory GetAndTouchResponse.read(MessageBuffer buffer) {
     return GetAndTouchResponse(
       value: buffer.readData(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       flags: buffer.readInt64(),
     );
   }
@@ -5344,7 +5345,7 @@ class RemoveResponse {
 
   factory RemoveResponse.read(MessageBuffer buffer) {
     return RemoveResponse(
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       token: MutationToken.read(buffer),
     );
   }
@@ -5373,7 +5374,7 @@ class RemoveRequest {
       id: DocumentId.read(buffer),
       partition: buffer.readInt64(),
       opaque: buffer.readInt64(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       durabilityLevel: DurabilityLevel.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
@@ -5416,7 +5417,7 @@ class RemoveWithLegacyDurability {
       id: DocumentId.read(buffer),
       partition: buffer.readInt64(),
       opaque: buffer.readInt64(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       timeout:
           buffer.readBool() ? Duration(microseconds: buffer.readInt64()) : null,
       persistTo: PersistTo.read(buffer),
@@ -5456,7 +5457,7 @@ class GetResponse {
   factory GetResponse.read(MessageBuffer buffer) {
     return GetResponse(
       value: buffer.readData(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       flags: buffer.readInt64(),
     );
   }
@@ -5771,7 +5772,7 @@ class GetProjectedResponse {
   factory GetProjectedResponse.read(MessageBuffer buffer) {
     return GetProjectedResponse(
       value: buffer.readData(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       flags: buffer.readInt64(),
       expiry: buffer.readBool() ? buffer.readInt64() : null,
     );
@@ -5861,7 +5862,7 @@ class DecrementResponse {
   factory DecrementResponse.read(MessageBuffer buffer) {
     return DecrementResponse(
       content: buffer.readInt64(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       token: MutationToken.read(buffer),
     );
   }
@@ -6556,7 +6557,7 @@ class TouchResponse {
 
   factory TouchResponse.read(MessageBuffer buffer) {
     return TouchResponse(
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
     );
   }
 
@@ -6614,7 +6615,7 @@ class LookupInResponse {
 
   factory LookupInResponse.read(MessageBuffer buffer) {
     return LookupInResponse(
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       fields: List.generate(
           buffer.readUInt64(), (_) => LookupInResponseEntry.read(buffer)),
       deleted: buffer.readBool(),
@@ -7023,7 +7024,7 @@ class GetAndLockResponse {
   factory GetAndLockResponse.read(MessageBuffer buffer) {
     return GetAndLockResponse(
       value: buffer.readData(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       flags: buffer.readInt64(),
     );
   }
@@ -7085,7 +7086,7 @@ class InsertResponse {
 
   factory InsertResponse.read(MessageBuffer buffer) {
     return InsertResponse(
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       token: MutationToken.read(buffer),
     );
   }
@@ -7213,7 +7214,7 @@ class MutateInResponse {
 
   factory MutateInResponse.read(MessageBuffer buffer) {
     return MutateInResponse(
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       token: MutationToken.read(buffer),
       fields: List.generate(
           buffer.readUInt64(), (_) => MutateInResponseEntry.read(buffer)),
@@ -7296,7 +7297,7 @@ class MutateInRequest {
       id: DocumentId.read(buffer),
       partition: buffer.readInt64(),
       opaque: buffer.readInt64(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       accessDeleted: buffer.readBool(),
       createAsDeleted: buffer.readBool(),
       expiry: buffer.readBool() ? buffer.readInt64() : null,
@@ -7370,7 +7371,7 @@ class MutateInWithLegacyDurability {
       id: DocumentId.read(buffer),
       partition: buffer.readInt64(),
       opaque: buffer.readInt64(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       accessDeleted: buffer.readBool(),
       createAsDeleted: buffer.readBool(),
       expiry: buffer.readBool() ? buffer.readInt64() : null,
@@ -7435,7 +7436,7 @@ class IncrementResponse {
   factory IncrementResponse.read(MessageBuffer buffer) {
     return IncrementResponse(
       content: buffer.readInt64(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       token: MutationToken.read(buffer),
     );
   }
@@ -12489,7 +12490,7 @@ class RangeScanItemBody {
     return RangeScanItemBody(
       flags: buffer.readInt64(),
       expiry: buffer.readInt64(),
-      cas: Cas.read(buffer),
+      cas: CasMessage.read(buffer),
       sequenceNumber: buffer.readInt64(),
       datatype: buffer.readInt64(),
       value: buffer.readData(),

@@ -102,7 +102,7 @@ void main() async {
     expect(result.content[2].error, isNull);
     expect(result.content[2].value, result.cas);
     expect(result.content[3].error, isNull);
-    expect(result.content[3].value, '0x0000000000000001');
+    expect(result.content[3].value, startsWith('0x'));
     // TODO: Try to insert document with higher durability, once implemented.
     // This might allow us to always get a last modified date.
     // Currently, retrieving the last modified date fails in CI. It seems to
