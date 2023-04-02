@@ -13,7 +13,6 @@
     - [ ] connect
     - [ ] diagnostics
     - [ ] ping
-- [ ] Dartdoc Categories
 - [ ] CI for
   - [x] macOS
   - [x] Linux

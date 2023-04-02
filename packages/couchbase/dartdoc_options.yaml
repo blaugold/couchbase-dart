@@ -1,0 +1,19 @@
+dartdoc:
+  categories:
+    'Key-Value':
+      markdown: doc/Key-Value.md
+    'Authentication':
+      markdown: doc/Authentication.md
+    'Core':
+      markdown: doc/Core.md
+    'Diagnostics':
+      markdown: doc/Diagnostics.md
+    'Error Handling':
+      markdown: 'doc/Error Handling.md'
+  categoryOder:
+    - 'Core'
+    - 'Authentication'
+    - 'Error Handling'
+    - 'Diagnostics'
+    - 'Key-Value'
+  showUndocumentedCategories: true

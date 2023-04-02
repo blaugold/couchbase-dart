@@ -63,8 +63,9 @@ class SecurityConfig {
 
 /// DNS options for connecting to a cluster.
 ///
+/// **Volatile**: This API is subject to change at any time.
+///
 /// {@category Core}
-/// {@category Volatile}
 class DnsConfig {
   DnsConfig({
     required this.nameServer,
@@ -146,12 +147,12 @@ class ClusterOptions {
 
   /// DNS config for connecting to the cluster.
   ///
-  /// {@category Volatile}
+  /// **Volatile**: This API is subject to change at any time.
   final DnsConfig? dnsConfig;
 
   /// Config profile to use for the cluster.
   ///
-  /// {@category Volatile}
+  /// **Volatile**: This API is subject to change at any time.
   final String? configProfile;
 }
 
