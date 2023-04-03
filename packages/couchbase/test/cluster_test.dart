@@ -1,3 +1,4 @@
+import 'package:checks/checks.dart';
 import 'package:couchbase/couchbase.dart';
 import 'package:test/test.dart';
 
@@ -29,17 +30,17 @@ void main() async {
     test('default options', () async {
       final cluster = await connectToTestCluster();
       final result = await cluster.diagnostics();
-      expect(result.version, 2);
-      expect(result.sdk, startsWith('cxx'));
-      final services = result.services;
-      expect(services.keys, [ServiceType.keyValue]);
+
+      check(result.version).equals(2);
+      check(result.sdk).startsWith('cxx');
+      check(result.services).keys.deepEquals([ServiceType.keyValue]);
     });
 
     test('with reportId', () async {
       final cluster = await connectToTestCluster();
       final result =
           await cluster.diagnostics(const DiagnosticsOptions(reportId: 'test'));
-      expect(result.id, 'test');
+      check(result.id).equals('test');
     });
   });
 
@@ -47,44 +48,38 @@ void main() async {
     test('default options', () async {
       final cluster = await connectToTestCluster();
       final result = await cluster.ping();
-      expect(result.version, 2);
-      expect(result.sdk, startsWith('cxx'));
-      final services = result.services;
-      expect(
-        services.keys,
-        [
-          ServiceType.keyValue,
-          ServiceType.views,
-          ServiceType.management,
-        ],
-      );
+      check(result.version).equals(2);
+      check(result.sdk).startsWith('cxx');
+      check(result.services).keys.deepEquals([
+        ServiceType.keyValue,
+        ServiceType.views,
+        ServiceType.management,
+      ]);
     });
 
     test('with bucket', () async {
       final cluster = await connectToTestCluster();
       final result =
           await cluster.ping(const PingOptions(bucket: testBucketName));
-      final services = result.services;
-      expect(services.keys, [ServiceType.keyValue]);
-      final bucketEndpoint = services[ServiceType.keyValue]!.single;
-      expect(bucketEndpoint.bucket, testBucketName);
+      check(result.services)
+        ..length.equals(1)
+        ..containsKey(ServiceType.keyValue)
+        ..containsValueThat(
+          it()..single.has((it) => it.bucket, 'bucket').equals(testBucketName),
+        );
     });
 
     test('with reportId', () async {
       final cluster = await connectToTestCluster();
       final result = await cluster.ping(const PingOptions(reportId: 'test'));
-      expect(result.id, 'test');
+      check(result.id).equals('test');
     });
 
     test('with serviceTypes', () async {
       final cluster = await connectToTestCluster();
-      final result = await cluster.ping(
-        const PingOptions(
-          serviceTypes: [ServiceType.keyValue],
-        ),
-      );
-      final services = result.services;
-      expect(services.keys, [ServiceType.keyValue]);
+      final result = await cluster
+          .ping(const PingOptions(serviceTypes: [ServiceType.keyValue]));
+      check(result.services).keys.deepEquals([ServiceType.keyValue]);
     });
   });
 }

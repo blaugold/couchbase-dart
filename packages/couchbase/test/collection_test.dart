@@ -1,9 +1,12 @@
+import 'package:checks/checks.dart';
+import 'package:checks/context.dart';
 import 'package:couchbase/couchbase.dart';
 import 'package:couchbase/src/collection.dart';
 import 'package:couchbase/src/general.dart';
 import 'package:couchbase/src/message.g.dart';
 import 'package:test/test.dart';
 
+import 'utils/subject.dart';
 import 'utils/test_cluster.dart';
 import 'utils/test_document.dart';
 
@@ -16,52 +19,32 @@ void main() {
     defaultCollection = cluster.testBucket.defaultCollection;
   });
 
-  test('exists', () async {
-    final documentId = createTestDocumentId();
-
-    var result = await defaultCollection.exists(documentId);
-    expect(result.cas, isNotNull);
-    expect(result.exists, false);
-
-    final insertResult = await defaultCollection.insert(documentId, null);
-    result = await defaultCollection.exists(documentId);
-    expect(result.cas, insertResult.cas);
-    expect(result.exists, true);
-
-    await defaultCollection.remove(documentId);
-    result = await defaultCollection.exists(documentId);
-    expect(result.cas, isNull);
-    expect(result.exists, false);
-  });
-
   group('get', () {
     test('default options', () async {
       final documentId = createTestDocumentId();
       final insertResult = await defaultCollection.insert(documentId, true);
       final result = await defaultCollection.get(documentId);
-      expect(result.cas, insertResult.cas);
-      expect(result.content, true);
-      expect(result.expiryTime, isNull);
+      check(result)
+        ..cas.equals(insertResult.cas)
+        ..content.equals(true)
+        ..expiryTime.isNull();
     });
 
     group('with project', () {
       test('throws when no projection paths are given', () async {
-        expect(
-          () => defaultCollection.get('', const GetOptions(project: [])),
-          throwsA(isA<ArgumentError>()),
-        );
+        await check(defaultCollection.get('', const GetOptions(project: [])))
+            .throws<ArgumentError>();
       });
 
       test('throws when document does not contain JSON', () async {
         final documentId = createTestDocumentId();
         await defaultCollection.insert(documentId, 'a');
-        expect(
-          () => defaultCollection.get(
+        await check(
+          defaultCollection.get(
             documentId,
             const GetOptions(project: ['b']),
           ),
-          throwsA(isA<ArgumentError>()),
-        );
+        ).throws<ArgumentError>();
       });
 
       test('projection path with key and non-zero index', () async {
@@ -73,11 +56,13 @@ void main() {
           documentId,
           const GetOptions(project: ['a[1]']),
         );
-        expect(result.cas, insertResult.cas);
-        expect(result.content, {
-          'a': [null, false]
-        });
-        expect(result.expiryTime, isNull);
+
+        check(result)
+          ..cas.equals(insertResult.cas)
+          ..content.isJsonMap.deepEquals({
+            'a': [null, false]
+          })
+          ..expiryTime.isNull();
       });
 
       test('projection with path that does not exist in document', () async {
@@ -88,13 +73,13 @@ void main() {
           documentId,
           const GetOptions(project: ['b']),
         );
-        expect(result.content, null);
+        check(result).content.isNull();
 
         result = await defaultCollection.get(
           documentId,
           const GetOptions(project: ['a', 'b']),
         );
-        expect(result.content, {'a': 0});
+        check(result).content.isJsonMap.deepEquals({'a': 0});
       });
 
       test('16 projection paths', () async {
@@ -139,24 +124,25 @@ void main() {
             ],
           ),
         );
-        expect(result.cas, insertResult.cas);
-        expect(result.content, {
-          'a': 0,
-          'b': 1,
-          'c': 2,
-          'd': 3,
-          'e': 4,
-          'f': 5,
-          'g': 6,
-          'h': 7,
-          'i': 8,
-          'j': 9,
-          'k': 10,
-          'l': 11,
-          'm': 12,
-          'n': 13,
-          'o': 14,
-        });
+        check(result)
+          ..cas.equals(insertResult.cas)
+          ..content.isJsonMap.deepEquals({
+            'a': 0,
+            'b': 1,
+            'c': 2,
+            'd': 3,
+            'e': 4,
+            'f': 5,
+            'g': 6,
+            'h': 7,
+            'i': 8,
+            'j': 9,
+            'k': 10,
+            'l': 11,
+            'm': 12,
+            'n': 13,
+            'o': 14,
+          });
       });
     });
 
@@ -173,9 +159,10 @@ void main() {
           documentId,
           const GetOptions(withExpiry: true),
         );
-        expect(result.cas, insertResult.cas);
-        expect(result.content, true);
-        expect(result.expiryTime, isNotNull);
+        check(result)
+          ..cas.equals(insertResult.cas)
+          ..content.equals(true)
+          ..expiryTime.isNotNull();
       });
 
       test('document without expiry', () async {
@@ -189,9 +176,10 @@ void main() {
           documentId,
           const GetOptions(withExpiry: true),
         );
-        expect(result.cas, insertResult.cas);
-        expect(result.content, true);
-        expect(result.expiryTime, isNull);
+        check(result)
+          ..cas.equals(insertResult.cas)
+          ..content.equals(true)
+          ..expiryTime.isNull();
       });
 
       test('document with expiry and UTF8 content', () async {
@@ -206,9 +194,10 @@ void main() {
           documentId,
           const GetOptions(withExpiry: true),
         );
-        expect(result.cas, insertResult.cas);
-        expect(result.content, 'a');
-        expect(result.expiryTime, isNotNull);
+        check(result)
+          ..cas.equals(insertResult.cas)
+          ..content.equals('a')
+          ..expiryTime.isNotNull();
       });
     });
 
@@ -220,12 +209,34 @@ void main() {
       } on KeyValueException catch (e) {
         exception = e;
       }
-      expect(exception, isNotNull);
-      expect(exception!.code, KeyValueErrorCode.documentNotFound);
-      expect(exception.context!.cas, InternalCas.zero);
-      expect(exception.context!.key, documentId);
-      expect(exception.context!.statusCode, KeyValueStatusCode.notFound);
+
+      check(exception).isNotNull();
+      check(exception!.code).equals(KeyValueErrorCode.documentNotFound);
+      check(exception.context!.cas).equals(InternalCas.zero);
+      check(exception.context!.key).equals(documentId);
+      check(exception.context!.statusCode).equals(KeyValueStatusCode.notFound);
     });
+  });
+
+  test('exists', () async {
+    final documentId = createTestDocumentId();
+
+    var result = await defaultCollection.exists(documentId);
+    check(result)
+      ..cas.isNotNull()
+      ..exists.isFalse();
+
+    final insertResult = await defaultCollection.insert(documentId, null);
+    result = await defaultCollection.exists(documentId);
+    check(result)
+      ..cas.equals(insertResult.cas)
+      ..exists.isTrue();
+
+    await defaultCollection.remove(documentId);
+    result = await defaultCollection.exists(documentId);
+    check(result)
+      ..cas.isNull()
+      ..exists.isFalse();
   });
 
   test('sub document lookup: exists', () async {
@@ -235,11 +246,11 @@ void main() {
     await defaultCollection.insert(documentId, documentContent);
     var result = await defaultCollection
         .lookupIn(documentId, [LookupInSpec.exists('hello')]);
-    expect(result.content.single.value, true);
+    check(result).content.single.value.isBool.isTrue();
 
     result = await defaultCollection
         .lookupIn(documentId, [LookupInSpec.exists('foo')]);
-    expect(result.content.single.value, false);
+    check(result).content.single.value.isBool.isFalse();
   });
 
   test('fetch all LookupInMacros for document', () async {
@@ -259,28 +270,58 @@ void main() {
         LookupInSpec.get(LookupInMacro.revId),
       ],
     );
-    expect(result.content.length, 7);
-    expect(result.content[0].error, isNull);
-    expect(
-      (result.content[0].value! as Map<String, Object?>)['datatype'],
-      ['json'],
-    );
-    expect(result.content[1].error, isNull);
-    expect(result.content[1].value, isNull);
-    expect(result.content[2].error, isNull);
-    expect(result.content[2].value, result.cas);
-    expect(result.content[3].error, isNull);
-    expect(result.content[3].value, startsWith('0x'));
-    // TODO: Try to insert document with higher durability, once implemented.
-    // This might allow us to always get a last modified date.
-    // Currently, retrieving the last modified date fails in CI. It seems to
-    // have something to do with how new the cluster/bucket is. Locally, the
-    // last modified date is always returned, after a few mutation operations.
-    // expect(result.content[4].error, isNull);
-    // expect(result.content[4].value, isA<DateTime>());
-    expect(result.content[5].error, isNull);
-    expect(result.content[5].value, 17);
-    expect(result.content[6].error, isNull);
-    expect(result.content[6].value, '1');
+
+    check(result).content.containsInOrder([
+      lookupInResultEntry()
+        ..error.isNull()
+        ..value.isJsonMap['datatype'].isA<List<Object?>>().deepEquals(['json']),
+      lookupInResultEntry()
+        ..error.isNull()
+        ..value.isNull(),
+      lookupInResultEntry()
+        ..error.isNull()
+        ..value.equals(result.cas),
+      lookupInResultEntry()
+        ..error.isNull()
+        ..value.isA<String>().startsWith('0x'),
+      // TODO: Try to insert document with higher durability, once implemented.
+      // This might allow us to always get a last modified date.
+      // Currently, retrieving the last modified date fails in CI. It seems to
+      // have something to do with how new the cluster/bucket is. Locally, the
+      // last modified date is always returned, after a few mutation operations.
+      // aALookupInResultEntry()
+      //   ..error.isNull()
+      //   ..value.isA<DateTime>(),
+      lookupInResultEntry()
+        ..error.isNull()
+        ..value.equals(17),
+      lookupInResultEntry()
+        ..error.isNull()
+        ..value.equals('1'),
+    ]);
   });
+}
+
+extension on Subject<GetResult> {
+  Subject<Cas> get cas => has((it) => it.cas, 'cas');
+  Subject<Object?> get content => has((it) => it.content, 'content');
+  Subject<DateTime?> get expiryTime => has((it) => it.expiryTime, 'expiryTime');
+}
+
+extension on Subject<ExistsResult> {
+  Subject<Cas?> get cas => has((it) => it.cas, 'cas');
+  Subject<bool> get exists => has((it) => it.exists, 'exists');
+}
+
+extension on Subject<LookupInResult> {
+  Subject<List<LookupInResultEntry>> get content =>
+      has((it) => it.content, 'content');
+}
+
+ConditionSubject<LookupInResultEntry> lookupInResultEntry() =>
+    it<LookupInResultEntry>();
+
+extension on Subject<LookupInResultEntry> {
+  Subject<Object?> get value => has((it) => it.value, 'value');
+  Subject<Object?> get error => has((it) => it.error, 'error');
 }
