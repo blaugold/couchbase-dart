@@ -233,34 +233,35 @@ class Collection {
 
     final content = response.fields.map((field) {
       var error = field.ec.code != 0 ? convertMessageError(field.ec) : null;
-      Object? value = field.value;
-
-      if (error == null &&
-          // For an empty path, the value is the entire document.
-          // We return it as raw bytes, allowing later stages to decode it.
-          field.path != '') {
-        value = _decodeSubDocumentValue(field.value);
-
-        if (field.path == LookupInMacro.expiry.path) {
-          // TODO: Check what scale
-          final integerValue = value! as int;
-          if (integerValue != 0) {
-            value = DateTime.fromMillisecondsSinceEpoch(integerValue * 1000);
-          } else {
-            value = null;
-          }
-        } else if (field.path == LookupInMacro.lastModified.path) {
-          final integerValue = int.parse(value! as String);
-          value = DateTime.fromMillisecondsSinceEpoch(integerValue * 1000);
-        } else if (field.path == LookupInMacro.cas.path) {
-          // Comes from the C++ client as a hex string.
-          value = Cas.parse(value! as String);
-        }
-      }
+      Object? value;
 
       if (field.opcode == SubdocOpcode.exists) {
         error = null;
         value = field.exists;
+      } else if (error == null) {
+        if (field.path == '') {
+          // For an empty path, the value is the entire document.
+          // We return it as raw bytes, allowing later stages to decode it.
+          value = field.value;
+        } else {
+          value = _decodeSubDocumentValue(field.value);
+
+          if (field.path == LookupInMacro.expiry.path) {
+            // TODO: Check what scale
+            final integerValue = value! as int;
+            if (integerValue != 0) {
+              value = DateTime.fromMillisecondsSinceEpoch(integerValue * 1000);
+            } else {
+              value = null;
+            }
+          } else if (field.path == LookupInMacro.lastModified.path) {
+            final integerValue = int.parse(value! as String);
+            value = DateTime.fromMillisecondsSinceEpoch(integerValue * 1000);
+          } else if (field.path == LookupInMacro.cas.path) {
+            // Comes from the C++ client as a hex string.
+            value = Cas.parse(value! as String);
+          }
+        }
       }
 
       return LookupInResultEntry(error: error, value: value);
