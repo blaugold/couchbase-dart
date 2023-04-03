@@ -1,4 +1,7 @@
 import 'package:couchbase/couchbase.dart';
+import 'package:couchbase/src/collection.dart';
+import 'package:couchbase/src/general.dart';
+import 'package:couchbase/src/message.g.dart';
 import 'package:test/test.dart';
 
 import 'utils/test_cluster.dart';
@@ -31,16 +34,198 @@ void main() {
     expect(result.exists, false);
   });
 
-  test('insert and get document', () async {
-    final documentId = createTestDocumentId();
-    final documentContent = {'hello': 'world'};
+  group('get', () {
+    test('default options', () async {
+      final documentId = createTestDocumentId();
+      final insertResult = await defaultCollection.insert(documentId, true);
+      final result = await defaultCollection.get(documentId);
+      expect(result.cas, insertResult.cas);
+      expect(result.content, true);
+      expect(result.expiryTime, isNull);
+    });
 
-    await defaultCollection.insert(documentId, documentContent);
-    final getResult = await defaultCollection.get(
-      documentId,
-      const GetOptions(withExpiry: true),
-    );
-    expect(getResult.content, documentContent);
+    group('with project', () {
+      test('throws when no projection paths are given', () async {
+        expect(
+          () => defaultCollection.get('', const GetOptions(project: [])),
+          throwsA(isA<ArgumentError>()),
+        );
+      });
+
+      test('throws when document does not contain JSON', () async {
+        final documentId = createTestDocumentId();
+        await defaultCollection.insert(documentId, 'a');
+        expect(
+          () => defaultCollection.get(
+            documentId,
+            const GetOptions(project: ['b']),
+          ),
+          throwsA(isA<ArgumentError>()),
+        );
+      });
+
+      test('projection path with key and non-zero index', () async {
+        final documentId = createTestDocumentId();
+        final insertResult = await defaultCollection.insert(documentId, {
+          'a': [true, false]
+        });
+        final result = await defaultCollection.get(
+          documentId,
+          const GetOptions(project: ['a[1]']),
+        );
+        expect(result.cas, insertResult.cas);
+        expect(result.content, {
+          'a': [null, false]
+        });
+        expect(result.expiryTime, isNull);
+      });
+
+      test('projection with path that does not exist in document', () async {
+        final documentId = createTestDocumentId();
+        await defaultCollection.insert(documentId, {'a': 0});
+
+        var result = await defaultCollection.get(
+          documentId,
+          const GetOptions(project: ['b']),
+        );
+        expect(result.content, null);
+
+        result = await defaultCollection.get(
+          documentId,
+          const GetOptions(project: ['a', 'b']),
+        );
+        expect(result.content, {'a': 0});
+      });
+
+      test('16 projection paths', () async {
+        final documentId = createTestDocumentId();
+        final insertResult = await defaultCollection.insert(documentId, {
+          'a': 0,
+          'b': 1,
+          'c': 2,
+          'd': 3,
+          'e': 4,
+          'f': 5,
+          'g': 6,
+          'h': 7,
+          'i': 8,
+          'j': 9,
+          'k': 10,
+          'l': 11,
+          'm': 12,
+          'n': 13,
+          'o': 14,
+        });
+        final result = await defaultCollection.get(
+          documentId,
+          const GetOptions(
+            project: [
+              'a',
+              'b',
+              'c',
+              'd',
+              'e',
+              'f',
+              'g',
+              'h',
+              'i',
+              'j',
+              'k',
+              'l',
+              'm',
+              'n',
+              'o',
+              'p',
+            ],
+          ),
+        );
+        expect(result.cas, insertResult.cas);
+        expect(result.content, {
+          'a': 0,
+          'b': 1,
+          'c': 2,
+          'd': 3,
+          'e': 4,
+          'f': 5,
+          'g': 6,
+          'h': 7,
+          'i': 8,
+          'j': 9,
+          'k': 10,
+          'l': 11,
+          'm': 12,
+          'n': 13,
+          'o': 14,
+        });
+      });
+    });
+
+    group('with withExpiry', () {
+      test('document with expiry', () async {
+        final documentId = createTestDocumentId();
+
+        final insertResult = await defaultCollection.insert(
+          documentId,
+          true,
+          InsertOptions(expiry: const Duration(hours: 1)),
+        );
+        final result = await defaultCollection.get(
+          documentId,
+          const GetOptions(withExpiry: true),
+        );
+        expect(result.cas, insertResult.cas);
+        expect(result.content, true);
+        expect(result.expiryTime, isNotNull);
+      });
+
+      test('document without expiry', () async {
+        final documentId = createTestDocumentId();
+
+        final insertResult = await defaultCollection.insert(
+          documentId,
+          true,
+        );
+        final result = await defaultCollection.get(
+          documentId,
+          const GetOptions(withExpiry: true),
+        );
+        expect(result.cas, insertResult.cas);
+        expect(result.content, true);
+        expect(result.expiryTime, isNull);
+      });
+
+      test('document with expiry and UTF8 content', () async {
+        final documentId = createTestDocumentId();
+
+        final insertResult = await defaultCollection.insert(
+          documentId,
+          'a',
+          InsertOptions(expiry: const Duration(hours: 1)),
+        );
+        final result = await defaultCollection.get(
+          documentId,
+          const GetOptions(withExpiry: true),
+        );
+        expect(result.cas, insertResult.cas);
+        expect(result.content, 'a');
+        expect(result.expiryTime, isNotNull);
+      });
+    });
+
+    test('document does not exist', () async {
+      final documentId = createTestDocumentId();
+      KeyValueException? exception;
+      try {
+        await defaultCollection.get(documentId);
+      } on KeyValueException catch (e) {
+        exception = e;
+      }
+      expect(exception, isNotNull);
+      expect(exception!.code, KeyValueErrorCode.documentNotFound);
+      expect(exception.context!.cas, InternalCas.zero);
+      expect(exception.context!.key, documentId);
+      expect(exception.context!.statusCode, KeyValueStatusCode.notFound);
+    });
   });
 
   test('sub document lookup: exists', () async {
@@ -70,12 +255,11 @@ void main() {
         LookupInSpec.get(LookupInMacro.cas),
         LookupInSpec.get(LookupInMacro.seqNo),
         LookupInSpec.get(LookupInMacro.lastModified),
-        LookupInSpec.get(LookupInMacro.isDeleted),
         LookupInSpec.get(LookupInMacro.valueSizeBytes),
         LookupInSpec.get(LookupInMacro.revId),
       ],
     );
-    expect(result.content.length, 8);
+    expect(result.content.length, 7);
     expect(result.content[0].error, isNull);
     expect(
       (result.content[0].value! as Map<String, Object?>)['datatype'],
@@ -95,10 +279,8 @@ void main() {
     // expect(result.content[4].error, isNull);
     // expect(result.content[4].value, isA<DateTime>());
     expect(result.content[5].error, isNull);
-    expect(result.content[5].value, false);
+    expect(result.content[5].value, 17);
     expect(result.content[6].error, isNull);
-    expect(result.content[6].value, 17);
-    expect(result.content[7].error, isNull);
-    expect(result.content[7].value, '1');
+    expect(result.content[6].value, '1');
   });
 }

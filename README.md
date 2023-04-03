@@ -7,6 +7,7 @@
   - [ ] Equality
   - [ ] CopyWith
 - [ ] Exceptions classes
+  - [ ] Throw DocumentNotJsonException from `Collection._projectedGet`
 - [ ] Use Dart 3
 - [ ] Use `checks` package for test assertions
 - [ ] CI for
@@ -51,7 +52,7 @@
   - [ ] analyticsQuery
 - [ ] Collection
   - [x] name
-  - [ ] get
+  - [x] get
   - [x] exists
   - [ ] getAnyReplica
   - [ ] getAllReplicas

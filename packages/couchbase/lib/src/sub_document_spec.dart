@@ -2,11 +2,15 @@ import 'dart:typed_data';
 
 import 'message.g.dart';
 
+abstract class _LookupInMacro {
+  String get path;
+}
+
 /// A macro that can be passed to a Lookup-In operation (see [LookupInSpec]) to
 /// fetch special values such as the expiry, cas, etc.
 ///
 /// {@category Key-Value}
-enum LookupInMacro {
+enum LookupInMacro implements _LookupInMacro {
   /// References the entirety of the document meta-data.
   document(r'$document'),
 
@@ -22,12 +26,6 @@ enum LookupInMacro {
   /// References the last modified time of a document.
   lastModified(r'$document.last_modified'),
 
-  /// References the deletion state of a document.
-  ///
-  /// This only makes sense to use in concert with the internal AccessDeleted
-  /// flags, which are internal.
-  isDeleted(r'$document.deleted'),
-
   /// References the size of a document, expressed in bytes.
   valueSizeBytes(r'$document.value_bytes'),
 
@@ -37,6 +35,18 @@ enum LookupInMacro {
 
   const LookupInMacro(this.path);
 
+  @override
+  final String path;
+}
+
+enum InternalLookupInMacro implements _LookupInMacro {
+  deleted(r'$document.deleted'),
+  flags(r'$document.flags'),
+  ;
+
+  const InternalLookupInMacro(this.path);
+
+  @override
   final String path;
 }
 
@@ -90,7 +100,7 @@ class LookupInSpec {
     final String pathString;
     var flags = 0;
 
-    if (path is LookupInMacro) {
+    if (path is _LookupInMacro) {
       pathString = path.path;
 
       flags |= _pathFlagXattr;

@@ -56,6 +56,12 @@ class ExistsOptions {
   final Duration? timeout;
 }
 
+class InsertOptions {
+  InsertOptions({this.expiry});
+
+  final Duration? expiry;
+}
+
 /// Options for [Collection.lookupIn].
 ///
 /// {@category Key-Value}
@@ -148,14 +154,20 @@ class Collection {
     );
   }
 
-  Future<MutationResult> insert(String key, Object? value) async {
+  Future<MutationResult> insert(
+    String key,
+    Object? value, [
+    InsertOptions? options,
+  ]) async {
     final encodedData = _transcoder.encode(value);
+    final expiry = options?.expiry ?? Duration.zero;
+
     final response = await _connection.insert(
       InsertRequest(
         id: _documentId(key),
         value: encodedData.bytes,
         flags: encodedData.flags,
-        expiry: 0,
+        expiry: expiry.inSeconds,
         timeout: null,
         partition: 0,
         opaque: 0,
@@ -196,6 +208,14 @@ class Collection {
     List<LookupInSpec> specs, [
     LookupInOptions? options,
   ]) async {
+    if (specs.isEmpty) {
+      throw ArgumentError.value(
+        specs,
+        'specs',
+        'must not be empty',
+      );
+    }
+
     final timeout = options?.timeout ?? _timeouts.kvTimeout;
     final messageSpecs =
         List.generate(specs.length, (index) => specs[index].toMessage(index));
@@ -213,9 +233,12 @@ class Collection {
 
     final content = response.fields.map((field) {
       var error = field.ec.code != 0 ? convertMessageError(field.ec) : null;
-      Object? value;
+      Object? value = field.value;
 
-      if (error == null) {
+      if (error == null &&
+          // For an empty path, the value is the entire document.
+          // We return it as raw bytes, allowing later stages to decode it.
+          field.path != '') {
         value = _decodeSubDocumentValue(field.value);
 
         if (field.path == LookupInMacro.expiry.path) {
@@ -258,15 +281,8 @@ class Collection {
     );
   }
 
-  Object? _decodeSubDocumentValue(Uint8List bytes) {
-    try {
-      return _utf8JsonDecoder.convert(bytes);
-    } on FormatException {
-      // If we encounter a parse error, assume that we need
-      // to return bytes instead of an object.
-      return bytes;
-    }
-  }
+  Object? _decodeSubDocumentValue(Uint8List bytes) =>
+      _utf8JsonDecoder.convert(bytes);
 
   Future<GetResult> _projectedGet(String key, GetOptions options) async {
     var expiryIndex = -1;
@@ -274,6 +290,8 @@ class Collection {
     var paths = <String>[];
     var specs = <LookupInSpec>[];
     var localProjection = false;
+
+    specs.add(LookupInSpec.get(InternalLookupInMacro.flags));
 
     if (options.withExpiry ?? false) {
       expiryIndex = specs.length;
@@ -285,15 +303,20 @@ class Collection {
       paths = [''];
       specs.add(LookupInSpec.get(''));
     } else {
+      if (options.project!.isEmpty) {
+        throw ArgumentError.value(
+          options.project,
+          'options.project',
+          'must not be empty',
+        );
+      }
+
       for (final projection in options.project!) {
         paths.add(projection);
         specs.add(LookupInSpec.get(projection));
       }
     }
 
-    // The following code relies on the projections being
-    // the last elements of the specs array. This way we handle
-    // an overburdened operation in a single area.
     if (specs.length > 16) {
       specs = specs.sublist(0, projectionsStartIndex);
       specs.add(LookupInSpec.get(''));
@@ -303,6 +326,16 @@ class Collection {
     final response =
         await lookupIn(key, specs, LookupInOptions(timeout: options.timeout));
 
+    final flags = response.content[0].value! as int;
+    if (options.project != null && !isJsonFormat(flags)) {
+      // TODO: throw DocumentNotJsonException
+      throw ArgumentError.value(
+        options.project,
+        'options.project',
+        'must only be used with JSON documents',
+      );
+    }
+
     Object? content;
     DateTime? expiryTime;
 
@@ -311,28 +344,32 @@ class Collection {
       expiryTime = expiryRes.value as DateTime?;
     }
 
-    if (projectionsStartIndex >= 0) {
-      if (localProjection) {
-        final fullDocument = response.content[projectionsStartIndex];
-        for (final projectionPath in paths) {
-          final value = SubDocumentUtils.getByPath(
-            fullDocument.value,
-            projectionPath,
-          );
+    if (options.project == null) {
+      final transcoder = options.transcoder ?? _transcoder;
+      final bytes = response.content[projectionsStartIndex].value! as Uint8List;
+      content =
+          transcoder.decode(EncodedDocumentData(flags: flags, bytes: bytes));
+    } else if (localProjection) {
+      final bytes = response.content[projectionsStartIndex].value! as Uint8List;
+      final fullDocument = const DefaultTranscoder()
+          .decode(EncodedDocumentData(flags: flags, bytes: bytes));
+      for (final projectionPath in paths) {
+        final value = SubDocumentUtils.getByPath(fullDocument, projectionPath);
+        if (value != SubDocumentUtils.notFoundSentinel) {
           content =
               SubDocumentUtils.insertByPath(content, projectionPath, value);
         }
-      } else {
-        for (var i = 0; i < paths.length; ++i) {
-          final projectionPath = paths[i];
-          final projectionResult = response.content[projectionsStartIndex + i];
-          if (projectionResult.error == null) {
-            content = SubDocumentUtils.insertByPath(
-              content,
-              projectionPath,
-              projectionResult.value,
-            );
-          }
+      }
+    } else {
+      for (var i = 0; i < paths.length; ++i) {
+        final projectionPath = paths[i];
+        final projectionResult = response.content[projectionsStartIndex + i];
+        if (projectionResult.error == null) {
+          content = SubDocumentUtils.insertByPath(
+            content,
+            projectionPath,
+            projectionResult.value,
+          );
         }
       }
     }

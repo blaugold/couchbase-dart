@@ -56,6 +56,26 @@ class DefaultTranscoder implements Transcoder {
   static const _commonFormatUtf8 = 0x04 << 24;
   static const _commonFormatMask = 0xff << 24;
 
+  static int _resolveDartFormatFlags(int flags) {
+    var dartFormat = flags & _dartFormatMask;
+    final commonFormat = flags & _commonFormatMask;
+
+    if (commonFormat != _commonFormatNone) {
+      if (commonFormat == _commonFormatJson) {
+        dartFormat = _dartFormatJson;
+      } else if (commonFormat == _commonFormatRaw) {
+        dartFormat = _dartFormatRaw;
+      } else if (commonFormat == _commonFormatUtf8) {
+        dartFormat = _dartFormatUtf8;
+      } else if (commonFormat != _commonFormatPrivate) {
+        // Unknown CF Format! The following will force
+        // fallback to returning raw bytes.
+        dartFormat = _dartFormatUnknown;
+      }
+    }
+    return dartFormat;
+  }
+
   static final _jsonUtf8Encoder = JsonUtf8Encoder();
   static final _jsonUtf8Decoder = json.fuse(utf8);
 
@@ -83,38 +103,26 @@ class DefaultTranscoder implements Transcoder {
 
   @override
   Object? decode(EncodedDocumentData data) {
-    var dartFormat = data.flags & _dartFormatMask;
-    final commonFormat = data.flags & _commonFormatMask;
-
-    if (commonFormat != _commonFormatNone) {
-      if (commonFormat == _commonFormatJson) {
-        dartFormat = _dartFormatJson;
-      } else if (commonFormat == _commonFormatRaw) {
-        dartFormat = _dartFormatRaw;
-      } else if (commonFormat == _commonFormatUtf8) {
-        dartFormat = _dartFormatUtf8;
-      } else if (commonFormat != _commonFormatPrivate) {
-        // Unknown CF Format! The following will force
-        // fallback to returning raw bytes.
-        dartFormat = _dartFormatUnknown;
-      }
-    }
-
-    if (dartFormat == _dartFormatUtf8) {
-      return utf8.decode(data.bytes);
-    } else if (dartFormat == _dartFormatRaw) {
-      return data.bytes;
-    } else if (dartFormat == _dartFormatJson) {
-      try {
-        return _jsonUtf8Decoder.decode(data.bytes);
-      } on FormatException {
-        // If we encounter a parse error, assume that we need
-        // to return bytes instead of an object.
+    switch (_resolveDartFormatFlags(data.flags)) {
+      case _dartFormatUtf8:
+        return utf8.decode(data.bytes);
+      case _dartFormatRaw:
         return data.bytes;
-      }
+      case _dartFormatJson:
+        try {
+          return _jsonUtf8Decoder.decode(data.bytes);
+        } on FormatException {
+          // If we encounter a parse error, assume that we need
+          // to return bytes instead of an object.
+          return data.bytes;
+        }
+      default:
+        // Default to returning the raw bytes if all else fails.
+        return data.bytes;
     }
-
-    // Default to returning the raw bytes if all else fails.
-    return data.bytes;
   }
 }
+
+bool isJsonFormat(int flags) =>
+    DefaultTranscoder._resolveDartFormatFlags(flags) ==
+    DefaultTranscoder._dartFormatJson;

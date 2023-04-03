@@ -16,6 +16,8 @@ class SubDocumentIndex extends SubDocumentPathSegment {
 
 // ignore: avoid_classes_with_only_static_members
 abstract class SubDocumentUtils {
+  static const notFoundSentinel = Object();
+
   static Object? getByPath(Object? root, String path) =>
       _getByPath(root, _parsePath(path));
 
@@ -93,6 +95,10 @@ abstract class SubDocumentUtils {
         );
       }
 
+      if (root.length <= firstSegment.index) {
+        root.length = firstSegment.index + 1;
+      }
+
       root[firstSegment.index] = _insertByPath(
         root[firstSegment.index],
         path,
@@ -125,6 +131,10 @@ abstract class SubDocumentUtils {
         );
       }
 
+      if (!root.containsKey(firstSegment.path)) {
+        return notFoundSentinel;
+      }
+
       return _getByPath(root[firstSegment.path], path);
     } else if (firstSegment is SubDocumentIndex) {
       if (root == null) {
@@ -136,6 +146,10 @@ abstract class SubDocumentUtils {
           'root',
           'expected array but found object',
         );
+      }
+
+      if (root.length <= firstSegment.index) {
+        return notFoundSentinel;
       }
 
       return _getByPath(root[firstSegment.index], path);
