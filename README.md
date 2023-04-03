@@ -9,7 +9,6 @@
 - [ ] Exceptions classes
   - [ ] Throw DocumentNotJsonException from `Collection._projectedGet`
 - [ ] Use Dart 3
-- [ ] Use `checks` package for test assertions
 - [ ] CI for
   - [x] macOS
   - [x] Linux
