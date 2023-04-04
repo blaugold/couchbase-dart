@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs
 
-import 'general.dart';
 import 'message.g.dart';
 import 'message_basic.dart';
 import 'message_buffer.dart';

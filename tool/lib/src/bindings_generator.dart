@@ -41,7 +41,6 @@ class BindingsGenerator {
       _writeln("import 'message_basic.dart';");
       _writeln("import 'message_buffer.dart';");
       _writeln("import 'message_errors.dart';");
-      _writeln("import 'general.dart';");
       _writeln();
       _writeDartEnums();
       _writeDartStructs();
@@ -630,6 +629,9 @@ class BindingsGenerator {
         return;
       case 'couchbase::cas':
         _write('CasMessage.read(buffer)');
+        return;
+      case 'couchbase::mutation_token':
+        _write('MutationTokenMessage.read(buffer)');
         return;
     }
 

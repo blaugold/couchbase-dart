@@ -1,6 +1,6 @@
 import 'collection.dart';
 import 'general.dart';
-import 'message_basic.dart';
+import 'mutation_state.dart';
 
 /// Contains the results of a Get operation.
 ///
@@ -40,6 +40,22 @@ class ExistsResult {
   final Cas? cas;
 }
 
+/// Contains the results of a Mutation operation.
+///
+/// {@category Key-Value}
+class MutationResult {
+  const MutationResult({
+    required this.cas,
+    required this.token,
+  });
+
+  /// The updated [Cas] for the document.
+  final Cas cas;
+
+  /// The token representing the mutation performed.
+  final MutationToken? token;
+}
+
 /// The results of a specific sub-operation within a Lookup-In operation.
 ///
 /// {@category Key-Value}
@@ -71,14 +87,4 @@ class LookupInResult {
 
   /// The cas of the document.
   final Cas cas;
-}
-
-class MutationResult {
-  const MutationResult({
-    required this.cas,
-    required this.token,
-  });
-
-  final Cas cas;
-  final MutationToken? token;
 }
