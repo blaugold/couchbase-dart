@@ -54,7 +54,7 @@
   - [x] exists
   - [ ] getAnyReplica
   - [ ] getAllReplicas
-  - [ ] insert
+  - [x] insert
   - [ ] upsert
   - [ ] replace
   - [ ] remove

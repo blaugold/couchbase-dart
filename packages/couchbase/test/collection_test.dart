@@ -1,7 +1,6 @@
 import 'package:checks/checks.dart';
 import 'package:checks/context.dart';
 import 'package:couchbase/couchbase.dart';
-import 'package:couchbase/src/collection.dart';
 import 'package:couchbase/src/general.dart';
 import 'package:test/test.dart';
 
@@ -152,7 +151,7 @@ void main() {
         final insertResult = await defaultCollection.insert(
           documentId,
           true,
-          InsertOptions(expiry: const Duration(hours: 1)),
+          const InsertOptions(expiry: Duration(hours: 1)),
         );
         final result = await defaultCollection.get(
           documentId,
@@ -187,7 +186,7 @@ void main() {
         final insertResult = await defaultCollection.insert(
           documentId,
           'a',
-          InsertOptions(expiry: const Duration(hours: 1)),
+          const InsertOptions(expiry: Duration(hours: 1)),
         );
         final result = await defaultCollection.get(
           documentId,
@@ -235,6 +234,89 @@ void main() {
     check(result)
       ..cas.isNull()
       ..exists.isFalse();
+  });
+
+  group('insert', () {
+    test('with defaults', () async {
+      final documentId = createTestDocumentId();
+      final result = await defaultCollection.insert(documentId, true);
+      check(result).cas.not(it()..equals(InternalCas.zero));
+
+      final getResult = await defaultCollection.get(documentId);
+      check(getResult)
+        ..cas.equals(result.cas)
+        ..content.equals(true);
+    });
+
+    test('with expiry', () async {
+      final documentId = createTestDocumentId();
+      final result = await defaultCollection.insert(
+        documentId,
+        true,
+        const InsertOptions(expiry: Duration(hours: 1)),
+      );
+      check(result).cas.not(it()..equals(InternalCas.zero));
+
+      final getResult = await defaultCollection.get(
+        documentId,
+        const GetOptions(withExpiry: true),
+      );
+      check(getResult)
+        ..cas.equals(result.cas)
+        ..content.equals(true)
+        ..expiryTime.isNotNull();
+    });
+
+    test('with durabilityLevel', () async {
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.insert(
+          createTestDocumentId(),
+          null,
+          const InsertOptions(durabilityLevel: DurabilityLevel.majority),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with durabilityPersistTo', () async {
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.insert(
+          createTestDocumentId(),
+          null,
+          const InsertOptions(durabilityPersistTo: PersistTo.two),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with durabilityReplicateTo', () async {
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.insert(
+          createTestDocumentId(),
+          null,
+          const InsertOptions(durabilityReplicateTo: ReplicateTo.two),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with transcoder', () async {
+      const transcoder = TestTranscoder();
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(
+        documentId,
+        TestTranscoder.value,
+        const InsertOptions(transcoder: transcoder),
+      );
+      final getResult = await defaultCollection.get(
+        documentId,
+        const GetOptions(transcoder: transcoder),
+      );
+      check(getResult).content.equals(TestTranscoder.value);
+    });
   });
 
   test('sub document lookup: exists', () async {
@@ -309,6 +391,10 @@ extension on Subject<GetResult> {
 extension on Subject<ExistsResult> {
   Subject<Cas?> get cas => has((it) => it.cas, 'cas');
   Subject<bool> get exists => has((it) => it.exists, 'exists');
+}
+
+extension on Subject<MutationResult> {
+  Subject<Cas> get cas => has((it) => it.cas, 'cas');
 }
 
 extension on Subject<LookupInResult> {

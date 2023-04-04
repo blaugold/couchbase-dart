@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'message_basic.dart';
 import 'message_buffer.dart';
 import 'message_errors.dart';
-import 'general.dart';
 
 enum CouchbaseLinkEncryptionLevel {
   none(0),
@@ -4080,7 +4079,7 @@ class PrependResponse {
   factory PrependResponse.read(MessageBuffer buffer) {
     return PrependResponse(
       cas: CasMessage.read(buffer),
-      token: MutationToken.read(buffer),
+      token: MutationTokenMessage.read(buffer),
     );
   }
 
@@ -4443,7 +4442,7 @@ class UpsertResponse {
   factory UpsertResponse.read(MessageBuffer buffer) {
     return UpsertResponse(
       cas: CasMessage.read(buffer),
-      token: MutationToken.read(buffer),
+      token: MutationTokenMessage.read(buffer),
     );
   }
 
@@ -4633,7 +4632,7 @@ class AppendResponse {
   factory AppendResponse.read(MessageBuffer buffer) {
     return AppendResponse(
       cas: CasMessage.read(buffer),
-      token: MutationToken.read(buffer),
+      token: MutationTokenMessage.read(buffer),
     );
   }
 
@@ -4968,8 +4967,8 @@ class QueryRequest {
       pipelineCap: buffer.readBool() ? buffer.readInt64() : null,
       scanConsistency:
           buffer.readBool() ? QueryScanConsistency.read(buffer) : null,
-      mutationState:
-          List.generate(buffer.readUInt64(), (_) => MutationToken.read(buffer)),
+      mutationState: List.generate(
+          buffer.readUInt64(), (_) => MutationTokenMessage.read(buffer)),
       queryContext: buffer.readBool() ? buffer.readString() : null,
       clientContextId: buffer.readBool() ? buffer.readString() : null,
       timeout:
@@ -5140,7 +5139,7 @@ class ReplaceResponse {
   factory ReplaceResponse.read(MessageBuffer buffer) {
     return ReplaceResponse(
       cas: CasMessage.read(buffer),
-      token: MutationToken.read(buffer),
+      token: MutationTokenMessage.read(buffer),
     );
   }
 
@@ -5346,7 +5345,7 @@ class RemoveResponse {
   factory RemoveResponse.read(MessageBuffer buffer) {
     return RemoveResponse(
       cas: CasMessage.read(buffer),
-      token: MutationToken.read(buffer),
+      token: MutationTokenMessage.read(buffer),
     );
   }
 
@@ -5863,7 +5862,7 @@ class DecrementResponse {
     return DecrementResponse(
       content: buffer.readInt64(),
       cas: CasMessage.read(buffer),
-      token: MutationToken.read(buffer),
+      token: MutationTokenMessage.read(buffer),
     );
   }
 
@@ -6440,8 +6439,8 @@ class SearchRequest {
           List.generate(buffer.readUInt64(), (_) => buffer.readString()),
       scanConsistency:
           buffer.readBool() ? SearchScanConsistency.read(buffer) : null,
-      mutationState:
-          List.generate(buffer.readUInt64(), (_) => MutationToken.read(buffer)),
+      mutationState: List.generate(
+          buffer.readUInt64(), (_) => MutationTokenMessage.read(buffer)),
       sortSpecs: List.generate(buffer.readUInt64(), (_) => buffer.readString()),
       facets: (() {
         final map = <String, String>{};
@@ -7087,7 +7086,7 @@ class InsertResponse {
   factory InsertResponse.read(MessageBuffer buffer) {
     return InsertResponse(
       cas: CasMessage.read(buffer),
-      token: MutationToken.read(buffer),
+      token: MutationTokenMessage.read(buffer),
     );
   }
 
@@ -7215,7 +7214,7 @@ class MutateInResponse {
   factory MutateInResponse.read(MessageBuffer buffer) {
     return MutateInResponse(
       cas: CasMessage.read(buffer),
-      token: MutationToken.read(buffer),
+      token: MutationTokenMessage.read(buffer),
       fields: List.generate(
           buffer.readUInt64(), (_) => MutateInResponseEntry.read(buffer)),
       deleted: buffer.readBool(),
@@ -7437,7 +7436,7 @@ class IncrementResponse {
     return IncrementResponse(
       content: buffer.readInt64(),
       cas: CasMessage.read(buffer),
-      token: MutationToken.read(buffer),
+      token: MutationTokenMessage.read(buffer),
     );
   }
 
@@ -12556,8 +12555,8 @@ class MutationState {
 
   factory MutationState.read(MessageBuffer buffer) {
     return MutationState(
-      tokens:
-          List.generate(buffer.readUInt64(), (_) => MutationToken.read(buffer)),
+      tokens: List.generate(
+          buffer.readUInt64(), (_) => MutationTokenMessage.read(buffer)),
     );
   }
 

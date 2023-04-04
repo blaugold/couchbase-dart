@@ -2,6 +2,10 @@
 
 import 'general.dart';
 import 'message_buffer.dart';
+import 'mutation_state.dart';
+
+export 'general.dart' show Cas;
+export 'mutation_state.dart' show MutationToken;
 
 class ClusterCredentials {
   ClusterCredentials({
@@ -106,19 +110,9 @@ extension CasMessage on Cas {
   void write(MessageBuffer buffer) => buffer.writeUInt64(value);
 }
 
-class MutationToken {
-  const MutationToken._({
-    required int partitionUuid,
-    required int sequenceNumber,
-    required int partitionId,
-    required String bucketName,
-  })  : _bucketName = bucketName,
-        _partitionId = partitionId,
-        _sequenceNumber = sequenceNumber,
-        _partitionUuid = partitionUuid;
-
-  factory MutationToken.read(MessageBuffer buffer) {
-    return MutationToken._(
+extension MutationTokenMessage on MutationToken {
+  static MutationToken read(MessageBuffer buffer) {
+    return InternalMutationToken.create(
       partitionUuid: buffer.readInt64(),
       sequenceNumber: buffer.readInt64(),
       partitionId: buffer.readInt64(),
@@ -126,16 +120,11 @@ class MutationToken {
     );
   }
 
-  final int _partitionUuid;
-  final int _sequenceNumber;
-  final int _partitionId;
-  final String _bucketName;
-
   void write(MessageBuffer buffer) {
-    buffer.writeInt64(_partitionUuid);
-    buffer.writeInt64(_sequenceNumber);
-    buffer.writeInt64(_partitionId);
-    buffer.writeString(_bucketName);
+    buffer.writeInt64(partitionUuid);
+    buffer.writeInt64(sequenceNumber);
+    buffer.writeInt64(partitionId);
+    buffer.writeString(bucketName);
   }
 }
 
