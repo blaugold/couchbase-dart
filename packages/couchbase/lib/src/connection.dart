@@ -152,7 +152,6 @@ class Connection implements Finalizable {
       requestWriter,
       (response) {
         if (response.readBool()) {
-          // ignore: only_throw_errors
           throw exception.convertMessageError(errorDecoder(response));
         }
         return responseDecoder(response);
@@ -209,7 +208,6 @@ extension on MessageBuffer {
       return;
     }
 
-    // ignore: only_throw_errors
     throw exception.convertMessageError(ErrorCode.read(this));
   }
 

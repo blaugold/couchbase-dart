@@ -247,7 +247,6 @@ class Collection {
           value = _decodeSubDocumentValue(field.value);
 
           if (field.path == LookupInMacro.expiry.path) {
-            // TODO: Check what scale
             final integerValue = value! as int;
             if (integerValue != 0) {
               value = DateTime.fromMillisecondsSinceEpoch(integerValue * 1000);
@@ -329,12 +328,7 @@ class Collection {
 
     final flags = response.content[0].value! as int;
     if (options.project != null && !isJsonFormat(flags)) {
-      // TODO: throw DocumentNotJsonException
-      throw ArgumentError.value(
-        options.project,
-        'options.project',
-        'must only be used with JSON documents',
-      );
+      throw DocumentNotJson();
     }
 
     Object? content;
