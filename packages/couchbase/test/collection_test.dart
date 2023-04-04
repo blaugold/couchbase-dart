@@ -3,7 +3,6 @@ import 'package:checks/context.dart';
 import 'package:couchbase/couchbase.dart';
 import 'package:couchbase/src/collection.dart';
 import 'package:couchbase/src/general.dart';
-import 'package:couchbase/src/message.g.dart';
 import 'package:test/test.dart';
 
 import 'utils/subject.dart';
@@ -44,7 +43,7 @@ void main() {
             documentId,
             const GetOptions(project: ['b']),
           ),
-        ).throws<ArgumentError>();
+        ).throws<DocumentNotJson>();
       });
 
       test('projection path with key and non-zero index', () async {
@@ -203,18 +202,17 @@ void main() {
 
     test('document does not exist', () async {
       final documentId = createTestDocumentId();
-      KeyValueException? exception;
+      DocumentNotFound? exception;
       try {
         await defaultCollection.get(documentId);
-      } on KeyValueException catch (e) {
-        exception = e;
+      } on DocumentNotFound catch (error) {
+        exception = error;
       }
 
-      check(exception).isNotNull();
-      check(exception!.code).equals(KeyValueErrorCode.documentNotFound);
-      check(exception.context!.cas).equals(InternalCas.zero);
-      check(exception.context!.key).equals(documentId);
-      check(exception.context!.statusCode).equals(KeyValueStatusCode.notFound);
+      check(exception?.context).isKeyValueErrorContext
+        ..cas.equals(InternalCas.zero)
+        ..key.equals(documentId)
+        ..statusCode.equals(KeyValueStatusCode.notFound);
     });
   });
 
@@ -324,4 +322,16 @@ ConditionSubject<LookupInResultEntry> lookupInResultEntry() =>
 extension on Subject<LookupInResultEntry> {
   Subject<Object?> get value => has((it) => it.value, 'value');
   Subject<Object?> get error => has((it) => it.error, 'error');
+}
+
+extension on Subject<Object?> {
+  Subject<KeyValueErrorContext> get isKeyValueErrorContext =>
+      this.isA<KeyValueErrorContext>();
+}
+
+extension on Subject<KeyValueErrorContext> {
+  Subject<Cas> get cas => has((it) => it.cas, 'cas');
+  Subject<String> get key => has((it) => it.key, 'key');
+  Subject<KeyValueStatusCode?> get statusCode =>
+      has((it) => it.statusCode, 'statusCode');
 }

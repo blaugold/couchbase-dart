@@ -6,13 +6,12 @@
   - [ ] ToString
   - [ ] Equality
   - [ ] CopyWith
-- [ ] Exceptions classes
-  - [ ] Throw DocumentNotJsonException from `Collection._projectedGet`
 - [ ] Use Dart 3
 - [ ] CI for
   - [x] macOS
   - [x] Linux
   - [ ] Windows
+- [ ] Catalog and fix TODOs
 
 ### API
 
