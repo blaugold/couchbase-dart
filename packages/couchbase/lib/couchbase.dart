@@ -10,6 +10,8 @@ export 'src/collection.dart'
         GetOptions,
         InsertOptions,
         LookupInOptions,
+        RemoveOptions,
+        ReplaceOptions,
         UpsertOptions;
 export 'src/crud_operation_type.dart'
     show
