@@ -107,6 +107,44 @@ class UpsertOptions extends CommonDurabilityOptions
   final Transcoder? transcoder;
 }
 
+/// Options for [Collection.replace].
+///
+/// {@category Key-Value}
+class ReplaceOptions extends CommonDurabilityOptions
+    implements TranscoderOptions {
+  const ReplaceOptions({
+    this.expiry,
+    this.preserveExpiry = false,
+    this.cas,
+    this.transcoder,
+    super.durabilityLevel,
+    super.timeout,
+  });
+
+  const ReplaceOptions.legacyDurability({
+    this.expiry,
+    this.preserveExpiry = false,
+    this.cas,
+    this.transcoder,
+    super.persistTo,
+    super.replicateTo,
+    super.timeout,
+  }) : super.legacyDurability();
+
+  /// The expiry time for this document.
+  final Duration? expiry;
+
+  /// Whether any existing expiry on the document should be preserved.
+  final bool preserveExpiry;
+
+  /// If specified, indicates that operation should be failed if the [Cas]
+  /// has changed from this value, indicating that the document has changed.
+  final Cas? cas;
+
+  @override
+  final Transcoder? transcoder;
+}
+
 /// Options for [Collection.lookupIn].
 ///
 /// {@category Key-Value}
@@ -270,6 +308,58 @@ class Collection {
               flags: encodedData.flags,
               expiry: expiry.inSeconds,
               preserveExpiry: options.preserveExpiry,
+              timeout: timeout,
+              durabilityLevel: options.durabilityLevel,
+              partition: 0,
+              opaque: 0,
+            ),
+          );
+
+    return MutationResult(
+      cas: response.cas,
+      token: response.token,
+    );
+  }
+
+  /// Replaces the value of an existing document.
+  ///
+  /// Failing if the document does not exist.
+  Future<MutationResult> replace(
+    String key,
+    Object? value, [
+    ReplaceOptions? options,
+  ]) async {
+    options ??= const ReplaceOptions();
+    final id = _documentId(key);
+    final expiry = options.expiry ?? Duration.zero;
+    final cas = options.cas ?? InternalCas.zero;
+    final timeout = _mutationTimeout(options);
+    final encodedData = _encodeDocument(options, value);
+
+    final response = options.usesLegacyDurability
+        ? await _connection.replaceWithLegacyDurability(
+            ReplaceWithLegacyDurability(
+              id: id,
+              value: encodedData.bytes,
+              flags: encodedData.flags,
+              expiry: expiry.inSeconds,
+              preserveExpiry: options.preserveExpiry,
+              cas: cas,
+              timeout: timeout,
+              persistTo: options.durabilityPersistTo,
+              replicateTo: options.durabilityReplicateTo,
+              partition: 0,
+              opaque: 0,
+            ),
+          )
+        : await _connection.replace(
+            ReplaceRequest(
+              id: id,
+              value: encodedData.bytes,
+              flags: encodedData.flags,
+              expiry: expiry.inSeconds,
+              preserveExpiry: options.preserveExpiry,
+              cas: cas,
               timeout: timeout,
               durabilityLevel: options.durabilityLevel,
               partition: 0,

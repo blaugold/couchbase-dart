@@ -426,6 +426,150 @@ void main() {
     });
   });
 
+  group('replace', () {
+    test('with defaults', () async {
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      final result = await defaultCollection.replace(documentId, true);
+      check(result).cas.not(it()..equals(InternalCas.zero));
+
+      final getResult = await defaultCollection.get(documentId);
+      check(getResult)
+        ..cas.equals(result.cas)
+        ..content.equals(true);
+    });
+
+    test('with expiry', () async {
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      final result = await defaultCollection.replace(
+        documentId,
+        true,
+        const ReplaceOptions(expiry: Duration(hours: 1)),
+      );
+      check(result).cas.not(it()..equals(InternalCas.zero));
+
+      final getResult = await defaultCollection.get(
+        documentId,
+        const GetOptions(withExpiry: true),
+      );
+      check(getResult)
+        ..cas.equals(result.cas)
+        ..content.equals(true)
+        ..expiryTime.isNotNull();
+    });
+
+    test('with preserveExpiry', () async {
+      final documentId = createTestDocumentId();
+      final insertResult = await defaultCollection.insert(
+        documentId,
+        true,
+        const InsertOptions(expiry: Duration(hours: 1)),
+      );
+      final result = await defaultCollection.replace(
+        documentId,
+        false,
+        const ReplaceOptions(preserveExpiry: true),
+      );
+      check(result).cas.not(it()..equals(insertResult.cas));
+
+      final getResult = await defaultCollection.get(
+        documentId,
+        const GetOptions(withExpiry: true),
+      );
+      check(getResult)
+        ..cas.equals(result.cas)
+        ..content.equals(false)
+        ..expiryTime.isNotNull();
+    });
+
+    test('with matching CAS', () async {
+      final documentId = createTestDocumentId();
+      final insertResult = await defaultCollection.insert(documentId, false);
+      final result = await defaultCollection.replace(
+        documentId,
+        true,
+        ReplaceOptions(cas: insertResult.cas),
+      );
+      check(result).cas.not(it()..equals(insertResult.cas));
+
+      final getResult = await defaultCollection.get(documentId);
+      check(getResult)
+        ..cas.equals(result.cas)
+        ..content.equals(true);
+    });
+
+    test('with non-matching CAS', () async {
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      await check(
+        defaultCollection.replace(
+          documentId,
+          true,
+          ReplaceOptions(cas: InternalCas.fromValue(1)),
+        ),
+      ).throws<CasMismatch>();
+    });
+
+    test('with durabilityLevel', () async {
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.replace(
+          documentId,
+          null,
+          const ReplaceOptions(durabilityLevel: DurabilityLevel.majority),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with durabilityPersistTo', () async {
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.replace(
+          documentId,
+          null,
+          const ReplaceOptions.legacyDurability(persistTo: PersistTo.two),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with durabilityReplicateTo', () async {
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.replace(
+          documentId,
+          null,
+          const ReplaceOptions.legacyDurability(replicateTo: ReplicateTo.two),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with transcoder', () async {
+      const transcoder = TestTranscoder();
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      await defaultCollection.replace(
+        documentId,
+        TestTranscoder.value,
+        const ReplaceOptions(transcoder: transcoder),
+      );
+      final getResult = await defaultCollection.get(
+        documentId,
+        const GetOptions(transcoder: transcoder),
+      );
+      check(getResult).content.equals(TestTranscoder.value);
+    });
+  });
+
   test('sub document lookup: exists', () async {
     final documentId = createTestDocumentId();
     final documentContent = {'hello': 'world'};

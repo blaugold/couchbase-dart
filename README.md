@@ -56,7 +56,7 @@
   - [ ] getAllReplicas
   - [x] insert
   - [x] upsert
-  - [ ] replace
+  - [x] replace
   - [ ] remove
   - [ ] getAndTouch
   - [ ] touch
