@@ -145,6 +145,34 @@ class ReplaceOptions extends CommonDurabilityOptions
   final Transcoder? transcoder;
 }
 
+/// Options for [Collection.remove].
+///
+/// {@category Key-Value}
+class RemoveOptions extends CommonDurabilityOptions
+    implements TranscoderOptions {
+  const RemoveOptions({
+    this.cas,
+    this.transcoder,
+    super.durabilityLevel,
+    super.timeout,
+  });
+
+  const RemoveOptions.legacyDurability({
+    this.cas,
+    this.transcoder,
+    super.persistTo,
+    super.replicateTo,
+    super.timeout,
+  }) : super.legacyDurability();
+
+  /// If specified, indicates that operation should be failed if the [Cas]
+  /// has changed from this value, indicating that the document has changed.
+  final Cas? cas;
+
+  @override
+  final Transcoder? transcoder;
+}
+
 /// Options for [Collection.lookupIn].
 ///
 /// {@category Key-Value}
@@ -373,18 +401,39 @@ class Collection {
     );
   }
 
-  Future<void> remove(String key) async {
-    final timeout = _timeouts.kvTimeout;
-    const cas = InternalCas.zero;
-    await _connection.remove(
-      RemoveRequest(
-        id: _documentId(key),
-        timeout: timeout,
-        cas: cas,
-        partition: 0,
-        opaque: 0,
-        durabilityLevel: DurabilityLevel.none,
-      ),
+  /// Remove an existing document from the collection.
+  Future<MutationResult> remove(String key, [RemoveOptions? options]) async {
+    options ??= const RemoveOptions();
+    final id = _documentId(key);
+    final cas = options.cas ?? InternalCas.zero;
+    final timeout = _mutationTimeout(options);
+
+    final response = options.usesLegacyDurability
+        ? await _connection.removeWithLegacyDurability(
+            RemoveWithLegacyDurability(
+              id: id,
+              cas: cas,
+              timeout: timeout,
+              persistTo: options.durabilityPersistTo,
+              replicateTo: options.durabilityReplicateTo,
+              partition: 0,
+              opaque: 0,
+            ),
+          )
+        : await _connection.remove(
+            RemoveRequest(
+              id: id,
+              cas: cas,
+              timeout: timeout,
+              durabilityLevel: options.durabilityLevel,
+              partition: 0,
+              opaque: 0,
+            ),
+          );
+
+    return MutationResult(
+      cas: response.cas,
+      token: response.token,
     );
   }
 

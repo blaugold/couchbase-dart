@@ -57,7 +57,7 @@
   - [x] insert
   - [x] upsert
   - [x] replace
-  - [ ] remove
+  - [x] remove
   - [ ] getAndTouch
   - [ ] touch
   - [ ] getAndLock

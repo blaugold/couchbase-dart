@@ -570,6 +570,77 @@ void main() {
     });
   });
 
+  group('remove', () {
+    test('with defaults', () async {
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      final result = await defaultCollection.remove(documentId);
+      check(result).cas.not(it()..equals(InternalCas.zero));
+      await check(defaultCollection.get(documentId)).throws<DocumentNotFound>();
+    });
+
+    test('with matching CAS', () async {
+      final documentId = createTestDocumentId();
+      final insertResult = await defaultCollection.insert(documentId, false);
+      final result = await defaultCollection.remove(
+        documentId,
+        RemoveOptions(cas: insertResult.cas),
+      );
+      check(result).cas.not(it()..equals(insertResult.cas));
+      await check(defaultCollection.get(documentId)).throws<DocumentNotFound>();
+    });
+
+    test('with non-matching CAS', () async {
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      await check(
+        defaultCollection.remove(
+          documentId,
+          RemoveOptions(cas: InternalCas.fromValue(1)),
+        ),
+      ).throws<CasMismatch>();
+    });
+
+    test('with durabilityLevel', () async {
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.remove(
+          documentId,
+          const RemoveOptions(durabilityLevel: DurabilityLevel.majority),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with durabilityPersistTo', () async {
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.remove(
+          documentId,
+          const RemoveOptions.legacyDurability(persistTo: PersistTo.two),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with durabilityReplicateTo', () async {
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.remove(
+          documentId,
+          const RemoveOptions.legacyDurability(replicateTo: ReplicateTo.two),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+  });
+
   test('sub document lookup: exists', () async {
     final documentId = createTestDocumentId();
     final documentContent = {'hello': 'world'};
