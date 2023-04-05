@@ -41,6 +41,6 @@ class Bucket {
   Collection collection(String name) => defaultScope.collection(name);
 }
 
-extension BucketInternal on Bucket {
+extension InternalBucket on Bucket {
   Cluster get cluster => _cluster;
 }

@@ -4,7 +4,13 @@ export 'src/bucket.dart' show Bucket;
 export 'src/cluster.dart'
     show Cluster, ClusterOptions, DnsConfig, SecurityConfig, TimeoutConfig;
 export 'src/collection.dart'
-    show Collection, ExistsOptions, GetOptions, InsertOptions, LookupInOptions;
+    show
+        Collection,
+        ExistsOptions,
+        GetOptions,
+        InsertOptions,
+        LookupInOptions,
+        UpsertOptions;
 export 'src/crud_operation_type.dart'
     show
         ExistsResult,
@@ -115,7 +121,13 @@ export 'src/exception.dart'
         XattrNoAccess,
         XattrUnknownMacro,
         XattrUnknownVirtualAttribute;
-export 'src/general.dart' show Cas, ServiceType;
+export 'src/general.dart'
+    show
+        Cas,
+        CommonDurabilityOptions,
+        CommonOptions,
+        ServiceType,
+        TranscoderOptions;
 export 'src/message.g.dart'
     show DurabilityLevel, KeyValueStatusCode, PersistTo, ReplicateTo;
 export 'src/mutation_state.dart' show MutationState, MutationToken;
