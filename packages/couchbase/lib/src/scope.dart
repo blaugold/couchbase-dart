@@ -34,6 +34,6 @@ class Scope {
   Collection collection(String name) => Collection(name: name, scope: this);
 }
 
-extension ScopeInternal on Scope {
+extension InternalScope on Scope {
   Bucket get bucket => _bucket;
 }

@@ -19,12 +19,12 @@ const defaultCollectionName = '_default';
 /// Options for [Collection.get].
 ///
 /// {@category Key-Value}
-class GetOptions {
+class GetOptions extends CommonOptions implements TranscoderOptions {
   const GetOptions({
     this.project,
-    this.withExpiry,
+    this.withExpiry = false,
     this.transcoder,
-    this.timeout,
+    super.timeout,
   });
 
   /// A list of fields within the document which should be fetched.
@@ -35,75 +35,83 @@ class GetOptions {
 
   /// Whether the expiry of the document should be fetched alongside
   /// the data itself.
-  final bool? withExpiry;
+  final bool withExpiry;
 
-  /// An explicit [Transcoder] to use for this specific operation.
+  @override
   final Transcoder? transcoder;
-
-  /// The timeout for this operation.
-  final Duration? timeout;
 }
 
 /// Options for [Collection.exists].
 ///
 /// {@category Key-Value}
-class ExistsOptions {
-  const ExistsOptions({
-    this.timeout,
-  });
-
-  /// The timeout for this operation.
-  final Duration? timeout;
+class ExistsOptions extends CommonOptions {
+  const ExistsOptions({super.timeout});
 }
 
 /// Options for [Collection.insert].
 ///
 /// {@category Key-Value}
-class InsertOptions {
+class InsertOptions extends CommonDurabilityOptions
+    implements TranscoderOptions {
   const InsertOptions({
     this.expiry,
-    this.durabilityLevel,
-    this.durabilityPersistTo,
-    this.durabilityReplicateTo,
     this.transcoder,
-    this.timeout,
+    super.durabilityLevel,
+    super.timeout,
   });
+
+  const InsertOptions.legacyDurability({
+    this.expiry,
+    this.transcoder,
+    super.persistTo,
+    super.replicateTo,
+    super.timeout,
+  }) : super.legacyDurability();
 
   /// The expiry time for this document.
   final Duration? expiry;
 
-  /// The level of synchronous durability for this operation.
-  final DurabilityLevel? durabilityLevel;
-
-  /// The number of nodes this operation should be persisted to before it is
-  /// considered successful.
-  ///
-  /// Note that this option is mutually exclusive of [durabilityLevel].
-  final PersistTo? durabilityPersistTo;
-
-  /// The number of nodes this operation should be replicated to before it is
-  /// considered successful.
-  ///
-  /// Note that this option is mutually exclusive of [durabilityLevel].
-  final ReplicateTo? durabilityReplicateTo;
-
-  /// An explicit [Transcoder] to use for this specific operation.
+  @override
   final Transcoder? transcoder;
+}
 
-  /// The timeout for this operation.
-  final Duration? timeout;
+/// Options for [Collection.upsert].
+///
+/// {@category Key-Value}
+class UpsertOptions extends CommonDurabilityOptions
+    implements TranscoderOptions {
+  const UpsertOptions({
+    this.expiry,
+    this.preserveExpiry = false,
+    this.transcoder,
+    super.durabilityLevel,
+    super.timeout,
+  });
+
+  const UpsertOptions.legacyDurability({
+    this.expiry,
+    this.preserveExpiry = false,
+    this.transcoder,
+    super.persistTo,
+    super.replicateTo,
+    super.timeout,
+  }) : super.legacyDurability();
+
+  /// The expiry time for this document.
+  final Duration? expiry;
+
+  /// Whether any existing expiry on the document should be preserved.
+  final bool preserveExpiry;
+
+  @override
+  final Transcoder? transcoder;
 }
 
 /// Options for [Collection.lookupIn].
 ///
 /// {@category Key-Value}
-class LookupInOptions {
-  const LookupInOptions({
-    this.timeout,
-  });
-
-  /// The timeout for this operation.
-  final Duration? timeout;
+class LookupInOptions extends CommonOptions {
+  const LookupInOptions({super.timeout});
 }
 
 /// Exposes the operations which are available to be performed against a
@@ -133,41 +141,35 @@ class Collection {
 
   /// Retrieves the value of a document from the collection.
   Future<GetResult> get(String key, [GetOptions? options]) async {
-    if (options?.project != null || options?.withExpiry != null) {
-      return _projectedGet(key, options!);
-    }
+    options ??= const GetOptions();
 
-    final transcoder = options?.transcoder ?? _transcoder;
-    final timeout = options?.timeout ?? _timeouts.kvTimeout;
+    if (options.project != null || options.withExpiry) {
+      return _projectedGet(key, options);
+    }
 
     final response = await _connection.get(
       GetRequest(
         id: _documentId(key),
-        timeout: timeout,
+        timeout: _nonMutationTimeout(options),
         partition: 0,
         opaque: 0,
       ),
     );
 
     return GetResult(
-      content: transcoder.decode(
-        EncodedDocumentData(
-          flags: response.flags,
-          bytes: response.value,
-        ),
-      ),
+      content: _decodeDocument(options, response.flags, response.value),
       cas: response.cas,
     );
   }
 
   /// Checks whether a document exists or not.
   Future<ExistsResult> exists(String key, [ExistsOptions? options]) async {
-    final timeout = options?.timeout ?? _timeouts.kvTimeout;
+    options ??= const ExistsOptions();
 
     final response = await _connection.exists(
       ExistsRequest(
         id: _documentId(key),
-        timeout: timeout,
+        timeout: _nonMutationTimeout(options),
         partition: 0,
         opaque: 0,
       ),
@@ -193,41 +195,87 @@ class Collection {
     Object? value, [
     InsertOptions? options,
   ]) async {
-    final expiry = options?.expiry ?? Duration.zero;
-    final durabilityLevel = options?.durabilityLevel;
-    final durabilityPersistTo = options?.durabilityPersistTo;
-    final durabilityReplicateTo = options?.durabilityReplicateTo;
-    final transcoder = options?.transcoder ?? _transcoder;
-    final timeout = _mutationTimeout(durabilityLevel);
-    final encodedData = transcoder.encode(value);
+    options ??= const InsertOptions();
+    final id = _documentId(key);
+    final expiry = options.expiry ?? Duration.zero;
+    final timeout = _mutationTimeout(options);
+    final encodedData = _encodeDocument(options, value);
 
-    final response =
-        durabilityPersistTo != null || durabilityReplicateTo != null
-            ? await _connection.insertWithLegacyDurability(
-                InsertWithLegacyDurability(
-                  id: _documentId(key),
-                  value: encodedData.bytes,
-                  flags: encodedData.flags,
-                  expiry: expiry.inSeconds,
-                  timeout: timeout,
-                  persistTo: durabilityPersistTo ?? PersistTo.none,
-                  replicateTo: durabilityReplicateTo ?? ReplicateTo.none,
-                  partition: 0,
-                  opaque: 0,
-                ),
-              )
-            : await _connection.insert(
-                InsertRequest(
-                  id: _documentId(key),
-                  value: encodedData.bytes,
-                  flags: encodedData.flags,
-                  expiry: expiry.inSeconds,
-                  timeout: timeout,
-                  durabilityLevel: durabilityLevel ?? DurabilityLevel.none,
-                  partition: 0,
-                  opaque: 0,
-                ),
-              );
+    final response = options.usesLegacyDurability
+        ? await _connection.insertWithLegacyDurability(
+            InsertWithLegacyDurability(
+              id: id,
+              value: encodedData.bytes,
+              flags: encodedData.flags,
+              expiry: expiry.inSeconds,
+              timeout: timeout,
+              persistTo: options.durabilityPersistTo,
+              replicateTo: options.durabilityReplicateTo,
+              partition: 0,
+              opaque: 0,
+            ),
+          )
+        : await _connection.insert(
+            InsertRequest(
+              id: id,
+              value: encodedData.bytes,
+              flags: encodedData.flags,
+              expiry: expiry.inSeconds,
+              timeout: timeout,
+              durabilityLevel: options.durabilityLevel,
+              partition: 0,
+              opaque: 0,
+            ),
+          );
+
+    return MutationResult(
+      cas: response.cas,
+      token: response.token,
+    );
+  }
+
+  /// Upserts a document into the collection.
+  ///
+  /// This operation succeeds whether or not the document already exists.
+  Future<MutationResult> upsert(
+    String key,
+    Object? value, [
+    UpsertOptions? options,
+  ]) async {
+    options ??= const UpsertOptions();
+    final id = _documentId(key);
+    final expiry = options.expiry ?? Duration.zero;
+    final timeout = _mutationTimeout(options);
+    final encodedData = _encodeDocument(options, value);
+
+    final response = options.usesLegacyDurability
+        ? await _connection.upsertWithLegacyDurability(
+            UpsertWithLegacyDurability(
+              id: id,
+              value: encodedData.bytes,
+              flags: encodedData.flags,
+              expiry: expiry.inSeconds,
+              preserveExpiry: options.preserveExpiry,
+              timeout: timeout,
+              persistTo: options.durabilityPersistTo,
+              replicateTo: options.durabilityReplicateTo,
+              partition: 0,
+              opaque: 0,
+            ),
+          )
+        : await _connection.upsert(
+            UpsertRequest(
+              id: id,
+              value: encodedData.bytes,
+              flags: encodedData.flags,
+              expiry: expiry.inSeconds,
+              preserveExpiry: options.preserveExpiry,
+              timeout: timeout,
+              durabilityLevel: options.durabilityLevel,
+              partition: 0,
+              opaque: 0,
+            ),
+          );
 
     return MutationResult(
       cas: response.cas,
@@ -262,6 +310,8 @@ class Collection {
     List<LookupInSpec> specs, [
     LookupInOptions? options,
   ]) async {
+    options ??= const LookupInOptions();
+
     if (specs.isEmpty) {
       throw ArgumentError.value(
         specs,
@@ -270,18 +320,17 @@ class Collection {
       );
     }
 
-    final timeout = options?.timeout ?? _timeouts.kvTimeout;
-    final messageSpecs =
-        List.generate(specs.length, (index) => specs[index].toMessage(index));
-
     final response = await _connection.lookupIn(
       LookupInRequest(
         id: _documentId(key),
         partition: 0,
         opaque: 0,
         accessDeleted: false,
-        specs: messageSpecs,
-        timeout: timeout,
+        specs: List.generate(
+          specs.length,
+          (index) => specs[index].toMessage(index),
+        ),
+        timeout: _nonMutationTimeout(options),
       ),
     );
 
@@ -335,15 +384,34 @@ class Collection {
     );
   }
 
+  EncodedDocumentData _encodeDocument(
+    TranscoderOptions options,
+    Object? value,
+  ) {
+    final transcoder = options.transcoder ?? _transcoder;
+    return transcoder.encode(value);
+  }
+
+  Object? _decodeDocument(
+    TranscoderOptions options,
+    int flags,
+    Uint8List bytes,
+  ) {
+    final transcoder = options.transcoder ?? _transcoder;
+    return transcoder.decode(EncodedDocumentData(flags: flags, bytes: bytes));
+  }
+
   Object? _decodeSubDocumentValue(Uint8List bytes) =>
       _utf8JsonDecoder.convert(bytes);
 
-  Duration _mutationTimeout(DurabilityLevel? durabilityLevel) {
-    if (durabilityLevel != null && durabilityLevel != DurabilityLevel.none) {
-      return _timeouts.kvDurableTimeout;
-    }
-    return _timeouts.kvTimeout;
-  }
+  Duration _nonMutationTimeout(CommonOptions options) =>
+      options.timeout ?? _timeouts.kvTimeout;
+
+  Duration _mutationTimeout(CommonDurabilityOptions options) =>
+      options.timeout ??
+      (options.durabilityLevel != DurabilityLevel.none
+          ? _timeouts.kvDurableTimeout
+          : _timeouts.kvTimeout);
 
   Future<GetResult> _projectedGet(String key, GetOptions options) async {
     var expiryIndex = -1;
@@ -354,7 +422,7 @@ class Collection {
 
     specs.add(LookupInSpec.get(InternalLookupInMacro.flags));
 
-    if (options.withExpiry ?? false) {
+    if (options.withExpiry) {
       expiryIndex = specs.length;
       specs.add(LookupInSpec.get(LookupInMacro.expiry));
     }

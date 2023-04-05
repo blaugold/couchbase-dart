@@ -286,7 +286,7 @@ void main() {
         defaultCollection.insert(
           createTestDocumentId(),
           null,
-          const InsertOptions(durabilityPersistTo: PersistTo.two),
+          const InsertOptions.legacyDurability(persistTo: PersistTo.two),
         ),
       ).throws<DurabilityImpossible>();
     });
@@ -298,7 +298,7 @@ void main() {
         defaultCollection.insert(
           createTestDocumentId(),
           null,
-          const InsertOptions(durabilityReplicateTo: ReplicateTo.two),
+          const InsertOptions.legacyDurability(replicateTo: ReplicateTo.two),
         ),
       ).throws<DurabilityImpossible>();
     });
@@ -310,6 +310,113 @@ void main() {
         documentId,
         TestTranscoder.value,
         const InsertOptions(transcoder: transcoder),
+      );
+      final getResult = await defaultCollection.get(
+        documentId,
+        const GetOptions(transcoder: transcoder),
+      );
+      check(getResult).content.equals(TestTranscoder.value);
+    });
+  });
+
+  group('upsert', () {
+    test('with defaults', () async {
+      final documentId = createTestDocumentId();
+      final result = await defaultCollection.upsert(documentId, true);
+      check(result).cas.not(it()..equals(InternalCas.zero));
+
+      final getResult = await defaultCollection.get(documentId);
+      check(getResult)
+        ..cas.equals(result.cas)
+        ..content.equals(true);
+    });
+
+    test('with expiry', () async {
+      final documentId = createTestDocumentId();
+      final result = await defaultCollection.upsert(
+        documentId,
+        true,
+        const UpsertOptions(expiry: Duration(hours: 1)),
+      );
+      check(result).cas.not(it()..equals(InternalCas.zero));
+
+      final getResult = await defaultCollection.get(
+        documentId,
+        const GetOptions(withExpiry: true),
+      );
+      check(getResult)
+        ..cas.equals(result.cas)
+        ..content.equals(true)
+        ..expiryTime.isNotNull();
+    });
+
+    test('with preserveExpiry', () async {
+      final documentId = createTestDocumentId();
+      final insertResult = await defaultCollection.insert(
+        documentId,
+        true,
+        const InsertOptions(expiry: Duration(hours: 1)),
+      );
+      final result = await defaultCollection.upsert(
+        documentId,
+        false,
+        const UpsertOptions(preserveExpiry: true),
+      );
+      check(result).cas.not(it()..equals(insertResult.cas));
+
+      final getResult = await defaultCollection.get(
+        documentId,
+        const GetOptions(withExpiry: true),
+      );
+      check(getResult)
+        ..cas.equals(result.cas)
+        ..content.equals(false)
+        ..expiryTime.isNotNull();
+    });
+
+    test('with durabilityLevel', () async {
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.upsert(
+          createTestDocumentId(),
+          null,
+          const UpsertOptions(durabilityLevel: DurabilityLevel.majority),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with durabilityPersistTo', () async {
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.upsert(
+          createTestDocumentId(),
+          null,
+          const UpsertOptions.legacyDurability(persistTo: PersistTo.two),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with durabilityReplicateTo', () async {
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.upsert(
+          createTestDocumentId(),
+          null,
+          const UpsertOptions.legacyDurability(replicateTo: ReplicateTo.two),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with transcoder', () async {
+      const transcoder = TestTranscoder();
+      final documentId = createTestDocumentId();
+      await defaultCollection.upsert(
+        documentId,
+        TestTranscoder.value,
+        const UpsertOptions(transcoder: transcoder),
       );
       final getResult = await defaultCollection.get(
         documentId,

@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
+import 'message.g.dart';
 import 'message.g.dart' as message;
+import 'transcoder.dart';
 
 /// The various service types available.
 enum ServiceType {
@@ -131,4 +133,61 @@ extension InternalCas on Cas {
   static const zero = Cas._(0);
 
   int get value => _value;
+}
+
+/// Base class for options which are common to many operations.
+///
+/// {@category Core}
+abstract class CommonOptions {
+  const CommonOptions({this.timeout});
+
+  /// The timeout for this operation.
+  final Duration? timeout;
+}
+
+/// Extends [CommonOptions] with durability options.
+///
+/// {@category Key-Value}
+abstract class CommonDurabilityOptions extends CommonOptions {
+  /// Creates a new [CommonDurabilityOptions] with a [DurabilityLevel].
+  const CommonDurabilityOptions({
+    super.timeout,
+    this.durabilityLevel = DurabilityLevel.none,
+  })  : durabilityPersistTo = PersistTo.none,
+        durabilityReplicateTo = ReplicateTo.none;
+
+  /// Creates a new [CommonDurabilityOptions] with the legacy durability
+  /// options.
+  const CommonDurabilityOptions.legacyDurability({
+    super.timeout,
+    PersistTo persistTo = PersistTo.none,
+    ReplicateTo replicateTo = ReplicateTo.none,
+  })  : durabilityLevel = DurabilityLevel.none,
+        durabilityPersistTo = persistTo,
+        durabilityReplicateTo = replicateTo;
+
+  /// The level of synchronous durability for this operation.
+  final DurabilityLevel durabilityLevel;
+
+  /// The number of nodes this operation should be persisted to before it is
+  /// considered successful.
+  final PersistTo durabilityPersistTo;
+
+  /// The number of nodes this operation should be replicated to before it is
+  /// considered successful.
+  final ReplicateTo durabilityReplicateTo;
+}
+
+extension InternalCommonDurabilityOptions on CommonDurabilityOptions {
+  bool get usesLegacyDurability =>
+      durabilityPersistTo != PersistTo.none ||
+      durabilityReplicateTo != ReplicateTo.none;
+}
+
+/// Interface class for options which can be used to specify a transcoder.
+///
+/// {@category Key-Value}
+abstract class TranscoderOptions {
+  /// An explicit [Transcoder] to use for this specific operation.
+  Transcoder? get transcoder;
 }
