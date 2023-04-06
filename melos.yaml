@@ -27,7 +27,7 @@ scripts:
     description: Run Dart tests.
 
   build:native:
-    run: cd native && ./build.sh
+    run: cd native && dart build_openssl.dart && ./build.sh
 
   build:bindings:
     run: |
