@@ -1,3 +1,6 @@
 [submodule "native/vendor/couchbase-cxx-client"]
 	path = native/vendor/couchbase-cxx-client
 	url = https://github.com/couchbaselabs/couchbase-cxx-client
+[submodule "native/vendor/openssl"]
+	path = native/vendor/openssl
+	url = https://github.com/openssl/openssl
