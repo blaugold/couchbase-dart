@@ -82,11 +82,14 @@ Future<void> buildOpenSsl({
       if (Platform.isWindows) 'Configure',
       '--prefix=$outDirectory',
       '--openssldir=$outDirectory/ssl',
+      'no-ssl3',
+      'no-ssl3-method',
+      'no-zlib',
       configuration
     ],
     environment: {
       'CC': compiler,
-      'CCC': compiler,
+      'CXX': compiler,
     },
     workingDirectory: openSslDirectory,
   );
