@@ -44,6 +44,7 @@ jobs:
         uses: hendrikmuhs/ccache-action@v1.2
         with:
           max-size: 2048M
+          key: ci-ccache-${{ runner.os }}
 
       - run: melos format:check
       - run: melos bootstrap
