@@ -37,6 +37,7 @@ Future<void> buildMacOS() async {
     configuration: 'darwin64-x86_64-cc',
     compiler: compiler,
   );
+  await cleanOpenSsl();
   await buildOpenSsl(
     outDirectory: arm64buildDirectory,
     configuration: 'darwin64-arm64-cc',
