@@ -1,6 +1,10 @@
 import 'dart:io';
 
-void main() async {
+void main(List<String> arguments) async {
+  if (arguments.contains('--clean')) {
+    await cleanOpenSsl();
+  }
+
   if (Platform.isMacOS) {
     await buildMacOS();
   } else if (Platform.isLinux) {
@@ -17,7 +21,7 @@ final openSslArchBuildDirectory = '$openSslBuildDirectory/arch';
 const compiler = 'ccache cc';
 
 Future<void> buildLinux() async {
-  await buildOpenSSL(
+  await buildOpenSsl(
     outDirectory: openSslBuildDirectory,
     configuration: 'linux-x86_64',
     compiler: compiler,
@@ -28,12 +32,12 @@ Future<void> buildMacOS() async {
   final x86buildDirectory = '$openSslArchBuildDirectory/x86';
   final arm64buildDirectory = '$openSslArchBuildDirectory/arm64';
 
-  await buildOpenSSL(
+  await buildOpenSsl(
     outDirectory: x86buildDirectory,
     configuration: 'darwin64-x86_64-cc',
     compiler: compiler,
   );
-  await buildOpenSSL(
+  await buildOpenSsl(
     outDirectory: arm64buildDirectory,
     configuration: 'darwin64-arm64-cc',
     compiler: compiler,
@@ -59,16 +63,19 @@ Future<void> buildMacOS() async {
   );
 }
 
-Future<void> buildOpenSSL({
-  required String outDirectory,
-  required String configuration,
-  required String compiler,
-}) async {
+Future<void> cleanOpenSsl() async {
   await command(
     'make',
     ['clean'],
     workingDirectory: openSslDirectory,
   );
+}
+
+Future<void> buildOpenSsl({
+  required String outDirectory,
+  required String configuration,
+  required String compiler,
+}) async {
   await command(
     Platform.isWindows ? 'perl' : './Configure',
     [
