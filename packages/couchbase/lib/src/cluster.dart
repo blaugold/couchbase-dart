@@ -216,7 +216,7 @@ class Cluster {
 
   /// Performs a ping operation against the cluster.
   ///
-  /// Pinging the services which are specified (or all services if none are
+  /// Pings the services which are specified (or all services if none are
   /// specified). Returns a report which describes the outcome of the ping
   /// operations which were performed.
   Future<PingResult> ping([PingOptions? options]) async {
