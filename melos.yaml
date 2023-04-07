@@ -26,8 +26,11 @@ scripts:
       dirExists: test
     description: Run Dart tests.
 
-  build:native:
-    run: cd native && dart build_openssl.dart && ./build.sh
+  build:OpenSSL:
+    run: cd native && dart build_openssl.dart
+
+  build:libCouchbaseDart:
+    run: cd native && ./build.sh
 
   build:bindings:
     run: |
