@@ -49,6 +49,7 @@ jobs:
       - run: melos format:check
       - run: melos bootstrap
       - run: melos analyze
-      - run: melos build:native
+      - run: melos build:OpenSSL
+      - run: melos build:libCouchbaseDart
       - run: melos initCouchbaseServer
       - run: melos test

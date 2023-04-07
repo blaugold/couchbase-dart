@@ -1,88 +1,65 @@
+import 'dart:convert';
 import 'dart:io';
 
-void main(List<String> arguments) async {
-  if (arguments.contains('--clean')) {
-    await cleanOpenSsl();
-  }
-
-  if (Platform.isMacOS) {
-    await buildMacOS();
-  } else if (Platform.isLinux) {
-    await buildLinux();
-  } else {
-    throw Exception('Unsupported platform: ${Platform.operatingSystem}');
-  }
-}
-
-final openSslDirectory = '${Directory.current.path}/vendor/openssl';
-final openSslBuildDirectory = '${Directory.current.path}/build/vendor/openssl';
-final openSslArchBuildDirectory = '$openSslBuildDirectory/arch';
-
 const compiler = 'ccache cc';
+final openSslSourceDirectory = '${Directory.current.path}/vendor/openssl';
+final openSslBuildDirectory = '${Directory.current.path}/build/vendor/openssl';
+final openSslInstallDirectory = '$openSslBuildDirectory/install';
 
-Future<void> buildLinux() async {
-  await buildOpenSsl(
-    outDirectory: openSslBuildDirectory,
-    configuration: 'linux-x86_64',
-    compiler: compiler,
-  );
-}
-
-Future<void> buildMacOS() async {
-  final x86buildDirectory = '$openSslArchBuildDirectory/x86';
-  final arm64buildDirectory = '$openSslArchBuildDirectory/arm64';
-
-  await buildOpenSsl(
-    outDirectory: x86buildDirectory,
-    configuration: 'darwin64-x86_64-cc',
-    compiler: compiler,
-  );
-  await cleanOpenSsl();
-  await buildOpenSsl(
-    outDirectory: arm64buildDirectory,
-    configuration: 'darwin64-arm64-cc',
-    compiler: compiler,
-  );
-
-  final libraries = ['libcrypto.a', 'libssl.a'];
-  final libDirectory = '$openSslBuildDirectory/lib';
-  await Directory(libDirectory).create(recursive: true);
-
-  for (final library in libraries) {
-    await createUniversalBinary(
-      binaries: [
-        '$x86buildDirectory/lib/$library',
-        '$arm64buildDirectory/lib/$library',
-      ],
-      output: '$libDirectory/$library',
-    );
+void main(List<String> arguments) async {
+  final String arch;
+  if (arguments.isNotEmpty) {
+    arch = arguments.first;
+  } else {
+    arch = currentArch();
   }
 
-  await copy(
-    from: '$x86buildDirectory/include',
-    to: '$openSslBuildDirectory/include',
+  await buildOpenSsl(
+    sourceDirectory: openSslSourceDirectory,
+    buildDirectory: openSslBuildDirectory,
+    installDirectory: openSslInstallDirectory,
+    configuration: resolveConfiguration(arch: arch),
+    compiler: compiler,
   );
 }
 
-Future<void> cleanOpenSsl() async {
-  await command(
-    'make',
-    ['clean'],
-    workingDirectory: openSslDirectory,
+String resolveConfiguration({required String arch}) {
+  if (Platform.isLinux) {
+    if (arch == 'x86_64') {
+      return 'linux-x86_64';
+    } else if (arch == 'arm64') {
+      return 'linux-aarch64';
+    }
+  } else if (Platform.isMacOS) {
+    if (arch == 'x86_64') {
+      return 'darwin64-x86_64-cc';
+    } else if (arch == 'arm64') {
+      return 'darwin64-arm64-cc';
+    }
+  }
+  throw UnsupportedError(
+    'Unsupported platform: ${Platform.operatingSystem}-$arch',
   );
 }
 
 Future<void> buildOpenSsl({
-  required String outDirectory,
+  required String sourceDirectory,
+  required String buildDirectory,
+  required String installDirectory,
   required String configuration,
   required String compiler,
 }) async {
+  await ensureEmptyDirectory(buildDirectory);
+  await ensureEmptyDirectory(installDirectory);
+
+  final configureScript = '$sourceDirectory/Configure';
+
   await command(
-    Platform.isWindows ? 'perl' : './Configure',
+    Platform.isWindows ? 'perl' : configureScript,
     [
-      if (Platform.isWindows) 'Configure',
-      '--prefix=$outDirectory',
-      '--openssldir=$outDirectory/ssl',
+      if (Platform.isWindows) configureScript,
+      '--prefix=$installDirectory',
+      '--openssldir=$installDirectory/ssl',
       'no-ssl3',
       'no-ssl3-method',
       'no-zlib',
@@ -92,40 +69,30 @@ Future<void> buildOpenSsl({
       'CC': compiler,
       'CXX': compiler,
     },
-    workingDirectory: openSslDirectory,
+    workingDirectory: buildDirectory,
   );
   await command(
     'make',
-    ['-j', Platform.numberOfProcessors.toString()],
-    workingDirectory: openSslDirectory,
+    [
+      '-j',
+      Platform.numberOfProcessors.toString(),
+      'build_sw',
+    ],
+    workingDirectory: buildDirectory,
   );
   await command(
     'make',
     ['install_sw'],
-    workingDirectory: openSslDirectory,
+    workingDirectory: buildDirectory,
   );
 }
 
-Future<void> createUniversalBinary({
-  required List<String> binaries,
-  required String output,
-}) async {
-  return command('lipo', [
-    ...binaries,
-    '-create',
-    '-output',
-    output,
-  ]);
-}
-
-Future<void> copy({
-  required String from,
-  required String to,
-}) {
-  return command(
-    'cp',
-    ['-r', from, to],
-  );
+Future<void> ensureEmptyDirectory(String path) async {
+  final directory = Directory(path);
+  if (directory.existsSync()) {
+    await directory.delete(recursive: true);
+  }
+  await directory.create(recursive: true);
 }
 
 Future<void> command(
@@ -134,6 +101,10 @@ Future<void> command(
   String? workingDirectory,
   Map<String, String>? environment,
 }) async {
+  final formattedCommand = formatCommand(command, arguments);
+  // ignore: avoid_print
+  print('Running $formattedCommand');
+
   final process = await Process.start(
     command,
     arguments,
@@ -144,12 +115,47 @@ Future<void> command(
   );
   final exitCode = await process.exitCode;
   if (exitCode != 0) {
-    final quotedArguments = arguments
-        .map((argument) => argument.replaceAll('"', r'\"'))
-        .map((argument) => '"$argument"');
-    final formattedCommand = [command, ...quotedArguments].join(' ');
     throw Exception(
-      'Failed to run (exit code $exitCode) $formattedCommand',
+      'Failed to run command (exit code $exitCode): $formattedCommand',
     );
+  }
+}
+
+String commandForResult(
+  String command,
+  List<String> arguments, {
+  String? workingDirectory,
+  Map<String, String>? environment,
+}) {
+  final result = Process.runSync(
+    command,
+    arguments,
+    runInShell: Platform.isWindows,
+    workingDirectory: workingDirectory,
+    environment: environment,
+    stdoutEncoding: utf8,
+    stderrEncoding: utf8,
+  );
+  final exitCode = result.exitCode;
+  if (exitCode != 0) {
+    throw Exception(
+      'Failed to run (exit code $exitCode) '
+      '${formatCommand(command, arguments)}:'
+      '\n${result.stdout}\n${result.stderr}',
+    );
+  }
+  return result.stdout.toString();
+}
+
+String formatCommand(String command, List<String> arguments) =>
+    [command, ...arguments.map(quoteArgument)].join(' ');
+
+String quoteArgument(String argument) => '"${argument.replaceAll('"', r'\"')}"';
+
+String currentArch() {
+  if (Platform.isLinux || Platform.isMacOS) {
+    return commandForResult('uname', ['-m']).trim().toLowerCase();
+  } else {
+    throw Exception('Unsupported platform: ${Platform.operatingSystem}');
   }
 }
