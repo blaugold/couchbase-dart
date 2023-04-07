@@ -1,9 +1,5 @@
-// ignore_for_file: unused_field
-
 import 'bucket.dart';
-import 'cluster.dart';
 import 'collection.dart';
-import 'connection.dart';
 
 const defaultScopeName = '_default';
 
@@ -16,14 +12,12 @@ class Scope {
   Scope({
     required this.name,
     required Bucket bucket,
-  })  : _bucket = bucket,
-        _connection = bucket.cluster.connection;
+  }) : _bucket = bucket;
 
   /// The name of the scope.
   final String name;
 
   final Bucket _bucket;
-  final Connection _connection;
 
   /// The [Collection] which can be used to perform operations against
   /// the default collection.
