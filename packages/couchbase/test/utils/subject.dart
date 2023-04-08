@@ -87,3 +87,8 @@ extension QueryMetaDataSubject on Subject<QueryMetaData> {
   Subject<Map<String, Object?>?> get profile =>
       has((it) => it.profile, 'profile');
 }
+
+extension QueryMetricsSubject on Subject<QueryMetrics> {
+  Subject<int> get mutationCount =>
+      has((it) => it.mutationCount, 'mutationCount');
+}

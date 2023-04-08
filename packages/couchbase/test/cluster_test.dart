@@ -5,7 +5,6 @@ import 'package:test/test.dart';
 import 'utils/cluster.dart';
 import 'utils/document.dart';
 import 'utils/subject.dart';
-import 'utils/utils.dart';
 
 void main() async {
   group('connect', () {
@@ -102,35 +101,40 @@ void main() async {
       final documentId = createTestDocumentId();
       await cluster.testBucket.defaultCollection.insert(
         documentId,
-        null,
+        {},
         const InsertOptions(expiry: Duration(hours: 1)),
       );
 
-      late GetResult getResult;
-
-      await cluster.query(
+      var queryResult = await cluster.query(
         'UPDATE `$testBucketName` SET a = true WHERE META().id = \$1',
-        QueryOptions(parameters: [documentId], preserveExpiry: true),
+        QueryOptions(
+          parameters: [documentId],
+          metrics: true,
+          scanConsistency: QueryScanConsistency.requestPlus,
+          preserveExpiry: true,
+        ),
       );
-      await withRetry(() async {
-        getResult = await cluster.testBucket.defaultCollection.get(
-          documentId,
-          const GetOptions(withExpiry: true),
-        );
-        check(getResult.expiryTime).isNotNull();
-      });
+      check(queryResult).meta.metrics.isNotNull().mutationCount.equals(1);
+      var getResult = await cluster.testBucket.defaultCollection.get(
+        documentId,
+        const GetOptions(withExpiry: true),
+      );
+      check(getResult.expiryTime).isNotNull();
 
-      await cluster.query(
+      queryResult = await cluster.query(
         'UPDATE `$testBucketName` SET a = true WHERE META().id = \$1',
-        QueryOptions(parameters: [documentId]),
+        QueryOptions(
+          parameters: [documentId],
+          metrics: true,
+          scanConsistency: QueryScanConsistency.requestPlus,
+        ),
       );
-      await withRetry(() async {
-        getResult = await cluster.testBucket.defaultCollection.get(
-          documentId,
-          const GetOptions(withExpiry: true),
-        );
-        check(getResult.expiryTime).isNull();
-      });
+      check(queryResult).meta.metrics.isNotNull().mutationCount.equals(1);
+      getResult = await cluster.testBucket.defaultCollection.get(
+        documentId,
+        const GetOptions(withExpiry: true),
+      );
+      check(getResult.expiryTime).isNull();
     });
 
     test('with clientContextId', () async {
@@ -210,16 +214,15 @@ void main() async {
       final documentId = createTestDocumentId();
       await cluster.testBucket.defaultCollection.insert(documentId, true);
 
-      await withRetry(() async {
-        final result = await cluster.query(
-          r'SELECT * FROM _default WHERE META().id = $1',
-          QueryOptions(
-            queryContext: '$testBucketName._default',
-            parameters: [documentId],
-          ),
-        );
-        check(result).rows.single.deepEquals({'_default': true});
-      });
+      final result = await cluster.query(
+        r'SELECT * FROM _default WHERE META().id = $1',
+        QueryOptions(
+          queryContext: '$testBucketName._default',
+          parameters: [documentId],
+          scanConsistency: QueryScanConsistency.requestPlus,
+        ),
+      );
+      check(result).rows.single.deepEquals({'_default': true});
     });
 
     test('with raw', () async {
