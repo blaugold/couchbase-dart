@@ -7,7 +7,7 @@ CONTAINER_NAME=couchbase-dart-couchbase-1
 docker compose down
 docker compose up -d
 
-MAX_ATTEMPTS=10
+MAX_ATTEMPTS=60
 ATTEMPTS=0
 until curl http://localhost:8091/pools/default >/dev/null 2>1; do
   if [ $ATTEMPTS -eq $MAX_ATTEMPTS ]; then
@@ -34,7 +34,7 @@ docker exec $CONTAINER_NAME couchbase-cli bucket-create \
   --bucket-type couchbase \
   --bucket-ramsize 256
 
-MAX_ATTEMPTS=10
+MAX_ATTEMPTS=60
 ATTEMPTS=0
 until docker exec $CONTAINER_NAME cbq \
   --user admin \
