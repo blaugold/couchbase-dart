@@ -13,6 +13,7 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
+          - [self-hosted, macOS, ARM64]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
