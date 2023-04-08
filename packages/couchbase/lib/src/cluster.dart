@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'authenticator.dart';
@@ -7,8 +8,11 @@ import 'connection.dart';
 import 'connection_spec.dart';
 import 'diagnostics.dart';
 import 'general.dart';
+import 'message.g.dart';
 import 'message_basic.dart';
 import 'message_basic.dart' as message_basic;
+import 'mutation_state.dart';
+import 'query.dart';
 import 'transcoder.dart';
 import 'version.g.dart';
 
@@ -202,6 +206,70 @@ class Cluster {
       );
     }
     return Bucket(name: name, cluster: this);
+  }
+
+  /// Executes a SQL++ query against the cluster.
+  Future<QueryResult> query(String statement, [QueryOptions? options]) async {
+    options ??= const QueryOptions();
+
+    final positionalParameters = <String>[];
+    final namedParameters = <String, String>{};
+    final parameters = options.parameters;
+    if (parameters is List<Object?>) {
+      parameters.map(jsonEncode).forEach(positionalParameters.add);
+    } else if (parameters is Map<String, Object?>) {
+      parameters
+          .forEach((key, value) => namedParameters[key] = jsonEncode(value));
+    } else if (parameters != null) {
+      throw ArgumentError.value(
+        parameters,
+        'parameters',
+        'must be a Map<String, Object?> or List<Object?>',
+      );
+    }
+
+    final raw = <String, String>{};
+    if (options.raw != null) {
+      for (final entry in options.raw!.entries) {
+        final key = entry.key;
+        final value = entry.value;
+        if (value != null) {
+          raw[key] = jsonEncode(value);
+        }
+      }
+    }
+
+    final response = await _connection.query(
+      QueryRequest(
+        statement: statement,
+        positionalParameters: positionalParameters,
+        namedParameters: namedParameters,
+        scanConsistency: options.scanConsistency?.toMessage(),
+        mutationState: options.consistentWith?.tokens ?? const [],
+        adhoc: options.adhoc,
+        flexIndex: options.flexIndex,
+        preserveExpiry: options.preserveExpiry,
+        clientContextId: options.clientContextId,
+        maxParallelism: options.maxParallelism,
+        pipelineBatch: options.pipelineBatch,
+        pipelineCap: options.pipelineCap,
+        scanWait: options.scanWait,
+        scanCap: options.scanCap,
+        readonly: options.readOnly,
+        profile: options.profile.toMessage(),
+        metrics: options.metrics,
+        queryContext: options.queryContext,
+        raw: raw,
+        timeout: options.timeout ?? _options.timeouts.queryTimeout,
+        sendToNode: null,
+        bodyStr: '',
+      ),
+    );
+
+    return QueryResult(
+      rows: response.rows.map(jsonDecode).cast<Map<String, Object?>>().toList(),
+      meta: response.meta.toApi(),
+    );
   }
 
   /// Returns a diagnostics report about the currently active connections with

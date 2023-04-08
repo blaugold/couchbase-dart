@@ -1,12 +1,11 @@
 import 'package:checks/checks.dart';
-import 'package:checks/context.dart';
 import 'package:couchbase/couchbase.dart';
 import 'package:couchbase/src/general.dart';
 import 'package:test/test.dart';
 
+import 'utils/cluster.dart';
+import 'utils/document.dart';
 import 'utils/subject.dart';
-import 'utils/test_cluster.dart';
-import 'utils/test_document.dart';
 
 void main() {
   late Cluster cluster;
@@ -702,44 +701,4 @@ void main() {
         ..value.equals('1'),
     ]);
   });
-}
-
-extension on Subject<GetResult> {
-  Subject<Cas> get cas => has((it) => it.cas, 'cas');
-  Subject<Object?> get content => has((it) => it.content, 'content');
-  Subject<DateTime?> get expiryTime => has((it) => it.expiryTime, 'expiryTime');
-}
-
-extension on Subject<ExistsResult> {
-  Subject<Cas?> get cas => has((it) => it.cas, 'cas');
-  Subject<bool> get exists => has((it) => it.exists, 'exists');
-}
-
-extension on Subject<MutationResult> {
-  Subject<Cas> get cas => has((it) => it.cas, 'cas');
-}
-
-extension on Subject<LookupInResult> {
-  Subject<List<LookupInResultEntry>> get content =>
-      has((it) => it.content, 'content');
-}
-
-ConditionSubject<LookupInResultEntry> lookupInResultEntry() =>
-    it<LookupInResultEntry>();
-
-extension on Subject<LookupInResultEntry> {
-  Subject<Object?> get value => has((it) => it.value, 'value');
-  Subject<Object?> get error => has((it) => it.error, 'error');
-}
-
-extension on Subject<Object?> {
-  Subject<KeyValueErrorContext> get isKeyValueErrorContext =>
-      this.isA<KeyValueErrorContext>();
-}
-
-extension on Subject<KeyValueErrorContext> {
-  Subject<Cas> get cas => has((it) => it.cas, 'cas');
-  Subject<String> get key => has((it) => it.key, 'key');
-  Subject<KeyValueStatusCode?> get statusCode =>
-      has((it) => it.statusCode, 'statusCode');
 }

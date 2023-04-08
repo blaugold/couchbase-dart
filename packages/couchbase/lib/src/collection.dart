@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'bucket.dart';
 import 'cluster.dart';
 import 'connection.dart';
-import 'crud_operation_type.dart';
+import 'crud_operation.dart';
 import 'exception.dart';
 import 'general.dart';
 import 'message.g.dart';

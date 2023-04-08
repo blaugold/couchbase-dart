@@ -180,6 +180,21 @@ class PingOptions {
 
   /// The timeout for this operation, represented in milliseconds.
   final Duration? timeout;
+
+  /// Creates a copy of this [PingOptions] with the specified options updated.
+  PingOptions copyWith({
+    String? reportId,
+    List<ServiceType>? serviceTypes,
+    String? bucket,
+    Duration? timeout,
+  }) {
+    return PingOptions(
+      reportId: reportId ?? this.reportId,
+      serviceTypes: serviceTypes ?? this.serviceTypes,
+      bucket: bucket ?? this.bucket,
+      timeout: timeout ?? this.timeout,
+    );
+  }
 }
 
 /// A single endpoint in a [DiagnosticsResult].

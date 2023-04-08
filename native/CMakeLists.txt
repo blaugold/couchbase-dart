@@ -19,6 +19,8 @@ set(COUCHBASE_CXX_CLIENT_STATIC_STDLIB ON CACHE BOOL "" FORCE)
 set(COUCHBASE_CXX_CLIENT_STATIC_OPENSSL ON CACHE BOOL "" FORCE)
 add_subdirectory(vendor/couchbase-cxx-client)
 
+include(vendor/couchbase-cxx-client/cmake/Cache.cmake)
+
 project(CouchbaseDart)
 
 file(GLOB SOURCE_FILES "src/*.cpp")

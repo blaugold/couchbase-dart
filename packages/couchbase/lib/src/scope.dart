@@ -1,5 +1,6 @@
 import 'bucket.dart';
 import 'collection.dart';
+import 'query.dart';
 
 const defaultScopeName = '_default';
 
@@ -26,6 +27,15 @@ class Scope {
   /// Returns a [Collection] which can be used to perform operations against
   /// the collection with the given [name].
   Collection collection(String name) => Collection(name: name, scope: this);
+
+  /// Executes a SQL++ query against the cluster, scoped to this scope.
+  Future<QueryResult> query(String statement, [QueryOptions? options]) async {
+    options ??= const QueryOptions();
+    return _bucket.cluster.query(
+      statement,
+      options.copyWith(queryContext: '${_bucket.name}.$name'),
+    );
+  }
 }
 
 extension InternalScope on Scope {

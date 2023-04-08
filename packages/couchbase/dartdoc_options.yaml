@@ -10,6 +10,8 @@ dartdoc:
       markdown: doc/Diagnostics.md
     'Error Handling':
       markdown: 'doc/Error Handling.md'
+    'Query':
+      markdown: doc/Query.md
   categoryOder:
     - 'Core'
     - 'Authentication'
