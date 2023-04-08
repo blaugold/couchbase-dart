@@ -102,7 +102,8 @@ extension MessageQueryMetaData on message.QueryResponseQueryMetaData {
       requestId: requestId,
       clientContextId: clientContextId,
       status: QueryStatus.values.byName(status),
-      signature: signature?.let((it) => jsonDecode(it) as Map<String, Object?>?),
+      signature:
+          signature?.let((it) => jsonDecode(it) as Map<String, Object?>?),
       warnings: warnings?.map((warning) => warning.toApi()).toList() ?? [],
       metrics: metrics?.toApi(),
       profile: profile?.let((it) => jsonDecode(it) as Map<String, Object?>),

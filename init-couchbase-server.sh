@@ -52,7 +52,8 @@ until docker exec $CONTAINER_NAME cbq \
 done
 
 docker exec $CONTAINER_NAME cbq \
-  -u admin \
-  -p password \
-  -e http://localhost:8091 \
+  --user admin \
+  --password password \
+  --engine http://localhost:8091 \
+  --exit-on-error \
   --script "CREATE PRIMARY INDEX ON \`test\`;"
