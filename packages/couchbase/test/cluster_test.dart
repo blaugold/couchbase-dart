@@ -2,9 +2,10 @@ import 'package:checks/checks.dart';
 import 'package:couchbase/couchbase.dart';
 import 'package:test/test.dart';
 
+import 'utils/cluster.dart';
+import 'utils/document.dart';
 import 'utils/subject.dart';
-import 'utils/test_cluster.dart';
-import 'utils/test_document.dart';
+import 'utils/utils.dart';
 
 void main() async {
   group('connect', () {
@@ -110,7 +111,7 @@ void main() async {
         QueryOptions(parameters: [documentId], preserveExpiry: true),
       );
       // Wait for the mutation to be processed.
-      await Future<void>.delayed(const Duration(milliseconds: 100));
+      await wait(milliseconds: 100);
       var getResult = await cluster.testBucket.defaultCollection.get(
         documentId,
         const GetOptions(withExpiry: true),
@@ -122,7 +123,7 @@ void main() async {
         QueryOptions(parameters: [documentId]),
       );
       // Wait for the mutation to be processed.
-      await Future<void>.delayed(const Duration(milliseconds: 100));
+      await wait(milliseconds: 100);
       getResult = await cluster.testBucket.defaultCollection.get(
         documentId,
         const GetOptions(withExpiry: true),
@@ -207,7 +208,7 @@ void main() async {
       final documentId = createTestDocumentId();
       await cluster.testBucket.defaultCollection.insert(documentId, true);
       // Wait for the mutation to be processed.
-      await Future<void>.delayed(const Duration(milliseconds: 100));
+      await wait(milliseconds: 100);
       final result = await cluster.query(
         r'SELECT * FROM _default WHERE META().id = $1',
         QueryOptions(
