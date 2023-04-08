@@ -44,4 +44,39 @@ extension InternalMutationToken on MutationToken {
 ///
 /// This will guarantee that the query includes the specified set of mutations
 /// without incurring the wait associated with request_plus level consistency.
-class MutationState {}
+class MutationState {
+  final _data = <String, Map<int, MutationToken>>{};
+
+  List<MutationToken> get _tokens {
+    final result = <MutationToken>[];
+    for (final bucket in _data.values) {
+      result.addAll(bucket.values);
+    }
+    return result;
+  }
+
+  /// Adds a [MutationToken] to this state.
+  void add(MutationToken token) {
+    final vbId = token._partitionId;
+    final vbSeqNo = token._sequenceNumber;
+    final bucketName = token._bucketName;
+
+    final tokens = _data.putIfAbsent(bucketName, () => {});
+    if (!tokens.containsKey(vbId)) {
+      tokens[vbId] = token;
+    } else {
+      final otherToken = tokens[vbId]!;
+      final otherTokenSeqNo = otherToken._sequenceNumber;
+      if (otherTokenSeqNo < vbSeqNo) {
+        tokens[vbId] = token;
+      }
+    }
+  }
+
+  /// Adds multiple [MutationToken]s to this state.
+  void addAll(Iterable<MutationToken> tokens) => tokens.forEach(add);
+}
+
+extension InternalMutationState on MutationState {
+  List<MutationToken> get tokens => _tokens;
+}

@@ -6,9 +6,11 @@ environment:
   sdk: '>=2.19.4 <3.0.0'
 
 dependencies:
+  collection: ^1.16.0
   ffi: ^2.0.1
   meta: ^1.9.1
   path: ^1.8.3
+  solvent: ^0.1.1
 
 dev_dependencies:
   checks: ^0.2.1

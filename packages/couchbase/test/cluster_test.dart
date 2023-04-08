@@ -2,7 +2,9 @@ import 'package:checks/checks.dart';
 import 'package:couchbase/couchbase.dart';
 import 'package:test/test.dart';
 
+import 'utils/subject.dart';
 import 'utils/test_cluster.dart';
+import 'utils/test_document.dart';
 
 void main() async {
   group('connect', () {
@@ -23,6 +25,210 @@ void main() async {
           ),
         );
       });
+    });
+  });
+
+  group('query', () {
+    late final Cluster cluster;
+
+    setUpAll(() async {
+      cluster = await connectToTestCluster();
+    });
+
+    test('default options', () async {
+      final result = await cluster.query('SELECT 1');
+      check(result).rows.single.deepEquals({r'$1': 1});
+      check(result).meta
+        ..status.equals(QueryStatus.success)
+        ..signature.isNotNull().deepEquals({r'$1': 'number'})
+        ..warnings.isEmpty()
+        ..metrics.isNull()
+        ..profile.isNull();
+    });
+
+    test('with parameters (positional)', () async {
+      final result = await cluster.query(
+        r'SELECT $1',
+        const QueryOptions(parameters: [1]),
+      );
+      check(result).rows.single.deepEquals({r'$1': 1});
+    });
+
+    test('with parameters (named)', () async {
+      final result = await cluster.query(
+        r'SELECT $foo',
+        const QueryOptions(parameters: {'foo': 1}),
+      );
+      check(result).rows.single.deepEquals({r'$1': 1});
+    });
+
+    test('with scanConsistency', () async {
+      final result = await cluster.query(
+        'SELECT 1',
+        const QueryOptions(scanConsistency: QueryScanConsistency.requestPlus),
+      );
+      check(result).rows.single.deepEquals({r'$1': 1});
+    });
+
+    test('with consistentWith', () async {
+      final insertResult = await cluster.testBucket.defaultCollection
+          .insert(createTestDocumentId(), null);
+      final mutationState = MutationState()..add(insertResult.token!);
+      final result = await cluster.query(
+        'SELECT 1',
+        QueryOptions(consistentWith: mutationState),
+      );
+      check(result).rows.single.deepEquals({r'$1': 1});
+    });
+
+    test('with adhoc', () async {
+      final result = await cluster.query(
+        'SELECT 1',
+        const QueryOptions(adhoc: false),
+      );
+      check(result).rows.single.deepEquals({r'$1': 1});
+    });
+
+    test('with flexIndex', () async {
+      final result = await cluster.query(
+        'SELECT 1',
+        const QueryOptions(flexIndex: true),
+      );
+      check(result).rows.single.deepEquals({r'$1': 1});
+    });
+
+    test('with preserveExpiry', () async {
+      final documentId = createTestDocumentId();
+      await cluster.testBucket.defaultCollection.insert(
+        documentId,
+        null,
+        const InsertOptions(expiry: Duration(hours: 1)),
+      );
+
+      await cluster.query(
+        'UPDATE `$testBucketName` SET a = true WHERE META().id = \$1',
+        QueryOptions(parameters: [documentId], preserveExpiry: true),
+      );
+      // Wait for the mutation to be processed.
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      var getResult = await cluster.testBucket.defaultCollection.get(
+        documentId,
+        const GetOptions(withExpiry: true),
+      );
+      check(getResult.expiryTime).isNotNull();
+
+      await cluster.query(
+        'UPDATE `$testBucketName` SET a = true WHERE META().id = \$1',
+        QueryOptions(parameters: [documentId]),
+      );
+      // Wait for the mutation to be processed.
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      getResult = await cluster.testBucket.defaultCollection.get(
+        documentId,
+        const GetOptions(withExpiry: true),
+      );
+      check(getResult.expiryTime).isNull();
+    });
+
+    test('with clientContextId', () async {
+      final result = await cluster.query(
+        'SELECT 1',
+        const QueryOptions(clientContextId: 'test'),
+      );
+      check(result).meta.clientContextId.equals('test');
+    });
+
+    test('with maxParallelism', () async {
+      await cluster.query(
+        'SELECT 1',
+        const QueryOptions(maxParallelism: 1),
+      );
+    });
+
+    test('with pipelineBatch', () async {
+      await cluster.query(
+        'SELECT 1',
+        const QueryOptions(pipelineBatch: 1),
+      );
+    });
+
+    test('with pipelineCap', () async {
+      await cluster.query(
+        'SELECT 1',
+        const QueryOptions(pipelineCap: 1),
+      );
+    });
+
+    test('with scanWait', () async {
+      await cluster.query(
+        'SELECT 1',
+        const QueryOptions(scanWait: Duration(seconds: 1)),
+      );
+    });
+
+    test('with scanCap', () async {
+      await cluster.query(
+        'SELECT 1',
+        const QueryOptions(scanCap: 1),
+      );
+    });
+
+    test('with readOnly', () async {
+      await cluster.query(
+        'SELECT 1',
+        const QueryOptions(readOnly: true),
+      );
+
+      await check(
+        cluster.query(
+          'UPDATE `$testBucketName` SET a = true',
+          const QueryOptions(readOnly: true),
+        ),
+      ).throws<InternalServerFailure>();
+    });
+
+    test('with profile', () async {
+      final result = await cluster.query(
+        'SELECT 1',
+        const QueryOptions(profile: QueryProfileMode.timings),
+      );
+      check(result).meta.profile.isNotNull();
+    });
+
+    test('with metrics', () async {
+      final result = await cluster.query(
+        'SELECT 1',
+        const QueryOptions(metrics: true),
+      );
+      check(result).meta.metrics.isNotNull();
+    });
+
+    test('with queryContext', () async {
+      final documentId = createTestDocumentId();
+      await cluster.testBucket.defaultCollection.insert(documentId, true);
+      // Wait for the mutation to be processed.
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      final result = await cluster.query(
+        r'SELECT * FROM _default WHERE META().id = $1',
+        QueryOptions(
+          queryContext: '$testBucketName._default',
+          parameters: [documentId],
+        ),
+      );
+      check(result).rows.single.deepEquals({'_default': true});
+    });
+
+    test('with raw', () async {
+      await cluster.query(
+        'SELECT 1',
+        const QueryOptions(raw: {'use_fts': true}),
+      );
+      await check(
+        cluster.query(
+          'SELECT 1',
+          const QueryOptions(raw: {'foo': true}),
+        ),
+      ).throws<InvalidArgument>();
     });
   });
 
@@ -52,6 +258,7 @@ void main() async {
       check(result.sdk).startsWith('cxx');
       check(result.services).keys.deepEquals([
         ServiceType.keyValue,
+        ServiceType.query,
         ServiceType.views,
         ServiceType.management,
       ]);

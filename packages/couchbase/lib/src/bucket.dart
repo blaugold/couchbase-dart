@@ -42,14 +42,8 @@ class Bucket {
   /// specified). Returns a report which describes the outcome of the ping
   /// operations which were performed.
   Future<PingResult> ping([PingOptions? options]) {
-    return _cluster.ping(
-      PingOptions(
-        bucket: name,
-        reportId: options?.reportId,
-        serviceTypes: options?.serviceTypes,
-        timeout: options?.timeout,
-      ),
-    );
+    options ??= const PingOptions();
+    return _cluster.ping(options.copyWith(bucket: name));
   }
 }
 

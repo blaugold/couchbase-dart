@@ -13,7 +13,7 @@ export 'src/collection.dart'
         RemoveOptions,
         ReplaceOptions,
         UpsertOptions;
-export 'src/crud_operation_type.dart'
+export 'src/crud_operation.dart'
     show
         ExistsResult,
         GetResult,
@@ -133,6 +133,16 @@ export 'src/general.dart'
 export 'src/message.g.dart'
     show DurabilityLevel, KeyValueStatusCode, PersistTo, ReplicateTo;
 export 'src/mutation_state.dart' show MutationState, MutationToken;
+export 'src/query.dart'
+    show
+        QueryMetaData,
+        QueryMetrics,
+        QueryOptions,
+        QueryProfileMode,
+        QueryResult,
+        QueryScanConsistency,
+        QueryStatus,
+        QueryWarning;
 export 'src/scope.dart' show Scope;
 export 'src/sub_document_spec.dart' show LookupInMacro, LookupInSpec;
 export 'src/transcoder.dart'

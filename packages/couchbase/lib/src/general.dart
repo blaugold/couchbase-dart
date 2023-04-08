@@ -7,29 +7,25 @@ import 'transcoder.dart';
 /// The various service types available.
 enum ServiceType {
   /// The key-value service, responsible for data storage.
-  keyValue('kv'),
+  keyValue,
 
   /// The management service, responsible for managing the cluster.
-  management('mgmt'),
+  management,
 
   /// The views service, responsible for views querying.
-  views('views'),
+  views,
 
   /// The query service, responsible for N1QL querying.
-  query('query'),
+  query,
 
   /// The search service, responsible for full-text search querying.
-  search('search'),
+  search,
 
   /// The analytics service, responsible for analytics querying.
-  analytics('analytics'),
+  analytics,
 
   /// The eventing service, responsible for event-driven actions.
-  eventing('eventing');
-
-  const ServiceType(this.name);
-
-  final String name;
+  eventing,
 }
 
 extension MessageServiceTypeExtension on message.ServiceType {
