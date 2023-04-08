@@ -1,7 +1,7 @@
 Future<T> withRetry<T>(
   Future<T> Function() action, {
   int? maxAttempts = 10,
-  Duration? delay = const Duration(milliseconds: 100),
+  Duration? delay = const Duration(seconds: 1),
   bool Function(Exception error)? retryOn,
 }) async {
   var attempts = 0;
