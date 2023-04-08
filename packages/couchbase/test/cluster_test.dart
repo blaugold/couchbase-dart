@@ -106,29 +106,31 @@ void main() async {
         const InsertOptions(expiry: Duration(hours: 1)),
       );
 
+      late GetResult getResult;
+
       await cluster.query(
         'UPDATE `$testBucketName` SET a = true WHERE META().id = \$1',
         QueryOptions(parameters: [documentId], preserveExpiry: true),
       );
-      // Wait for the mutation to be processed.
-      await wait(milliseconds: 100);
-      var getResult = await cluster.testBucket.defaultCollection.get(
-        documentId,
-        const GetOptions(withExpiry: true),
-      );
-      check(getResult.expiryTime).isNotNull();
+      await withRetry(() async {
+        getResult = await cluster.testBucket.defaultCollection.get(
+          documentId,
+          const GetOptions(withExpiry: true),
+        );
+        check(getResult.expiryTime).isNotNull();
+      });
 
       await cluster.query(
         'UPDATE `$testBucketName` SET a = true WHERE META().id = \$1',
         QueryOptions(parameters: [documentId]),
       );
-      // Wait for the mutation to be processed.
-      await wait(milliseconds: 100);
-      getResult = await cluster.testBucket.defaultCollection.get(
-        documentId,
-        const GetOptions(withExpiry: true),
-      );
-      check(getResult.expiryTime).isNull();
+      await withRetry(() async {
+        getResult = await cluster.testBucket.defaultCollection.get(
+          documentId,
+          const GetOptions(withExpiry: true),
+        );
+        check(getResult.expiryTime).isNull();
+      });
     });
 
     test('with clientContextId', () async {
@@ -207,16 +209,17 @@ void main() async {
     test('with queryContext', () async {
       final documentId = createTestDocumentId();
       await cluster.testBucket.defaultCollection.insert(documentId, true);
-      // Wait for the mutation to be processed.
-      await wait(milliseconds: 100);
-      final result = await cluster.query(
-        r'SELECT * FROM _default WHERE META().id = $1',
-        QueryOptions(
-          queryContext: '$testBucketName._default',
-          parameters: [documentId],
-        ),
-      );
-      check(result).rows.single.deepEquals({'_default': true});
+
+      await withRetry(() async {
+        final result = await cluster.query(
+          r'SELECT * FROM _default WHERE META().id = $1',
+          QueryOptions(
+            queryContext: '$testBucketName._default',
+            parameters: [documentId],
+          ),
+        );
+        check(result).rows.single.deepEquals({'_default': true});
+      });
     });
 
     test('with raw', () async {

@@ -19,12 +19,13 @@ void main() {
   test('query', () async {
     final documentId = createTestDocumentId();
     await scope.defaultCollection.insert(documentId, true);
-    // Wait for the mutation to be processed.
-    await wait(milliseconds: 100);
-    final result = await scope.query(
-      r'SELECT * FROM _default WHERE META().id = $1',
-      QueryOptions(parameters: [documentId]),
-    );
-    check(result).rows.single.deepEquals({'_default': true});
+
+    await withRetry(() async {
+      final result = await scope.query(
+        r'SELECT * FROM _default WHERE META().id = $1',
+        QueryOptions(parameters: [documentId]),
+      );
+      check(result).rows.single.deepEquals({'_default': true});
+    });
   });
 }
