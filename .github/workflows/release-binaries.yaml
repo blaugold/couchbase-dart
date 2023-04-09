@@ -62,3 +62,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           platforms: linux/${{ matrix.arch }}
+          context: native
