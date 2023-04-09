@@ -7,6 +7,11 @@ packages:
 ide:
   intellij: false
 
+command:
+  version:
+    hooks:
+      preCommit: melos run tool -- generate-version
+
 scripts:
   format:
     run: dart format .
@@ -41,3 +46,6 @@ scripts:
 
   initCouchbaseServer:
     run: ./init-couchbase-server.sh
+
+  tool:
+    run: cd tool && dart run tool:tool

@@ -1,6 +1,6 @@
 name: couchbase
 description: Couchbase SDK for Dart
-version: 1.0.0
+version: 0.0.0
 
 environment:
   sdk: '>=2.19.4 <3.0.0'
