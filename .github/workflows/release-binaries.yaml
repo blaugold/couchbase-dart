@@ -1,0 +1,122 @@
+name: Release binaries
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+      - 'couchbase-v*'
+
+jobs:
+  macOS:
+    strategy:
+      matrix:
+        arch: [x86_64, arm64]
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Install ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          max-size: 2048M
+          key: ci-ccache-${{ runner.os }}
+
+      - run: melos build:OpenSSL -- --arch ${{ matrix.arch }}
+
+      - run: melos build:libCouchbaseDart
+        env:
+          CMAKE_OSX_ARCHITECTURES: ${{ matrix.arch }}
+
+      - name: Create archive
+        working-directory: native/build
+        run:
+          # Use GNU tar to work around a bug in Apple tar.
+          # https://github.com/actions/runner-images/issues/2619
+          gtar -czf libCouchbaseDart-macos-${{ matrix.arch }}.tar.gz
+          libCouchbaseDart.dylib
+
+      - name: Upload archive
+        uses: actions/upload-artifact@v3
+        with:
+          name: libCouchbaseDart-macos-${{ matrix.arch }}
+          path: native/build/libCouchbaseDart-macos-${{ matrix.arch }}.tar.gz
+
+  Linux:
+    strategy:
+      matrix:
+        include:
+          - runner: ubuntu-22.04
+            arch: x86_64
+          - runner: buildjet-8vcpu-ubuntu-2204-arm
+            arch: arm64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Install ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          max-size: 2048M
+          key: ci-ccache-${{ runner.os }}
+
+      - run: melos build:OpenSSL
+
+      - run: melos build:libCouchbaseDart
+
+      - name: Create archive
+        working-directory: native/build
+        run:
+          tar -czf libCouchbaseDart-linux-${{ matrix.arch }}.tar.gz
+          libCouchbaseDart.so
+
+      - name: Upload archive
+        uses: actions/upload-artifact@v3
+        with:
+          name: libCouchbaseDart-linux-${{ matrix.arch }}
+          path: native/build/libCouchbaseDart-linux-${{ matrix.arch }}.tar.gz
+
+  Release:
+    needs: [macOS, Linux]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all archives
+        uses: actions/download-artifact@v3
+        with:
+          path: archives
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: archives/**
