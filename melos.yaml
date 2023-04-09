@@ -30,7 +30,7 @@ scripts:
     run: cd native && dart build_openssl.dart
 
   build:libCouchbaseDart:
-    run: cd native && ./build.sh
+    run: cd native && dart build.dart
 
   build:bindings:
     run: |

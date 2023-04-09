@@ -38,8 +38,9 @@ COPY include ./include
 COPY src ./src
 COPY vendor ./vendor
 COPY build_openssl.dart ./
-COPY build.sh ./
+COPY build_utils.dart ./
+COPY build.dart ./
 COPY CMakeLists.txt ./
 
 RUN dart build_openssl.dart --no-ccache
-RUN ./build.sh
+RUN dart build.dart
