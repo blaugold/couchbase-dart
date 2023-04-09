@@ -65,6 +65,7 @@ Future<void> buildOpenSsl({
       if (Platform.isWindows) configureScript,
       '--prefix=$installDirectory',
       '--openssldir=$installDirectory/ssl',
+      '--libdir=lib',
       'no-ssl3',
       'no-ssl3-method',
       'no-zlib',
