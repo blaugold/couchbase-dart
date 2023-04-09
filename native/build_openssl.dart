@@ -1,17 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
 
-const compiler = 'ccache cc';
 final openSslSourceDirectory = '${Directory.current.path}/vendor/openssl';
 final openSslBuildDirectory = '${Directory.current.path}/build/vendor/openssl';
 final openSslInstallDirectory = '$openSslBuildDirectory/install';
 
 void main(List<String> arguments) async {
   final String arch;
-  if (arguments.isNotEmpty) {
-    arch = arguments.first;
+  final archIndex = arguments.indexOf('--arch');
+  if (archIndex != -1) {
+    arch = arguments[archIndex + 1];
   } else {
     arch = currentArch();
+  }
+
+  var compiler = 'cc';
+  if (!arguments.contains('--no-ccache')) {
+    compiler = 'ccache $compiler';
   }
 
   await buildOpenSsl(
@@ -27,7 +32,7 @@ String resolveConfiguration({required String arch}) {
   if (Platform.isLinux) {
     if (arch == 'x86_64') {
       return 'linux-x86_64';
-    } else if (arch == 'arm64') {
+    } else if (arch == 'aarch64') {
       return 'linux-aarch64';
     }
   } else if (Platform.isMacOS) {
