@@ -44,7 +44,7 @@ jobs:
   Linux:
     strategy:
       matrix:
-        runner: [ubuntu-22.04, buildjet-4vcpu-ubuntu-2204-arm]
+        runner: [ubuntu-22.04, buildjet-8vcpu-ubuntu-2204-arm]
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout repository
