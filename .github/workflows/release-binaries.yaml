@@ -1,0 +1,80 @@
+name: Release binaries
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  macOS:
+    strategy:
+      matrix:
+        arch: [x86_64, arm64]
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Install ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          max-size: 2048M
+          key: ci-ccache-${{ runner.os }}
+
+      - run: melos build:OpenSSL ${{ matrix.arch }}
+
+      - run: melos build:libCouchbaseDart
+        env:
+          CMAKE_OSX_ARCHITECTURES: ${{ matrix.arch }}
+
+  Linux:
+    strategy:
+      matrix:
+        arch: [x86_64, arm64]
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:latest
+      options: --platform linux/arm64
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install Build Essentials
+        run: apt-get update && apt-get install -y build-essential
+
+      - name: Install Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Install ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          max-size: 2048M
+          key: ci-ccache-${{ runner.os }}
+
+      - run: melos build:OpenSSL ${{ matrix.arch }}
+
+      - run: melos build:libCouchbaseDart

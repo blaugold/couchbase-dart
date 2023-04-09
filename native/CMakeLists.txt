@@ -4,6 +4,11 @@ cmake_policy(SET CMP0048 NEW)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# If CMAKE_OSX_ARCHITECTURES environment variable is set, use it.
+if(DEFINED ENV{CMAKE_OSX_ARCHITECTURES})
+  set(CMAKE_OSX_ARCHITECTURES $ENV{CMAKE_OSX_ARCHITECTURES})
+endif()
+
 # Set up some build requirements for Windows.
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 if(WIN32)
