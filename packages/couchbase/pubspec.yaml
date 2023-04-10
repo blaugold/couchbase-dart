@@ -1,15 +1,20 @@
 name: couchbase
-description: Couchbase SDK for Dart
+description:
+  Couchbase Server SDK for Dart. Couchbase is a distributed, scalable, NewSQL,
+  document-oriented database.
 version: 0.0.0
+repository: https://github.com/blaugold/couchbase-dart
+issue_tracker: https://github.com/blaugold/couchbase-dart/issues
+homepage: https://github.com/blaugold/couchbase-dart/tree/main/packages/couchbase
 
 environment:
-  sdk: '>=2.19.4 <3.0.0'
+  sdk: ^2.19.0
 
 dependencies:
   collection: ^1.16.0
   ffi: ^2.0.1
-  meta: ^1.9.1
-  path: ^1.8.3
+  meta: ^1.8.0
+  path: ^1.8.0
   solvent: ^0.1.1
 
 dev_dependencies:
