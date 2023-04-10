@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'dart:typed_data';
 
-import 'bindings.dart';
 import 'lib_couchbase_dart.dart';
+import 'native_library.dart';
 
 class MessageBuffer implements Finalizable {
   MessageBuffer({int initialCapacity = 1024})
