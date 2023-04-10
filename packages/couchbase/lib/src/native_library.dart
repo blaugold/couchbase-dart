@@ -182,6 +182,8 @@ Future<void> _unpackTarArchive(
       }
     }
 
+    await Directory(directory).delete(recursive: true);
+    await Directory(directory).create(recursive: true);
     await temporaryDirectory.rename(directory);
     // ignore: avoid_catches_without_on_clauses
   } catch (e) {
