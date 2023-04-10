@@ -35,8 +35,7 @@ jobs:
       - name: Install ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          max-size: 2048M
-          key: ci-ccache-${{ runner.os }}
+          key: release-binaries-macos-${{ matrix.arch }}
 
       - run: melos build:OpenSSL -- --arch ${{ matrix.arch }}
 
@@ -88,8 +87,7 @@ jobs:
       - name: Install ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          max-size: 2048M
-          key: ci-ccache-${{ runner.os }}
+          key: release-binaries-linux-${{ matrix.arch }}
 
       - run: melos build:OpenSSL
 
