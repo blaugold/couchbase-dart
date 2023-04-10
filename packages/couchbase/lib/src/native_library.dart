@@ -12,10 +12,14 @@ import 'version.g.dart';
 
 late final LibCouchbaseDart bindings;
 
+Future<void>? _loadingNativeLibrary;
+
 Future<void> loadNativeLibrary() async {
-  final directory = await ensureNativeLibraryIsAvailable();
-  final nativeLibrary = _openNativeLibrary(directory);
-  _initBindings(nativeLibrary);
+  return _loadingNativeLibrary ??= Future.sync(() async {
+    final directory = await ensureNativeLibraryIsAvailable();
+    final nativeLibrary = _openNativeLibrary(directory);
+    _initBindings(nativeLibrary);
+  });
 }
 
 Future<String> ensureNativeLibraryIsAvailable({bool useLocal = true}) async {
