@@ -11,7 +11,7 @@ ide:
 command:
   version:
     hooks:
-      preCommit: melos run tool -- generate-version
+      preCommit: melos run tool -- generate-version && git add packages/couchbase/lib/src
 
 scripts:
   format:
