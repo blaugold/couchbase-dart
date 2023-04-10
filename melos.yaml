@@ -3,6 +3,7 @@ repository: https://github.com/blaugold/couchbase-dart
 packages:
   - tool
   - packages/couchbase
+  - packages/couchbase/example
 
 ide:
   intellij: false
