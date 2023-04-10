@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:isolate';
 
-import 'bindings.dart';
 import 'exception.dart' as exception;
 import 'lib_couchbase_dart.dart';
 import 'message.g.dart';
 import 'message_basic.dart';
 import 'message_buffer.dart';
 import 'message_errors.dart';
+import 'native_library.dart';
 
 part 'connection.g.dart';
 

@@ -10,12 +10,17 @@ homepage: https://github.com/blaugold/couchbase-dart/tree/main/packages/couchbas
 environment:
   sdk: ^2.19.0
 
+bin:
+  install:
+
 dependencies:
   collection: ^1.16.0
   ffi: ^2.0.1
+  http: ^0.13.5
   meta: ^1.8.0
   path: ^1.8.0
   solvent: ^0.1.1
+  tar: ^0.5.6
 
 dev_dependencies:
   checks: ^0.2.1

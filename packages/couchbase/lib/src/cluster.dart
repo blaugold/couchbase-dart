@@ -12,6 +12,7 @@ import 'message.g.dart';
 import 'message_basic.dart';
 import 'message_basic.dart' as message_basic;
 import 'mutation_state.dart';
+import 'native_library.dart';
 import 'query.dart';
 import 'transcoder.dart';
 import 'version.g.dart';
@@ -176,6 +177,7 @@ class Cluster {
     String connectionString, [
     ClusterOptions? options,
   ]) async {
+    await loadNativeLibrary();
     final cluster = Cluster._(connectionString, options ?? ClusterOptions());
     await cluster._connect();
     return cluster;
