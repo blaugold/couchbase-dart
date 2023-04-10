@@ -48,7 +48,7 @@ void _initBindings(DynamicLibrary library) {
 final _couchbaseDartIsLocalPackage = Future.sync(() async {
   return path
       .canonicalize((await _couchbaseDartPackageRootUri).toFilePath())
-      .endsWith('packages/couchbase');
+      .endsWith('couchbase-dart/packages/couchbase');
 });
 
 final _couchbaseDartPackageRootUri = Future.sync(() async {
