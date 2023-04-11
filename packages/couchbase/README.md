@@ -59,5 +59,10 @@ void main() async {
 }
 ```
 
+## Acknowledgements
+
+Thanks to [BenjaminThong](https://github.com/BenjaminThong) for making the
+`couchbase` package name available on pub.dev.
+
 [couchbase]: https://docs.couchbase.com/home/server.html
 [issues]: https://github.com/blaugold/couchbase-dart/issues
