@@ -5,6 +5,8 @@ import 'message.g.dart' as message;
 import 'transcoder.dart';
 
 /// The various service types available.
+///
+/// {@category Core}
 enum ServiceType {
   /// The key-value service, responsible for data storage.
   keyValue,

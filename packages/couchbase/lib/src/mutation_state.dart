@@ -1,6 +1,8 @@
 /// Represents the mutation token returned by the server.
 ///
 /// See [MutationState].
+///
+/// {@category Query}
 class MutationToken {
   const MutationToken._({
     required int partitionUuid,
@@ -44,6 +46,8 @@ extension InternalMutationToken on MutationToken {
 ///
 /// This will guarantee that the query includes the specified set of mutations
 /// without incurring the wait associated with request_plus level consistency.
+///
+/// {@category Query}
 class MutationState {
   final _data = <String, Map<int, MutationToken>>{};
 

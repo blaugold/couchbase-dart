@@ -849,6 +849,8 @@ class XattrUnknownMacro extends CouchbaseException {
 /// More than one XATTR key has been requested.
 ///
 /// This is not supported.
+///
+/// {@category Error Handling}
 class XattrInvalidKeyCombo extends CouchbaseException {
   XattrInvalidKeyCombo([super.context]);
 
