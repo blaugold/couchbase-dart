@@ -46,8 +46,12 @@ void _initBindings(DynamicLibrary library) {
 }
 
 final _couchbaseDartIsLocalPackage = Future.sync(() async {
+  final couchbaseDartPackageRootUri = await _couchbaseDartPackageRootUri;
+  if (couchbaseDartPackageRootUri == null) {
+    return false;
+  }
   return path
-      .canonicalize((await _couchbaseDartPackageRootUri).toFilePath())
+      .canonicalize(couchbaseDartPackageRootUri.toFilePath())
       .endsWith('couchbase-dart/packages/couchbase');
 });
 
@@ -56,7 +60,11 @@ final _couchbaseDartPackageRootUri = Future.sync(() async {
     Uri.parse('package:couchbase/couchbase.dart'),
   );
 
-  return File(packageEntryUri!.toFilePath()).parent.parent.uri;
+  if (packageEntryUri == null) {
+    return null;
+  }
+
+  return File(packageEntryUri.toFilePath()).parent.parent.uri;
 });
 
 String _nativeLibraryBaseName() {
@@ -85,7 +93,7 @@ final _installedNativeLibraryPath =
 
 final _localNativeLibraryDirectoryPath = Future.sync(() async {
   final packageRootUri = await _couchbaseDartPackageRootUri;
-  return path.join(packageRootUri.toFilePath(), '../../native/build');
+  return path.join(packageRootUri!.toFilePath(), '../../native/build');
 });
 
 DynamicLibrary _openNativeLibrary(String directory) =>
@@ -182,12 +190,19 @@ Future<void> _unpackTarArchive(
       }
     }
 
-    await Directory(directory).delete(recursive: true);
-    await Directory(directory).create(recursive: true);
+    await _ensureEmptyDirectory(directory);
     await temporaryDirectory.rename(directory);
     // ignore: avoid_catches_without_on_clauses
   } catch (e) {
     await temporaryDirectory.delete(recursive: true);
     rethrow;
   }
+}
+
+Future<void> _ensureEmptyDirectory(String path) async {
+  final directory = Directory(path);
+  if (directory.existsSync()) {
+    await directory.delete(recursive: true);
+  }
+  await directory.create(recursive: true);
 }
