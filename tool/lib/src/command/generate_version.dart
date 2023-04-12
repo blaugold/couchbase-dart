@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:path/path.dart' as path;
-import 'package:pubspec_parse/pubspec_parse.dart';
 
-final _pubspecPath = path.canonicalize('../packages/couchbase/pubspec.yaml');
+import '../current_version.dart';
+
 final _versionFilePath =
     path.canonicalize('../packages/couchbase/lib/src/version.g.dart');
 
@@ -17,22 +17,12 @@ class GenerateVersion extends Command<void> {
 
   @override
   void run() {
-    final version = _readVersion();
+    final version = loadCurrentCouchbasePackageVersion();
     final content = _generateVersionFileContent(version);
     final versionFile = File(_versionFilePath);
     versionFile.writeAsStringSync(content);
     // ignore: avoid_print
     print('Wrote version $version to $_versionFilePath.');
-  }
-
-  String _readVersion() {
-    // Read the version from the pubspec.yaml file.
-    final pubspecFile = File(_pubspecPath);
-    final pubspec = Pubspec.parse(
-      pubspecFile.readAsStringSync(),
-      sourceUrl: pubspecFile.uri,
-    );
-    return pubspec.version.toString();
   }
 
   String _generateVersionFileContent(String version) {
