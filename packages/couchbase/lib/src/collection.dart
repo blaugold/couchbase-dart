@@ -728,7 +728,7 @@ class Collection {
           .decode(EncodedDocumentData(flags: flags, bytes: bytes));
       for (final projectionPath in paths) {
         final value = SubDocumentUtils.getByPath(fullDocument, projectionPath);
-        if (identical(value, SubDocumentUtils.notFoundSentinel)) {
+        if (!identical(value, SubDocumentUtils.notFoundSentinel)) {
           content =
               SubDocumentUtils.insertByPath(content, projectionPath, value);
         }
