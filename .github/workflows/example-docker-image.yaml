@@ -1,0 +1,28 @@
+name: Example Docker image
+
+on:
+  push:
+    paths:
+      - packages/couchbase/example/**
+    branches:
+      - main
+  pull_request:
+    paths:
+      - packages/couchbase/example/**
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build image
+        run: docker build -t couchbase-example packages/couchbase/example
+
+      - run: melos initCouchbaseServer
+
+      - name: Run example
+        run: docker run --network host couchbase-example
