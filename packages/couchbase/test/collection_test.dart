@@ -787,7 +787,7 @@ void main() {
           ..value.equals(17),
         lookupInResultEntry()
           ..error.isNull()
-          ..value.equals('1'),
+          ..value.equals('2'),
       ]);
     });
   });
