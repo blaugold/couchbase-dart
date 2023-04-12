@@ -6,6 +6,7 @@ import 'package:test/test.dart';
 import 'utils/cluster.dart';
 import 'utils/document.dart';
 import 'utils/subject.dart';
+import 'utils/utils.dart';
 
 void main() {
   late Cluster cluster;
@@ -640,65 +641,158 @@ void main() {
     });
   });
 
-  test('sub document lookup: exists', () async {
-    final documentId = createTestDocumentId();
-    final documentContent = {'hello': 'world'};
+  group('lookupIn', () {
+    test('get', () async {
+      final documentId = createTestDocumentId();
+      final documentContent = {'a': 'b'};
 
-    await defaultCollection.insert(documentId, documentContent);
-    var result = await defaultCollection
-        .lookupIn(documentId, [LookupInSpec.exists('hello')]);
-    check(result).content.single.value.isBool.isTrue();
+      await defaultCollection.insert(documentId, documentContent);
+      var result =
+          await defaultCollection.lookupIn(documentId, [LookupInSpec.get('a')]);
+      check(result).content.single.value.equals('b');
 
-    result = await defaultCollection
-        .lookupIn(documentId, [LookupInSpec.exists('foo')]);
-    check(result).content.single.value.isBool.isFalse();
-  });
+      result =
+          await defaultCollection.lookupIn(documentId, [LookupInSpec.get('c')]);
+      check(result).content.single.value.isNull();
+      check(result).content.single.error.isA<PathNotFound>();
+    });
 
-  test('fetch all LookupInMacros for document', () async {
-    final documentId = createTestDocumentId();
-    final documentContent = {'hello': 'world'};
+    test('get (xattr)', () async {
+      final documentId = createTestDocumentId();
 
-    await defaultCollection.insert(documentId, documentContent);
-    final result = await defaultCollection.lookupIn(
-      documentId,
-      [
-        LookupInSpec.get(LookupInMacro.document),
-        LookupInSpec.get(LookupInMacro.expiry),
-        LookupInSpec.get(LookupInMacro.cas),
-        LookupInSpec.get(LookupInMacro.seqNo),
-        LookupInSpec.get(LookupInMacro.lastModified),
-        LookupInSpec.get(LookupInMacro.valueSizeBytes),
-        LookupInSpec.get(LookupInMacro.revId),
-      ],
-    );
+      await defaultCollection.insert(documentId, null);
+      var result = await defaultCollection.lookupIn(
+        documentId,
+        [LookupInSpec.get(LookupInMacro.valueSizeBytes.path, xattr: true)],
+      );
+      check(result).content.single.value.equals(4);
 
-    check(result).content.containsInOrder([
-      lookupInResultEntry()
-        ..error.isNull()
-        ..value.isJsonMap['datatype'].isA<List<Object?>>().deepEquals(['json']),
-      lookupInResultEntry()
-        ..error.isNull()
-        ..value.isNull(),
-      lookupInResultEntry()
-        ..error.isNull()
-        ..value.equals(result.cas),
-      lookupInResultEntry()
-        ..error.isNull()
-        ..value.isA<String>().startsWith('0x'),
-      // TODO: Try to insert document with higher durability, once implemented.
-      // This might allow us to always get a last modified date.
-      // Currently, retrieving the last modified date fails in CI. It seems to
-      // have something to do with how new the cluster/bucket is. Locally, the
-      // last modified date is always returned, after a few mutation operations.
-      // aALookupInResultEntry()
-      //   ..error.isNull()
-      //   ..value.isA<DateTime>(),
-      lookupInResultEntry()
-        ..error.isNull()
-        ..value.equals(17),
-      lookupInResultEntry()
-        ..error.isNull()
-        ..value.equals('1'),
-    ]);
+      result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.get('a', xattr: true)]);
+      check(result).content.single.value.isNull();
+      check(result).content.single.error.isA<PathNotFound>();
+    });
+
+    test('exists', () async {
+      final documentId = createTestDocumentId();
+      final documentContent = {'a': 'b'};
+
+      await defaultCollection.insert(documentId, documentContent);
+      var result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.exists('a')]);
+      check(result).content.single.value.isBool.isTrue();
+
+      result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.exists('c')]);
+      check(result).content.single.value.isBool.isFalse();
+    });
+
+    test('exists (xattr)', () async {
+      final documentId = createTestDocumentId();
+
+      await defaultCollection.insert(documentId, null);
+      var result = await defaultCollection.lookupIn(
+        documentId,
+        [LookupInSpec.exists(LookupInMacro.cas.path, xattr: true)],
+      );
+      check(result).content.single.value.isBool.isTrue();
+
+      result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.exists('a', xattr: true)]);
+      check(result).content.single.value.isBool.isFalse();
+    });
+
+    test('count', () async {
+      final documentId = createTestDocumentId();
+      final documentContent = {
+        'a': [null, null, null]
+      };
+
+      await defaultCollection.insert(documentId, documentContent);
+      var result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.count('a')]);
+      check(result).content.single.value.equals(3);
+
+      result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.count('c')]);
+      check(result).content.single.value.isNull();
+      check(result).content.single.error.isA<PathNotFound>();
+    });
+
+    test('count (xattr)', () async {
+      final documentId = createTestDocumentId();
+
+      await defaultCollection.mutateIn(
+        documentId,
+        [
+          MutateInSpec.insert(
+            'a',
+            [null, null, null],
+            xattr: true,
+          )
+        ],
+        const MutateInOptions(storeSemantics: StoreSemantics.insert),
+      );
+      var result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.count('a', xattr: true)]);
+      check(result).content.single.value.equals(3);
+
+      result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.count('c', xattr: true)]);
+      check(result).content.single.value.isNull();
+      check(result).content.single.error.isA<PathNotFound>();
+    });
+
+    test('fetch all LookupInMacros for document', () async {
+      final documentId = createTestDocumentId();
+      final documentContent = {'hello': 'world'};
+
+      await defaultCollection.insert(documentId, documentContent);
+
+      // The first attempt to retrieve the last modified date fails sometimes in
+      // CI. It seems to have something to do with how new the cluster/bucket
+      // is.
+      await withRetry(() async {
+        final result = await defaultCollection.lookupIn(
+          documentId,
+          [
+            LookupInSpec.get(LookupInMacro.document),
+            LookupInSpec.get(LookupInMacro.expiry),
+            LookupInSpec.get(LookupInMacro.cas),
+            LookupInSpec.get(LookupInMacro.seqNo),
+            LookupInSpec.get(LookupInMacro.lastModified),
+            LookupInSpec.get(LookupInMacro.valueSizeBytes),
+            LookupInSpec.get(LookupInMacro.revId),
+          ],
+        );
+
+        check(result).content.containsInOrder([
+          lookupInResultEntry()
+            ..error.isNull()
+            ..value
+                .isJsonMap['datatype']
+                .isA<List<Object?>>()
+                .deepEquals(['json']),
+          lookupInResultEntry()
+            ..error.isNull()
+            ..value.isNull(),
+          lookupInResultEntry()
+            ..error.isNull()
+            ..value.equals(result.cas),
+          lookupInResultEntry()
+            ..error.isNull()
+            ..value.isA<String>().startsWith('0x'),
+          lookupInResultEntry()
+            ..error.isNull()
+            ..value.isA<DateTime>(),
+          lookupInResultEntry()
+            ..error.isNull()
+            ..value.equals(17),
+          lookupInResultEntry()
+            ..error.isNull()
+            ..value.equals('1'),
+        ]);
+      });
+    });
   });
 }
