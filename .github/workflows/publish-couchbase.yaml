@@ -1,7 +1,10 @@
-name: Release binaries
+name: Publish couchbase package
 
 permissions:
+  # This is required for uploading release artifacts.
   contents: write
+  # This is required for authentication with pub.dev using OIDC.
+  id-token: write
 
 on:
   push:
@@ -24,6 +27,8 @@ jobs:
 
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
 
       - name: Install Melos
         run: dart pub global activate melos
@@ -74,6 +79,8 @@ jobs:
 
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
 
       - name: Install Melos
         run: dart pub global activate melos
@@ -102,17 +109,30 @@ jobs:
           name: libCouchbaseDart-linux-${{ matrix.arch }}
           path: native/build/libCouchbaseDart-linux-${{ matrix.arch }}.tar.gz
 
-  Release:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/couchbase-v')
+  Publish:
+    if:
+      github.event_name == 'push' && startsWith(github.ref,
+      'refs/tags/couchbase-v')
     needs: [macOS, Linux]
     runs-on: ubuntu-latest
     steps:
-      - name: Download all archives
+      - name: Download all binary archives
         uses: actions/download-artifact@v3
         with:
           path: archives
 
-      - name: Create Release
+      - name: Create GitHub release
         uses: softprops/action-gh-release@v1
         with:
           files: archives/**
+
+      - name: Install Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install dependencies
+        working-directory: package/couchbase
+        run: dart pub get
+
+      - name: Publish package
+        working-directory: package/couchbase
+        run: dart pub publish --force
