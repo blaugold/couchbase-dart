@@ -22,6 +22,14 @@ jobs:
       - name: Build image
         run: docker build -t couchbase-example packages/couchbase/example
 
+      - name: Install Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
       - run: melos initCouchbaseServer
 
       - name: Run example
