@@ -6,7 +6,6 @@ import 'package:test/test.dart';
 import 'utils/cluster.dart';
 import 'utils/document.dart';
 import 'utils/subject.dart';
-import 'utils/utils.dart';
 
 void main() {
   late Cluster cluster;
@@ -748,51 +747,48 @@ void main() {
       final documentContent = {'hello': 'world'};
 
       await defaultCollection.insert(documentId, documentContent);
+      // Ensure the document has a last modified time.
+      await defaultCollection.replace(documentId, documentContent);
 
-      // The first attempt to retrieve the last modified date fails sometimes in
-      // CI. It seems to have something to do with how new the cluster/bucket
-      // is.
-      await withRetry(() async {
-        final result = await defaultCollection.lookupIn(
-          documentId,
-          [
-            LookupInSpec.get(LookupInMacro.document),
-            LookupInSpec.get(LookupInMacro.expiry),
-            LookupInSpec.get(LookupInMacro.cas),
-            LookupInSpec.get(LookupInMacro.seqNo),
-            LookupInSpec.get(LookupInMacro.lastModified),
-            LookupInSpec.get(LookupInMacro.valueSizeBytes),
-            LookupInSpec.get(LookupInMacro.revId),
-          ],
-        );
+      final result = await defaultCollection.lookupIn(
+        documentId,
+        [
+          LookupInSpec.get(LookupInMacro.document),
+          LookupInSpec.get(LookupInMacro.expiry),
+          LookupInSpec.get(LookupInMacro.cas),
+          LookupInSpec.get(LookupInMacro.seqNo),
+          LookupInSpec.get(LookupInMacro.lastModified),
+          LookupInSpec.get(LookupInMacro.valueSizeBytes),
+          LookupInSpec.get(LookupInMacro.revId),
+        ],
+      );
 
-        check(result).content.containsInOrder([
-          lookupInResultEntry()
-            ..error.isNull()
-            ..value
-                .isJsonMap['datatype']
-                .isA<List<Object?>>()
-                .deepEquals(['json']),
-          lookupInResultEntry()
-            ..error.isNull()
-            ..value.isNull(),
-          lookupInResultEntry()
-            ..error.isNull()
-            ..value.equals(result.cas),
-          lookupInResultEntry()
-            ..error.isNull()
-            ..value.isA<String>().startsWith('0x'),
-          lookupInResultEntry()
-            ..error.isNull()
-            ..value.isA<DateTime>(),
-          lookupInResultEntry()
-            ..error.isNull()
-            ..value.equals(17),
-          lookupInResultEntry()
-            ..error.isNull()
-            ..value.equals('1'),
-        ]);
-      });
+      check(result).content.containsInOrder([
+        lookupInResultEntry()
+          ..error.isNull()
+          ..value
+              .isJsonMap['datatype']
+              .isA<List<Object?>>()
+              .deepEquals(['json']),
+        lookupInResultEntry()
+          ..error.isNull()
+          ..value.isNull(),
+        lookupInResultEntry()
+          ..error.isNull()
+          ..value.equals(result.cas),
+        lookupInResultEntry()
+          ..error.isNull()
+          ..value.isA<String>().startsWith('0x'),
+        lookupInResultEntry()
+          ..error.isNull()
+          ..value.isA<DateTime>(),
+        lookupInResultEntry()
+          ..error.isNull()
+          ..value.equals(17),
+        lookupInResultEntry()
+          ..error.isNull()
+          ..value.equals('1'),
+      ]);
     });
   });
 }
