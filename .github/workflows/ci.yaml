@@ -33,8 +33,6 @@ jobs:
 
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
-        with:
-          sdk: stable
 
       - name: Install Melos
         run: dart pub global activate melos

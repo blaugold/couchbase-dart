@@ -11,14 +11,28 @@ void main() async {
     ),
   );
 
-  final bucket = cluster.bucket('my-bucket');
+  final bucket = cluster.bucket('test');
   final collection = bucket.defaultCollection;
 
-  await collection
-      .insert('greeting-alice', {'message': 'Hello @name!', 'name': 'Alice'});
+  await collection.upsert(
+    'greeting-alice',
+    {'message': 'Hello {{name}}!', 'name': 'Alice'},
+  );
 
   final getResult = await collection.get('greeting-alice');
-  print(getResult.content);
+  final message = getResult.content! as Map<String, Object?>;
+  print(message);
+  print(_expandMessage(message));
 
   await cluster.close();
+}
+
+String _expandMessage(Map<String, Object?> message) {
+  return message.entries.fold(
+    message['message']! as String,
+    (result, entry) => result.replaceAll(
+      '{{${entry.key}}}',
+      entry.value.toString(),
+    ),
+  );
 }

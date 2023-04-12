@@ -50,3 +50,6 @@ scripts:
 
   tool:
     run: cd tool && dart run tool:tool
+
+  waitForPublishing:
+    run: melos run tool -- wait-for-publishing

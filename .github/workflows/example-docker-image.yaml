@@ -1,0 +1,34 @@
+name: Example Docker image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    cancel-timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Wait for publishing of couchbase package
+        run: melos waitForPublishing
+
+      - name: Build image
+        run: docker build -t couchbase-example packages/couchbase/example
+
+      - run: melos initCouchbaseServer
+
+      - name: Run example
+        run: docker run --network host couchbase-example
