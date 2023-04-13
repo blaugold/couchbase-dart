@@ -1489,6 +1489,8 @@ message_errors.ErrorCode _resolveErrorCode(Object error) {
     return error;
   } else if (error is message_errors.KeyValueErrorContext) {
     return error.code;
+  } else if (error is message_errors.SubdocumentErrorContext) {
+    return error.code;
   } else if (error is message_errors.ViewErrorContext) {
     return error.code;
   } else if (error is message_errors.QueryErrorContext) {

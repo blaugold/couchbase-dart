@@ -794,6 +794,79 @@ void main() {
         ..value.equals('2');
     });
   });
+
+  group('mutateIn', () {
+    test('with matching CAS', () async {
+      final documentId = createTestDocumentId();
+      final insertResult = await defaultCollection.insert(documentId, false);
+      final result = await defaultCollection.mutateIn(
+        documentId,
+        [MutateInSpec.upsert('', true)],
+        MutateInOptions(cas: insertResult.cas),
+      );
+      check(result).cas.not(it()..equals(insertResult.cas));
+
+      final getResult = await defaultCollection.get(documentId);
+      check(getResult)
+        ..cas.equals(result.cas)
+        ..content.equals(true);
+    });
+
+    test('with non-matching CAS', () async {
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      await check(
+        defaultCollection.mutateIn(
+          documentId,
+          [MutateInSpec.upsert('', true)],
+          MutateInOptions(cas: InternalCas.fromValue(1)),
+        ),
+      ).throws<CasMismatch>();
+    });
+
+    test('with durabilityLevel', () async {
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.mutateIn(
+          createTestDocumentId(),
+          [MutateInSpec.upsert('', true)],
+          const MutateInOptions(
+            durabilityLevel: DurabilityLevel.majority,
+            storeSemantics: StoreSemantics.upsert,
+          ),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with durabilityPersistTo', () async {
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.mutateIn(
+          createTestDocumentId(),
+          [MutateInSpec.upsert('', true)],
+          const MutateInOptions.legacyDurability(
+            persistTo: PersistTo.two,
+            storeSemantics: StoreSemantics.upsert,
+          ),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with durabilityReplicateTo', () async {
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.mutateIn(
+          createTestDocumentId(),
+          [MutateInSpec.upsert('', true)],
+          const MutateInOptions.legacyDurability(
+            replicateTo: ReplicateTo.two,
+            storeSemantics: StoreSemantics.upsert,
+          ),
+        ),
+      ).throws<DurabilityImpossible>();
     });
   });
 }
