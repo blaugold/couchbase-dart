@@ -566,6 +566,14 @@ class Collection {
   ]) async {
     options ??= const MutateInOptions();
 
+    if (specs.isEmpty) {
+      throw ArgumentError.value(
+        specs,
+        'specs',
+        'must not be empty',
+      );
+    }
+
     final id = _documentId(key);
     final expiry = options.expiry ?? Duration.zero;
     final cas = options.cas ?? InternalCas.zero;

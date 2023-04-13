@@ -56,7 +56,7 @@ void main() {
 
         check(result)
           ..cas.equals(insertResult.cas)
-          ..content.isJsonMap.deepEquals({
+          ..content.isJsonObject.deepEquals({
             'a': [null, false]
           })
           ..expiryTime.isNull();
@@ -76,7 +76,7 @@ void main() {
           documentId,
           const GetOptions(project: ['a', 'b']),
         );
-        check(result).content.isJsonMap.deepEquals({'a': 0});
+        check(result).content.isJsonObject.deepEquals({'a': 0});
       });
 
       test('16 projection paths', () async {
@@ -123,7 +123,7 @@ void main() {
         );
         check(result)
           ..cas.equals(insertResult.cas)
-          ..content.isJsonMap.deepEquals({
+          ..content.isJsonObject.deepEquals({
             'a': 0,
             'b': 1,
             'c': 2,
@@ -763,32 +763,37 @@ void main() {
         ],
       );
 
-      check(result).content.containsInOrder([
-        lookupInResultEntry()
-          ..error.isNull()
-          ..value
-              .isJsonMap['datatype']
-              .isA<List<Object?>>()
-              .deepEquals(['json']),
-        lookupInResultEntry()
-          ..error.isNull()
-          ..value.isNull(),
-        lookupInResultEntry()
-          ..error.isNull()
-          ..value.equals(result.cas),
-        lookupInResultEntry()
-          ..error.isNull()
-          ..value.isA<String>().startsWith('0x'),
-        lookupInResultEntry()
-          ..error.isNull()
-          ..value.isA<DateTime>(),
-        lookupInResultEntry()
-          ..error.isNull()
-          ..value.equals(17),
-        lookupInResultEntry()
-          ..error.isNull()
-          ..value.equals('2'),
-      ]);
+      check(result).content.length.equals(7);
+
+      check(result).content[0]
+        ..error.isNull()
+        ..value.isJsonObject['datatype'].isJsonArray.deepEquals(['json']);
+
+      check(result).content[1]
+        ..error.isNull()
+        ..value.isNull();
+
+      check(result).content[2]
+        ..error.isNull()
+        ..value.equals(result.cas);
+
+      check(result).content[3]
+        ..error.isNull()
+        ..value.isString.startsWith('0x');
+
+      check(result).content[4]
+        ..error.isNull()
+        ..value.isA<DateTime>();
+
+      check(result).content[5]
+        ..error.isNull()
+        ..value.equals(17);
+
+      check(result).content[6]
+        ..error.isNull()
+        ..value.equals('2');
+    });
+  });
     });
   });
 }
