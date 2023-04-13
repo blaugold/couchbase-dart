@@ -868,5 +868,329 @@ void main() {
         ),
       ).throws<DurabilityImpossible>();
     });
+
+    group('MutateInSpec', () {
+      group('insert', () {
+        test('basic', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.insert('a', 1)],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({'a': 1});
+        });
+
+        test('with createPath', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.insert('a.b', 1)],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({
+            'a': {'b': 1}
+          });
+        });
+
+        test('with xattr', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.insert('a', 1, xattr: true)],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [LookupInSpec.get('a', xattr: true)],
+          );
+          check(lookupInResult).content.single.value.equals(1);
+        });
+
+        test('with MutateInMacro value', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.insert('a', MutateInMacro.seqNo, xattr: true)],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [
+              LookupInSpec.get('a', xattr: true),
+              LookupInSpec.get(LookupInMacro.seqNo, xattr: true),
+            ],
+          );
+          check(lookupInResult)
+              .content[0]
+              .value
+              .equals(lookupInResult.content[1].value);
+        });
+      });
+
+      group('upsert', () {
+        test('basic', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.upsert('a', 1)],
+            const MutateInOptions(storeSemantics: StoreSemantics.upsert),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({'a': 1});
+        });
+
+        test('with empty path', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.upsert('', 1)],
+            const MutateInOptions(storeSemantics: StoreSemantics.upsert),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.equals(1);
+        });
+
+        test('with createPath', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.upsert('a.b', 1)],
+            const MutateInOptions(storeSemantics: StoreSemantics.upsert),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({
+            'a': {'b': 1}
+          });
+        });
+
+        test('with xattr', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.upsert('a', 1, xattr: true)],
+            const MutateInOptions(storeSemantics: StoreSemantics.upsert),
+          );
+
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [LookupInSpec.get('a', xattr: true)],
+          );
+          check(lookupInResult).content.single.value.equals(1);
+        });
+
+        test('with MutateInMacro value', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.upsert('a', MutateInMacro.seqNo, xattr: true)],
+            const MutateInOptions(storeSemantics: StoreSemantics.upsert),
+          );
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [
+              LookupInSpec.get('a', xattr: true),
+              LookupInSpec.get(LookupInMacro.seqNo, xattr: true),
+            ],
+          );
+          check(lookupInResult)
+              .content[0]
+              .value
+              .equals(lookupInResult.content[1].value);
+        });
+      });
+
+      group('replace', () {
+        test('basic', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.upsert(documentId, {'a': 1});
+
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.replace('a', 2)],
+            const MutateInOptions(),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({'a': 2});
+        });
+
+        test('with xattr', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.insert('a', 1, xattr: true)],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.replace('a', 2, xattr: true)],
+          );
+
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [LookupInSpec.get('a', xattr: true)],
+          );
+          check(lookupInResult).content.single.value.equals(2);
+        });
+
+        test('with MutateInMacro value', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.insert('a', 1, xattr: true)],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.replace('a', MutateInMacro.seqNo, xattr: true)],
+          );
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [
+              LookupInSpec.get('a', xattr: true),
+              LookupInSpec.get(LookupInMacro.seqNo, xattr: true),
+            ],
+          );
+          check(lookupInResult)
+              .content[0]
+              .value
+              .equals(lookupInResult.content[1].value);
+        });
+      });
+
+      group('remove', () {
+        test('basic', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.upsert(documentId, {'a': 1});
+
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.remove('a')],
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({});
+        });
+
+        test(
+          'with xattr',
+          () async {
+            final documentId = createTestDocumentId();
+            await defaultCollection.mutateIn(
+              documentId,
+              [
+                MutateInSpec.insert('a', 1, xattr: true),
+              ],
+              const MutateInOptions(storeSemantics: StoreSemantics.insert),
+            );
+
+            await defaultCollection.mutateIn(
+              documentId,
+              [MutateInSpec.remove('a', xattr: true)],
+            );
+
+            final lookupInResult = await defaultCollection.lookupIn(
+              documentId,
+              [LookupInSpec.get('a', xattr: true)],
+            );
+            check(lookupInResult).content.single.value.isNull();
+          },
+          skip: 'TemporaryFailure: noMemory',
+        );
+      });
+
+      group('arrayAppend', () {
+        test('basic', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.upsert(documentId, {
+            'a': [1]
+          });
+
+          await defaultCollection.mutateIn(
+            documentId,
+            [
+              MutateInSpec.arrayAppend('a', [2])
+            ],
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({
+            'a': [1, 2]
+          });
+        });
+
+        test('multiple values', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.upsert(documentId, {
+            'a': [1]
+          });
+
+          await defaultCollection.mutateIn(
+            documentId,
+            [
+              MutateInSpec.arrayAppend('a', [2, 3])
+            ],
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult)
+              .content
+              .isJsonObject['a']
+              .isJsonArray
+              .deepEquals([1, 2, 3]);
+        });
+
+        test('with createPath', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [
+              MutateInSpec.arrayAppend('a', [1], createPath: true)
+            ],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({
+            'a': [1]
+          });
+        });
+
+        test('with xattr', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [
+              MutateInSpec.insert('a', [1], xattr: true),
+            ],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+
+          await defaultCollection.mutateIn(
+            documentId,
+            [
+              MutateInSpec.arrayAppend('a', [2], xattr: true),
+            ],
+          );
+
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [LookupInSpec.get('a', xattr: true)],
+          );
+
+          check(lookupInResult).content[0].value.isJsonArray.deepEquals([1, 2]);
+        });
+      });
+    });
   });
 }

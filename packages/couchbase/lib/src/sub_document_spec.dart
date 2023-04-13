@@ -63,13 +63,13 @@ enum InternalLookupInMacro implements _LookupInMacro {
 /// @category Key-Value
 enum MutateInMacro {
   /// References the CAS of a document.
-  cas(r'${document.CAS}'),
+  cas(r'${Mutation.CAS}'),
 
   /// References the sequence number of a document.
-  seqNo(r'${document.seqno}'),
+  seqNo(r'${Mutation.seqno}'),
 
   /// References the crc32 of the value of a document.
-  valueCrc32c(r'${document.value_crc32c}'),
+  valueCrc32c(r'${Mutation.value_crc32c}'),
   ;
 
   const MutateInMacro(this._value);
