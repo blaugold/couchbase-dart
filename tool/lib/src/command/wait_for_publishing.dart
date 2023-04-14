@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:http/http.dart';
@@ -6,7 +7,7 @@ import 'package:http/http.dart';
 import '../current_version.dart';
 
 class WaitForPublishing extends Command<void> {
-  Duration get _timeout => const Duration(minutes: 30);
+  Duration get _timeout => const Duration(hours: 1);
 
   Duration get _delay => const Duration(seconds: 15);
 
@@ -22,18 +23,23 @@ class WaitForPublishing extends Command<void> {
     final currentVersion = loadCurrentCouchbasePackageVersion();
     // ignore: avoid_print
     print('Waiting for version $currentVersion to be published...');
-    await _waitForPublishing(currentVersion);
-    // ignore: avoid_print
-    print('Version $currentVersion has been published.');
+    if (await _waitForPublishing(currentVersion)) {
+      // ignore: avoid_print
+      print('Version $currentVersion has been published.');
+    } else {
+      // ignore: avoid_print
+      print('Version $currentVersion has not been published after $_timeout.');
+      exitCode = 1;
+    }
   }
 
-  Future<void> _waitForPublishing(String currentVersion) async {
+  Future<bool> _waitForPublishing(String currentVersion) async {
     final start = DateTime.now();
 
     while (DateTime.now().difference(start) < _timeout) {
       final publishedVersions = await _getPublishedVersions();
       if (publishedVersions.contains(currentVersion)) {
-        return;
+        return true;
       }
 
       // ignore: avoid_print
@@ -43,6 +49,7 @@ class WaitForPublishing extends Command<void> {
       );
       await Future<void>.delayed(_delay);
     }
+    return false;
   }
 
   Future<List<String>> _getPublishedVersions() async {
