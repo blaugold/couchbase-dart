@@ -1,3 +1,7 @@
+## 0.1.1
+
+ - **FEAT**: add `Collection.mutateIn` ([#29](https://github.com/blaugold/couchbase-dart/issues/29)). ([96416c98](https://github.com/blaugold/couchbase-dart/commit/96416c983c7eadc87403661f54b639540a8514f1))
+
 ## 0.1.0+1
 
  - **FIX**: support downloading native binaries with compiled executable. ([70d2ab41](https://github.com/blaugold/couchbase-dart/commit/70d2ab41770d589a02c4d164605130a70a1a6088))

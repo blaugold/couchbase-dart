@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-04-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`couchbase` - `v0.1.1`](#couchbase---v011)
+
+---
+
+#### `couchbase` - `v0.1.1`
+
+ - **FEAT**: add `Collection.mutateIn` ([#29](https://github.com/blaugold/couchbase-dart/issues/29)). ([96416c98](https://github.com/blaugold/couchbase-dart/commit/96416c983c7eadc87403661f54b639540a8514f1))
+
+
 ## 2023-04-11
 
 ### Changes

@@ -4,4 +4,4 @@ environment:
   sdk: ^2.19.0
 
 dependencies:
-  couchbase: ^0.1.0+1
+  couchbase: ^0.1.1
