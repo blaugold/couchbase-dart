@@ -10,6 +10,7 @@ export 'src/collection.dart'
         GetOptions,
         InsertOptions,
         LookupInOptions,
+        MutateInOptions,
         RemoveOptions,
         ReplaceOptions,
         UpsertOptions;
@@ -19,6 +20,8 @@ export 'src/crud_operation.dart'
         GetResult,
         LookupInResult,
         LookupInResultEntry,
+        MutateInResult,
+        MutateInResultEntry,
         MutationResult;
 export 'src/diagnostics.dart'
     show
@@ -131,7 +134,12 @@ export 'src/general.dart'
         ServiceType,
         TranscoderOptions;
 export 'src/message.g.dart'
-    show DurabilityLevel, KeyValueStatusCode, PersistTo, ReplicateTo;
+    show
+        DurabilityLevel,
+        KeyValueStatusCode,
+        PersistTo,
+        ReplicateTo,
+        StoreSemantics;
 export 'src/mutation_state.dart' show MutationState, MutationToken;
 export 'src/query.dart'
     show
@@ -144,6 +152,7 @@ export 'src/query.dart'
         QueryStatus,
         QueryWarning;
 export 'src/scope.dart' show Scope;
-export 'src/sub_document_spec.dart' show LookupInMacro, LookupInSpec;
+export 'src/sub_document_spec.dart'
+    show LookupInMacro, LookupInSpec, MutateInMacro, MutateInSpec;
 export 'src/transcoder.dart'
     show DefaultTranscoder, EncodedDocumentData, Transcoder;

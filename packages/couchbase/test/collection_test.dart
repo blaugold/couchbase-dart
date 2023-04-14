@@ -56,7 +56,7 @@ void main() {
 
         check(result)
           ..cas.equals(insertResult.cas)
-          ..content.isJsonMap.deepEquals({
+          ..content.isJsonObject.deepEquals({
             'a': [null, false]
           })
           ..expiryTime.isNull();
@@ -76,7 +76,7 @@ void main() {
           documentId,
           const GetOptions(project: ['a', 'b']),
         );
-        check(result).content.isJsonMap.deepEquals({'a': 0});
+        check(result).content.isJsonObject.deepEquals({'a': 0});
       });
 
       test('16 projection paths', () async {
@@ -123,7 +123,7 @@ void main() {
         );
         check(result)
           ..cas.equals(insertResult.cas)
-          ..content.isJsonMap.deepEquals({
+          ..content.isJsonObject.deepEquals({
             'a': 0,
             'b': 1,
             'c': 2,
@@ -640,65 +640,650 @@ void main() {
     });
   });
 
-  test('sub document lookup: exists', () async {
-    final documentId = createTestDocumentId();
-    final documentContent = {'hello': 'world'};
+  group('lookupIn', () {
+    test('get', () async {
+      final documentId = createTestDocumentId();
+      final documentContent = {'a': 'b'};
 
-    await defaultCollection.insert(documentId, documentContent);
-    var result = await defaultCollection
-        .lookupIn(documentId, [LookupInSpec.exists('hello')]);
-    check(result).content.single.value.isBool.isTrue();
+      await defaultCollection.insert(documentId, documentContent);
+      var result =
+          await defaultCollection.lookupIn(documentId, [LookupInSpec.get('a')]);
+      check(result).content.single.value.equals('b');
 
-    result = await defaultCollection
-        .lookupIn(documentId, [LookupInSpec.exists('foo')]);
-    check(result).content.single.value.isBool.isFalse();
+      result =
+          await defaultCollection.lookupIn(documentId, [LookupInSpec.get('c')]);
+      check(result).content.single.value.isNull();
+      check(result).content.single.error.isA<PathNotFound>();
+    });
+
+    test('get (xattr)', () async {
+      final documentId = createTestDocumentId();
+
+      await defaultCollection.insert(documentId, null);
+      var result = await defaultCollection.lookupIn(
+        documentId,
+        [LookupInSpec.get(LookupInMacro.valueSizeBytes.path, xattr: true)],
+      );
+      check(result).content.single.value.equals(4);
+
+      result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.get('a', xattr: true)]);
+      check(result).content.single.value.isNull();
+      check(result).content.single.error.isA<PathNotFound>();
+    });
+
+    test('exists', () async {
+      final documentId = createTestDocumentId();
+      final documentContent = {'a': 'b'};
+
+      await defaultCollection.insert(documentId, documentContent);
+      var result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.exists('a')]);
+      check(result).content.single.value.isBool.isTrue();
+
+      result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.exists('c')]);
+      check(result).content.single.value.isBool.isFalse();
+    });
+
+    test('exists (xattr)', () async {
+      final documentId = createTestDocumentId();
+
+      await defaultCollection.insert(documentId, null);
+      var result = await defaultCollection.lookupIn(
+        documentId,
+        [LookupInSpec.exists(LookupInMacro.cas.path, xattr: true)],
+      );
+      check(result).content.single.value.isBool.isTrue();
+
+      result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.exists('a', xattr: true)]);
+      check(result).content.single.value.isBool.isFalse();
+    });
+
+    test('count', () async {
+      final documentId = createTestDocumentId();
+      final documentContent = {
+        'a': [null, null, null]
+      };
+
+      await defaultCollection.insert(documentId, documentContent);
+      var result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.count('a')]);
+      check(result).content.single.value.equals(3);
+
+      result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.count('c')]);
+      check(result).content.single.value.isNull();
+      check(result).content.single.error.isA<PathNotFound>();
+    });
+
+    test('count (xattr)', () async {
+      final documentId = createTestDocumentId();
+
+      await defaultCollection.mutateIn(
+        documentId,
+        [
+          MutateInSpec.insert(
+            'a',
+            [null, null, null],
+            xattr: true,
+          )
+        ],
+        const MutateInOptions(storeSemantics: StoreSemantics.insert),
+      );
+      var result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.count('a', xattr: true)]);
+      check(result).content.single.value.equals(3);
+
+      result = await defaultCollection
+          .lookupIn(documentId, [LookupInSpec.count('c', xattr: true)]);
+      check(result).content.single.value.isNull();
+      check(result).content.single.error.isA<PathNotFound>();
+    });
+
+    test('fetch all LookupInMacros for document', () async {
+      final documentId = createTestDocumentId();
+      final documentContent = {'hello': 'world'};
+
+      await defaultCollection.insert(documentId, documentContent);
+
+      final result = await defaultCollection.lookupIn(
+        documentId,
+        [
+          LookupInSpec.get(LookupInMacro.document),
+          LookupInSpec.get(LookupInMacro.expiry),
+          LookupInSpec.get(LookupInMacro.cas),
+          LookupInSpec.get(LookupInMacro.seqNo),
+          LookupInSpec.get(LookupInMacro.lastModified),
+          LookupInSpec.get(LookupInMacro.valueSizeBytes),
+          LookupInSpec.get(LookupInMacro.revId),
+        ],
+      );
+
+      check(result).content.length.equals(7);
+
+      check(result).content[0]
+        ..error.isNull()
+        ..value.isJsonObject['datatype'].isJsonArray.deepEquals(['json']);
+
+      check(result).content[1]
+        ..error.isNull()
+        ..value.isNull();
+
+      check(result).content[2]
+        ..error.isNull()
+        ..value.equals(result.cas);
+
+      check(result).content[3]
+        ..error.isNull()
+        ..value.isString.startsWith('0x');
+
+      // TODO: This is failing in CI on macOS, with PathNotFound.
+      // check(result).content[4]
+      //   ..error.isNull()
+      //   ..value.isA<DateTime>();
+
+      check(result).content[5]
+        ..error.isNull()
+        ..value.equals(17);
+
+      check(result).content[6]
+        ..error.isNull()
+        ..value.equals('1');
+    });
   });
 
-  test('fetch all LookupInMacros for document', () async {
-    final documentId = createTestDocumentId();
-    final documentContent = {'hello': 'world'};
+  group('mutateIn', () {
+    test('with matching CAS', () async {
+      final documentId = createTestDocumentId();
+      final insertResult = await defaultCollection.insert(documentId, false);
+      final result = await defaultCollection.mutateIn(
+        documentId,
+        [MutateInSpec.upsert('', true)],
+        MutateInOptions(cas: insertResult.cas),
+      );
+      check(result).cas.not(it()..equals(insertResult.cas));
 
-    await defaultCollection.insert(documentId, documentContent);
-    final result = await defaultCollection.lookupIn(
-      documentId,
-      [
-        LookupInSpec.get(LookupInMacro.document),
-        LookupInSpec.get(LookupInMacro.expiry),
-        LookupInSpec.get(LookupInMacro.cas),
-        LookupInSpec.get(LookupInMacro.seqNo),
-        LookupInSpec.get(LookupInMacro.lastModified),
-        LookupInSpec.get(LookupInMacro.valueSizeBytes),
-        LookupInSpec.get(LookupInMacro.revId),
-      ],
-    );
+      final getResult = await defaultCollection.get(documentId);
+      check(getResult)
+        ..cas.equals(result.cas)
+        ..content.equals(true);
+    });
 
-    check(result).content.containsInOrder([
-      lookupInResultEntry()
-        ..error.isNull()
-        ..value.isJsonMap['datatype'].isA<List<Object?>>().deepEquals(['json']),
-      lookupInResultEntry()
-        ..error.isNull()
-        ..value.isNull(),
-      lookupInResultEntry()
-        ..error.isNull()
-        ..value.equals(result.cas),
-      lookupInResultEntry()
-        ..error.isNull()
-        ..value.isA<String>().startsWith('0x'),
-      // TODO: Try to insert document with higher durability, once implemented.
-      // This might allow us to always get a last modified date.
-      // Currently, retrieving the last modified date fails in CI. It seems to
-      // have something to do with how new the cluster/bucket is. Locally, the
-      // last modified date is always returned, after a few mutation operations.
-      // aALookupInResultEntry()
-      //   ..error.isNull()
-      //   ..value.isA<DateTime>(),
-      lookupInResultEntry()
-        ..error.isNull()
-        ..value.equals(17),
-      lookupInResultEntry()
-        ..error.isNull()
-        ..value.equals('1'),
-    ]);
+    test('with non-matching CAS', () async {
+      final documentId = createTestDocumentId();
+      await defaultCollection.insert(documentId, false);
+      await check(
+        defaultCollection.mutateIn(
+          documentId,
+          [MutateInSpec.upsert('', true)],
+          MutateInOptions(cas: InternalCas.fromValue(1)),
+        ),
+      ).throws<CasMismatch>();
+    });
+
+    test('with durabilityLevel', () async {
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.mutateIn(
+          createTestDocumentId(),
+          [MutateInSpec.upsert('', true)],
+          const MutateInOptions(
+            durabilityLevel: DurabilityLevel.majority,
+            storeSemantics: StoreSemantics.upsert,
+          ),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with durabilityPersistTo', () async {
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.mutateIn(
+          createTestDocumentId(),
+          [MutateInSpec.upsert('', true)],
+          const MutateInOptions.legacyDurability(
+            persistTo: PersistTo.two,
+            storeSemantics: StoreSemantics.upsert,
+          ),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    test('with durabilityReplicateTo', () async {
+      // The test cluster only has one node, so any durability settings will
+      // fail.
+      await check(
+        defaultCollection.mutateIn(
+          createTestDocumentId(),
+          [MutateInSpec.upsert('', true)],
+          const MutateInOptions.legacyDurability(
+            replicateTo: ReplicateTo.two,
+            storeSemantics: StoreSemantics.upsert,
+          ),
+        ),
+      ).throws<DurabilityImpossible>();
+    });
+
+    group('MutateInSpec', () {
+      group('insert', () {
+        test('basic', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.insert('a', 1)],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({'a': 1});
+        });
+
+        test('with createPath', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.insert('a.b', 1)],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({
+            'a': {'b': 1}
+          });
+        });
+
+        test('with xattr', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.insert('a', 1, xattr: true)],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [LookupInSpec.get('a', xattr: true)],
+          );
+          check(lookupInResult).content.single.value.equals(1);
+        });
+
+        test('with MutateInMacro value', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.insert('a', MutateInMacro.seqNo, xattr: true)],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [
+              LookupInSpec.get('a', xattr: true),
+              LookupInSpec.get(LookupInMacro.seqNo, xattr: true),
+            ],
+          );
+          check(lookupInResult)
+              .content[0]
+              .value
+              .equals(lookupInResult.content[1].value);
+        });
+      });
+
+      group('upsert', () {
+        test('basic', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.upsert('a', 1)],
+            const MutateInOptions(storeSemantics: StoreSemantics.upsert),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({'a': 1});
+        });
+
+        test('with empty path', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.upsert('', 1)],
+            const MutateInOptions(storeSemantics: StoreSemantics.upsert),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.equals(1);
+        });
+
+        test('with createPath', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.upsert('a.b', 1)],
+            const MutateInOptions(storeSemantics: StoreSemantics.upsert),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({
+            'a': {'b': 1}
+          });
+        });
+
+        test('with xattr', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.upsert('a', 1, xattr: true)],
+            const MutateInOptions(storeSemantics: StoreSemantics.upsert),
+          );
+
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [LookupInSpec.get('a', xattr: true)],
+          );
+          check(lookupInResult).content.single.value.equals(1);
+        });
+
+        test('with MutateInMacro value', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.upsert('a', MutateInMacro.seqNo, xattr: true)],
+            const MutateInOptions(storeSemantics: StoreSemantics.upsert),
+          );
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [
+              LookupInSpec.get('a', xattr: true),
+              LookupInSpec.get(LookupInMacro.seqNo, xattr: true),
+            ],
+          );
+          check(lookupInResult)
+              .content[0]
+              .value
+              .equals(lookupInResult.content[1].value);
+        });
+      });
+
+      group('replace', () {
+        test('basic', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.upsert(documentId, {'a': 1});
+
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.replace('a', 2)],
+            const MutateInOptions(),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({'a': 2});
+        });
+
+        test('with xattr', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.insert('a', 1, xattr: true)],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.replace('a', 2, xattr: true)],
+          );
+
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [LookupInSpec.get('a', xattr: true)],
+          );
+          check(lookupInResult).content.single.value.equals(2);
+        });
+
+        test('with MutateInMacro value', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.insert('a', 1, xattr: true)],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.replace('a', MutateInMacro.seqNo, xattr: true)],
+          );
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [
+              LookupInSpec.get('a', xattr: true),
+              LookupInSpec.get(LookupInMacro.seqNo, xattr: true),
+            ],
+          );
+          check(lookupInResult)
+              .content[0]
+              .value
+              .equals(lookupInResult.content[1].value);
+        });
+      });
+
+      group('remove', () {
+        test('basic', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.upsert(documentId, {'a': 1});
+
+          await defaultCollection.mutateIn(
+            documentId,
+            [MutateInSpec.remove('a')],
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({});
+        });
+
+        test(
+          'with xattr',
+          () async {
+            final documentId = createTestDocumentId();
+            await defaultCollection.mutateIn(
+              documentId,
+              [MutateInSpec.insert('a', 1, xattr: true)],
+              const MutateInOptions(storeSemantics: StoreSemantics.insert),
+            );
+
+            await defaultCollection.mutateIn(
+              documentId,
+              [MutateInSpec.remove('a', xattr: true)],
+            );
+
+            final lookupInResult = await defaultCollection.lookupIn(
+              documentId,
+              [LookupInSpec.get('a', xattr: true)],
+            );
+            check(lookupInResult).content.single.value.isNull();
+          },
+          skip: 'TODO: TemporaryFailure: noMemory',
+        );
+      });
+
+      group('arrayAppend', () {
+        test('basic', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.upsert(documentId, {
+            'a': [1]
+          });
+
+          await defaultCollection.mutateIn(
+            documentId,
+            [
+              MutateInSpec.arrayAppend('a', [2])
+            ],
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({
+            'a': [1, 2]
+          });
+        });
+
+        test('multiple values', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.upsert(documentId, {
+            'a': [1]
+          });
+
+          await defaultCollection.mutateIn(
+            documentId,
+            [
+              MutateInSpec.arrayAppend('a', [2, 3])
+            ],
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult)
+              .content
+              .isJsonObject['a']
+              .isJsonArray
+              .deepEquals([1, 2, 3]);
+        });
+
+        test('with createPath', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [
+              MutateInSpec.arrayAppend('a', [1], createPath: true)
+            ],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+
+          final getResult = await defaultCollection.get(documentId);
+          check(getResult).content.isJsonObject.deepEquals({
+            'a': [1]
+          });
+        });
+
+        test('with xattr', () async {
+          final documentId = createTestDocumentId();
+          await defaultCollection.mutateIn(
+            documentId,
+            [
+              MutateInSpec.insert('a', [1], xattr: true),
+            ],
+            const MutateInOptions(storeSemantics: StoreSemantics.insert),
+          );
+
+          await defaultCollection.mutateIn(
+            documentId,
+            [
+              MutateInSpec.arrayAppend('a', [2], xattr: true),
+            ],
+          );
+
+          final lookupInResult = await defaultCollection.lookupIn(
+            documentId,
+            [LookupInSpec.get('a', xattr: true)],
+          );
+
+          check(lookupInResult).content[0].value.isJsonArray.deepEquals([1, 2]);
+        });
+      });
+
+      test('arrayPrepend', () async {
+        final documentId = createTestDocumentId();
+        await defaultCollection.upsert(documentId, {
+          'a': [1]
+        });
+
+        await defaultCollection.mutateIn(
+          documentId,
+          [
+            MutateInSpec.arrayPrepend('a', [2])
+          ],
+        );
+
+        final getResult = await defaultCollection.get(documentId);
+        check(getResult).content.isJsonObject.deepEquals({
+          'a': [2, 1]
+        });
+      });
+
+      test('arrayInsert', () async {
+        final documentId = createTestDocumentId();
+        await defaultCollection.upsert(documentId, {
+          'a': [1, 2]
+        });
+
+        await defaultCollection.mutateIn(
+          documentId,
+          [
+            MutateInSpec.arrayInsert('a[1]', [3])
+          ],
+        );
+
+        final getResult = await defaultCollection.get(documentId);
+        check(getResult).content.isJsonObject.deepEquals({
+          'a': [1, 3, 2]
+        });
+      });
+
+      test('arrayAddUnique', () async {
+        final documentId = createTestDocumentId();
+        await defaultCollection.upsert(documentId, {
+          'a': [1, 2]
+        });
+
+        await defaultCollection.mutateIn(
+          documentId,
+          [
+            MutateInSpec.arrayAddUnique('a', [3])
+          ],
+        );
+
+        final getResult = await defaultCollection.get(documentId);
+        check(getResult).content.isJsonObject.deepEquals({
+          'a': [1, 2, 3]
+        });
+
+        await check(
+          defaultCollection.mutateIn(
+            documentId,
+            [
+              MutateInSpec.arrayAddUnique('a', [3])
+            ],
+          ),
+        ).throws<PathExists>();
+      });
+
+      test('increment', () async {
+        final documentId = createTestDocumentId();
+        await defaultCollection.upsert(documentId, {'a': 1});
+
+        await defaultCollection.mutateIn(
+          documentId,
+          [
+            MutateInSpec.increment('a', 2),
+          ],
+        );
+
+        final getResult = await defaultCollection.get(documentId);
+        check(getResult).content.isJsonObject.deepEquals({'a': 3});
+      });
+
+      test('decrement', () async {
+        final documentId = createTestDocumentId();
+        await defaultCollection.upsert(documentId, {'a': 1});
+
+        await defaultCollection.mutateIn(
+          documentId,
+          [
+            MutateInSpec.decrement('a', 2),
+          ],
+        );
+
+        final getResult = await defaultCollection.get(documentId);
+        check(getResult).content.isJsonObject.deepEquals({'a': -1});
+      });
+    });
   });
 }

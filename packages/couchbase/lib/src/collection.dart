@@ -180,6 +180,43 @@ class LookupInOptions extends CommonOptions {
   const LookupInOptions({super.timeout});
 }
 
+/// Options for [Collection.mutateIn].
+///
+/// {@category Key-Value}
+class MutateInOptions extends CommonDurabilityOptions {
+  const MutateInOptions({
+    this.expiry,
+    this.preserveExpiry = false,
+    this.cas,
+    this.storeSemantics = StoreSemantics.replace,
+    super.durabilityLevel,
+    super.timeout,
+  });
+
+  const MutateInOptions.legacyDurability({
+    this.expiry,
+    this.preserveExpiry = false,
+    this.cas,
+    this.storeSemantics = StoreSemantics.replace,
+    super.persistTo,
+    super.replicateTo,
+    super.timeout,
+  }) : super.legacyDurability();
+
+  /// The expiry time for this document.
+  final Duration? expiry;
+
+  /// Whether any existing expiry on the document should be preserved.
+  final bool preserveExpiry;
+
+  /// If specified, indicates that operation should be failed if the [Cas]
+  /// has changed from this value, indicating that the document has changed.
+  final Cas? cas;
+
+  /// The store semantics to use for this operation.
+  final StoreSemantics storeSemantics;
+}
+
 /// Exposes the operations which are available to be performed against a
 /// collection.
 ///
@@ -514,6 +551,87 @@ class Collection {
     );
   }
 
+  /// Performs a Mutate-In operation against a document.
+  ///
+  /// Allows atomic modification of specific fields within a document. Also
+  /// enables access to document extended-attributes.
+  ///
+  /// [key] is the key of the document to mutate.
+  ///
+  /// [specs] is a list of [MutateInSpec]s describing the operations to perform
+  Future<MutateInResult> mutateIn(
+    String key,
+    List<MutateInSpec> specs, [
+    MutateInOptions? options,
+  ]) async {
+    options ??= const MutateInOptions();
+
+    if (specs.isEmpty) {
+      throw ArgumentError.value(
+        specs,
+        'specs',
+        'must not be empty',
+      );
+    }
+
+    final id = _documentId(key);
+    final expiry = options.expiry ?? Duration.zero;
+    final cas = options.cas ?? InternalCas.zero;
+    final timeout = _mutationTimeout(options);
+    final implSpecs = List.generate(
+      specs.length,
+      (index) => specs[index].toMessage(index),
+    );
+
+    final response = options.usesLegacyDurability
+        ? await _connection.mutateInWithLegacyDurability(
+            MutateInWithLegacyDurability(
+              id: id,
+              cas: cas,
+              specs: implSpecs,
+              storeSemantics: options.storeSemantics,
+              timeout: timeout,
+              expiry: expiry.inSeconds,
+              preserveExpiry: options.preserveExpiry,
+              persistTo: options.durabilityPersistTo,
+              replicateTo: options.durabilityReplicateTo,
+              partition: 0,
+              opaque: 0,
+              accessDeleted: false,
+              createAsDeleted: false,
+            ),
+          )
+        : await _connection.mutateIn(
+            MutateInRequest(
+              id: id,
+              cas: cas,
+              specs: implSpecs,
+              storeSemantics: options.storeSemantics,
+              timeout: timeout,
+              expiry: expiry.inSeconds,
+              preserveExpiry: options.preserveExpiry,
+              durabilityLevel: options.durabilityLevel,
+              partition: 0,
+              opaque: 0,
+              accessDeleted: false,
+              createAsDeleted: false,
+            ),
+          );
+
+    final results = response.fields.map((entry) {
+      return MutateInResultEntry(
+        value:
+            entry.value.isEmpty ? null : _decodeSubDocumentValue(entry.value),
+      );
+    }).toList();
+
+    return MutateInResult(
+      content: results,
+      cas: response.cas,
+      token: response.token,
+    );
+  }
+
   DocumentId _documentId(String key) {
     return DocumentId(
       bucket: _scope.bucket.name,
@@ -618,7 +736,7 @@ class Collection {
           .decode(EncodedDocumentData(flags: flags, bytes: bytes));
       for (final projectionPath in paths) {
         final value = SubDocumentUtils.getByPath(fullDocument, projectionPath);
-        if (value != SubDocumentUtils.notFoundSentinel) {
+        if (!identical(value, SubDocumentUtils.notFoundSentinel)) {
           content =
               SubDocumentUtils.insertByPath(content, projectionPath, value);
         }

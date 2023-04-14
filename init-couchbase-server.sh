@@ -9,7 +9,7 @@ docker compose up -d
 
 MAX_ATTEMPTS=60
 ATTEMPTS=0
-until curl http://localhost:8091/pools/default >/dev/null 2>1; do
+until curl http://localhost:8091/pools/default >/dev/null 2>&1; do
   if [ $ATTEMPTS -eq $MAX_ATTEMPTS ]; then
     echo "Couchbase Sever is unavailable after $MAX_ATTEMPTS attempts - exiting"
     exit 1

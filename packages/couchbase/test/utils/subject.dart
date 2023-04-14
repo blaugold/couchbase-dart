@@ -3,8 +3,10 @@ import 'package:checks/context.dart';
 import 'package:couchbase/couchbase.dart';
 
 extension IsASubject<T> on Subject<T> {
-  Subject<Map<String, Object?>> get isJsonMap => isA();
+  Subject<Map<String, Object?>> get isJsonObject => isA();
+  Subject<List<Object?>> get isJsonArray => isA();
   Subject<bool> get isBool => isA();
+  Subject<String> get isString => isA();
 
   Subject<KeyValueErrorContext> get isKeyValueErrorContext =>
       isA<KeyValueErrorContext>();
@@ -24,6 +26,31 @@ extension AsStringSubject<T> on Subject<T> {
             which: [
               ...prefixFirst(
                 'threw while trying to call toString(): ',
+                literal(error),
+              ),
+              ...stackTrace.toString().split('\n')
+            ],
+          );
+        }
+      },
+    );
+  }
+}
+
+extension IterableSubject<T> on Subject<Iterable<T>> {
+  Subject<T> operator [](int index) {
+    return context.nest(
+      () => ['has an element at index $index'],
+      (actual) {
+        try {
+          return Extracted.value(actual.elementAt(index));
+          // ignore: avoid_catches_without_on_clauses
+        } catch (error, stackTrace) {
+          return Extracted.rejection(
+            actual: ['an Iterable<$T>'],
+            which: [
+              ...prefixFirst(
+                'threw while trying to access element at index $index: ',
                 literal(error),
               ),
               ...stackTrace.toString().split('\n')
@@ -60,6 +87,10 @@ extension MutationResultSubject on Subject<MutationResult> {
 extension LookupInResultSubject on Subject<LookupInResult> {
   Subject<List<LookupInResultEntry>> get content =>
       has((it) => it.content, 'content');
+}
+
+extension MutateInResultSubject on Subject<MutateInResult> {
+  Subject<Cas> get cas => has((it) => it.cas, 'cas');
 }
 
 ConditionSubject<LookupInResultEntry> lookupInResultEntry() =>

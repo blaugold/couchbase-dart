@@ -56,7 +56,7 @@ class MutationResult {
   final MutationToken? token;
 }
 
-/// The results of a specific sub-operation within a Lookup-In operation.
+/// The result of a specific sub-operation within a Lookup-In operation.
 ///
 /// {@category Key-Value}
 class LookupInResultEntry {
@@ -82,9 +82,44 @@ class LookupInResult {
     required this.cas,
   });
 
-  /// A list of result entries for each sub-operation performed.
+  /// The list of result entries for each sub-operation performed.
   final List<LookupInResultEntry> content;
 
   /// The cas of the document.
   final Cas cas;
+}
+
+/// The result of a specific sub-operation within a Mutate-In operation.
+///
+/// {@category Key-Value}
+class MutateInResultEntry {
+  const MutateInResultEntry({
+    this.value,
+  });
+
+  /// The resulting value after the completion of the sub-operation.
+  ///
+  /// This is only returned in the case of a counter operation
+  /// (increment/decrement) and is not  included for general operations.
+  final Object? value;
+}
+
+/// Contains the results of a Mutate-In operation.
+///
+/// {@category Key-Value}
+class MutateInResult {
+  const MutateInResult({
+    required this.content,
+    required this.cas,
+    this.token,
+  });
+
+  /// The list of result entries for each sub-operation performed.
+  final List<MutateInResultEntry> content;
+
+  /// The updated [Cas] for the document.
+  final Cas cas;
+
+  /// The token representing the mutation performed.
+  final MutationToken? token;
 }
