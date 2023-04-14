@@ -761,6 +761,7 @@ void main() {
         ],
       );
 
+      // ignore: avoid_print
       print(result.content.first.value);
 
       check(result).content.length.equals(7);
