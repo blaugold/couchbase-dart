@@ -763,11 +763,14 @@ void main() {
         ],
       );
 
+      print(result.content.first.value);
+
       check(result).content.length.equals(7);
 
       check(result).content[0]
         ..error.isNull()
-        ..value.isJsonObject['datatype'].isJsonArray.deepEquals(['json']);
+        ..value.isJsonObject['datatype'].isJsonArray.deepEquals(['json'])
+        ..value.isJsonObject.containsKey('last_modified');
 
       check(result).content[1]
         ..error.isNull()
