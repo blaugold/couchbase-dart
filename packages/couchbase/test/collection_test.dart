@@ -747,8 +747,6 @@ void main() {
       final documentContent = {'hello': 'world'};
 
       await defaultCollection.insert(documentId, documentContent);
-      // Ensure the document has a last modified time.
-      await defaultCollection.replace(documentId, documentContent);
 
       final result = await defaultCollection.lookupIn(
         documentId,
