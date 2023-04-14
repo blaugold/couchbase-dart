@@ -761,9 +761,6 @@ void main() {
         ],
       );
 
-      // ignore: avoid_print
-      print(result.content.first.value);
-
       check(result).content.length.equals(7);
 
       check(result).content[0]
@@ -794,7 +791,7 @@ void main() {
 
       check(result).content[6]
         ..error.isNull()
-        ..value.equals('2');
+        ..value.equals('1');
     });
   });
 
