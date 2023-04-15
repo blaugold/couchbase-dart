@@ -56,6 +56,26 @@ class MutationResult {
   final MutationToken? token;
 }
 
+/// Contains the results of a Get-From-Replica operation.
+///
+/// {@category Key-Value}
+class GetReplicaResult {
+  const GetReplicaResult({
+    required this.content,
+    required this.cas,
+    required this.isReplica,
+  });
+
+  /// The content of the document, as it existed on the replica.
+  final Object? content;
+
+  /// The cas of the document, as it is known by the replica.
+  final Cas cas;
+
+  /// Indicates whether this result came from a replica or the primary.
+  final bool isReplica;
+}
+
 /// The result of a specific sub-operation within a Lookup-In operation.
 ///
 /// {@category Key-Value}

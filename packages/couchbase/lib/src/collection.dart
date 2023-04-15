@@ -173,6 +173,66 @@ class RemoveOptions extends CommonDurabilityOptions
   final Transcoder? transcoder;
 }
 
+/// Options for [Collection.getAnyReplica].
+///
+/// {@category Key-Value}
+class GetAnyReplicaOptions extends CommonOptions implements TranscoderOptions {
+  const GetAnyReplicaOptions({this.transcoder, super.timeout});
+
+  @override
+  final Transcoder? transcoder;
+}
+
+/// Options for [Collection.getAllReplicas].
+///
+/// {@category Key-Value}
+class GetAllReplicasOptions extends CommonOptions implements TranscoderOptions {
+  const GetAllReplicasOptions({this.transcoder, super.timeout});
+
+  @override
+  final Transcoder? transcoder;
+}
+
+/// Options for [Collection.getAndTouch].
+///
+/// {@category Key-Value}
+class GetAndTouchOptions extends CommonOptions implements TranscoderOptions {
+  const GetAndTouchOptions({this.transcoder, super.timeout});
+
+  @override
+  final Transcoder? transcoder;
+}
+
+/// Options for [Collection.touch].
+///
+/// {@category Key-Value}
+class TouchOptions extends CommonOptions {
+  const TouchOptions({
+    this.durabilityLevel,
+    super.timeout,
+  });
+
+  /// The level of synchronous durability for this operation.
+  final DurabilityLevel? durabilityLevel;
+}
+
+/// Options for [Collection.getAndLock].
+///
+/// {@category Key-Value}
+class GetAndLockOptions extends CommonOptions implements TranscoderOptions {
+  const GetAndLockOptions({this.transcoder, super.timeout});
+
+  @override
+  final Transcoder? transcoder;
+}
+
+/// Options for [Collection.unlock].
+///
+/// {@category Key-Value}
+class UnlockOptions extends CommonOptions {
+  const UnlockOptions({super.timeout});
+}
+
 /// Options for [Collection.lookupIn].
 ///
 /// {@category Key-Value}
@@ -253,7 +313,7 @@ class Collection {
     final response = await _connection.get(
       GetRequest(
         id: _documentId(key),
-        timeout: _nonMutationTimeout(options),
+        timeout: _kvTimeout(options),
         partition: 0,
         opaque: 0,
       ),
@@ -272,7 +332,7 @@ class Collection {
     final response = await _connection.exists(
       ExistsRequest(
         id: _documentId(key),
-        timeout: _nonMutationTimeout(options),
+        timeout: _kvTimeout(options),
         partition: 0,
         opaque: 0,
       ),
@@ -289,6 +349,57 @@ class Collection {
       cas: response.cas,
       exists: response.documentExists,
     );
+  }
+
+  /// Retrieves the value of the document from any of the available replicas.
+  ///
+  /// This will return as soon as the first response is received from any
+  /// replica node.
+  Future<GetReplicaResult> getAnyReplica(
+    String key, [
+    GetAnyReplicaOptions? options,
+  ]) async {
+    options ??= const GetAnyReplicaOptions();
+
+    final response = await _connection.getAnyReplica(
+      GetAnyReplicaRequest(
+        id: _documentId(key),
+        timeout: _kvTimeout(options),
+      ),
+    );
+
+    return GetReplicaResult(
+      content: _decodeDocument(options, response.flags, response.value),
+      cas: response.cas,
+      isReplica: response.replica,
+    );
+  }
+
+  /// Retrieves the value of the document from all available replicas.
+  ///
+  /// Note that as replication is asynchronous, each node may return a different
+  /// value.
+  Future<List<GetReplicaResult>> getAllReplicas(
+    String key, [
+    GetAllReplicasOptions? options,
+  ]) async {
+    options ??= const GetAllReplicasOptions();
+
+    final response = await _connection.getAllReplicas(
+      GetAllReplicasRequest(
+        id: _documentId(key),
+        timeout: _kvTimeout(options),
+      ),
+    );
+
+    return [
+      for (final entry in response.entries)
+        GetReplicaResult(
+          content: _decodeDocument(options, entry.flags, entry.value),
+          cas: entry.cas,
+          isReplica: entry.replica,
+        )
+    ];
   }
 
   /// Inserts a new document into the collection, failing if the document
@@ -474,6 +585,103 @@ class Collection {
     );
   }
 
+  /// Retrieves the value of the document and simultaneously updates the expiry
+  /// time for the same document.
+  Future<GetResult> getAndTouch(
+    String key,
+    Duration expiry, [
+    GetAnyReplicaOptions? options,
+  ]) async {
+    options ??= const GetAnyReplicaOptions();
+
+    final response = await _connection.getAndTouch(
+      GetAndTouchRequest(
+        id: _documentId(key),
+        expiry: expiry.inSeconds,
+        timeout: _kvTimeout(options),
+        partition: 0,
+        opaque: 0,
+      ),
+    );
+
+    return GetResult(
+      content: _decodeDocument(options, response.flags, response.value),
+      cas: response.cas,
+    );
+  }
+
+  /// Updates the expiry on an existing document.
+  Future<MutationResult> touch(
+    String key,
+    Duration expiry, [
+    TouchOptions? options,
+  ]) async {
+    // TODO: Check why durabilityLevel is not used
+    options ??= const TouchOptions();
+
+    final response = await _connection.touch(
+      TouchRequest(
+        id: _documentId(key),
+        expiry: expiry.inSeconds,
+        timeout: _kvTimeout(options),
+        partition: 0,
+        opaque: 0,
+      ),
+    );
+
+    return MutationResult(
+      cas: response.cas,
+      token: null,
+    );
+  }
+
+  /// Locks a document and retrieves the value of that document at the time it
+  /// is locked.
+  Future<GetResult> getAndLock(
+    String key,
+    Duration lockTime, [
+    GetAndLockOptions? options,
+  ]) async {
+    options ??= const GetAndLockOptions();
+
+    final response = await _connection.getAndLock(
+      GetAndLockRequest(
+        id: _documentId(key),
+        lockTime: lockTime.inSeconds,
+        timeout: _kvTimeout(options),
+        partition: 0,
+        opaque: 0,
+      ),
+    );
+
+    return GetResult(
+      content: _decodeDocument(options, response.flags, response.value),
+      cas: response.cas,
+    );
+  }
+
+  /// Unlocks a previously locked document.
+  ///
+  /// [cas] is the [Cas] value returned by the [getAndLock] operation that
+  /// proves the lock ownership.
+  Future<void> unlock(
+    String key,
+    Cas cas, [
+    UnlockOptions? options,
+  ]) async {
+    options ??= const UnlockOptions();
+
+    await _connection.unlock(
+      UnlockRequest(
+        id: _documentId(key),
+        cas: cas,
+        timeout: _kvTimeout(options),
+        partition: 0,
+        opaque: 0,
+      ),
+    );
+  }
+
   /// Performs a Lookup-In operation against a document, fetching individual
   /// fields or information about specific fields inside the document value.
   ///
@@ -484,9 +692,9 @@ class Collection {
   Future<LookupInResult> lookupIn(
     String key,
     List<LookupInSpec> specs, [
-    LookupInOptions? options,
+    UnlockOptions? options,
   ]) async {
-    options ??= const LookupInOptions();
+    options ??= const UnlockOptions();
 
     if (specs.isEmpty) {
       throw ArgumentError.value(
@@ -506,7 +714,7 @@ class Collection {
           specs.length,
           (index) => specs[index].toMessage(index),
         ),
-        timeout: _nonMutationTimeout(options),
+        timeout: _kvTimeout(options),
       ),
     );
 
@@ -661,7 +869,7 @@ class Collection {
   Object? _decodeSubDocumentValue(Uint8List bytes) =>
       _utf8JsonDecoder.convert(bytes);
 
-  Duration _nonMutationTimeout(CommonOptions options) =>
+  Duration _kvTimeout(CommonOptions options) =>
       options.timeout ?? _timeouts.kvTimeout;
 
   Duration _mutationTimeout(CommonDurabilityOptions options) =>
@@ -710,7 +918,7 @@ class Collection {
     }
 
     final response =
-        await lookupIn(key, specs, LookupInOptions(timeout: options.timeout));
+        await lookupIn(key, specs, UnlockOptions(timeout: options.timeout));
 
     final flags = response.content[0].value! as int;
     if (options.project != null && !isJsonFormat(flags)) {

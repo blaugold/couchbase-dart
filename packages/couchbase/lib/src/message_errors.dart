@@ -65,7 +65,7 @@ class KeyValueErrorContext {
           buffer.readBool() ? KeyValueExtendedErrorInfo.read(buffer) : null,
       lastDispatchedTo: buffer.readBool() ? buffer.readString() : null,
       lastDispatchedFrom: buffer.readBool() ? buffer.readString() : null,
-      retryAttempts: buffer.readUInt8(),
+      retryAttempts: buffer.readUInt64(),
       retryReasons: Iterable.generate(
         buffer.readUInt64(),
         (_) => RetryReason.read(buffer),
@@ -113,7 +113,7 @@ class SubdocumentErrorContext {
           buffer.readBool() ? KeyValueExtendedErrorInfo.read(buffer) : null,
       lastDispatchedTo: buffer.readBool() ? buffer.readString() : null,
       lastDispatchedFrom: buffer.readBool() ? buffer.readString() : null,
-      retryAttempts: buffer.readUInt8(),
+      retryAttempts: buffer.readUInt64(),
       retryReasons: Iterable.generate(
         buffer.readUInt64(),
         (_) => RetryReason.read(buffer),

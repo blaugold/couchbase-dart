@@ -80,6 +80,12 @@ extension ExistsResultSubject on Subject<ExistsResult> {
   Subject<bool> get exists => has((it) => it.exists, 'exists');
 }
 
+extension GetReplicaResultSubject on Subject<GetReplicaResult> {
+  Subject<Cas> get cas => has((it) => it.cas, 'cas');
+  Subject<Object?> get content => has((it) => it.content, 'content');
+  Subject<bool> get isReplica => has((it) => it.isReplica, 'isReplica');
+}
+
 extension MutationResultSubject on Subject<MutationResult> {
   Subject<Cas> get cas => has((it) => it.cas, 'cas');
 }
