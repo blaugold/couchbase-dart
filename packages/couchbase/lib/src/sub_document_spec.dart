@@ -60,7 +60,7 @@ enum InternalLookupInMacro implements _LookupInMacro {
 /// A macro that can be passed to a Mutate-In operation (see [MutateInSpec]) to
 /// write special values such as the expiry, CAS, etc.
 ///
-/// @category Key-Value
+/// {@category Key-Value}
 enum MutateInMacro {
   /// References the CAS of a document.
   cas(r'${Mutation.CAS}'),

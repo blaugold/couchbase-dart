@@ -7,16 +7,23 @@ export 'src/collection.dart'
     show
         Collection,
         ExistsOptions,
+        GetAllReplicasOptions,
+        GetAndLockOptions,
+        GetAndTouchOptions,
+        GetAnyReplicaOptions,
         GetOptions,
         InsertOptions,
         LookupInOptions,
         MutateInOptions,
         RemoveOptions,
         ReplaceOptions,
+        TouchOptions,
+        UnlockOptions,
         UpsertOptions;
 export 'src/crud_operation.dart'
     show
         ExistsResult,
+        GetReplicaResult,
         GetResult,
         LookupInResult,
         LookupInResultEntry,

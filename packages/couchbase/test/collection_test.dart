@@ -235,6 +235,26 @@ void main() {
       ..exists.isFalse();
   });
 
+  test('getAnyReplica', () async {
+    final documentId = createTestDocumentId();
+    final insertResult = await defaultCollection.insert(documentId, true);
+    final result = await defaultCollection.getAnyReplica(documentId);
+    check(result)
+      ..cas.equals(insertResult.cas)
+      ..content.equals(true)
+      ..isReplica.isFalse();
+  });
+
+  test('getAllReplicas', () async {
+    // TODO: It seems that for a bucket without any replicas, getAllReplicas
+    // fails. Check if this is a bug in the server, since getAnyReplica works
+    // even without any replicas.
+    final documentId = createTestDocumentId();
+    await defaultCollection.insert(documentId, true);
+    await check(defaultCollection.getAllReplicas(documentId))
+        .throws<UnambiguousTimeout>();
+  });
+
   group('insert', () {
     test('with defaults', () async {
       final documentId = createTestDocumentId();
@@ -638,6 +658,68 @@ void main() {
         ),
       ).throws<DurabilityImpossible>();
     });
+  });
+
+  test('getAndTouch', () async {
+    final documentId = createTestDocumentId();
+    await defaultCollection.insert(documentId, false);
+    var getResult = await defaultCollection.getAndTouch(
+      documentId,
+      const Duration(hours: 1),
+    );
+    check(getResult).content.equals(false);
+    getResult = await defaultCollection.get(
+      documentId,
+      const GetOptions(withExpiry: true),
+    );
+    check(getResult).expiryTime.isNotNull();
+  });
+
+  test('touch', () async {
+    final documentId = createTestDocumentId();
+    await defaultCollection.insert(documentId, false);
+    await defaultCollection.touch(documentId, const Duration(hours: 1));
+    final getResult = await defaultCollection.get(
+      documentId,
+      const GetOptions(withExpiry: true),
+    );
+    check(getResult).expiryTime.isNotNull();
+  });
+
+  test('getAndLock', () async {
+    final documentId = createTestDocumentId();
+    await defaultCollection.insert(documentId, false);
+    final getAndLockResult = await defaultCollection.getAndLock(
+      documentId,
+      const Duration(hours: 1),
+    );
+    check(getAndLockResult).content.equals(false);
+    // TODO: Check if this should be DocumentLocked exception.
+    await check(defaultCollection.replace(documentId, true))
+        .throws<AmbiguousTimeout>();
+    await defaultCollection.replace(
+      documentId,
+      true,
+      ReplaceOptions(cas: getAndLockResult.cas),
+    );
+  });
+
+  test('unlock', () async {
+    final documentId = createTestDocumentId();
+    await defaultCollection.insert(documentId, false);
+    final getAndLockResult = await defaultCollection.getAndLock(
+      documentId,
+      const Duration(hours: 1),
+    );
+    check(getAndLockResult).content.equals(false);
+    // TODO: Check if this should be DocumentLocked exception.
+    await check(defaultCollection.replace(documentId, true))
+        .throws<AmbiguousTimeout>();
+    await defaultCollection.unlock(
+      documentId,
+      getAndLockResult.cas,
+    );
+    await defaultCollection.replace(documentId, true);
   });
 
   group('lookupIn', () {
