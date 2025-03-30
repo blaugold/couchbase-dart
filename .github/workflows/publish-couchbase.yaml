@@ -28,13 +28,15 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: stable
+          sdk: 2.19
 
       - name: Install Melos
         run: dart pub global activate melos
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: ~3.26.0
 
       - name: Install ccache
         uses: hendrikmuhs/ccache-action@v1.2
@@ -80,13 +82,15 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: stable
+          sdk: 2.19
 
       - name: Install Melos
         run: dart pub global activate melos
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: ~3.26.0
 
       - name: Install ccache
         uses: hendrikmuhs/ccache-action@v1.2
@@ -131,6 +135,8 @@ jobs:
 
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 2.19
 
       - name: Install dependencies
         working-directory: package/couchbase

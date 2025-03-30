@@ -10,10 +10,11 @@ on:
 jobs:
   ci:
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
-          - macos-latest
+          - macos-13
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     steps:
@@ -29,16 +30,21 @@ jobs:
           brew install docker-compose
           mkdir -p ~/.docker/cli-plugins
           ln -sfn $(brew --prefix)/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
+          brew install colima
           colima start
 
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 2.19
 
       - name: Install Melos
         run: dart pub global activate melos
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: ~3.26.0
 
       - name: Install ccache
         uses: hendrikmuhs/ccache-action@v1.2
