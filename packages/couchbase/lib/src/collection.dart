@@ -398,7 +398,7 @@ class Collection {
           content: _decodeDocument(options, entry.flags, entry.value),
           cas: entry.cas,
           isReplica: entry.replica,
-        )
+        ),
     ];
   }
 

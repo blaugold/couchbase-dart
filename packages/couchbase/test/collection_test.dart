@@ -47,7 +47,7 @@ void main() {
       test('projection path with key and non-zero index', () async {
         final documentId = createTestDocumentId();
         final insertResult = await defaultCollection.insert(documentId, {
-          'a': [true, false]
+          'a': [true, false],
         });
         final result = await defaultCollection.get(
           documentId,
@@ -57,7 +57,7 @@ void main() {
         check(result)
           ..cas.equals(insertResult.cas)
           ..content.isJsonObject.deepEquals({
-            'a': [null, false]
+            'a': [null, false],
           })
           ..expiryTime.isNull();
       });
@@ -786,7 +786,7 @@ void main() {
     test('count', () async {
       final documentId = createTestDocumentId();
       final documentContent = {
-        'a': [null, null, null]
+        'a': [null, null, null],
       };
 
       await defaultCollection.insert(documentId, documentContent);
@@ -810,7 +810,7 @@ void main() {
             'a',
             [null, null, null],
             xattr: true,
-          )
+          ),
         ],
         const MutateInOptions(storeSemantics: StoreSemantics.insert),
       );
@@ -974,7 +974,7 @@ void main() {
 
           final getResult = await defaultCollection.get(documentId);
           check(getResult).content.isJsonObject.deepEquals({
-            'a': {'b': 1}
+            'a': {'b': 1},
           });
         });
 
@@ -1049,7 +1049,7 @@ void main() {
 
           final getResult = await defaultCollection.get(documentId);
           check(getResult).content.isJsonObject.deepEquals({
-            'a': {'b': 1}
+            'a': {'b': 1},
           });
         });
 
@@ -1192,32 +1192,32 @@ void main() {
         test('basic', () async {
           final documentId = createTestDocumentId();
           await defaultCollection.upsert(documentId, {
-            'a': [1]
+            'a': [1],
           });
 
           await defaultCollection.mutateIn(
             documentId,
             [
-              MutateInSpec.arrayAppend('a', [2])
+              MutateInSpec.arrayAppend('a', [2]),
             ],
           );
 
           final getResult = await defaultCollection.get(documentId);
           check(getResult).content.isJsonObject.deepEquals({
-            'a': [1, 2]
+            'a': [1, 2],
           });
         });
 
         test('multiple values', () async {
           final documentId = createTestDocumentId();
           await defaultCollection.upsert(documentId, {
-            'a': [1]
+            'a': [1],
           });
 
           await defaultCollection.mutateIn(
             documentId,
             [
-              MutateInSpec.arrayAppend('a', [2, 3])
+              MutateInSpec.arrayAppend('a', [2, 3]),
             ],
           );
 
@@ -1234,14 +1234,14 @@ void main() {
           await defaultCollection.mutateIn(
             documentId,
             [
-              MutateInSpec.arrayAppend('a', [1], createPath: true)
+              MutateInSpec.arrayAppend('a', [1], createPath: true),
             ],
             const MutateInOptions(storeSemantics: StoreSemantics.insert),
           );
 
           final getResult = await defaultCollection.get(documentId);
           check(getResult).content.isJsonObject.deepEquals({
-            'a': [1]
+            'a': [1],
           });
         });
 
@@ -1274,64 +1274,64 @@ void main() {
       test('arrayPrepend', () async {
         final documentId = createTestDocumentId();
         await defaultCollection.upsert(documentId, {
-          'a': [1]
+          'a': [1],
         });
 
         await defaultCollection.mutateIn(
           documentId,
           [
-            MutateInSpec.arrayPrepend('a', [2])
+            MutateInSpec.arrayPrepend('a', [2]),
           ],
         );
 
         final getResult = await defaultCollection.get(documentId);
         check(getResult).content.isJsonObject.deepEquals({
-          'a': [2, 1]
+          'a': [2, 1],
         });
       });
 
       test('arrayInsert', () async {
         final documentId = createTestDocumentId();
         await defaultCollection.upsert(documentId, {
-          'a': [1, 2]
+          'a': [1, 2],
         });
 
         await defaultCollection.mutateIn(
           documentId,
           [
-            MutateInSpec.arrayInsert('a[1]', [3])
+            MutateInSpec.arrayInsert('a[1]', [3]),
           ],
         );
 
         final getResult = await defaultCollection.get(documentId);
         check(getResult).content.isJsonObject.deepEquals({
-          'a': [1, 3, 2]
+          'a': [1, 3, 2],
         });
       });
 
       test('arrayAddUnique', () async {
         final documentId = createTestDocumentId();
         await defaultCollection.upsert(documentId, {
-          'a': [1, 2]
+          'a': [1, 2],
         });
 
         await defaultCollection.mutateIn(
           documentId,
           [
-            MutateInSpec.arrayAddUnique('a', [3])
+            MutateInSpec.arrayAddUnique('a', [3]),
           ],
         );
 
         final getResult = await defaultCollection.get(documentId);
         check(getResult).content.isJsonObject.deepEquals({
-          'a': [1, 2, 3]
+          'a': [1, 2, 3],
         });
 
         await check(
           defaultCollection.mutateIn(
             documentId,
             [
-              MutateInSpec.arrayAddUnique('a', [3])
+              MutateInSpec.arrayAddUnique('a', [3]),
             ],
           ),
         ).throws<PathExists>();

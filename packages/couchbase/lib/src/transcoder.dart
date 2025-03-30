@@ -91,7 +91,7 @@ class DefaultTranscoder implements Transcoder {
     if (value is String) {
       return EncodedDocumentData(
         flags: _dartFormatUtf8 | _commonFormatUtf8,
-        bytes: utf8.encode(value) as Uint8List,
+        bytes: utf8.encode(value),
       );
     }
 

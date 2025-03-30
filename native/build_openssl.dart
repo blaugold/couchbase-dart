@@ -70,7 +70,7 @@ Future<void> buildOpenSsl({
       'no-ssl3',
       'no-ssl3-method',
       'no-zlib',
-      configuration
+      configuration,
     ],
     environment: {
       'CC': compiler,

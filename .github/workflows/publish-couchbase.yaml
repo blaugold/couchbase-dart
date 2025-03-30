@@ -28,7 +28,7 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: 2.19
+          sdk: 3.2
 
       - name: Install Melos
         run: dart pub global activate melos
@@ -82,7 +82,7 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: 2.19
+          sdk: 3.2
 
       - name: Install Melos
         run: dart pub global activate melos
@@ -136,7 +136,7 @@ jobs:
       - name: Install Dart
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: 2.19
+          sdk: 3.2
 
       - name: Install dependencies
         working-directory: package/couchbase
