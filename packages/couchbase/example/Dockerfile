@@ -1,4 +1,4 @@
-FROM dart:2.19 AS build
+FROM dart:3.2 AS build
 
 COPY . /app/
 

@@ -1,7 +1,7 @@
 name: couchbase_dart_repo
 
 environment:
-  sdk: ^2.19.0
+  sdk: ^3.2.0
 
 dev_dependencies:
   melos: ^3.0.0
