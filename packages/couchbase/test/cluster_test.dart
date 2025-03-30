@@ -278,9 +278,9 @@ void main() async {
       check(result.services)
         ..length.equals(1)
         ..containsKey(ServiceType.keyValue)
-        ..containsValueThat(
-          it()..single.has((it) => it.bucket, 'bucket').equals(testBucketName),
-        );
+        ..containsValueThat((it) {
+          it.single.has((it) => it.bucket, 'bucket').equals(testBucketName);
+        });
     });
 
     test('with reportId', () async {

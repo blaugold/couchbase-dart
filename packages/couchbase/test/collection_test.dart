@@ -259,7 +259,7 @@ void main() {
     test('with defaults', () async {
       final documentId = createTestDocumentId();
       final result = await defaultCollection.insert(documentId, true);
-      check(result).cas.not(it()..equals(InternalCas.zero));
+      check(result).cas.not((it) => it.equals(InternalCas.zero));
 
       final getResult = await defaultCollection.get(documentId);
       check(getResult)
@@ -274,7 +274,7 @@ void main() {
         true,
         const InsertOptions(expiry: Duration(hours: 1)),
       );
-      check(result).cas.not(it()..equals(InternalCas.zero));
+      check(result).cas.not((it) => it.equals(InternalCas.zero));
 
       final getResult = await defaultCollection.get(
         documentId,
@@ -342,7 +342,7 @@ void main() {
     test('with defaults', () async {
       final documentId = createTestDocumentId();
       final result = await defaultCollection.upsert(documentId, true);
-      check(result).cas.not(it()..equals(InternalCas.zero));
+      check(result).cas.not((it) => it.equals(InternalCas.zero));
 
       final getResult = await defaultCollection.get(documentId);
       check(getResult)
@@ -357,7 +357,7 @@ void main() {
         true,
         const UpsertOptions(expiry: Duration(hours: 1)),
       );
-      check(result).cas.not(it()..equals(InternalCas.zero));
+      check(result).cas.not((it) => it.equals(InternalCas.zero));
 
       final getResult = await defaultCollection.get(
         documentId,
@@ -381,7 +381,7 @@ void main() {
         false,
         const UpsertOptions(preserveExpiry: true),
       );
-      check(result).cas.not(it()..equals(insertResult.cas));
+      check(result).cas.not((it) => it.equals(insertResult.cas));
 
       final getResult = await defaultCollection.get(
         documentId,
@@ -450,7 +450,7 @@ void main() {
       final documentId = createTestDocumentId();
       await defaultCollection.insert(documentId, false);
       final result = await defaultCollection.replace(documentId, true);
-      check(result).cas.not(it()..equals(InternalCas.zero));
+      check(result).cas.not((it) => it.equals(InternalCas.zero));
 
       final getResult = await defaultCollection.get(documentId);
       check(getResult)
@@ -466,7 +466,7 @@ void main() {
         true,
         const ReplaceOptions(expiry: Duration(hours: 1)),
       );
-      check(result).cas.not(it()..equals(InternalCas.zero));
+      check(result).cas.not((it) => it.equals(InternalCas.zero));
 
       final getResult = await defaultCollection.get(
         documentId,
@@ -490,7 +490,7 @@ void main() {
         false,
         const ReplaceOptions(preserveExpiry: true),
       );
-      check(result).cas.not(it()..equals(insertResult.cas));
+      check(result).cas.not((it) => it.equals(insertResult.cas));
 
       final getResult = await defaultCollection.get(
         documentId,
@@ -510,7 +510,7 @@ void main() {
         true,
         ReplaceOptions(cas: insertResult.cas),
       );
-      check(result).cas.not(it()..equals(insertResult.cas));
+      check(result).cas.not((it) => it.equals(insertResult.cas));
 
       final getResult = await defaultCollection.get(documentId);
       check(getResult)
@@ -594,7 +594,7 @@ void main() {
       final documentId = createTestDocumentId();
       await defaultCollection.insert(documentId, false);
       final result = await defaultCollection.remove(documentId);
-      check(result).cas.not(it()..equals(InternalCas.zero));
+      check(result).cas.not((it) => it.equals(InternalCas.zero));
       await check(defaultCollection.get(documentId)).throws<DocumentNotFound>();
     });
 
@@ -605,7 +605,7 @@ void main() {
         documentId,
         RemoveOptions(cas: insertResult.cas),
       );
-      check(result).cas.not(it()..equals(insertResult.cas));
+      check(result).cas.not((it) => it.equals(insertResult.cas));
       await check(defaultCollection.get(documentId)).throws<DocumentNotFound>();
     });
 
@@ -885,7 +885,7 @@ void main() {
         [MutateInSpec.upsert('', true)],
         MutateInOptions(cas: insertResult.cas),
       );
-      check(result).cas.not(it()..equals(insertResult.cas));
+      check(result).cas.not((it) => it.equals(insertResult.cas));
 
       final getResult = await defaultCollection.get(documentId);
       check(getResult)
