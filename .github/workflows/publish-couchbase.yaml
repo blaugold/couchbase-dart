@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -58,7 +58,7 @@ jobs:
           libCouchbaseDart.dylib
 
       - name: Upload archive
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: libCouchbaseDart-macos-${{ matrix.arch }}
           path: native/build/libCouchbaseDart-macos-${{ matrix.arch }}.tar.gz
@@ -69,13 +69,13 @@ jobs:
         include:
           - runner: ubuntu-22.04
             arch: x86_64
-          - runner: buildjet-8vcpu-ubuntu-2204-arm
+          - runner: ubuntu-22.04-arm
             arch: arm64
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 60
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -108,7 +108,7 @@ jobs:
           libCouchbaseDart.so
 
       - name: Upload archive
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: libCouchbaseDart-linux-${{ matrix.arch }}
           path: native/build/libCouchbaseDart-linux-${{ matrix.arch }}.tar.gz
@@ -121,15 +121,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download all binary archives
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: archives
 
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: archives/**
 
