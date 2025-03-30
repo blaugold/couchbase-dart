@@ -99,9 +99,6 @@ extension MutateInResultSubject on Subject<MutateInResult> {
   Subject<Cas> get cas => has((it) => it.cas, 'cas');
 }
 
-ConditionSubject<LookupInResultEntry> lookupInResultEntry() =>
-    it<LookupInResultEntry>();
-
 extension LookupInResultEntrySubject on Subject<LookupInResultEntry> {
   Subject<Object?> get value => has((it) => it.value, 'value');
   Subject<Object?> get error => has((it) => it.error, 'error');
