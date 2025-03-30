@@ -270,7 +270,7 @@ class MutateInSpec {
   /// Creates a [MutateInSpec] for adding values to the end of an array in a
   /// document.
   ///
-  /// {@macro MutateInSpec.values}
+  /// {@template MutateInSpec.values}
   /// [values] must be an [Iterable] of JSON-serializable values.
   /// {@endtemplate}
   ///
@@ -462,9 +462,7 @@ extension MutateInSpecMessageExtension on MutateInSpec {
       path: _path,
       flags: _flags,
       originalIndex: originalIndex,
-      value: _data == null
-          ? Uint8List(0)
-          : utf8.encode(_data! as String) as Uint8List,
+      value: _data == null ? Uint8List(0) : utf8.encode(_data! as String),
     );
   }
 }

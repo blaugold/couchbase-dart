@@ -28,7 +28,7 @@ extension AsStringSubject<T> on Subject<T> {
                 'threw while trying to call toString(): ',
                 literal(error),
               ),
-              ...stackTrace.toString().split('\n')
+              ...stackTrace.toString().split('\n'),
             ],
           );
         }
@@ -53,7 +53,7 @@ extension IterableSubject<T> on Subject<Iterable<T>> {
                 'threw while trying to access element at index $index: ',
                 literal(error),
               ),
-              ...stackTrace.toString().split('\n')
+              ...stackTrace.toString().split('\n'),
             ],
           );
         }
@@ -99,8 +99,7 @@ extension MutateInResultSubject on Subject<MutateInResult> {
   Subject<Cas> get cas => has((it) => it.cas, 'cas');
 }
 
-ConditionSubject<LookupInResultEntry> lookupInResultEntry() =>
-    it<LookupInResultEntry>();
+Subject<LookupInResultEntry> lookupInResultEntry() => it<LookupInResultEntry>();
 
 extension LookupInResultEntrySubject on Subject<LookupInResultEntry> {
   Subject<Object?> get value => has((it) => it.value, 'value');
