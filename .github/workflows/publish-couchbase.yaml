@@ -138,9 +138,11 @@ jobs:
         with:
           sdk: 3.2
 
+      - name: Install Melos
+        run: dart pub global activate melos
+
       - name: Install dependencies
-        working-directory: packages/couchbase
-        run: dart pub get
+        run: melos bootstrap --scope couchbase
 
       - name: Publish package
         working-directory: packages/couchbase
