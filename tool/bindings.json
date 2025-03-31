@@ -117,14 +117,17 @@
       "fields": [
         { "name": "name", "type": { "name": "std::string" } },
         { "name": "uuid", "type": { "name": "std::string" } },
+        { "name": "ram_quota_mb", "type": { "name": "std::uint64_t" } },
         {
           "name": "bucket_type",
           "type": {
             "name": "couchbase::core::management::cluster::bucket_type"
           }
         },
-        { "name": "ram_quota_mb", "type": { "name": "std::uint64_t" } },
-        { "name": "max_expiry", "type": { "name": "std::uint32_t" } },
+        {
+          "name": "max_expiry",
+          "type": { "name": "std::optional", "of": { "name": "std::uint32_t" } }
+        },
         {
           "name": "compression_mode",
           "type": {
@@ -138,9 +141,18 @@
             "of": { "name": "couchbase::durability_level" }
           }
         },
-        { "name": "num_replicas", "type": { "name": "std::uint32_t" } },
-        { "name": "replica_indexes", "type": { "name": "std::bool" } },
-        { "name": "flush_enabled", "type": { "name": "std::bool" } },
+        {
+          "name": "num_replicas",
+          "type": { "name": "std::optional", "of": { "name": "std::uint32_t" } }
+        },
+        {
+          "name": "replica_indexes",
+          "type": { "name": "std::optional", "of": { "name": "std::bool" } }
+        },
+        {
+          "name": "flush_enabled",
+          "type": { "name": "std::optional", "of": { "name": "std::bool" } }
+        },
         {
           "name": "eviction_policy",
           "type": {
@@ -152,6 +164,18 @@
           "type": {
             "name": "couchbase::core::management::cluster::bucket_conflict_resolution"
           }
+        },
+        {
+          "name": "history_retention_collection_default",
+          "type": { "name": "std::optional", "of": { "name": "std::bool" } }
+        },
+        {
+          "name": "history_retention_bytes",
+          "type": { "name": "std::optional", "of": { "name": "std::uint32_t" } }
+        },
+        {
+          "name": "history_retention_duration",
+          "type": { "name": "std::optional", "of": { "name": "std::uint32_t" } }
         },
         {
           "name": "storage_backend",
@@ -197,7 +221,10 @@
     {
       "name": "couchbase::core::management::views::design_document",
       "fields": [
-        { "name": "rev", "type": { "name": "std::string" } },
+        {
+          "name": "rev",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
         { "name": "name", "type": { "name": "std::string" } },
         {
           "name": "ns",
@@ -548,6 +575,25 @@
           "type": {
             "name": "couchbase::core::management::eventing::function_settings"
           }
+        },
+        {
+          "name": "internal",
+          "type": {
+            "name": "couchbase::core::management::eventing::function::internal"
+          }
+        }
+      ]
+    },
+    {
+      "name": "couchbase::core::management::eventing::function::internal",
+      "fields": [
+        {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
         }
       ]
     },
@@ -581,6 +627,25 @@
         {
           "name": "redeploy_required",
           "type": { "name": "std::optional", "of": { "name": "std::bool" } }
+        },
+        {
+          "name": "internal",
+          "type": {
+            "name": "couchbase::core::management::eventing::function_state::internal"
+          }
+        }
+      ]
+    },
+    {
+      "name": "couchbase::core::management::eventing::function_state::internal",
+      "fields": [
+        {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
         }
       ]
     },
@@ -733,36 +798,6 @@
       ]
     },
     {
-      "name": "couchbase::management::query::index",
-      "fields": [
-        { "name": "is_primary", "type": { "name": "std::bool" } },
-        { "name": "name", "type": { "name": "std::string" } },
-        { "name": "state", "type": { "name": "std::string" } },
-        { "name": "type", "type": { "name": "std::string" } },
-        {
-          "name": "index_key",
-          "type": { "name": "std::vector", "of": { "name": "std::string" } }
-        },
-        {
-          "name": "partition",
-          "type": { "name": "std::optional", "of": { "name": "std::string" } }
-        },
-        {
-          "name": "condition",
-          "type": { "name": "std::optional", "of": { "name": "std::string" } }
-        },
-        { "name": "bucket_name", "type": { "name": "std::string" } },
-        {
-          "name": "scope_name",
-          "type": { "name": "std::optional", "of": { "name": "std::string" } }
-        },
-        {
-          "name": "collection_name",
-          "type": { "name": "std::optional", "of": { "name": "std::string" } }
-        }
-      ]
-    },
-    {
       "name": "couchbase::core::topology::collections_manifest",
       "fields": [
         {
@@ -790,7 +825,11 @@
       "fields": [
         { "name": "uid", "type": { "name": "std::uint64_t" } },
         { "name": "name", "type": { "name": "std::string" } },
-        { "name": "max_expiry", "type": { "name": "std::uint32_t" } }
+        { "name": "max_expiry", "type": { "name": "std::int32_t" } },
+        {
+          "name": "history",
+          "type": { "name": "std::optional", "of": { "name": "std::bool" } }
+        }
       ]
     },
     {
@@ -935,7 +974,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         { "name": "cas", "type": { "name": "couchbase::cas" } },
         { "name": "token", "type": { "name": "couchbase::mutation_token" } }
@@ -1015,7 +1054,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         { "name": "deleted", "type": { "name": "std::bool" } },
         { "name": "cas", "type": { "name": "couchbase::cas" } },
@@ -1083,7 +1122,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         { "name": "cas", "type": { "name": "couchbase::cas" } }
       ]
@@ -1120,7 +1159,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         {
           "name": "entries",
@@ -1155,6 +1194,10 @@
             "name": "std::optional",
             "of": { "name": "std::chrono::milliseconds" }
           }
+        },
+        {
+          "name": "read_preference",
+          "type": { "name": "couchbase::read_preference" }
         }
       ]
     },
@@ -1163,7 +1206,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         { "name": "cas", "type": { "name": "couchbase::cas" } },
         { "name": "token", "type": { "name": "couchbase::mutation_token" } }
@@ -1249,7 +1292,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         {
           "name": "value",
@@ -1270,6 +1313,10 @@
             "name": "std::optional",
             "of": { "name": "std::chrono::milliseconds" }
           }
+        },
+        {
+          "name": "read_preference",
+          "type": { "name": "couchbase::read_preference" }
         }
       ]
     },
@@ -1278,7 +1325,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         { "name": "cas", "type": { "name": "couchbase::cas" } },
         { "name": "token", "type": { "name": "couchbase::mutation_token" } }
@@ -1470,6 +1517,10 @@
         { "name": "flex_index", "type": { "name": "std::bool" } },
         { "name": "preserve_expiry", "type": { "name": "std::bool" } },
         {
+          "name": "use_replica",
+          "type": { "name": "std::optional", "of": { "name": "std::bool" } }
+        },
+        {
           "name": "max_parallelism",
           "type": { "name": "std::optional", "of": { "name": "std::uint64_t" } }
         },
@@ -1521,14 +1572,20 @@
             "of": { "name": "std::chrono::milliseconds" }
           }
         },
-        { "name": "profile", "type": { "name": "couchbase::query_profile" } },
+        {
+          "name": "profile",
+          "type": {
+            "name": "std::optional",
+            "of": { "name": "couchbase::query_profile" }
+          }
+        },
         {
           "name": "raw",
           "type": {
             "name": "std::map",
             "of": { "name": "std::string" },
             "to": { "name": "couchbase::core::json_string" },
-            "comparator": { "name": "std::less<>" }
+            "comparator": { "name": "unknown", "str": "std::less<void>" }
           }
         },
         {
@@ -1544,7 +1601,7 @@
             "name": "std::map",
             "of": { "name": "std::string" },
             "to": { "name": "couchbase::core::json_string" },
-            "comparator": { "name": "std::less<>" }
+            "comparator": { "name": "unknown", "str": "std::less<void>" }
           }
         },
         {
@@ -1574,38 +1631,11 @@
       ]
     },
     {
-      "name": "couchbase::core::operations::mcbp_noop_response",
-      "fields": [
-        {
-          "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
-        }
-      ]
-    },
-    {
-      "name": "couchbase::core::operations::mcbp_noop_request",
-      "fields": [
-        { "name": "partition", "type": { "name": "std::uint16_t" } },
-        { "name": "opaque", "type": { "name": "std::uint32_t" } },
-        {
-          "name": "timeout",
-          "type": {
-            "name": "std::optional",
-            "of": { "name": "std::chrono::milliseconds" }
-          }
-        },
-        {
-          "name": "retries",
-          "type": { "name": "couchbase::core::io::retry_context<true>" }
-        }
-      ]
-    },
-    {
       "name": "couchbase::core::operations::replace_response",
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         { "name": "cas", "type": { "name": "couchbase::cas" } },
         { "name": "token", "type": { "name": "couchbase::mutation_token" } }
@@ -1693,7 +1723,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         {
           "name": "value",
@@ -1735,7 +1765,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         { "name": "cas", "type": { "name": "couchbase::cas" } },
         { "name": "token", "type": { "name": "couchbase::mutation_token" } }
@@ -1809,7 +1839,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         {
           "name": "value",
@@ -1842,6 +1872,93 @@
             "name": "std::shared_ptr",
             "of": { "name": "couchbase::tracing::request_span" }
           }
+        }
+      ]
+    },
+    {
+      "name": "couchbase::core::operations::lookup_in_all_replicas_response",
+      "fields": [
+        {
+          "name": "ctx",
+          "type": { "name": "couchbase::core::subdocument_error_context" }
+        },
+        {
+          "name": "entries",
+          "type": {
+            "name": "std::vector",
+            "of": {
+              "name": "couchbase::core::operations::lookup_in_all_replicas_response::entry"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "couchbase::core::operations::lookup_in_all_replicas_response::entry",
+      "fields": [
+        {
+          "name": "fields",
+          "type": {
+            "name": "std::vector",
+            "of": {
+              "name": "couchbase::core::operations::lookup_in_all_replicas_response::entry::lookup_in_entry"
+            }
+          }
+        },
+        { "name": "cas", "type": { "name": "couchbase::cas" } },
+        { "name": "deleted", "type": { "name": "std::bool" } },
+        { "name": "is_replica", "type": { "name": "std::bool" } }
+      ]
+    },
+    {
+      "name": "couchbase::core::operations::lookup_in_all_replicas_response::entry::lookup_in_entry",
+      "fields": [
+        { "name": "path", "type": { "name": "std::string" } },
+        {
+          "name": "value",
+          "type": { "name": "std::vector", "of": { "name": "std::byte" } }
+        },
+        { "name": "original_index", "type": { "name": "std::size_t" } },
+        { "name": "exists", "type": { "name": "std::bool" } },
+        {
+          "name": "opcode",
+          "type": { "name": "couchbase::core::protocol::subdoc_opcode" }
+        },
+        {
+          "name": "status",
+          "type": { "name": "couchbase::core::key_value_status_code" }
+        },
+        { "name": "ec", "type": { "name": "std::error_code" } }
+      ]
+    },
+    {
+      "name": "couchbase::core::operations::lookup_in_all_replicas_request",
+      "fields": [
+        { "name": "id", "type": { "name": "couchbase::core::document_id" } },
+        {
+          "name": "specs",
+          "type": {
+            "name": "std::vector",
+            "of": { "name": "couchbase::core::impl::subdoc::command" }
+          }
+        },
+        {
+          "name": "timeout",
+          "type": {
+            "name": "std::optional",
+            "of": { "name": "std::chrono::milliseconds" }
+          }
+        },
+        {
+          "name": "parent_span",
+          "type": {
+            "name": "std::shared_ptr",
+            "of": { "name": "couchbase::tracing::request_span" }
+          }
+        },
+        {
+          "name": "read_preference",
+          "type": { "name": "couchbase::read_preference" }
         }
       ]
     },
@@ -2008,7 +2125,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         {
           "name": "value",
@@ -2063,7 +2180,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         { "name": "content", "type": { "name": "std::uint64_t" } },
         { "name": "cas", "type": { "name": "couchbase::cas" } },
@@ -2349,6 +2466,32 @@
         { "name": "index_name", "type": { "name": "std::string" } },
         { "name": "query", "type": { "name": "couchbase::core::json_string" } },
         {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "show_request",
+          "type": { "name": "std::optional", "of": { "name": "std::bool" } }
+        },
+        {
+          "name": "vector_search",
+          "type": {
+            "name": "std::optional",
+            "of": { "name": "couchbase::core::json_string" }
+          }
+        },
+        {
+          "name": "vector_query_combination",
+          "type": {
+            "name": "std::optional",
+            "of": { "name": "couchbase::core::vector_query_combination" }
+          }
+        },
+        {
           "name": "limit",
           "type": { "name": "std::optional", "of": { "name": "std::uint32_t" } }
         },
@@ -2356,7 +2499,10 @@
           "name": "skip",
           "type": { "name": "std::optional", "of": { "name": "std::uint32_t" } }
         },
-        { "name": "explain", "type": { "name": "std::bool" } },
+        {
+          "name": "explain",
+          "type": { "name": "std::optional", "of": { "name": "std::bool" } }
+        },
         { "name": "disable_scoring", "type": { "name": "std::bool" } },
         { "name": "include_locations", "type": { "name": "std::bool" } },
         {
@@ -2427,6 +2573,14 @@
             "of": { "name": "std::chrono::milliseconds" }
           }
         },
+        {
+          "name": "log_request",
+          "type": { "name": "std::optional", "of": { "name": "std::bool" } }
+        },
+        {
+          "name": "log_response",
+          "type": { "name": "std::optional", "of": { "name": "std::bool" } }
+        },
         { "name": "body_str", "type": { "name": "std::string" } },
         {
           "name": "parent_span",
@@ -2442,7 +2596,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         { "name": "cas", "type": { "name": "couchbase::cas" } }
       ]
@@ -2479,7 +2633,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::subdocument_error_context" }
+          "type": { "name": "couchbase::core::subdocument_error_context" }
         },
         { "name": "cas", "type": { "name": "couchbase::cas" } },
         {
@@ -2510,7 +2664,7 @@
         },
         {
           "name": "status",
-          "type": { "name": "couchbase::key_value_status_code" }
+          "type": { "name": "couchbase::core::key_value_status_code" }
         },
         { "name": "ec", "type": { "name": "std::error_code" } }
       ]
@@ -2688,6 +2842,10 @@
           }
         },
         {
+          "name": "full_set",
+          "type": { "name": "std::optional", "of": { "name": "std::bool" } }
+        },
+        {
           "name": "order",
           "type": {
             "name": "std::optional",
@@ -2734,7 +2892,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         {
           "name": "value",
@@ -2776,7 +2934,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         { "name": "cas", "type": { "name": "couchbase::cas" } },
         { "name": "token", "type": { "name": "couchbase::mutation_token" } }
@@ -2856,11 +3014,84 @@
       ]
     },
     {
+      "name": "couchbase::core::operations::lookup_in_any_replica_response",
+      "fields": [
+        {
+          "name": "ctx",
+          "type": { "name": "couchbase::core::subdocument_error_context" }
+        },
+        { "name": "cas", "type": { "name": "couchbase::cas" } },
+        {
+          "name": "fields",
+          "type": {
+            "name": "std::vector",
+            "of": {
+              "name": "couchbase::core::operations::lookup_in_any_replica_response::entry"
+            }
+          }
+        },
+        { "name": "deleted", "type": { "name": "std::bool" } },
+        { "name": "is_replica", "type": { "name": "std::bool" } }
+      ]
+    },
+    {
+      "name": "couchbase::core::operations::lookup_in_any_replica_response::entry",
+      "fields": [
+        { "name": "path", "type": { "name": "std::string" } },
+        {
+          "name": "value",
+          "type": { "name": "std::vector", "of": { "name": "std::byte" } }
+        },
+        { "name": "original_index", "type": { "name": "std::size_t" } },
+        { "name": "exists", "type": { "name": "std::bool" } },
+        {
+          "name": "opcode",
+          "type": { "name": "couchbase::core::protocol::subdoc_opcode" }
+        },
+        {
+          "name": "status",
+          "type": { "name": "couchbase::core::key_value_status_code" }
+        },
+        { "name": "ec", "type": { "name": "std::error_code" } }
+      ]
+    },
+    {
+      "name": "couchbase::core::operations::lookup_in_any_replica_request",
+      "fields": [
+        { "name": "id", "type": { "name": "couchbase::core::document_id" } },
+        {
+          "name": "specs",
+          "type": {
+            "name": "std::vector",
+            "of": { "name": "couchbase::core::impl::subdoc::command" }
+          }
+        },
+        {
+          "name": "timeout",
+          "type": {
+            "name": "std::optional",
+            "of": { "name": "std::chrono::milliseconds" }
+          }
+        },
+        {
+          "name": "parent_span",
+          "type": {
+            "name": "std::shared_ptr",
+            "of": { "name": "couchbase::tracing::request_span" }
+          }
+        },
+        {
+          "name": "read_preference",
+          "type": { "name": "couchbase::read_preference" }
+        }
+      ]
+    },
+    {
       "name": "couchbase::core::operations::mutate_in_response",
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::subdocument_error_context" }
+          "type": { "name": "couchbase::core::subdocument_error_context" }
         },
         { "name": "cas", "type": { "name": "couchbase::cas" } },
         { "name": "token", "type": { "name": "couchbase::mutation_token" } },
@@ -2891,7 +3122,7 @@
         },
         {
           "name": "status",
-          "type": { "name": "couchbase::key_value_status_code" }
+          "type": { "name": "couchbase::core::key_value_status_code" }
         },
         { "name": "ec", "type": { "name": "std::error_code" } }
       ]
@@ -2942,6 +3173,10 @@
             "name": "std::shared_ptr",
             "of": { "name": "couchbase::tracing::request_span" }
           }
+        },
+        {
+          "name": "flags",
+          "type": { "name": "std::optional", "of": { "name": "std::uint32_t" } }
         }
       ]
     },
@@ -2988,6 +3223,10 @@
             "of": { "name": "couchbase::tracing::request_span" }
           }
         },
+        {
+          "name": "flags",
+          "type": { "name": "std::optional", "of": { "name": "std::uint32_t" } }
+        },
         { "name": "persist_to", "type": { "name": "couchbase::persist_to" } },
         {
           "name": "replicate_to",
@@ -3000,7 +3239,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         { "name": "content", "type": { "name": "std::uint64_t" } },
         { "name": "cas", "type": { "name": "couchbase::cas" } },
@@ -3136,6 +3375,14 @@
       "fields": [
         { "name": "name", "type": { "name": "std::string" } },
         {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
         },
@@ -3160,7 +3407,7 @@
           "name": "indexes",
           "type": {
             "name": "std::vector",
-            "of": { "name": "couchbase::management::query::index" }
+            "of": { "name": "couchbase::management::query_index" }
           }
         }
       ]
@@ -3204,7 +3451,14 @@
         { "name": "bucket_name", "type": { "name": "std::string" } },
         { "name": "scope_name", "type": { "name": "std::string" } },
         { "name": "collection_name", "type": { "name": "std::string" } },
-        { "name": "max_expiry", "type": { "name": "std::uint32_t" } },
+        {
+          "name": "max_expiry",
+          "type": { "name": "std::optional", "of": { "name": "std::int32_t" } }
+        },
+        {
+          "name": "history",
+          "type": { "name": "std::optional", "of": { "name": "std::bool" } }
+        },
         {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
@@ -3240,6 +3494,14 @@
       "name": "couchbase::core::operations::management::eventing_resume_function_request",
       "fields": [
         { "name": "name", "type": { "name": "std::string" } },
+        {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
         {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
@@ -3476,6 +3738,14 @@
       "name": "couchbase::core::operations::management::search_index_get_all_request",
       "fields": [
         {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
         },
@@ -3505,6 +3775,14 @@
       "fields": [
         { "name": "index_name", "type": { "name": "std::string" } },
         { "name": "encoded_document", "type": { "name": "std::string" } },
+        {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
         {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
@@ -3712,7 +3990,7 @@
         { "name": "collection_name", "type": { "name": "std::string" } },
         { "name": "index_name", "type": { "name": "std::string" } },
         {
-          "name": "fields",
+          "name": "keys",
           "type": { "name": "std::vector", "of": { "name": "std::string" } }
         },
         {
@@ -3765,6 +4043,14 @@
         {
           "name": "index",
           "type": { "name": "couchbase::core::management::search::index" }
+        },
+        {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
         },
         {
           "name": "client_context_id",
@@ -4001,7 +4287,7 @@
       "fields": [
         {
           "name": "ctx",
-          "type": { "name": "couchbase::key_value_error_context" }
+          "type": { "name": "couchbase::core::key_value_error_context" }
         },
         {
           "name": "manifest",
@@ -4124,6 +4410,93 @@
       ]
     },
     {
+      "name": "couchbase::core::operations::management::collection_update_response",
+      "fields": [
+        {
+          "name": "ctx",
+          "type": { "name": "couchbase::core::error_context::http" }
+        },
+        { "name": "uid", "type": { "name": "std::uint64_t" } }
+      ]
+    },
+    {
+      "name": "couchbase::core::operations::management::collection_update_request",
+      "fields": [
+        { "name": "bucket_name", "type": { "name": "std::string" } },
+        { "name": "scope_name", "type": { "name": "std::string" } },
+        { "name": "collection_name", "type": { "name": "std::string" } },
+        {
+          "name": "max_expiry",
+          "type": { "name": "std::optional", "of": { "name": "std::int32_t" } }
+        },
+        {
+          "name": "history",
+          "type": { "name": "std::optional", "of": { "name": "std::bool" } }
+        },
+        {
+          "name": "client_context_id",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "timeout",
+          "type": {
+            "name": "std::optional",
+            "of": { "name": "std::chrono::milliseconds" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "couchbase::core::operations::management::server_node_address",
+      "fields": [
+        { "name": "hostname", "type": { "name": "std::string" } },
+        { "name": "kv_plain", "type": { "name": "std::uint16_t" } },
+        { "name": "kv_tls", "type": { "name": "std::uint16_t" } }
+      ]
+    },
+    {
+      "name": "couchbase::core::operations::management::server_node",
+      "fields": [
+        { "name": "server_group_name", "type": { "name": "std::string" } },
+        { "name": "server_index", "type": { "name": "std::size_t" } },
+        {
+          "name": "default_network",
+          "type": {
+            "name": "couchbase::core::operations::management::server_node_address"
+          }
+        },
+        {
+          "name": "external_network",
+          "type": {
+            "name": "couchbase::core::operations::management::server_node_address"
+          }
+        },
+        {
+          "name": "active_vbuckets",
+          "type": { "name": "std::set", "of": { "name": "std::uint16_t" } }
+        },
+        {
+          "name": "replica_vbuckets",
+          "type": { "name": "std::set", "of": { "name": "std::uint16_t" } }
+        }
+      ]
+    },
+    {
+      "name": "couchbase::core::operations::management::server_group",
+      "fields": [
+        { "name": "name", "type": { "name": "std::string" } },
+        {
+          "name": "nodes",
+          "type": {
+            "name": "std::vector",
+            "of": {
+              "name": "couchbase::core::operations::management::server_node"
+            }
+          }
+        }
+      ]
+    },
+    {
       "name": "couchbase::core::operations::management::bucket_describe_response",
       "fields": [
         {
@@ -4150,11 +4523,22 @@
           "type": { "name": "std::vector", "of": { "name": "std::string" } }
         },
         {
+          "name": "server_groups",
+          "type": {
+            "name": "std::map",
+            "of": { "name": "std::string" },
+            "to": {
+              "name": "couchbase::core::operations::management::server_group"
+            }
+          }
+        },
+        {
           "name": "storage_backend",
           "type": {
             "name": "couchbase::core::management::cluster::bucket_storage_backend"
           }
-        }
+        },
+        { "name": "config_json", "type": { "name": "std::string" } }
       ]
     },
     {
@@ -4198,6 +4582,14 @@
         {
           "name": "function",
           "type": { "name": "couchbase::core::management::eventing::function" }
+        },
+        {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
         },
         {
           "name": "client_context_id",
@@ -4547,6 +4939,14 @@
       "fields": [
         { "name": "name", "type": { "name": "std::string" } },
         {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
         },
@@ -4723,6 +5123,14 @@
       "name": "couchbase::core::operations::management::eventing_get_status_request",
       "fields": [
         {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
         },
@@ -4763,6 +5171,14 @@
     {
       "name": "couchbase::core::operations::management::eventing_get_all_functions_request",
       "fields": [
+        {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
         {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
@@ -4905,6 +5321,14 @@
       "fields": [
         { "name": "index_name", "type": { "name": "std::string" } },
         {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
         },
@@ -4934,6 +5358,14 @@
         { "name": "index_name", "type": { "name": "std::string" } },
         { "name": "freeze", "type": { "name": "std::bool" } },
         {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
         },
@@ -4947,7 +5379,7 @@
       ]
     },
     {
-      "name": "couchbase::core::operations::management::search_index_stats_response",
+      "name": "couchbase::core::operations::management::search_get_stats_response",
       "fields": [
         {
           "name": "ctx",
@@ -4957,7 +5389,7 @@
       ]
     },
     {
-      "name": "couchbase::core::operations::management::search_index_stats_request",
+      "name": "couchbase::core::operations::management::search_get_stats_request",
       "fields": [
         {
           "name": "client_context_id",
@@ -5055,6 +5487,14 @@
       "fields": [
         { "name": "index_name", "type": { "name": "std::string" } },
         { "name": "allow", "type": { "name": "std::bool" } },
+        {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
         {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
@@ -5183,6 +5623,14 @@
       "fields": [
         { "name": "name", "type": { "name": "std::string" } },
         {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
         },
@@ -5248,6 +5696,14 @@
         { "name": "index_name", "type": { "name": "std::string" } },
         { "name": "pause", "type": { "name": "std::bool" } },
         {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
         },
@@ -5282,6 +5738,14 @@
       "name": "couchbase::core::operations::management::eventing_deploy_function_request",
       "fields": [
         { "name": "name", "type": { "name": "std::string" } },
+        {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
         {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
@@ -5478,6 +5942,14 @@
       "fields": [
         { "name": "index_name", "type": { "name": "std::string" } },
         {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
         },
@@ -5603,6 +6075,14 @@
       "fields": [
         { "name": "name", "type": { "name": "std::string" } },
         {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
         },
@@ -5631,6 +6111,14 @@
       "name": "couchbase::core::operations::management::search_index_get_documents_count_request",
       "fields": [
         { "name": "index_name", "type": { "name": "std::string" } },
+        {
+          "name": "bucket_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "scope_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
         {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
@@ -5700,9 +6188,18 @@
     {
       "name": "couchbase::core::operations::management::analytics_link_get_all_request",
       "fields": [
-        { "name": "link_type", "type": { "name": "std::string" } },
-        { "name": "link_name", "type": { "name": "std::string" } },
-        { "name": "dataverse_name", "type": { "name": "std::string" } },
+        {
+          "name": "link_type",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "link_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
+        {
+          "name": "dataverse_name",
+          "type": { "name": "std::optional", "of": { "name": "std::string" } }
+        },
         {
           "name": "client_context_id",
           "type": { "name": "std::optional", "of": { "name": "std::string" } }
@@ -5748,18 +6245,27 @@
     {
       "name": "couchbase::core::scan_term",
       "fields": [
-        {
-          "name": "id",
-          "type": { "name": "std::vector", "of": { "name": "std::byte" } }
-        },
+        { "name": "term", "type": { "name": "std::string" } },
         { "name": "exclusive", "type": { "name": "std::bool" } }
       ]
     },
     {
       "name": "couchbase::core::range_scan",
       "fields": [
-        { "name": "start_", "type": { "name": "couchbase::core::scan_term" } },
-        { "name": "end_", "type": { "name": "couchbase::core::scan_term" } }
+        {
+          "name": "from",
+          "type": {
+            "name": "std::optional",
+            "of": { "name": "couchbase::core::scan_term" }
+          }
+        },
+        {
+          "name": "to",
+          "type": {
+            "name": "std::optional",
+            "of": { "name": "couchbase::core::scan_term" }
+          }
+        }
       ]
     },
     {
@@ -5768,7 +6274,7 @@
         { "name": "limit", "type": { "name": "std::size_t" } },
         {
           "name": "seed",
-          "type": { "name": "std::optional", "of": { "name": "std::uint32_t" } }
+          "type": { "name": "std::optional", "of": { "name": "std::uint64_t" } }
         }
       ]
     },
@@ -5792,6 +6298,7 @@
             "of": [
               { "name": "std::monostate" },
               { "name": "couchbase::core::range_scan" },
+              { "name": "couchbase::core::prefix_scan" },
               { "name": "couchbase::core::sampling_scan" }
             ]
           }
@@ -5840,6 +6347,7 @@
       "fields": [
         { "name": "batch_item_limit", "type": { "name": "std::uint32_t" } },
         { "name": "batch_byte_limit", "type": { "name": "std::uint32_t" } },
+        { "name": "timeout", "type": { "name": "std::chrono::milliseconds" } },
         {
           "name": "batch_time_limit",
           "type": { "name": "std::chrono::milliseconds" }
@@ -5851,7 +6359,6 @@
             "of": { "name": "couchbase::retry_strategy" }
           }
         },
-        { "name": "ids_only", "type": { "name": "std::bool" } },
         {
           "name": "internal",
           "type": {
@@ -5912,10 +6419,7 @@
     {
       "name": "couchbase::core::range_scan_item",
       "fields": [
-        {
-          "name": "key",
-          "type": { "name": "std::vector", "of": { "name": "std::byte" } }
-        },
+        { "name": "key", "type": { "name": "std::string" } },
         {
           "name": "body",
           "type": {
@@ -5949,13 +6453,9 @@
             "of": { "name": "couchbase::core::mutation_state" }
           }
         },
-        { "name": "sort", "type": { "name": "couchbase::core::scan_sort" } },
         { "name": "batch_item_limit", "type": { "name": "std::uint32_t" } },
         { "name": "batch_byte_limit", "type": { "name": "std::uint32_t" } },
-        {
-          "name": "batch_time_limit",
-          "type": { "name": "std::chrono::milliseconds" }
-        },
+        { "name": "concurrency", "type": { "name": "std::uint16_t" } },
         {
           "name": "retry_strategy",
           "type": {
@@ -6062,7 +6562,8 @@
       "values": [
         { "name": "version_6_0_0", "value": 0 },
         { "name": "version_6_5_0", "value": 1 },
-        { "name": "version_6_6_2", "value": 2 }
+        { "name": "version_6_6_2", "value": 2 },
+        { "name": "version_7_2_0", "value": 3 }
       ]
     },
     {
@@ -6365,9 +6866,9 @@
         { "name": "xattr_unknown_virtual_attribute", "value": 127 },
         { "name": "xattr_cannot_modify_virtual_attribute", "value": 128 },
         { "name": "xattr_no_access", "value": 130 },
-        { "name": "cannot_revive_living_document", "value": 131 },
-        { "name": "range_scan_cancelled", "value": 132 },
-        { "name": "range_scan_vb_uuid_not_equal", "value": 133 },
+        { "name": "document_not_locked", "value": 131 },
+        { "name": "cannot_revive_living_document", "value": 132 },
+        { "name": "mutation_token_outdated", "value": 133 },
         { "name": "range_scan_completed", "value": 134 }
       ]
     },
@@ -6465,84 +6966,6 @@
       ]
     },
     {
-      "name": "couchbase::key_value_status_code",
-      "type": { "name": "std::uint16_t" },
-      "values": [
-        { "name": "success", "value": 0 },
-        { "name": "not_found", "value": 1 },
-        { "name": "exists", "value": 2 },
-        { "name": "too_big", "value": 3 },
-        { "name": "invalid", "value": 4 },
-        { "name": "not_stored", "value": 5 },
-        { "name": "delta_bad_value", "value": 6 },
-        { "name": "not_my_vbucket", "value": 7 },
-        { "name": "no_bucket", "value": 8 },
-        { "name": "dcp_stream_not_found", "value": 10 },
-        { "name": "opaque_no_match", "value": 11 },
-        { "name": "locked", "value": 9 },
-        { "name": "auth_stale", "value": 31 },
-        { "name": "auth_error", "value": 32 },
-        { "name": "auth_continue", "value": 33 },
-        { "name": "range_error", "value": 34 },
-        { "name": "rollback", "value": 35 },
-        { "name": "no_access", "value": 36 },
-        { "name": "not_initialized", "value": 37 },
-        { "name": "rate_limited_network_ingress", "value": 48 },
-        { "name": "rate_limited_network_egress", "value": 49 },
-        { "name": "rate_limited_max_connections", "value": 50 },
-        { "name": "rate_limited_max_commands", "value": 51 },
-        { "name": "scope_size_limit_exceeded", "value": 52 },
-        { "name": "unknown_frame_info", "value": 128 },
-        { "name": "unknown_command", "value": 129 },
-        { "name": "no_memory", "value": 130 },
-        { "name": "not_supported", "value": 131 },
-        { "name": "internal", "value": 132 },
-        { "name": "busy", "value": 133 },
-        { "name": "temporary_failure", "value": 134 },
-        { "name": "xattr_invalid", "value": 135 },
-        { "name": "unknown_collection", "value": 136 },
-        { "name": "no_collections_manifest", "value": 137 },
-        { "name": "cannot_apply_collections_manifest", "value": 138 },
-        { "name": "collections_manifest_is_ahead", "value": 139 },
-        { "name": "unknown_scope", "value": 140 },
-        { "name": "dcp_stream_id_invalid", "value": 141 },
-        { "name": "durability_invalid_level", "value": 160 },
-        { "name": "durability_impossible", "value": 161 },
-        { "name": "sync_write_in_progress", "value": 162 },
-        { "name": "sync_write_ambiguous", "value": 163 },
-        { "name": "sync_write_re_commit_in_progress", "value": 164 },
-        { "name": "subdoc_path_not_found", "value": 192 },
-        { "name": "subdoc_path_mismatch", "value": 193 },
-        { "name": "subdoc_path_invalid", "value": 194 },
-        { "name": "subdoc_path_too_big", "value": 195 },
-        { "name": "subdoc_doc_too_deep", "value": 196 },
-        { "name": "subdoc_value_cannot_insert", "value": 197 },
-        { "name": "subdoc_doc_not_json", "value": 198 },
-        { "name": "subdoc_num_range_error", "value": 199 },
-        { "name": "subdoc_delta_invalid", "value": 200 },
-        { "name": "subdoc_path_exists", "value": 201 },
-        { "name": "subdoc_value_too_deep", "value": 202 },
-        { "name": "subdoc_invalid_combo", "value": 203 },
-        { "name": "subdoc_multi_path_failure", "value": 204 },
-        { "name": "subdoc_success_deleted", "value": 205 },
-        { "name": "subdoc_xattr_invalid_flag_combo", "value": 206 },
-        { "name": "subdoc_xattr_invalid_key_combo", "value": 207 },
-        { "name": "subdoc_xattr_unknown_macro", "value": 208 },
-        { "name": "subdoc_xattr_unknown_vattr", "value": 209 },
-        { "name": "subdoc_xattr_cannot_modify_vattr", "value": 210 },
-        { "name": "subdoc_multi_path_failure_deleted", "value": 211 },
-        { "name": "subdoc_invalid_xattr_order", "value": 212 },
-        { "name": "subdoc_xattr_unknown_vattr_macro", "value": 213 },
-        { "name": "subdoc_can_only_revive_deleted_documents", "value": 214 },
-        { "name": "subdoc_deleted_document_cannot_have_value", "value": 215 },
-        { "name": "range_scan_cancelled", "value": 165 },
-        { "name": "range_scan_more", "value": 166 },
-        { "name": "range_scan_complete", "value": 167 },
-        { "name": "range_scan_vb_uuid_not_equal", "value": 168 },
-        { "name": "unknown", "value": -1 }
-      ]
-    },
-    {
       "name": "couchbase::core::impl::subdoc::opcode",
       "type": { "name": "std::uint8_t" },
       "values": [
@@ -6594,14 +7017,6 @@
         { "name": "one", "value": 1 },
         { "name": "two", "value": 2 },
         { "name": "three", "value": 3 }
-      ]
-    },
-    {
-      "name": "couchbase::core::scan_sort",
-      "type": { "name": "std::int32_t" },
-      "values": [
-        { "name": "none", "value": 0 },
-        { "name": "ascending", "value": 1 }
       ]
     }
   ]

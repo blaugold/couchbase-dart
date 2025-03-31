@@ -6,11 +6,11 @@ import clang.cindex
 
 # configurable part
 
-CLANG_VERSION='14.0.0'
+CLANG_VERSION='16.0.0'
 #   homebrew installs for llvm (brew info llvm gives details):
 #       x64: /usr/local/opt/llvm/lib
 #       arm64: /opt/homebrew/opt/llvm/lib
-llvmLibPath = "/opt/homebrew/opt/llvm@14/lib/"
+llvmLibPath = "/Library/Developer/CommandLineTools/usr/lib"
 
 cxxClientRoot = "../native/vendor/couchbase-cxx-client"
 
@@ -52,14 +52,14 @@ fileList = [
     "couchbase/cas.hxx",
     "couchbase/error_codes.hxx",
     "couchbase/mutation_token.hxx",
-    "couchbase/key_value_status_code.hxx",
+    "core/error_context/key_value_status_code.hxx",
     "core/impl/subdoc/opcode.hxx",
     "core/impl/subdoc/command.hxx",
     "couchbase/store_semantics.hxx",
     "couchbase/persist_to.hxx",
     "couchbase/replicate_to.hxx",
     "core/range_scan_options.hxx",
-    "core/scan_options.hxx",
+    "couchbase/scan_options.hxx",
     "core/range_scan_orchestrator_options.hxx",
     "core/query_context.hxx",
 ]
@@ -363,7 +363,7 @@ def traverse(node, namespace, main_file):
         return
 
     if node.kind == clang.cindex.CursorKind.STRUCT_DECL or node.kind == clang.cindex.CursorKind.CLASS_DECL:
-        fullStructName = "::".join([*namespace, node.displayname])
+        fullStructName = "::".join([*namespace, '' if 'unnamed' in node.displayname else node.displayname])
         if fullStructName.endswith('::'):
             match = next((s for s in internal_structs if fullStructName in s), None)
             if match:
@@ -444,12 +444,13 @@ for headerPath in fullFileList:
     args = [
         '-std=c++17',
         "-I" + cxxClientRoot + "/",
+        "-I" + cxxClientRoot + "/third_party/asio/asio/include",
         "-I" + cxxClientRoot + "/third_party/fmt/include",
         "-I" + cxxClientRoot + "/third_party/gsl/include",
-        "-I" + cxxClientRoot + "/third_party/json/include",
         "-I" + cxxClientRoot + "/third_party/json/external/PEGTL/include",
-        "-I" + cxxClientRoot + "/third_party/asio/asio/include",
-        "-I" + f"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/{CLANG_VERSION}/include"
+        "-I" + cxxClientRoot + "/third_party/json/include",
+        "-I" + cxxClientRoot + "/third_party/spdlog/include",
+        "-isysroot", "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
     ]
     translation_unit = index.parse(headerPath, args=args)
 
