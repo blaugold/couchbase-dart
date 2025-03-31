@@ -142,7 +142,7 @@ jobs:
         run: dart pub global activate melos
 
       - name: Install dependencies
-        run: melos bootstrap --scope couchbase
+        run: melos bootstrap
 
       - name: Publish package
         working-directory: packages/couchbase
