@@ -1,3 +1,11 @@
+## 0.2.0
+
+> Note: This release has breaking changes.
+
+ - **FEAT**: widen dependency constraints of `http` and `tar` ([#56](https://github.com/blaugold/couchbase-dart/issues/56)). ([a0312475](https://github.com/blaugold/couchbase-dart/commit/a03124758dbc563f50c8096509722e6cddc71c4a))
+ - **FEAT**: add `getAnyReplica`, `getAllReplicas`, `getAndTouch`, `touch`, `getAndLock` and `unlock` to `Collection` ([#30](https://github.com/blaugold/couchbase-dart/issues/30)). ([ae0e6a36](https://github.com/blaugold/couchbase-dart/commit/ae0e6a36b42d9767103a699bfd1cccd775b679f6))
+ - **BREAKING** **FEAT**: move to Dart 3 ([#57](https://github.com/blaugold/couchbase-dart/issues/57)). ([9942c5fb](https://github.com/blaugold/couchbase-dart/commit/9942c5fbbdb3befb7f80e4e2f206fbf29aef479a))
+
 ## 0.1.1
 
  - **FEAT**: add `Collection.mutateIn` ([#29](https://github.com/blaugold/couchbase-dart/issues/29)). ([96416c98](https://github.com/blaugold/couchbase-dart/commit/96416c983c7eadc87403661f54b639540a8514f1))

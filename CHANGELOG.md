@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-03-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`couchbase` - `v0.2.0`](#couchbase---v020)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `couchbase` - `v0.2.0`
+
+ - **FEAT**: widen dependency constraints of `http` and `tar` ([#56](https://github.com/blaugold/couchbase-dart/issues/56)). ([a0312475](https://github.com/blaugold/couchbase-dart/commit/a03124758dbc563f50c8096509722e6cddc71c4a))
+ - **FEAT**: add `getAnyReplica`, `getAllReplicas`, `getAndTouch`, `touch`, `getAndLock` and `unlock` to `Collection` ([#30](https://github.com/blaugold/couchbase-dart/issues/30)). ([ae0e6a36](https://github.com/blaugold/couchbase-dart/commit/ae0e6a36b42d9767103a699bfd1cccd775b679f6))
+ - **BREAKING** **FEAT**: move to Dart 3 ([#57](https://github.com/blaugold/couchbase-dart/issues/57)). ([9942c5fb](https://github.com/blaugold/couchbase-dart/commit/9942c5fbbdb3befb7f80e4e2f206fbf29aef479a))
+
+
 ## 2023-04-14
 
 ### Changes
