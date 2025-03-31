@@ -139,9 +139,9 @@ jobs:
           sdk: 3.2
 
       - name: Install dependencies
-        working-directory: package/couchbase
+        working-directory: packages/couchbase
         run: dart pub get
 
       - name: Publish package
-        working-directory: package/couchbase
+        working-directory: packages/couchbase
         run: dart pub publish --force
